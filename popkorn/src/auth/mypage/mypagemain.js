@@ -73,7 +73,7 @@ export const MyPageMain = (Props) => {
                                 </li>
                                 :
                                 <li>
-                                    <Link to='/adminmain'>
+                                    <Link to='/AdminMain'>
                                         <button className="mypagetoadminpage">
                                             <span>Admin</span><i className="xi-home-o"></i><span>Page</span>
                                         </button>
