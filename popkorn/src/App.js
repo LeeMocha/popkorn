@@ -5,7 +5,7 @@ import ProductPage from './producPage/ProductPage';
 import MyPageMain from './auth/mypage/mypagemain';
 import AuthMain from './auth/AuthMain';
 import TBBtn from './useModules/TBBtn'
-
+import AdminMain from './admin/AdminMain';
 
 import './App.css';
 import ProductDetail from './productDetail/ProductDetail';
@@ -26,11 +26,11 @@ function App() {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  
+
 
   useEffect(() => {
     // const storedLoginID = sessionStorage.getItem('loginID');
-    const storedLoginID = "";
+    const storedLoginID = "huck1217@naver.com";
 
     axios.get(`/api/user/selectone?id=${storedLoginID}`)
       .then(response => {
@@ -44,7 +44,7 @@ function App() {
           alert(`${storedLoginID}님 popKorn에 오신것을 환영합니다.`)
         }
       }).catch(err => {
-        console.log("해당하는 로그인 정보 없음=>" +err);
+        console.log("해당하는 로그인 정보 없음=>" + err);
       })
   }, []);
 
@@ -55,15 +55,16 @@ function App() {
 
 
   return (
-    <Logincontext.Provider value={[isLoggedIn,setIsloggedIn]}>
+    <Logincontext.Provider value={[isLoggedIn, setIsloggedIn]}>
       <BrowserRouter>
         <Routes>
           <Route path="/" Component={Main}></Route>
           <Route path="/productpage" Component={ProductPage}></Route>
-          <Route path="/MyPageMain" Component={MyPageMain}></Route>
+          <Route path="/MyPageMain" element={isLoggedIn ? <MyPageMain isAdmin={isAdmin} /> : <AuthMain />}></Route>
           <Route path="/auth" Component={AuthMain}></Route>
           <Route path="/productdetail" Component={ProductDetail}></Route>
-          <Route path='/AuthMain' element={<AuthMain/>}></Route>
+          <Route path='/AuthMain' element={<AuthMain />}></Route>
+          <Route path='/AdminMain' element={<AdminMain />}></Route>
         </Routes>
       </BrowserRouter>
       {/* <TBBtn/> */}
