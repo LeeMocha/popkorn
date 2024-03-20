@@ -1,0 +1,28 @@
+.CartListFrombox {
+    border-top: 1px solid rgb(190, 189, 189);
+    width: 1100px;
+    margin: 20px auto 0;
+    border-bottom: 1px solid rgb(190, 189, 189);
+    height: 300px;
+}
+
+.CartListFromMain>button {
+    border: none;
+    display: flex;
+    margin-left: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 10px;
+    background-color: #b2ecfd;
+    border-radius: 10px;
+    line-height: 25px;
+}
+
+.CartListFromMain>button:hover {
+    background-color: #e5f6fb;
+}
+
+.CartListFrombox>ul {
+    display: flex;
+    justify-content: space-evenly;
+}

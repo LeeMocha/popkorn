@@ -1,0 +1,115 @@
+.dropList_wrap{
+
+    position: fixed;
+    z-index: 10;
+
+    width: 100%;
+    
+
+    margin-top: 113px;
+
+    border-top: lightgray solid 0.1px;
+
+    font-family: 'TmoneyRoundWindExtraBold';
+
+}
+
+.dropList_container {
+  background-color: blue;
+  
+}
+
+.dropList_event{
+
+  /* background-color: aqua; */
+  display: flex;
+
+  margin-left: 5%;
+  padding-top: 1%;
+  gap: 100px;
+
+  font-size: 1.2em;
+}
+
+/* fade in */
+
+@keyframes slide-fade-in-dropdown-animation {
+    0% {
+      transform: translateY(-100%);
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .slide-fade-in-dropdown {
+    overflow: hidden;
+  }
+  
+  .slide-fade-in-dropdown-animation {
+    animation: slide-fade-in-dropdown-animation 0.5s ease;
+    animation-fill-mode: forwards;
+  }
+  
+  /* fade out */
+  
+  @keyframes dropList_event_slide-out {
+    0% {
+      transform: translateY(0);
+    }
+  
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+  
+  .slide-fade-out-dropdown {
+    overflow: hidden;
+  }
+  
+  .slide-fade-out-dropdown{
+    animation: slide-fade-out-dropdown-animation 0.5s ease;
+    animation-fill-mode: forwards;
+  }
+
+  /* hover list -> border-radius ====================*/
+  .dropList_event li{
+    /* background-color: black; */
+
+    position: relative;
+}
+
+.dropList_event li:hover{
+    /* color: white; */
+}
+
+.dropList_event li::before {
+    position: absolute;
+
+    content: "";
+
+    width: 0;
+    height: 5px;
+    bottom: -15px;
+
+    background-color: #FE7CF3;
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+.dropList_event li:hover::before {
+    width: 100%;
+}
+
+/* ==================== ==================== ==================== */
+
+.subCategory_motion {
+
+  background-color: black;
+    z-index: 10;
+
+    width: 100%;
+    height: 50vh;
+}

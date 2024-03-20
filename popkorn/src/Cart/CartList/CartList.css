@@ -1,0 +1,33 @@
+.CartListbox {
+    border-top: 1px solid rgb(190, 189, 189);
+    width: 1100px;
+    margin: 20px auto 0;
+    border-bottom: 1px solid rgb(190, 189, 189);
+    height: 300px;
+}
+
+.CartListbox>h3 {
+    padding: 80px 370px;
+    width: 900px;
+}
+
+.CartListbox>button {
+    border: none;
+    display: flex;
+}
+
+.CartListMain>button {
+    border: none;
+    display: flex;
+    margin-left: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 10px;
+    background-color: #b2ecfd;
+    border-radius: 10px;
+    line-height: 25px;
+}
+
+.CartListMain>button:hover {
+    background-color: #e5f6fb;
+}
