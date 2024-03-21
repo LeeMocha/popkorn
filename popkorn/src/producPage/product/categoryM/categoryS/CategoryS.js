@@ -47,7 +47,7 @@ export default function CategoryS({currCategory, isMouseEnter}) {
         <div className="categoryS_wrap">
             {subCategorys.subcategorys.map((subC) =>
                 <div key={subC.subCategorysId} className="sub_container" >
-                    <div className="sub_list" style={{ color: isMouseEnter ? 'white' : '#7de3ff' }}>{subC.name}</div>
+                    <div className="sub_list">{subC.name}</div>
                 </div>
             )}
         </div>

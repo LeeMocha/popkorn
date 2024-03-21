@@ -7,7 +7,7 @@
    width: 100%;
    height: 120px;
    padding-top: 32px;
-   z-index: 2;
+   z-index: 999;
    top: 0;
    transition: all 0.6s ease-in-out;
 }
@@ -43,7 +43,7 @@
    transition: all 0.5 ease-in-out;
    cursor: pointer;
    position: relative;
-   z-index: 10;
+   z-index: 999;
 }
 
 @keyframes App-logo-spin {
@@ -86,7 +86,7 @@
    opacity: 1;
    position: relative;
    animation: App-logo-spin infinite 2s linear;
-   z-index: 10;
+   z-index: 999;
 }
 
 .logo_a {
@@ -111,7 +111,7 @@
 .menuli{
    color: #7de3ff;
    text-align: center;
-   z-index: 3;
+   z-index: 999;
    padding: 0 10px;
 }
 
@@ -142,7 +142,7 @@
 
 .icons_wrap i{
    color: #7de3ff;
-   z-index: 3;
+   z-index: 999;
 }
 
 .icons_wrap.fade-out {
@@ -159,26 +159,26 @@
 @media (max-width: 1150px) {
    .icons_wrap {
       animation: moveDown 0.4s linear forwards;
-      z-index: 3;
+      z-index: 999;
    }
 
    .menu_wrap {
       animation: moveDown 0.4s linear forwards;
-      z-index: 3;
+      z-index: 999;
    }
 
 
    .logo_wrap {
       margin: 0 auto;
       transition: all 0.4s ease-in-out;
-      z-index: 10;
+      z-index: 999;
       animation: logoMain 0.6s linear forwards;
    }
 
    .icons_wrap {
       order: 3;
       margin: 40px auto;
-      z-index: 3;
+      z-index: 999;
    }
 
    .menu_wrap {
@@ -186,7 +186,7 @@
       flex-direction: column;
       order: 2;
       margin: 0px auto;
-      z-index: 3;
+      z-index: 999;
    }
 
    .menuli {
@@ -235,12 +235,12 @@
 
    .icons_wrap {
       animation: moveRight2 0.4s linear forwards;
-      z-index: 3;
+      z-index: 999;
    }
 
    .menu_wrap {
       animation: moveLeft2 0.4s linear forwards;
-      z-index: 3;
+      z-index: 999;
    }
 }
 
@@ -349,19 +349,3 @@
       transform: translateY(-500%);
    }
 }
-
-/* @keyframes logoMain{
-   0%{
-      transform: translate(0,0%);
-      opacity: 0;
-   }
-
-   50%{
-      opacity: 0;
-   }
-   
-   100%{
-      transform: translate(0,0);
-      opacity: 1;
-   }
-} */
