@@ -1,48 +1,30 @@
-import Dropdown from "./dropdown/Dropdown";
 import React, {useState} from "react";
 
 import './DropList.css';
-import CategoryS from "../categoryM/categoryS/CategoryS";
+import CategoryM from './../categoryM/CategoryM';
 
-const DropList = props => {
+const DropList = ({currCategoryl, setCurrCategoryl, setCurrCategorym}) => {
 
-    const [dropdownVisibility, setDropdownVisibility] = React.useState(false); // onClick -> dropdownVisibility 전달
-
-    const [currCategory, setCurrCategory] = useState("main_list_new"); // onClick -> currCategory 전달
-    const [isMouseEnter, setIsMouseEnter] = useState(false); // onMouseEnter
+    const [isClicked, setIsClicked] = useState(false);
 
     
     const currCHandler = (event) => {
-        setCurrCategory(event.target.className);
+        setCurrCategoryl(event.target.className);
+        setIsClicked(true);
     }
-
-    const handleMouseEnter = () => {
-        setIsMouseEnter(true);
-     }
- 
-     const handleMouseLeave = () => {
-        
-      
-        
-         setIsMouseEnter(false);
-     }
  
 
     return (
         <div className="dropList_wrap">
             <div className="dropList_container">
-                <ul className="dropList_event" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                    <li className="main_list_new" onClick={currCHandler}  style={{ color: isMouseEnter ? 'white' : '#7de3ff' }}>NEW</li>
-                    <li className="main_list_cd" onClick={currCHandler} style={{ color: isMouseEnter ? 'white' : '#7de3ff' }}>CD</li>
-                    <li className="main_list_goods" onClick={currCHandler} style={{ color: isMouseEnter ? 'white' : '#7de3ff' }}>GOODS</li>
-                    <li className="main_list_photo" onClick={currCHandler} style={{ color: isMouseEnter ? 'white' : '#7de3ff' }}>PHOTO</li>
+                <ul className="dropList_event">
+                    <li className="new" onClick={currCHandler}>NEW</li>
+                    <li className="album" onClick={currCHandler}>ALBUM</li>
+                    <li className="goods" onClick={currCHandler}>GOODS</li>
+                    <li className="photo" onClick={currCHandler}>PHOTO</li>
                 </ul>
             </div>
-            <Dropdown visibility={dropdownVisibility}>
-                <div className="subCategory_motion" onMouseLeave={handleMouseLeave}>
-                    <CategoryS currCategory={currCategory}/>
-                </div>
-            </Dropdown>
+            <CategoryM currCategoryl={currCategoryl} isClicked={isClicked} setIsClicked={setIsClicked} setCurrCategorym={setCurrCategorym}/>
         </div>
     )
 }
