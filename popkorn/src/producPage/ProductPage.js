@@ -2,6 +2,7 @@ import Header from '../header/Header';
 import DropList from './product/dropList/DropList';
 import Product from './product/Product';
 
+import "./ProductPage.css";
 
 
 export default function ProductPage() {
@@ -10,11 +11,11 @@ export default function ProductPage() {
      <div>
         <Header/>
 
-        {/* <CategoryM/> */}
+
         <DropList/>
 
-        <Product/>
-
+        {/* <Product/> */}
+        <div className='jwnrgjwrnglwrn'>1</div>
      </div>
     );
 }
