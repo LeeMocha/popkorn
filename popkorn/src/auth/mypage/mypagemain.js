@@ -31,13 +31,11 @@ export const MyPageMain = (Props) => {
 
     return (
         <div className='mypagewhole'>
+            <Header/>
             <div className="accountinfo">
                 <div className='accountcontent'>
                     {Props.emailinput}<br />
                     <br />
-                </div>
-                <div >
-                    <button className='accountsetbtn'>Log out</button>
                 </div>
             </div>
             <div className='mypageflex'>

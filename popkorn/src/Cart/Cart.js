@@ -1,7 +1,6 @@
 import React from 'react';
-import CartMenu from './CartMenu/CartMenu'
 import CartList from './CartList/CartList'
-import CartListFrom from './CartList/CartListFrom'
+import CartListFrom from './CartListFrom/CartListFrom'
 
 import './Cart.css'
 
@@ -11,8 +10,6 @@ import './Cart.css'
 function Cart() {
     return (
         <div className='Cartmain'>
-            <h1>Cart</h1>
-            <CartMenu />
             {/* <CartList /> */}
             <CartListFrom />
         </div>
