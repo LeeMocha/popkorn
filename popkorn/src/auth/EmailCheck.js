@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import Mainlogo from '../header/logo/Mainlogo/Mainlogo';
 import { emCheck, pwCheck, resetChecks, areChecksValid } from './logincheck';
 import Join from './join/join';
-import MyPageMain from './mypage/mypagemain';
+import axios from 'axios';
 
 const Memberlist = {
   email: "agr4005@naver.com",
@@ -18,40 +18,61 @@ export const EmailCheck = () => {
   const [emailinfo, setEmailinfo] = useState('');
   const [pwinfo, setPwinfo] = useState('');
 
-  const ButtonCheck = () => {
-    if (emailinput === Memberlist.email) {
-      setemailcheck('2');
-    } else if (emailinput !== Memberlist.email) {
-      setemailcheck('3');
+  const initialcheck = async () => {
+    try {
+      const response = await axios.get(`/api/user/emailcheck?emailinput=${emailinput}`);
+      if (response.data === "Emailcheck success") {
+        setemailcheck('2');
+      } else if (response.data === "Emailcheck failed"){
+        setemailcheck('3');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  }
+
+  const Loginhandle = async () => {
+    try {
+      const response = await axios.post('/api/user/login', null, { params: { "emailinput": emailinput, "pwinput": pwinput } });
+      if (response.data === "Login success") {
+        window.location.href = '/';
+      } else {
+        setpwInput('');
+        alert('Invalid Password. Please check your Email or Password.');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  const loginCheck = async () => {
+    try {
+      const response = await axios.get('/api/user/logincheck');
+      sessionStorage.setItem('loginID', response.data);
+      alert(`${response.data}님 popKorn에 오신 것을 환영합니다.`);
+      return response.data;
+    } catch (error) {
+      console.error('로그인 확인 중 오류 발생:', error);
+      return false;
     }
   };
 
   const handleKeyPress = (event) => {
     if (event.keyCode === 13) {
       if (emailcheck === '2') {
-        ButtonClick();
+        Loginhandle();
+        loginCheck();
       } else {
-        ButtonCheck();
+        initialcheck();
       }
     }
   };
 
-  function ButtonClick() {
-    if (pwinput === Memberlist.password) {
-      return <MyPageMain emailinput={emailinput} />
-    } else {
-      setpwInput('');
-      alert('Invalid Password. Please check your Email or Password.');
-    }
-  };
-
-
   const handleEmailChange = (e) => {
     const newEmailValue = e.target.value;
     setemailInput(newEmailValue);
-
     setemailcheck('1');
-
+    
     const isValidEmail = emCheck(newEmailValue);
     if (!isValidEmail) {
       setEmailinfo('Invalid Email type');
@@ -115,7 +136,7 @@ export const EmailCheck = () => {
 
         {emailcheck === '1' ?
           <button onClick={() => {
-            ButtonCheck();
+            initialcheck();
             areChecksValid();
           }}
             className='embtn' disabled={emailinfo !== '' || emailinput.length < 1}>Progress</button>
@@ -163,10 +184,12 @@ export const EmailCheck = () => {
               <div className='pwinfo'>{pwinfo}</div>
             </div>
             <button onClick={() => {
-              ButtonClick();
-              areChecksValid();
+              Loginhandle();
+              loginCheck();
+              // areChecksValid();
             }} className='embtn'>Login</button><br /><br />
             <button onClick={resetForm} className='embtn'>Back</button>
+
           </>
           : emailcheck === '3' ?
             <>

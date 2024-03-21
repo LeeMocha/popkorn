@@ -26,32 +26,28 @@ function App() {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-
-
   useEffect(() => {
-    // const storedLoginID = sessionStorage.getItem('loginID');
-    const storedLoginID = "huck1217@naver.com";
-
+    const storedLoginID = sessionStorage.getItem('loginID');
     axios.get(`/api/user/selectone?id=${storedLoginID}`)
       .then(response => {
-        if (storedLoginID === response.data.id && 'admin' === response.data.status) {
+        if (storedLoginID === response.data.id && response.data.status === 'admin') {
           setIsloggedIn(true);
           setIsAdmin(true);
-          console.log("admin입장")
+
         } else if (storedLoginID === response.data.id) {
           setIsloggedIn(true);
-          console.log("user입장")
+
         }
-      }).catch(err => {
-        console.log("해당하는 로그인 정보 없음=>" + err);
       })
+      .catch(err => {
+        console.log("해당하는 로그인 정보 없음=>" + err);
+      });
   }, []);
+
 
   useEffect(() => {
     sessionStorage.setItem('loginCheck', isLoggedIn);
-    console.log(isLoggedIn)
   }, [isLoggedIn]);
-
 
   return (
     <Logincontext.Provider value={[isLoggedIn, setIsloggedIn]}>
@@ -62,7 +58,7 @@ function App() {
           <Route path="/MyPageMain" element={isLoggedIn ? <MyPageMain isAdmin={isAdmin} /> : <AuthMain />}></Route>
           <Route path="/auth" Component={AuthMain}></Route>
           <Route path="/productdetail" Component={ProductDetail}></Route>
-          <Route path='/AuthMain' element={<AuthMain />}></Route>
+          <Route path='/AuthMain' element={<AuthMain isAdmin={isAdmin} isLoggedIn={isLoggedIn} />}></Route>
           <Route path='/AdminMain' element={<AdminMain />}></Route>
         </Routes>
       </BrowserRouter>
