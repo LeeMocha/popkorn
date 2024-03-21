@@ -1,24 +1,22 @@
 import "./CategoryS.css";
 
-export default function CategoryS({currCategory, isMouseEnter}) {
-
-   
+export default function CategoryS({currCategoryl, setCurrCategorym}) {
 
     const category = [
         {
-            name: "main_list_new",
+            name: "new",
             subcategorys: [
                 {subCategorysId: 1, name: "All"}
             ]
         },
         {
-            name: "main_list_cd",
+            name: "album",
             subcategorys: [
                 {subCategorysId: 3, name: "All"}
             ]
         },
         {
-            name: "main_list_goods",
+            name: "goods",
             subcategorys: [
                 {subCategorysId: 4, name: "Officlal Fanlight"},
                 {subCategorysId: 5, name: "Slogan"},
@@ -28,7 +26,7 @@ export default function CategoryS({currCategory, isMouseEnter}) {
         },
 
         {
-            name: "main_list_photo",
+            name: "photo",
             subcategorys: [
                 {subCategorysId: 8, name: "Photo Book"},
                 {subCategorysId: 9, name: "Photo Card"}
@@ -37,17 +35,18 @@ export default function CategoryS({currCategory, isMouseEnter}) {
     ]
 
     const subCategorys = category.find (
-        c => c.name === currCategory
+        c => c.name === currCategoryl
     )
 
-    console.log(currCategory.currCategory);
-    console.log(subCategorys.subcategorys[0].name);    
+    const setCurrCategorymHandler = (categorym)=>{
+        setCurrCategorym(categorym)
+    }
 
     return (
         <div className="categoryS_wrap">
             {subCategorys.subcategorys.map((subC) =>
                 <div key={subC.subCategorysId} className="sub_container" >
-                    <div className="sub_list">{subC.name}</div>
+                    <div className="sub_list" onClick={()=>setCurrCategorymHandler(subC.name)}>{subC.name}</div>
                 </div>
             )}
         </div>

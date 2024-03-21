@@ -41,7 +41,6 @@ function App() {
         } else if (storedLoginID === response.data.id) {
           setIsloggedIn(true);
           console.log("user입장")
-          alert(`${storedLoginID}님 popKorn에 오신것을 환영합니다.`)
         }
       }).catch(err => {
         console.log("해당하는 로그인 정보 없음=>" + err);
