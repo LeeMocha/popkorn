@@ -6,14 +6,14 @@ import PopkornBtn from '../../useModules/PopkornBtn'
 import "./DetailOrder.css";
 
 const pData = {
-    singer: "LE SSERAFIM",
+    artist: "LE SSERAFIM",
     productName: "JAPAN 2nd Single [UNFORGIVEN] Solo Jacket",
-    optionpik: ['Required Selection', 'SAKURA', 'HUH YUNJIN', 'KAZUHA', 'HONG EUNCHAE'],
-    Price: 11000,
+    option: ['Required Selection', 'SAKURA', 'HUH YUNJIN', 'KAZUHA', 'HONG EUNCHAE'],
+    price: 11000,
     reserve: 0.50
 }
 
-export default function DetailOrder() {
+export default function DetailOrder({ item }) {
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
@@ -31,13 +31,13 @@ export default function DetailOrder() {
     const cntMinusHandler = () => {
         if (cnt > 1) {
             setCnt(cnt - 1);
-            setTotalcnt(pData.Price * (cnt - 1));
+            setTotalcnt(pData.price * (cnt - 1));
         }
     }
 
     const optionHandler = (e) => {
         const selectOption = e.target.value;
-        setSelectOption(selectOption === pData.optionpik[0] ? "" : selectOption);
+        setSelectOption(selectOption === pData.option[0] ? "" : selectOption);
     }
 
     const deleteHandler = () => {
@@ -64,11 +64,11 @@ export default function DetailOrder() {
                 <div className='singerwon'>
                     <p>{pData.singer}</p>
                     <h2>{pData.productName}</h2>
-                    <h2>\{pData.Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
                 <p>Point : {pData.reserve}%</p>
                 <select id='optionselect' onChange={optionHandler}>
-                    {pData.optionpik.map((option, index) => (
+                    {pData.option.map((option, index) => (
                         <option key={index} value={option}>{option}</option>
                     ))}
                 </select>
