@@ -1,0 +1,25 @@
+.popkornButton1 {
+    border-radius: 10px;
+    border: 1px solid rgb(192, 192, 192);
+    height: 50px;
+    width: 200px;
+    cursor: pointer;
+    background-color: #b2ecfd;
+}
+
+.popkornButton1:hover {
+    background-color: #e5f6fb;
+}
+
+.popkornButton2 {
+    border-radius: 10px;
+    border: 1px solid rgb(192, 192, 192);
+    height: 50px;
+    width: 200px;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.popkornButton2:hover {
+    background-color: #e9e9e9;
+}

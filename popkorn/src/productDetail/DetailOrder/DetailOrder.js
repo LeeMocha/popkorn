@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
-import Cart from '../../Cart/Cart';
+import PopkornBtn from '../../useModules/PopkornBtn'
 
 import "./DetailOrder.css";
 
@@ -46,10 +46,15 @@ export default function DetailOrder() {
         setCnt(0); // 삭제하는 동시에 수량 초기화
     }
 
-    function handleConfirm() {
-
+    function cartConfirm() {
         if (window.confirm('장바구니로 이동하시겠습니까?')) {
             navigate('/Cart'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+        }
+    }
+
+    function orderConfirm() {
+        if (window.confirm('구매페이지로 이동하시겠습니까?')) {
+            navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
 
@@ -81,8 +86,8 @@ export default function DetailOrder() {
                     <h2>\{totalcnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
                 <div className='maintwoButton'>
-                    <button type='button' className='mainButton2' >Buy</button>
-                    <button type='button' className='mainButton2' onClick={handleConfirm}>Cart</button>
+                    <PopkornBtn btnName='Cart' btntype={true} btnfun={cartConfirm} />
+                    <PopkornBtn btnName='Oder' btntype={false} btnfun={orderConfirm} />
                 </div>
                 <DetailInformation />
             </div>

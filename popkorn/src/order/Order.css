@@ -1,0 +1,13 @@
+.orderBox {
+    margin: 0 auto;
+    max-width: 1320px;
+}
+
+.orderBox>h1 {
+    padding-left: 15px;
+}
+
+.orderWindow {
+    display: flex;
+    align-items: baseline;
+}
