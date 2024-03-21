@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import './PopkornBtn.css';
 
 
 
@@ -6,12 +6,12 @@ export default function PopkornBtn({ btnName, btntype, btnfun }) {
 
 
     return (
-        <div className='maintwoButton'>
+        <div>
             {
                 btntype ?
-                    <button onClick={btnfun} className='mainButton2'>{btnName}</button>
+                    <button onClick={btnfun} className='popkornButton1'>{btnName}</button>
                     :
-                    <button onClick={btnfun} className='mainButton2'>{btnName}</button>
+                    <button onClick={btnfun} className='popkornButton2'>{btnName}</button>
             }
         </div>
     );
