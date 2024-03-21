@@ -36,18 +36,7 @@
     align-self: center;
 }
 
-.mainButton2 {
-    border-radius: 10px;
-    border: 20px;
-    height: 50px;
-    width: 200px;
-    cursor: pointer;
-    background-color: #b2ecfd;
-}
 
-.mainButton2:hover {
-    background-color: #e5f6fb;
-}
 
 .total {
     display: flex;

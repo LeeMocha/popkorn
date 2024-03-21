@@ -1,0 +1,17 @@
+.orderproductbox {
+    border-top: 2px solid rgb(34, 33, 33);
+    border-bottom: 2px solid rgb(34, 33, 33);
+    height: 100px;
+    padding-top: 20px;
+}
+
+.orderproductbox>ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.orderproductPrice {
+    display: flex;
+    justify-content: space-between;
+}
+
