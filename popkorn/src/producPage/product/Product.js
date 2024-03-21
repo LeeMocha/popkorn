@@ -5,21 +5,6 @@ import Paging from "./paging/Paging";
 
 const Product = () => {
     // totalPage, maximum
-    const categorym = [
-        {
-            artist: "아이유(IU)",
-            name: "The Winning",
-            price: 20800,
-            // image: imageSrc + "1.png",
-            goto: ""
-        }
-    ];
-
-    const multipleCategorym = [];
-
-    for (let i = 0; i < 61; i++) {
-        multipleCategorym.push(...categorym.map(item => ({ ...item })));
-    }
 
 
     const [productInfo, setProductInfo] = useState([]);
@@ -30,20 +15,8 @@ const Product = () => {
     const totalPage = useRef();
     const limit = 12;
 
-    // const begin = (page - 1) * limit
-
-    setProductInfo(multipleCategorym) // 나중에 지워 
+    const begin = (page - 1) * limit
     
-    useEffect(() => {
-        // axios.get(`/api/product/categorym?categorym=${categorym}`)
-        //     .than(Response => {
-        //         setProductInfo(multipleCategorym)
-        //     }).catch(error =>
-        //         console.error("Error fetching data:", error));
-        // totalPage.current= Math.ceil(productInfo)
-    }, [page])
-    
-
     return (
         <div>
             <div>
