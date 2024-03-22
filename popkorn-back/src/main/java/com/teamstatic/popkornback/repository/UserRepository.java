@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.teamstatic.popkornback.domain.UserDTO;
 
 import com.teamstatic.popkornback.entity.User;
 
@@ -26,4 +27,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findById(String id);
 
     Long countByStatus(String status);
+
+    User save(User user);
 }

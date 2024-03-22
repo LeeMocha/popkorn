@@ -37,17 +37,16 @@ function App() {
         if (storedLoginID === response.data.id && response.data.status === 'admin') {
           setIsloggedIn(true);
           setIsAdmin(true);
-
+          console.log("admin 로그인")
         } else if (storedLoginID === response.data.id) {
           setIsloggedIn(true);
-
+          console.log("user 로그인")
         }
       })
       .catch(err => {
         console.log("해당하는 로그인 정보 없음=>" + err);
       });
   }, []);
-
 
   useEffect(() => {
     sessionStorage.setItem('loginCheck', isLoggedIn);
@@ -59,13 +58,13 @@ function App() {
         <Routes>
           <Route path="/" Component={Main}></Route>
           <Route path="/productpage" Component={ProductPage}></Route>
-          <Route path="/MyPageMain" element={isLoggedIn ? <MyPageMain isAdmin={isAdmin} /> : <AuthMain />}></Route>
+          <Route path="/mypagemain" element={isLoggedIn ? <MyPageMain isAdmin={isAdmin} /> : <AuthMain />}></Route>
           <Route path="/auth" Component={AuthMain}></Route>
           <Route path="/productdetail" Component={ProductDetail}></Route>
           <Route path="/cart" Component={Cart}></Route>
           <Route path="/order" Component={Order}></Route>
-          <Route path='/AuthMain' element={<AuthMain />}></Route>
-          <Route path='/AdminMain' element={<AdminMain />}></Route>
+          <Route path='/authmain' element={<AuthMain />}></Route>
+          <Route path='/adminmain' element={<AdminMain />}></Route>
         </Routes>
       </BrowserRouter>
       {/* <TBBtn/> */}

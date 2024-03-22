@@ -2,14 +2,16 @@ import "./CartList.css";
 
 
 
-export default function CartList() {
+export default function CartList({ item, index }) {
+
+    const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
+
     return (
-        <div className="CartListMain">
-            <h1>Cart</h1>
-            <div className="CartListbox">
-                <h3>There are no items in the shopping cart!</h3>
-                <button>Go to the product page</button>
-            </div>
+        <div key={index} className="cartListMain">
+            <img src={imageSrc + item.image1} alt="productdetail_img" />
+            <span>{item.productname}</span>
+            <span>{item.detailcount}</span>
+            <span>{item.detailcount * item.price}</span>
         </div>
     )
 }

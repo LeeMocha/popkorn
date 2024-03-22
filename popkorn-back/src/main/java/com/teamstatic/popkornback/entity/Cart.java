@@ -1,36 +1,30 @@
 package com.teamstatic.popkornback.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="user")
+@Table(name="cart")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
-public class User {
+public class Cart {
     
     @Id
+    private int ccode;
     private String id;
-
-    private String password;
-    private String nickname;
-    private int reword;
-    private String createdate;
-
-    private String status;
+    private int pcode;
+    private int detailcount;
+    private String alternative;
+    private int price;
+    private String image1;
+    private String productname;
 
 }
-

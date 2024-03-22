@@ -2,21 +2,29 @@ import { useNavigate } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 
 import "./CartListFrom.css";
+import CartList from '../CartList/CartList';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-
-const pData = {
-    productName: "JAPAN 2nd Single [UNFORGIVEN] Solo Jacket",
-}
 
 export default function CartListFrom() {
+
     const navigate = useNavigate();
+    const [product, setProduct] = useState([]);
+
+    useEffect(() => {
+        axios.get(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`)
+            .then(response => {
+                setProduct(response.data);
+            }).catch(err => console.log(err))
+    }, [])
+
 
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
             navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
-
 
     return (
         <>
@@ -27,12 +35,15 @@ export default function CartListFrom() {
             </label>
             <div className="CartListFrombox">
                 <input type="checkbox" />
-                <ul>
-                    <li>이미지 넣을 곳</li>
-                    <li>{pData.productName}</li>
-                    <li>수량 넣을곳</li>
-                    <li>총 가격 넣을곳</li>
-                </ul>
+                {
+                    product.length > 0 ?
+
+                        product.map((item, index) => <CartList item={item} index={index} />)
+                        :
+                        <div>
+                            <span></span>
+                        </div>
+                }
             </div>
             <div className="cartPrice">
                 <h3>Total(수량)</h3>

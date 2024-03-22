@@ -6,6 +6,8 @@ export function JoinNickname(props) {
     const [nickname, setNickname] = useState('');
     const [checkNicknameVali, setcheckNicknameVali] = useState(false);
 
+    const [join, setJoin] = props.joinState;
+
     const nicknamehandle = (e) => {
         const value = e.target.value;
         setNickname(value);
@@ -15,6 +17,17 @@ export function JoinNickname(props) {
     const nicknamevali = (nickname) => {
         const regex = /^[a-zA-Z0-9]{6,12}$/;
         return regex.test(nickname);
+    };
+
+    const updateJoin = (newJoin) => {
+        setJoin(prevJoin => ({
+            ...prevJoin,
+            ...newJoin
+        }));
+    };
+
+    const updatenickname = () => {
+        updateJoin({ nickname: nickname });
     };
 
     return (
@@ -29,7 +42,7 @@ export function JoinNickname(props) {
                     </div>
                 </h3>
             </div>
-            <form>
+
                 <input
                     className='nickname'
                     type="text"
@@ -37,12 +50,13 @@ export function JoinNickname(props) {
                     value={nickname}
                     onChange={nicknamehandle}
                 />
-                <button type='reset' className='memberreset' onClick={() => setNickname('')}><i className='xi-close-thin' /></button>
-            </form>
+                <button type='button' className='memberreset' onClick={() => setNickname('')}><i className='xi-close-thin' /></button>
+
             <div className='nicknameinfo' style={{ color: !checkNicknameVali || nickname === "" ? "#fe7cf3" : "#7de4ff" }}>
                 {!checkNicknameVali || nickname === "" ? "Invalid nickname" : "Valid nickname"}
             </div>
-            {!checkNicknameVali ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={props.joinbutton} />}
+            {!checkNicknameVali ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> 
+            : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={() => {props.joinbutton(); updatenickname();}} />}
         </>
     )
 }
