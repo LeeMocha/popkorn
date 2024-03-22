@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
 import PopkornBtn from '../../useModules/PopkornBtn'
 
 import "./DetailOrder.css";
+import { Logincontext } from './../../App';
 
 const pData = {
     artist: "LE SSERAFIM",
@@ -18,11 +19,13 @@ export default function DetailOrder({ item }) {
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
+    const [isLoggedIn] = useContext(Logincontext);
+
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
             setCnt(cnt + 1);
-            setTotalcnt(pData.Price * (cnt + 1));
+            setTotalcnt(pData.price * (cnt + 1));
         } else {
             alert("최대 10개까지만 구매 가능합니다.");
         }
@@ -47,14 +50,21 @@ export default function DetailOrder({ item }) {
     }
 
     function cartConfirm() {
-        if (window.confirm('장바구니로 이동하시겠습니까?')) {
-            navigate('/Cart'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+        if (isLoggedIn) {
+            window.confirm("장바구니로 이동하시겠습니까?")
+            // 엑시오스로 카트에 담기 & 담은 후 카트로 이동
+            navigate('/cart');
+        } else {
+            window.confirm("로그인 후 이용하시겠습니까?")
+            navigate('/authMain');
         }
     }
 
+
+
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
-            navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+            navigate('/order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
 
