@@ -8,6 +8,9 @@ import { Logincontext } from './../../App';
 import axios from 'axios';
 
 export default function DetailOrder({ item }) {
+    const Location = useLocation();
+    const pData = Location.state.item; // Object Type으로 전달 받음.
+
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
@@ -70,14 +73,7 @@ export default function DetailOrder({ item }) {
     }
 
     useEffect(() => {
-        if (isLoggedIn) {
-            axios.get(`/api/user/selectone?id=${sessionStorage.getItem('loginID')}`)
-                .then((response) => {
-                    setUserReserve(response.data.reserve);
-                }).catch(err => console.log(err))
-        }
-
-        axios.get(`/api/product/selectoption?productname=${item.productname}`)
+        axios.get(`/api/product/selectoption?productname=${pData.productname}`)
             .then((response) => {
                 setAlternative(response.data);
             }).catch(err => console.log(err));
@@ -87,11 +83,10 @@ export default function DetailOrder({ item }) {
         <div>
             <div className="mainTitle">
                 <div className='singerwon'>
-                    <p>{item.artist}</p>
-                    <h2>{item.productname}</h2>
-                    <h2>\{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <p>{pData.artist}</p>
+                    <h2>{pData.productname}</h2>
+                    <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
-                <p>Point : {userReserve}p</p>
                 <select id='optionselect' onChange={optionHandler}>
                     {alternative.map((item, index) => (
                         <option key={index} value={item.alternative}>{item.alert}</option>
