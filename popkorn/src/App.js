@@ -58,13 +58,13 @@ function App() {
         <Routes>
           <Route path="/" Component={Main}></Route>
           <Route path="/productpage" Component={ProductPage}></Route>
-          <Route path="/MyPageMain" element={isLoggedIn ? <MyPageMain isAdmin={isAdmin} /> : <AuthMain />}></Route>
+          <Route path="/mypagemain" element={isLoggedIn ? <MyPageMain isAdmin={isAdmin} /> : <AuthMain />}></Route>
           <Route path="/auth" Component={AuthMain}></Route>
           <Route path="/productdetail" Component={ProductDetail}></Route>
           <Route path="/cart" Component={Cart}></Route>
           <Route path="/order" Component={Order}></Route>
-          <Route path='/AuthMain' element={<AuthMain />}></Route>
-          <Route path='/AdminMain' element={<AdminMain />}></Route>
+          <Route path='/authmain' element={<AuthMain />}></Route>
+          <Route path='/adminmain' element={<AdminMain />}></Route>
         </Routes>
       </BrowserRouter>
       {/* <TBBtn/> */}

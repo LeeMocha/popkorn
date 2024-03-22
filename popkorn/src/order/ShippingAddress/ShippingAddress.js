@@ -1,6 +1,14 @@
+import React, { useState } from 'react';
 import './ShippingAddress.css';
 
 export default function ShippingAddress() {
+
+    const [city, setCity] = useState('');
+
+    const citySelection = (e) => {
+        setCity(e.target.value);
+    };
+
     return (
         <div>
             <h3>Shipping Address</h3>
@@ -11,7 +19,7 @@ export default function ShippingAddress() {
                     <span></span>
                 </label>
                 <p>City</p>
-                <p>도시 선택 우쨰해요?</p>
+                <input type="text"></input>
                 <p>Address</p>
                 <input type="text"></input>
                 <p>Zip code</p>
