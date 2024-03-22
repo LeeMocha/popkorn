@@ -7,7 +7,11 @@ import "./DetailOrder.css";
 import { Logincontext } from './../../App';
 import axios from 'axios';
 
-export default function DetailOrder({ item }) {
+export default function DetailOrder({item}) {
+    const Location = useLocation();
+    const pData = Location.state.item; // Object Type으로 전달 받음.
+
+
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
