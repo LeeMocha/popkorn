@@ -84,5 +84,8 @@ public class UserServiceImple implements UserService{
         return uRepository.countByStatus(status);
     }
 
-
+		public User save(User user) {
+			
+			return uRepository.save(user);
+	}
 }

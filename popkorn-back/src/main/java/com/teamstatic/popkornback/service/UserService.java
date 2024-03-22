@@ -24,6 +24,8 @@ public interface UserService {
 
     Long countByStatus(String status);
 
+    User save(User user);
+
     default User dtoToEntity(UserDTO dto) {
         return User.builder()
                 .id(dto.getId())

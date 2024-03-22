@@ -29,6 +29,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @AllArgsConstructor
 @RestController
@@ -110,58 +111,61 @@ public class UserController {
         }
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
-    //         @RequestParam String pwinput) {
-    //     Optional<User> user = uservice.findById(emailinput);
-        
-    //     if (user.isPresent()) {
-    //         String password = user.get().getPassword();
-
-    //         if (password.equals(pwinput)) {
-    //             session.setAttribute("loginID", user.get().getId());
-    //             System.out.println(session.getAttribute(user.get().getId()));
-    //             return ResponseEntity.ok("Login success");
-    //         } else {
-    //             return ResponseEntity.ok("Login failed: Incorrect password");
-    //         }
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
-    //     }
-    // }
-
-    // @GetMapping("/logincheck")
-    // public String loginCheck() {
-    //     return (String) session.getAttribute("loginID");
-    // }
-
     @PostMapping("/login")
-public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
-        @RequestParam String pwinput) {
-    Optional<User> user = uservice.findById(emailinput);
-    
-    if (user.isPresent()) {
-        String password = user.get().getPassword();
+    public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
+            @RequestParam String pwinput) {
+        Optional<User> user = uservice.findById(emailinput);
 
-        if (password.equals(pwinput)) {
-            session.setAttribute("loginID", user.get().getId());
-            System.out.println(session.getAttribute(user.get().getId()));
-            return ResponseEntity.ok(user.get().getId()); 
+        if (user.isPresent()) {
+            String password = user.get().getPassword();
+
+            if (
+            // passwordEncoder.matches(password, user.get().getPassword())
+            password.equals(pwinput)) {
+                session.setAttribute("loginID", user.get().getId());
+                System.out.println(session.getAttribute(user.get().getId()));
+                return ResponseEntity.ok(user.get().getId());
+            } else {
+                return ResponseEntity.ok("Login failed");
+            }
         } else {
-            return ResponseEntity.ok("Login failed: Incorrect password");
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
         }
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
     }
-}
-
-    
-
 
     @GetMapping("/logout")
     public void logout(HttpSession session) {
-		session.invalidate();
-	}
-    
-    
+        session.invalidate();
+    }
+
+    @PostMapping("/memberjoin")
+    public ResponseEntity<String> memberjoin(@RequestBody UserDTO userdto) {
+
+        User user = new User();
+
+        user.setId(userdto.getId());
+        user.setPassword(userdto.getPassword());
+        user.setNickname(userdto.getNickname());
+        user.setReword(userdto.getReword());
+        user.setCreatedate(userdto.getCreatedate());
+        user.setStatus(userdto.getStatus());
+
+        //String encodedPassword = passwordEncoder.encode(user.getPassword());
+
+        // user.setPassword(encodedPassword);
+
+        System.out.println("전체 dto => " + userdto);
+        System.out.println("이메일 => " + userdto.getId());
+        System.out.println("기본 비밀번호 => " + userdto.getPassword());
+        System.out.println("닉네임=> " + userdto.getNickname());
+
+        try {
+            uservice.save(user);
+            return ResponseEntity.ok("회원가입 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
+        }
+
+    }
+
 }

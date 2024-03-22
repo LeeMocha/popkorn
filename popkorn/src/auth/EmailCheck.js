@@ -35,15 +35,16 @@ export const EmailCheck = () => {
     try {
       const loginResponse = await axios.post('/api/user/login', null, { params: { "emailinput": emailinput, "pwinput": pwinput } });
       const userID = loginResponse.data;
+      if (loginResponse.status !== 200 || loginResponse.data === "Login failed") {
+        setpwInput('');
+        alert('Invalid Password. Please check your Email or Password.');
+        return; 
+      }
+      console.log(loginResponse);
       sessionStorage.setItem('loginID', userID);
       console.log(userID);
       alert(`${userID}님 popKorn에 오신 것을 환영합니다.`);
       window.location.href = '/';
-      if (loginResponse.status !== 200) {
-        setpwInput('');
-        alert('Invalid Password. Please check your Email or Password.');
-        return;
-      }
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);
     }
