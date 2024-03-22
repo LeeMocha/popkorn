@@ -1,28 +1,26 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
 import PopkornBtn from '../../useModules/PopkornBtn'
 
 import "./DetailOrder.css";
 
-const pData = {
-    singer: "LE SSERAFIM",
-    productName: "JAPAN 2nd Single [UNFORGIVEN] Solo Jacket",
-    optionpik: ['Required Selection', 'SAKURA', 'HUH YUNJIN', 'KAZUHA', 'HONG EUNCHAE'],
-    Price: 11000,
-    reserve: 0.50
-}
+export default function DetailOrder({item}) {
+    const Location = useLocation();
+    const pData = Location.state.item; // Object Type으로 전달 받음.
+    console.log(pData);
 
-export default function DetailOrder() {
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
 
+
+
     const cntPlusHandler = () => {
         if (cnt < 10) {
             setCnt(cnt + 1);
-            setTotalcnt(pData.Price * (cnt + 1));
+            setTotalcnt(pData.price * (cnt + 1));
         } else {
             alert("최대 10개까지만 구매 가능합니다.");
         }
@@ -31,13 +29,13 @@ export default function DetailOrder() {
     const cntMinusHandler = () => {
         if (cnt > 1) {
             setCnt(cnt - 1);
-            setTotalcnt(pData.Price * (cnt - 1));
+            setTotalcnt(pData.price * (cnt - 1));
         }
     }
 
     const optionHandler = (e) => {
         const selectOption = e.target.value;
-        setSelectOption(selectOption === pData.optionpik[0] ? "" : selectOption);
+        setSelectOption(selectOption === item.alternative[0] ? "" : selectOption);
     }
 
     const deleteHandler = () => {
@@ -62,16 +60,16 @@ export default function DetailOrder() {
         <div>
             <div className="mainTitle">
                 <div className='singerwon'>
-                    <p>{pData.singer}</p>
-                    <h2>{pData.productName}</h2>
-                    <h2>\{pData.Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <p>{pData.artist}</p>
+                    <h2>{pData.productname}</h2>
+                    <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
-                <p>Point : {pData.reserve}%</p>
-                <select id='optionselect' onChange={optionHandler}>
-                    {pData.optionpik.map((option, index) => (
+                {/* <p>Point : {pData.reserve}%</p> */}
+                {/* <select id='optionselect' onChange={optionHandler}>
+                    {alternative.map((option, index) => (
                         <option key={index} value={option}>{option}</option>
                     ))}
-                </select>
+                </select> */}
                 {selectOption && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
