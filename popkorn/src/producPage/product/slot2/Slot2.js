@@ -4,7 +4,7 @@ import PriceOutput from "../../../useModules/priceOutput/PriceOutput";
 
 
 import "./Slot2.css"
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Slot2({ item, index }) {
 
@@ -22,40 +22,18 @@ export default function Slot2({ item, index }) {
       return () => clearTimeout(timeoutId);
    }, [index]);
 
-   // const handleHover = () => {
-   //    const slotSpan = document.querySelector(`.slot_span-${index}`);
-   //    slotSpan.classList.add('hover');
-   // };
-
-   // const handleMouseOut = () => {
-   //    const slotSpan = document.querySelector(`.slot_span-${index}`);
-   //    slotSpan.classList.remove('hover');
-   // };
-
 
    return (
       <div className={`slot2_wrap ${isActive ? 'active' : ''}`}>
-            <Link to={`/productdetail?next=/detailmaining`} state={{item}}>
-               <div>
-                  <img src={imageSrc + item.image1} alt="item_image" className="slot2_img" />
-               </div>
-               <div className={`slot2_span slot2_span-${index}`}>
-                  <span>{item.productname}</span>
-                  <PriceOutput priceWon={item.price} />
-               </div>
+         <div>
+            <Link to={`/productdetail?next=/detailmaining`} state={{ item }}>
+               <img src={imageSrc + item.image1} alt="item_image" className="slot2_img" />
             </Link>
-            
-
-
-
-
-         {/* <div>
-            <img src={imageSrc+item.image1} alt="item_image" className="slot2_img"  />
          </div>
          <div className={`slot2_span slot2_span-${index}`}>
             <span>{item.productname}</span>
             <PriceOutput priceWon={item.price} />
-         </div> */}
+         </div>
       </div>
    );
 }
