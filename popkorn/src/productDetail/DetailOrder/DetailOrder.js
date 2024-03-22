@@ -16,13 +16,12 @@ export default function DetailOrder({ item }) {
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
-    const [userReserve, setUserReserve] = useState(0);
     const [alternative, setAlternative] = useState([]);
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
             setCnt(cnt + 1);
-            setTotalcnt(item.price * (cnt + 1));
+            setTotalcnt(pData.price * (cnt + 1));
         } else {
             alert("최대 10개까지만 구매 가능합니다.");
         }
@@ -31,7 +30,7 @@ export default function DetailOrder({ item }) {
     const cntMinusHandler = () => {
         if (cnt > 1) {
             setCnt(cnt - 1);
-            setTotalcnt(item.price * (cnt - 1));
+            setTotalcnt(pData.price * (cnt - 1));
         }
     }
 
@@ -46,16 +45,22 @@ export default function DetailOrder({ item }) {
     }
 
     const addCart = async () => {
-        await axios.get(`/api/cart/addcart`, null, { params: { ...item, alternative } })
-            .then((response) => console.log(response.data))
-            .catch
+        await axios.post(`/api/cart/addcart`, {
+            id: sessionStorage.getItem('loginID'),
+            pcode: pData.pcode,
+            detailcount: cnt,
+            alternative: selectOption,
+            price: pData.price,
+            image1: pData.image1,
+            productname: pData.productname
+        }).then()
+            .catch(err => console.log(err));
     }
 
     function cartConfirm() {
         if (isLoggedIn) {
             if (window.confirm("Do you want add into Cart?")) {
-                // 엑시오스로 카트에 담기 & 담은 후 카트로 이동
-                axios.get(`/api/cart/addcart`)
+                addCart();
                 navigate('/cart');
             }
         } else {
@@ -89,7 +94,7 @@ export default function DetailOrder({ item }) {
                 </div>
                 <select id='optionselect' onChange={optionHandler}>
                     {alternative.map((item, index) => (
-                        <option key={index} value={item.alternative}>{item.alert}</option>
+                        <option key={index} value={item.alternative}>{item.alternative}</option>
                     ))}
                 </select>
                 {selectOption && (

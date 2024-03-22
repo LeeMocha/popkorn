@@ -11,7 +11,7 @@ export default function CartList({ item, index }) {
             <img src={imageSrc + item.image1} alt="productdetail_img" />
             <span>{item.productname}</span>
             <span>{item.detailcount}</span>
-            <span>{item.price}</span>
+            <span>{item.detailcount * item.price}</span>
         </div>
     )
 }
