@@ -8,7 +8,7 @@ import "./DetailOrder.css";
 export default function DetailOrder({item}) {
     const Location = useLocation();
     const pData = Location.state.item; // Object Type으로 전달 받음.
-    console.log(pData);
+
 
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);

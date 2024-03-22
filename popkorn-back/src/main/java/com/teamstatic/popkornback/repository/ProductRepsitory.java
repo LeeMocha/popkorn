@@ -10,5 +10,7 @@ import com.teamstatic.popkornback.entity.Product;
 public interface ProductRepsitory extends JpaRepository<Product, Integer>{
 
     List<Product> findByCategorylAndCategorym(String categoryl, String categorym);
+    
+    List<Product> findByProductname(String productname);
 
 }
