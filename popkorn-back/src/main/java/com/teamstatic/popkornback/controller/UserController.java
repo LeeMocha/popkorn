@@ -67,8 +67,6 @@ public class UserController {
 
     @GetMapping("/searchlist")
     public PageResultDTO<UserDTO, User> searchlist(String keyword, int page) {
-        System.out.println(keyword);
-        System.out.println(page);
 
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)

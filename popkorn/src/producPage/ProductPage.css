@@ -13,16 +13,19 @@
     left: 0;
     top: 320px;
     animation: poplogos1 infinite 6s linear;
+    opacity: 0.8;
     z-index: -2;
 }
 .product_back_logos.poplogos2{
     position: fixed;
+    opacity: 0.8;
     scale: 0.03;
     left: 0;
     top: 320px;
     animation: poplogos2 infinite 6s linear;
     z-index: -2;
 }
+
 
 @keyframes poplogos1 {
     0% {

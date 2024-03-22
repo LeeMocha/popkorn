@@ -81,8 +81,8 @@ export default function ListForm({ data, setDataState, pk }) {
                            <td key={colIndex}
                               onMouseEnter={() => handleCellMouseEnter(item[columnName])}
                               onMouseLeave={handleCellMouseLeave}>
-                              {columnName !== "status" ? item[columnName] : (
-                                 <div className={`status ${item.status.toLowerCase()}`}><span>{item[columnName]}</span></div>
+                              {columnName !== "status" && columnName !=="categoryl" ? item[columnName] : (
+                                 <div className={`status ${item[columnName].toLowerCase()}`}><span>{item[columnName]}</span></div>
                               )}
                            </td>
                         ))}

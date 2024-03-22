@@ -2,13 +2,20 @@ package com.teamstatic.popkornback.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teamstatic.popkornback.domain.PageRequestDTO;
+import com.teamstatic.popkornback.domain.PageResultDTO;
+import com.teamstatic.popkornback.domain.ProductDTO;
 import com.teamstatic.popkornback.entity.Product;
 import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @AllArgsConstructor
 @RequestMapping("/api/product")
@@ -18,15 +25,29 @@ public class ProductController {
     ProductService pService;
 
     @GetMapping("/productlist")
-    public List<Product> productlist(String categoryl, String categorym) {
-        List<Product> list = pService.findByCategorylAndCategorym(categoryl, categorym);
+    public PageResultDTO<ProductDTO, Product> getMethodName(int page) {
+        PageRequestDTO requestDTO = PageRequestDTO.builder()
+        .page(page)
+        .size(20)
+        .build();
+        PageResultDTO<ProductDTO, Product> resultDTO = pService.findAll(requestDTO);
+        resultDTO.setDashboard1(pService.countAll());
+        // resultDTO.setDashboard2(pService.countBy("signed"));
+        // resultDTO.setDashboard3(pService.countByStatus("unsigned"));
 
-        if(list.size() > 0){
-            return list;
-        } else {
-            return null;
-        }
-
+        return resultDTO;
+    }
+    
+    @GetMapping("/findByCategorylAndCategorym")
+    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym, int page) {
+        PageRequestDTO requestDTO = PageRequestDTO.builder()
+                .page(page)
+                .size(20)
+                .categoryl(categoryl)
+                .categorym(categorym)
+                .build();
+        PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym, requestDTO);
+        return resultDTO;
     }
 
     @GetMapping("/selectoption")

@@ -10,9 +10,9 @@ const Product = ({ currCategoryl, currCategorym }) => {
     const [servData, setServDate] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/product/productlist?categoryl=${currCategoryl}&categorym=${currCategorym}`)
+        axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${currCategorym}&page=1`)
             .then(response => {
-                setServDate(response.data)
+                setServDate(response.data.dtoList)
             }).catch(err => {
                 console.log(err)
             })

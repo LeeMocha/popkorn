@@ -13,6 +13,7 @@ import SlideEvent from "./submenu/event/SlideEvent";
 import UserList from "./submenu/user/UserList";
 import AdminList from "./submenu/user/AdminList";
 import LoginUser from "./submenu/user/LoginUser";
+import TotalList from "./submenu/stock/TotalList";
 
 
 export default function AdminMain() {
@@ -86,7 +87,7 @@ export default function AdminMain() {
             key: 4,
             icon: "xi-box",
             main: "Stock",
-            subMenu: [{ subkey: "Total List", component: () => <></> }
+            subMenu: [{ subkey: "Total List", component: () => <TotalList/> }
                 , { subkey: "Product List", component: () => <></> }
                 , { subkey: "Add", component: () => <></> }
                 , { subkey: "Update", component: () => <></> }
