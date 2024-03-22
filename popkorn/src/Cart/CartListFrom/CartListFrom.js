@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 
 import "./CartListFrom.css";
+import CartList from '../CartList/CartList';
 
 
 export default function CartListFrom() {
@@ -66,6 +67,8 @@ export default function CartListFrom() {
         }
     }
 
+    console.log(product);
+
 
     return (
         <>
@@ -76,25 +79,14 @@ export default function CartListFrom() {
             </label>
             <div className="CartListFrombox">
                 <input type="checkbox" />
-
                 {
-                    product.map((item, index) => {
-                        item.length > 0 ?
-                            <div>
-                                <span>{item.img}</span>
-                                <span>{item.productName}</span>
-                                <span>{item.detailcount}</span>
-                                <span>{item.price}</span>
-                            </div>
+                    product.length > 0 ?
+                        product.map((item, index) => <CartList item={item} index={index} />)
                         :
-                            <div>
-                                <h3>There are no items in the shopping cart!</h3>
-                                <button>Go to the product page</button>
-                            </div>
-                        
-                    })
+                        <div>
+                            <span></span>
+                        </div>
                 }
-
             </div>
             <div className="cartPrice">
                 <h3>Total(수량)</h3>

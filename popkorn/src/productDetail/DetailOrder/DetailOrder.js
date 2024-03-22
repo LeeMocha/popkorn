@@ -5,6 +5,7 @@ import PopkornBtn from '../../useModules/PopkornBtn'
 
 import "./DetailOrder.css";
 import { Logincontext } from './../../App';
+import axios from 'axios';
 
 const pData = {
     artist: "LE SSERAFIM",
@@ -49,9 +50,15 @@ export default function DetailOrder({ item }) {
         setCnt(0); // 삭제하는 동시에 수량 초기화
     }
 
+    const addCart = async () => {
+        await axios.get(`/api/cart/addcart`, null, { params: {} })
+    }
+
     function cartConfirm() {
         if (isLoggedIn) {
-            window.confirm("장바구니로 이동하시겠습니까?")
+            if (window.confirm("Do you want add into Cart?")) {
+
+            }
             // 엑시오스로 카트에 담기 & 담은 후 카트로 이동
             navigate('/cart');
         } else {
