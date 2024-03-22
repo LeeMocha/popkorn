@@ -1,21 +1,25 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
 import PopkornBtn from '../../useModules/PopkornBtn'
 
 import "./DetailOrder.css";
+import { Logincontext } from './../../App';
+import axios from 'axios';
 
-export default function DetailOrder({item}) {
-    const Location = useLocation();
-    const pData = Location.state.item; // Object Type으로 전달 받음.
-    console.log(pData);
+const pData = {
+    artist: "LE SSERAFIM",
+    productName: "JAPAN 2nd Single [UNFORGIVEN] Solo Jacket",
+    option: ['Required Selection', 'SAKURA', 'HUH YUNJIN', 'KAZUHA', 'HONG EUNCHAE'],
+    price: 11000,
+    reserve: 0.50
+}
 
+export default function DetailOrder({ item }) {
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
-
-
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
@@ -44,15 +48,28 @@ export default function DetailOrder({item}) {
         setCnt(0); // 삭제하는 동시에 수량 초기화
     }
 
+    const addCart = async () => {
+        await axios.get(`/api/cart/addcart`, null, { params: {} })
+    }
+
     function cartConfirm() {
-        if (window.confirm('장바구니로 이동하시겠습니까?')) {
-            navigate('/Cart'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+        if (isLoggedIn) {
+            if (window.confirm("Do you want add into Cart?")) {
+
+            }
+            // 엑시오스로 카트에 담기 & 담은 후 카트로 이동
+            navigate('/cart');
+        } else {
+            window.confirm("로그인 후 이용하시겠습니까?")
+            navigate('/authMain');
         }
     }
 
+
+
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
-            navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+            navigate('/order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
 

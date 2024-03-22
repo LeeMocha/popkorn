@@ -2,13 +2,63 @@ import { useNavigate } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 
 import "./CartListFrom.css";
+import CartList from '../CartList/CartList';
 
-
-const pData = {
-    productName: "JAPAN 2nd Single [UNFORGIVEN] Solo Jacket",
-}
 
 export default function CartListFrom() {
+
+    const product = [{
+        id: 'dlgpsk1112@naver.com',
+        pcode: 1,
+        detailcount: 1,
+        alternative: 'I WIN ver',
+        price: 20800,
+        image1: 'iu.png',
+        productname: 'The Winning',
+        ccode: 1
+    },
+    {
+        id: 'dlgpsk1112@naver.com',
+        pcode: 3,
+        detailcount: 1,
+        alternative: '0 ver',
+        price: 18500,
+        image1: 'gidle2ndfullalbum.png',
+        productname: 'This Time Around',
+        ccode: 2
+    },
+    {
+        id: 'dlgpsk1112@naver.com',
+        pcode: 6,
+        detailcount: 3,
+        alternative: 'Spakling ver',
+        price: 21400,
+        image1: 'tws1st.png',
+        productname: 'TWS 1st Mini Album ‘Sparkling Blue’',
+        ccode: 3
+    },
+    {
+        id: 'dlgpsk1112@naver.com',
+        pcode: 8,
+        detailcount: 1,
+        alternative: 'BALMY FLEX',
+        price: 19300,
+        image1: 'easy.png',
+        productname: 'LE SSERAFIM',
+        ccode: 4
+    },
+    {
+        id: 'huck1217@naver.com',
+        pcode: 26,
+        detailcount: 5,
+        alternative: 'KIM CHAEWON',
+        price: 13400,
+        image1: 'unforgiven.png',
+        productname: 'JAPAN 2nd Single UNFORGIVEN Solo Jacket',
+        ccode: 5
+    }
+    ]
+
     const navigate = useNavigate();
 
     function orderConfirm() {
@@ -16,6 +66,8 @@ export default function CartListFrom() {
             navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
+
+    console.log(product);
 
 
     return (
@@ -27,12 +79,14 @@ export default function CartListFrom() {
             </label>
             <div className="CartListFrombox">
                 <input type="checkbox" />
-                <ul>
-                    <li>이미지 넣을 곳</li>
-                    <li>{pData.productName}</li>
-                    <li>수량 넣을곳</li>
-                    <li>총 가격 넣을곳</li>
-                </ul>
+                {
+                    product.length > 0 ?
+                        product.map((item, index) => <CartList item={item} index={index} />)
+                        :
+                        <div>
+                            <span></span>
+                        </div>
+                }
             </div>
             <div className="cartPrice">
                 <h3>Total(수량)</h3>
