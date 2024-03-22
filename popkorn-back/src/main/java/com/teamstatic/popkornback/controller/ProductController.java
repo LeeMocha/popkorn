@@ -33,4 +33,10 @@ public class ProductController {
 
     }
 
+    @GetMapping("/selectoption")
+    public List<Product> selectoption(String productname) {
+        List<Product> list = pService.findByProductname(productname);
+        return list;
+    }
+
 }
