@@ -6,6 +6,7 @@ import axios from 'axios';
 export default function Ecertification(props) {
 
     const [ecertificationcode, setEcertificationcode] = useState('');
+    const [mailcode, setMailcode] = useState('');
 
     const [join, setJoin] = props.joinState;
 
@@ -19,18 +20,26 @@ export default function Ecertification(props) {
                 id: join.id,
                 password: join.password,
                 nickname: join.nickname
-              });
+            });
             if (Response.status === 200) {
                 console.log('회원가입 성공');
             } else {
                 console.log('회원가입 실패')
             }
         } catch (error) {
-            console.log(error)
             console.error('오류 발생:', error);
         }
     };
 
+    const mailConfirm = async () => {
+        try {
+            const Response = await axios.post('/api/user/mailConfirm', { email: props.emailinput });
+            console.log('인증코드:', Response.data);
+            setMailcode(Response.data);
+        } catch (error) {
+            console.error('오류 발생:', error);
+        }
+    };
 
     return (
         <>
@@ -44,25 +53,26 @@ export default function Ecertification(props) {
                 Account : {props.emailinput} <br />
             </div>
             <div className="subguide">
-            Please proceed after sending <br/>
-            And checking email cerfitication
+                Please proceed after sending <br />
+                And checking email cerfitication
             </div>
 
-            <button className="certificationbtn" onClick={() => (
-                alert("Please check your certification code in your email.")
-                )}>send certification Code</button>
-                <br/><br/>
-                <form>
-                    <br></br>
-                    <input className="certificationinput"
+            <button className="certificationbtn" onClick={() => {
+                alert("Please check your certification code in your email.");
+                mailConfirm();
+            }}>send certification Code</button>
+            <br /><br />
+            <form>
+                <br></br>
+                <input className="certificationinput"
                     type="text"
                     placeholder="Certification Code"
                     value={ecertificationcode}
                     onChange={certificationhandle}
-                    />
-                </form>
-                {!(ecertificationcode !== "") ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> 
-                : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={() => {props.joinbutton();memberjoin();}} />}
+                />
+            </form>
+            {(ecertificationcode !== mailcode) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} />
+                : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={() => { props.joinbutton(); memberjoin(); }} />}
         </>
     )
 }

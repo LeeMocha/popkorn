@@ -1,5 +1,7 @@
 package com.teamstatic.popkornback.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,7 +30,12 @@ public class User {
     private String password;
     private String nickname;
     private int reword;
-    private String createdate;
+
+    @CreationTimestamp
+    private LocalDateTime createdate;
+    public void setCreatedate(LocalDateTime createdate) {
+        this.createdate = createdate;
+    }
 
     private String status;
 

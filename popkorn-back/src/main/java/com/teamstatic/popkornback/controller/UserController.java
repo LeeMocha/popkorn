@@ -1,6 +1,11 @@
 package com.teamstatic.popkornback.controller;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +27,7 @@ import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.UserDTO;
 import com.teamstatic.popkornback.entity.User;
+import com.teamstatic.popkornback.service.impls.RegisterMail;
 import com.teamstatic.popkornback.service.impls.UserServiceImple;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +35,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 @AllArgsConstructor
 @RestController
@@ -38,6 +46,7 @@ public class UserController {
 
     UserServiceImple uservice;
     PasswordEncoder passwordEncoder;
+    RegisterMail registerMail;
 
     @Autowired
     private HttpSession session;
@@ -119,11 +128,8 @@ public class UserController {
         if (user.isPresent()) {
             String password = user.get().getPassword();
 
-            if (
-            // passwordEncoder.matches(password, user.get().getPassword())
-            password.equals(pwinput)) {
+            if (passwordEncoder.matches(pwinput, password)) {
                 session.setAttribute("loginID", user.get().getId());
-                System.out.println(session.getAttribute(user.get().getId()));
                 return ResponseEntity.ok(user.get().getId());
             } else {
                 return ResponseEntity.ok("Login failed");
@@ -140,6 +146,8 @@ public class UserController {
 
     @PostMapping("/memberjoin")
     public ResponseEntity<String> memberjoin(@RequestBody UserDTO userdto) {
+        ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
 
         User user = new User();
 
@@ -147,18 +155,14 @@ public class UserController {
         user.setPassword(userdto.getPassword());
         user.setNickname(userdto.getNickname());
         user.setReword(userdto.getReword());
-        user.setCreatedate(userdto.getCreatedate());
-        user.setStatus(userdto.getStatus());
+        user.setCreatedate(seoulLocalDateTime);
+        user.setStatus("signed");
+        user.setStatus("signed");
 
-        //String encodedPassword = passwordEncoder.encode(user.getPassword());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
 
-        // user.setPassword(encodedPassword);
-
-        System.out.println("전체 dto => " + userdto);
-        System.out.println("이메일 => " + userdto.getId());
-        System.out.println("기본 비밀번호 => " + userdto.getPassword());
-        System.out.println("닉네임=> " + userdto.getNickname());
-
+        user.setPassword(encodedPassword);
+        
         try {
             uservice.save(user);
             return ResponseEntity.ok("회원가입 성공");
@@ -167,5 +171,15 @@ public class UserController {
         }
 
     }
+
+    @PostMapping("/mailConfirm")
+    @ResponseBody
+    String mailConfirm(@RequestBody Map<String, String> requestData) throws Exception {
+        String email = requestData.get("email");
+        String code = registerMail.sendSimpleMessage(email);
+        System.out.println("인증코드 : " + code);
+        return code;
+    }
+    
 
 }

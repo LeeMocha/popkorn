@@ -19,11 +19,7 @@ public class ProductController {
 
     @GetMapping("/productlist")
     public List<Product> productlist(String categoryl, String categorym) {
-        System.out.println(categoryl);
-        System.out.println(categorym);
         List<Product> list = pService.findByCategorylAndCategorym(categoryl, categorym);
-
-        System.out.println(list);
 
         if(list.size() > 0){
             return list;

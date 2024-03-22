@@ -1,6 +1,7 @@
 package com.teamstatic.popkornback.domain;
 
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.domain.Page;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +25,7 @@ public class UserDTO {
     private String password;
     private String nickname;
     private int reword;
+    @CreationTimestamp
     private String createdate;
     private String status;
 }
