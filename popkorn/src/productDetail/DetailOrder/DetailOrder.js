@@ -19,7 +19,7 @@ export default function DetailOrder({ item }) {
     const cntPlusHandler = () => {
         if (cnt < 10) {
             setCnt(cnt + 1);
-            setTotalcnt(pData.price * (cnt + 1));
+            setTotalcnt(item.price * (cnt + 1));
         } else {
             alert("최대 10개까지만 구매 가능합니다.");
         }
@@ -28,7 +28,7 @@ export default function DetailOrder({ item }) {
     const cntMinusHandler = () => {
         if (cnt > 1) {
             setCnt(cnt - 1);
-            setTotalcnt(pData.price * (cnt - 1));
+            setTotalcnt(item.price * (cnt - 1));
         }
     }
 
@@ -87,9 +87,9 @@ export default function DetailOrder({ item }) {
         <div>
             <div className="mainTitle">
                 <div className='singerwon'>
-                    <p>{pData.artist}</p>
-                    <h2>{pData.productname}</h2>
-                    <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <p>{item.artist}</p>
+                    <h2>{item.productname}</h2>
+                    <h2>\{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
                 <p>Point : {userReserve}p</p>
                 <select id='optionselect' onChange={optionHandler}>
