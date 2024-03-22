@@ -48,7 +48,6 @@ function App() {
       });
   }, []);
 
-
   useEffect(() => {
     sessionStorage.setItem('loginCheck', isLoggedIn);
   }, [isLoggedIn]);
