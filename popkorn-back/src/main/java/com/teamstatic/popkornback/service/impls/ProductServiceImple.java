@@ -22,4 +22,8 @@ public class ProductServiceImple implements ProductService{
         return pRepsitory.findByCategorylAndCategorym(categoryl, categorym);
     }  
 
+    public List<Product> findByProductname(String productname) {
+        return pRepsitory.findByProductname(productname);
+    }
+
 }

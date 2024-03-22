@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PriceOutput from "../../../useModules/priceOutput/PriceOutput";
 
+
 import "./Slot2.css"
+import { Link} from "react-router-dom";
 
 export default function Slot2({ item, index }) {
 
@@ -19,7 +21,7 @@ export default function Slot2({ item, index }) {
       // 컴포넌트가 unmount되면 timeout 클리어
       return () => clearTimeout(timeoutId);
    }, [index]);
-   
+
    // const handleHover = () => {
    //    const slotSpan = document.querySelector(`.slot_span-${index}`);
    //    slotSpan.classList.add('hover');
@@ -33,13 +35,27 @@ export default function Slot2({ item, index }) {
 
    return (
       <div className={`slot2_wrap ${isActive ? 'active' : ''}`}>
-         <div>
-            <img src={imageSrc+item.image1} alt="item_image" className="slot2_img" />
+            <Link to={`/productdetail?next=/detailmaining`} state={{item}}>
+               <div>
+                  <img src={imageSrc + item.image1} alt="item_image" className="slot2_img" />
+               </div>
+               <div className={`slot2_span slot2_span-${index}`}>
+                  <span>{item.productname}</span>
+                  <PriceOutput priceWon={item.price} />
+               </div>
+            </Link>
+            
+
+
+
+
+         {/* <div>
+            <img src={imageSrc+item.image1} alt="item_image" className="slot2_img"  />
          </div>
          <div className={`slot2_span slot2_span-${index}`}>
             <span>{item.productname}</span>
             <PriceOutput priceWon={item.price} />
-         </div>
+         </div> */}
       </div>
    );
 }
