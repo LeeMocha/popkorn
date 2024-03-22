@@ -33,35 +33,28 @@ export const EmailCheck = () => {
 
   const Loginhandle = async () => {
     try {
-      const response = await axios.post('/api/user/login', null, { params: { "emailinput": emailinput, "pwinput": pwinput } });
-      if (response.data === "Login success") {
-        window.location.href = '/';
-      } else {
+      const loginResponse = await axios.post('/api/user/login', null, { params: { "emailinput": emailinput, "pwinput": pwinput } });
+      const userID = loginResponse.data;
+      sessionStorage.setItem('loginID', userID);
+      console.log(userID);
+      alert(`${userID}님 popKorn에 오신 것을 환영합니다.`);
+      window.location.href = '/';
+      if (loginResponse.status !== 200) {
         setpwInput('');
         alert('Invalid Password. Please check your Email or Password.');
+        return;
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('로그인 중 오류 발생:', error);
     }
   };
-
-  const loginCheck = async () => {
-    try {
-      const response = await axios.get('/api/user/logincheck');
-      sessionStorage.setItem('loginID', response.data);
-      alert(`${response.data}님 popKorn에 오신 것을 환영합니다.`);
-      return response.data;
-    } catch (error) {
-      console.error('로그인 확인 중 오류 발생:', error);
-      return false;
-    }
-  };
+  
+  
 
   const handleKeyPress = (event) => {
     if (event.keyCode === 13) {
       if (emailcheck === '2') {
         Loginhandle();
-        loginCheck();
       } else {
         initialcheck();
       }
@@ -185,7 +178,6 @@ export const EmailCheck = () => {
             </div>
             <button onClick={() => {
               Loginhandle();
-              loginCheck();
               // areChecksValid();
             }} className='embtn'>Login</button><br /><br />
             <button onClick={resetForm} className='embtn'>Back</button>
