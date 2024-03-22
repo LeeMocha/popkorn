@@ -21,7 +21,6 @@ public class UserDTO {
 
     private String id;
 
-    @JsonIgnore
     private String password;
     private String nickname;
     private int reword;

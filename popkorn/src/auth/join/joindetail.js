@@ -10,6 +10,8 @@ export default function Joindetail(props) {
     const [showpw, setShowpw] = useState(false);
     const [showcheckpw, setShowcheckpw] = useState(false);
 
+    const [join, setJoin] = props.joinState;
+
     const pwvalidationhandle = (e) => {
         const newpwValue = e.target.value;
         setNewpassword(newpwValue);
@@ -35,6 +37,17 @@ export default function Joindetail(props) {
         }
     }
 
+    const updateJoin = (newJoin) => {
+        setJoin(prevJoin => ({
+            ...prevJoin,
+            ...newJoin
+        }));
+    };
+
+    const updatepw = () => {
+        updateJoin({ password: newpassword });
+    };
+
     return (
         <>
             <div>
@@ -52,9 +65,8 @@ export default function Joindetail(props) {
                         value={newpassword}
                         onChange={pwvalidationhandle}
                         maxLength={16}
-                        minLength={8}
                     />
-                    <button onClick={toggleShowpw} className='toggleshow'>
+                    <button onClick={toggleShowpw} className='toggleshow' type='button'>
                         {showpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
                     <button type='reset' className='memberreset' onClick={() => setNewpassword('')}><i className='xi-close-thin' /></button>
                     <div className='pwvalid1' style={{ color: charRegex(newpassword) ? "#7de4ff" : "#fe7cf3" }}>
@@ -77,9 +89,8 @@ export default function Joindetail(props) {
                         value={pwconfirm}
                         onChange={pwconfirmHandler}
                         maxLength={16}
-                        minLength={8}
                     />
-                    <button onClick={toggleShowcheckpw} className='toggleshow'>
+                    <button onClick={toggleShowcheckpw} className='toggleshow' type='button'>
                         {showcheckpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
                     <button type='reset' className='memberreset' onClick={() => setpwconfirm('')}><i className='xi-close-thin' /></button>
                     <div className='pwvalid1' style={{
@@ -94,7 +105,8 @@ export default function Joindetail(props) {
             </div><br />
             <div className='agreeinfo'>By creating an account, you agree to <br />popKorn's Conditions of Use and Privacy Notice.</div>
 
-            {!(newpassword === pwconfirm && pwconfirm.length > 7) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={props.joinbutton} />}
+            {!(newpassword === pwconfirm && pwconfirm.length > 7) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> 
+            : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={() => {props.joinbutton(); updatepw();}} />}
         </>
     )
 }
