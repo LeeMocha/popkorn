@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
 import PopkornBtn from '../../useModules/PopkornBtn'
 
@@ -20,8 +20,6 @@ export default function DetailOrder({ item }) {
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
-    const [isLoggedIn] = useContext(Logincontext);
-
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
@@ -41,7 +39,7 @@ export default function DetailOrder({ item }) {
 
     const optionHandler = (e) => {
         const selectOption = e.target.value;
-        setSelectOption(selectOption === pData.option[0] ? "" : selectOption);
+        setSelectOption(selectOption === item.alternative[0] ? "" : selectOption);
     }
 
     const deleteHandler = () => {
@@ -79,16 +77,16 @@ export default function DetailOrder({ item }) {
         <div>
             <div className="mainTitle">
                 <div className='singerwon'>
-                    <p>{pData.singer}</p>
-                    <h2>{pData.productName}</h2>
+                    <p>{pData.artist}</p>
+                    <h2>{pData.productname}</h2>
                     <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
-                <p>Point : {pData.reserve}%</p>
-                <select id='optionselect' onChange={optionHandler}>
-                    {pData.option.map((option, index) => (
+                {/* <p>Point : {pData.reserve}%</p> */}
+                {/* <select id='optionselect' onChange={optionHandler}>
+                    {alternative.map((option, index) => (
                         <option key={index} value={option}>{option}</option>
                     ))}
-                </select>
+                </select> */}
                 {selectOption && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
