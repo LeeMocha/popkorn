@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -23,10 +25,7 @@ public class User {
     @Id
     private String id;
 
-    @Column(updatable = false)
-    @JsonIgnore
     private String password;
-
     private String nickname;
     private int reword;
     private String createdate;
