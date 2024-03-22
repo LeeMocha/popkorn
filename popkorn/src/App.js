@@ -37,10 +37,10 @@ function App() {
         if (storedLoginID === response.data.id && response.data.status === 'admin') {
           setIsloggedIn(true);
           setIsAdmin(true);
-
+          console.log("admin 로그인")
         } else if (storedLoginID === response.data.id) {
           setIsloggedIn(true);
-
+          console.log("user 로그인")
         }
       })
       .catch(err => {
