@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
 import PopkornBtn from '../../useModules/PopkornBtn'
@@ -7,19 +7,14 @@ import "./DetailOrder.css";
 import { Logincontext } from './../../App';
 import axios from 'axios';
 
-const pData = {
-    artist: "LE SSERAFIM",
-    productName: "JAPAN 2nd Single [UNFORGIVEN] Solo Jacket",
-    option: ['Required Selection', 'SAKURA', 'HUH YUNJIN', 'KAZUHA', 'HONG EUNCHAE'],
-    price: 11000,
-    reserve: 0.50
-}
-
 export default function DetailOrder({ item }) {
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
+    const [isLoggedIn] = useContext(Logincontext);
+    const [userReserve, setUserReserve] = useState(0);
+    const [alternative, setAlternative] = useState([]);
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
@@ -38,8 +33,7 @@ export default function DetailOrder({ item }) {
     }
 
     const optionHandler = (e) => {
-        const selectOption = e.target.value;
-        setSelectOption(selectOption === item.alternative[0] ? "" : selectOption);
+        setSelectOption(e.target.value);
     }
 
     const deleteHandler = () => {
@@ -49,16 +43,18 @@ export default function DetailOrder({ item }) {
     }
 
     const addCart = async () => {
-        await axios.get(`/api/cart/addcart`, null, { params: {} })
+        await axios.get(`/api/cart/addcart`, null, { params: { ...item, alternative } })
+            .then((response) => console.log(response.data))
+            .catch
     }
 
     function cartConfirm() {
         if (isLoggedIn) {
             if (window.confirm("Do you want add into Cart?")) {
-
+                // 엑시오스로 카트에 담기 & 담은 후 카트로 이동
+                axios.get(`/api/cart/addcart`)
+                navigate('/cart');
             }
-            // 엑시오스로 카트에 담기 & 담은 후 카트로 이동
-            navigate('/cart');
         } else {
             window.confirm("로그인 후 이용하시겠습니까?")
             navigate('/authMain');
@@ -73,6 +69,20 @@ export default function DetailOrder({ item }) {
         }
     }
 
+    useEffect(() => {
+        if (isLoggedIn) {
+            axios.get(`/api/user/selectone?id=${sessionStorage.getItem('loginID')}`)
+                .then((response) => {
+                    setUserReserve(response.data.reserve);
+                }).catch(err => console.log(err))
+        }
+
+        axios.get(`/api/product/selectoption?productname=${item.productname}`)
+            .then((response) => {
+                setAlternative(response.data);
+            }).catch(err => console.log(err));
+    }, [])
+
     return (
         <div>
             <div className="mainTitle">
@@ -81,12 +91,12 @@ export default function DetailOrder({ item }) {
                     <h2>{pData.productname}</h2>
                     <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
                 </div>
-                {/* <p>Point : {pData.reserve}%</p> */}
-                {/* <select id='optionselect' onChange={optionHandler}>
-                    {alternative.map((option, index) => (
-                        <option key={index} value={option}>{option}</option>
+                <p>Point : {userReserve}p</p>
+                <select id='optionselect' onChange={optionHandler}>
+                    {alternative.map((item, index) => (
+                        <option key={index} value={item.alternative}>{item.alert}</option>
                     ))}
-                </select> */}
+                </select>
                 {selectOption && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
