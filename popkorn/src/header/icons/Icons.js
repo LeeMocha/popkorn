@@ -9,13 +9,20 @@ export default function Icons({isScrolled}) {
 
 
    const logOut = async () => {
+      const loginID = sessionStorage.getItem('loginID');
+    
+      if (!loginID) {
+        return;
+      }
+    
       try {
-      await axios.get('/api/user/logout');
-      alert(`로그아웃 되었습니다.`)
-      sessionStorage.removeItem('loginID');
-      setIsloggedIn(false);
+        await axios.get('/api/user/logout');
+        alert(`로그아웃 되었습니다.`);
+        // 세션에서 loginID 삭제
+        sessionStorage.removeItem('loginID');
+        setIsloggedIn(false);
       } catch (error) {
-        console.error('로그인 확인 중 오류 발생:', error);
+        console.error('로그아웃 중 오류 발생:', error);
         return false;
       }
     };

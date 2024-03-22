@@ -110,31 +110,53 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
-            @RequestParam String pwinput) {
-        Optional<User> user = uservice.findById(emailinput);
+    // @PostMapping("/login")
+    // public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
+    //         @RequestParam String pwinput) {
+    //     Optional<User> user = uservice.findById(emailinput);
         
-        if (user.isPresent()) {
-            String password = user.get().getPassword();
+    //     if (user.isPresent()) {
+    //         String password = user.get().getPassword();
 
-            if (password.equals(pwinput)) {
-                session.setAttribute("loginID", user.get().getId());
-                System.out.println("LoginID: " + session.getAttribute("loginID"));
-                return ResponseEntity.ok("Login success");
-            } else {
-                return ResponseEntity.ok("Login failed: Incorrect password");
-            }
+    //         if (password.equals(pwinput)) {
+    //             session.setAttribute("loginID", user.get().getId());
+    //             System.out.println(session.getAttribute(user.get().getId()));
+    //             return ResponseEntity.ok("Login success");
+    //         } else {
+    //             return ResponseEntity.ok("Login failed: Incorrect password");
+    //         }
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
+    //     }
+    // }
+
+    // @GetMapping("/logincheck")
+    // public String loginCheck() {
+    //     return (String) session.getAttribute("loginID");
+    // }
+
+    @PostMapping("/login")
+public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
+        @RequestParam String pwinput) {
+    Optional<User> user = uservice.findById(emailinput);
+    
+    if (user.isPresent()) {
+        String password = user.get().getPassword();
+
+        if (password.equals(pwinput)) {
+            session.setAttribute("loginID", user.get().getId());
+            System.out.println(session.getAttribute(user.get().getId()));
+            return ResponseEntity.ok(user.get().getId()); 
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
+            return ResponseEntity.ok("Login failed: Incorrect password");
         }
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
     }
+}
 
-    @GetMapping("/logincheck")
-    public String loginCheck() {
-        String loginID = (String) session.getAttribute("loginID");
-        return loginID;
-    }
+    
+
 
     @GetMapping("/logout")
     public void logout(HttpSession session) {
