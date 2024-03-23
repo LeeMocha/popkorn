@@ -2,8 +2,6 @@ package com.teamstatic.popkornback.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;

@@ -15,10 +15,8 @@ import com.teamstatic.popkornback.repository.ProductRepsitory;
 import com.teamstatic.popkornback.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 @RequiredArgsConstructor
 public class ProductServiceImple implements ProductService {
 
