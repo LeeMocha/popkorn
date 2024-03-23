@@ -10,10 +10,9 @@ import StackChart from "./submenu/modules/chart/StackChart";
 
 import MainEvent from "./submenu/event/MainEvent";
 import SlideEvent from "./submenu/event/SlideEvent";
-import UserList from "./submenu/user/UserList";
-import AdminList from "./submenu/user/AdminList";
-import LoginUser from "./submenu/user/LoginUser";
 import TotalList from "./submenu/stock/TotalList";
+import AdminList from "./submenu/user/AdminList";
+import UserList from "./submenu/user/UserList";
 
 
 export default function AdminMain() {
@@ -88,7 +87,6 @@ export default function AdminMain() {
             icon: "xi-box",
             main: "Stock",
             subMenu: [{ subkey: "Total List", component: () => <TotalList/> }
-                , { subkey: "Product List", component: () => <></> }
                 , { subkey: "Add", component: () => <></> }
                 , { subkey: "Update", component: () => <></> }
                 , { subkey: "Drop", component: () => <></> }]

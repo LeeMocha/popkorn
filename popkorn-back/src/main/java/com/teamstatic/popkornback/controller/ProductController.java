@@ -16,20 +16,19 @@ import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @AllArgsConstructor
 @RequestMapping("/api/product")
 @RestController
 public class ProductController {
-    
+
     ProductService pService;
 
     @GetMapping("/productlist")
     public PageResultDTO<ProductDTO, Product> getMethodName(int page) {
         PageRequestDTO requestDTO = PageRequestDTO.builder()
-        .page(page)
-        .size(20)
-        .build();
+                .page(page)
+                .size(20)
+                .build();
         PageResultDTO<ProductDTO, Product> resultDTO = pService.findAll(requestDTO);
         resultDTO.setDashboard1(pService.countAll());
         // resultDTO.setDashboard2(pService.countBy("signed"));
@@ -37,16 +36,18 @@ public class ProductController {
 
         return resultDTO;
     }
-    
+
     @GetMapping("/findByCategorylAndCategorym")
-    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym, int page) {
+    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
+            int page) {
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)
                 .size(20)
                 .categoryl(categoryl)
                 .categorym(categorym)
                 .build();
-        PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym, requestDTO);
+        PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
+                requestDTO);
         return resultDTO;
     }
 

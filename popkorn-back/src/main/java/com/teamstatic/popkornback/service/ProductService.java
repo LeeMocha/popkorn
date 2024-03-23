@@ -2,6 +2,8 @@ package com.teamstatic.popkornback.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;
@@ -9,9 +11,10 @@ import com.teamstatic.popkornback.entity.Product;
 
 public interface ProductService {
 
-    PageResultDTO<ProductDTO,Product> findByCategorylAndCategorym(String categoryl, String categorym, PageRequestDTO requestDTO);
+    PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
+            PageRequestDTO requestDTO);
 
-    PageResultDTO<ProductDTO,Product> findAll(PageRequestDTO requestDTO);
+    PageResultDTO<ProductDTO, Product> findAll(PageRequestDTO requestDTO);
 
     List<Product> findByProductname(String productname);
 
