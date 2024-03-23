@@ -32,7 +32,6 @@
 }
 
 .celebbar_gradient1{
-   position: absolute;
    align-items: center;
    width: 100%;
    height: 100%;
@@ -51,7 +50,6 @@
    background-color: #fff;
    border-radius: 100px;
    overflow: hidden;
-   /* display: none; */
 }
 
 .celebslide{
@@ -72,26 +70,11 @@
 
 .celebbar.moreActive{
    height: 520px;
-   overflow: auto;
 }
 
 .celebbar_gradient2.moreActive{
    display: grid;
    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-}
-
-.celebbar::-webkit-scrollbar {
-   width: 2px;  /* 스크롤바의 너비 */
-}
-
-.celebbar::-webkit-scrollbar-thumb {
-   height: 5%; /* 스크롤바의 길이 */
-   background: #FE7CF3; /* 스크롤바의 색상 */
-   border-radius:50px;
-}
-
-.celebbar::-webkit-scrollbar-track {
-   background: rgba(243, 247, 253, 0.37);  /*스크롤바 뒷 배경 색상*/
 }
 
 @keyframes rotateGradient {
