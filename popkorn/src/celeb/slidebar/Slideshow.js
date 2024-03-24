@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Slidebar.css";
 
-const Slideshow = ({celebs}) => {
+const Slideshow = ({celebs, setSelectCeleb}) => {
 
     const imgSrc = process.env.PUBLIC_URL + "/celebIMG/"
 
@@ -45,7 +45,7 @@ const Slideshow = ({celebs}) => {
             <Slider {...settings}>
                 {celebs.map((s, i) => (
                     <li key={i} className='itemLi'>
-                        <button className='itemLi_btn' onClick={()=>{}}>
+                        <button className='itemLi_btn' onClick={()=>{setSelectCeleb(s)}}>
                             <img src={imgSrc+s.celebimg} alt="" className='item' />
                             <span className='itemname'>{s.artist}</span>
                         </button>

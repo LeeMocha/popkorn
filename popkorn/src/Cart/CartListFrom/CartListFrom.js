@@ -38,7 +38,7 @@ export default function CartListFrom() {
                 {
                     product.length > 0 ?
 
-                        product.map((item, index) => <CartList item={item} index={index} />)
+                        product.map((item, index) => <CartList item={item} index={index} key={index} />)
                         :
                         <div>
                             <span></span>

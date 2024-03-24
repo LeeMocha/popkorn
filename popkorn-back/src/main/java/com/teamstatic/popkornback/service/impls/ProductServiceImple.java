@@ -46,6 +46,10 @@ public class ProductServiceImple implements ProductService {
         return pRepsitory.findByProductname(productname);
     }
 
+    public List<Product> findFirstProductByArtist(String artist){
+        return pRepsitory.findFirstProductByArtist(artist);
+    }
+
     public long countAll(){
         return pRepsitory.count();
     }

@@ -12,6 +12,8 @@ import com.teamstatic.popkornback.domain.ProductDTO;
 import com.teamstatic.popkornback.entity.Product;
 import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @AllArgsConstructor
@@ -54,5 +56,12 @@ public class ProductController {
         List<Product> list = pService.findByProductname(productname);
         return list;
     }
+
+    @GetMapping("/findByArtist")
+    public List<Product> getMethodName(@RequestParam String artist) {
+        List<Product> list = pService.findFirstProductByArtist(artist);
+        return list;
+    }
+    
 
 }

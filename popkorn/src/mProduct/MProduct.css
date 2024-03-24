@@ -27,8 +27,7 @@
 
 .mp_artistLogo_img{
    position: absolute;
-   width: 100%;
-   height: 100%;
+   width: 240px;
    border-radius: 50%;
 }
 
@@ -36,7 +35,7 @@
    position: absolute;
    bottom: 40px;
    font-size: 24px;
-   color: #000;
+   color: #FE7CF3;
    font-weight: bold;
 }
 

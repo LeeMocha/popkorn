@@ -16,6 +16,8 @@ public interface ProductService {
 
     List<Product> findByProductname(String productname);
 
+    List<Product> findFirstProductByArtist(String artist);
+
     long countAll();
 
     default Product dtoToEntity(ProductDTO dto) {

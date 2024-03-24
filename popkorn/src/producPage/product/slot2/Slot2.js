@@ -25,15 +25,16 @@ export default function Slot2({ item, index }) {
 
    return (
       <div className={`slot2_wrap ${isActive ? 'active' : ''}`}>
-         <div>
-            <Link to={`/productdetail?next=/detailmaining`} state={{ item }}>
+         <Link to={`/productdetail?next=/detailmaining`} state={{ item }}>
+            <div>
                <img src={imageSrc + item.image1} alt="item_image" className="slot2_img" />
-            </Link>
-         </div>
-         <div className={`slot2_span slot2_span-${index}`}>
-            <span>{item.productname}</span>
-            <PriceOutput priceWon={item.price} />
-         </div>
+            </div>
+         </Link>
+            <div className={`slot2_span slot2_span-${index}`}>
+               <span>{item.productname}
+                  <PriceOutput priceWon={item.price} />
+               </span>
+            </div>
       </div>
    );
 }
