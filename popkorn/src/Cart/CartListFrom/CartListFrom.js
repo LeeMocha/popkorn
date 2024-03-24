@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 
 import "./CartListFrom.css";
@@ -10,7 +10,7 @@ import axios from 'axios';
 export default function CartListFrom() {
 
     const navigate = useNavigate();
-    const [product, setProduct] = useState([]);
+    const [items, setProduct] = useState([]);
 
     useEffect(() => {
         axios.get(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`)
@@ -22,7 +22,7 @@ export default function CartListFrom() {
 
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
-            navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+            // navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
 
@@ -36,9 +36,9 @@ export default function CartListFrom() {
             <div className="CartListFrombox">
                 <input type="checkbox" />
                 {
-                    product.length > 0 ?
+                    items.length > 0 ?
 
-                        product.map((item, index) => <CartList item={item} index={index} />)
+                    items.map((item, index) => <CartList item={item} index={index} key={index} />)
                         :
                         <div>
                             <span></span>
@@ -50,7 +50,9 @@ export default function CartListFrom() {
                 <h3>\</h3>
             </div>
             <div className='popkornBtnbox'>
-                <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} ></PopkornBtn>
+                <Link to="/order"  state={ {items} }>
+                    <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} ></PopkornBtn>
+                </Link>
             </div>
         </>
     )

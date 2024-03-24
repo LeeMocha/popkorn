@@ -1,7 +1,3 @@
-.mproduct_wrap{
-   
-}
-
 .mp_span{
    font-family: 'TmoneyRoundWindExtraBold';
    color: #7de3ff;
@@ -22,26 +18,24 @@
    position: relative;
    width: 300px;
    height: 300px;
-   /* overflow: hidden;  */
    border-radius: 50%;
    margin: 0 auto;
    display: flex;
    justify-content: center;
    align-items: center;
-   /* box-shadow: 4px 4px 3px gray; */
 }
 
 .mp_artistLogo_img{
    position: absolute;
-   width: 100%;
-   height: 100%;
+   width: 240px;
+   border-radius: 50%;
 }
 
 .artistLogo span {
    position: absolute;
    bottom: 40px;
    font-size: 24px;
-   color: #000;
+   color: #FE7CF3;
    font-weight: bold;
 }
 
@@ -51,8 +45,6 @@
    height: 320px;
 }
 
-.mp_i_wrap{
-}
 
 @media screen and (max-width: 800px) {
    .mcontent_grid_container {

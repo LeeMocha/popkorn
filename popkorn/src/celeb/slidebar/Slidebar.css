@@ -7,12 +7,16 @@ li {
     width: 100px;
     height: 100px;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .itemname {
     color: black;
     text-align: center;
     cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: block;
+    margin-top: 6px;
 }
 
 .itemLi {

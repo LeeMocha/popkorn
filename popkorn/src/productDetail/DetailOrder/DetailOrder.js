@@ -10,14 +10,14 @@ import axios from 'axios';
 export default function DetailOrder({ item }) {
     const Location = useLocation();
     const pData = Location.state.item; // Object Type으로 전달 받음.
-
+    const [pcode, setPcode] = useState(0);
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
     const [alternative, setAlternative] = useState([]);
-
+    
     const cntPlusHandler = () => {
         if (cnt < 10) {
             setCnt(cnt + 1);
@@ -36,6 +36,7 @@ export default function DetailOrder({ item }) {
 
     const optionHandler = (e) => {
         setSelectOption(e.target.value);
+        setPcode(alternative[e.target.selectedIndex].pcode)
     }
 
     const deleteHandler = () => {
@@ -47,7 +48,7 @@ export default function DetailOrder({ item }) {
     const addCart = async () => {
         await axios.post(`/api/cart/addcart`, {
             id: sessionStorage.getItem('loginID'),
-            pcode: pData.pcode,
+            pcode: pcode,
             detailcount: cnt,
             alternative: selectOption,
             price: pData.price,
@@ -90,7 +91,7 @@ export default function DetailOrder({ item }) {
                 <div className='singerwon'>
                     <p>{pData.artist}</p>
                     <h2>{pData.productname}</h2>
-                    <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <h2>￦{pData.price.toLocaleString()}</h2>
                 </div>
                 <select id='optionselect' onChange={optionHandler}>
                     {alternative.map((item, index) => (
@@ -108,7 +109,7 @@ export default function DetailOrder({ item }) {
                 )}
                 <div className='total'>
                     <h3>Total({cnt})</h3>
-                    <h2>\{totalcnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <h2>￦{totalcnt.toLocaleString()}</h2>
                 </div>
                 <div className='maintwoButton'>
                     <PopkornBtn btnName='Cart' btntype={true} btnfun={cartConfirm} />
