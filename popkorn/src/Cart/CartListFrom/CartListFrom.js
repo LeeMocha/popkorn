@@ -38,8 +38,8 @@ export default function CartListFrom() {
                 <span style={{ color: ' #FE7CF3' }}>Select All</span>
             </label>
             <div className="CartListFromitem">
-                {product.length > 0 ? (
-                    product.map((item, index) => (
+                {items.length > 0 ? (
+                    items.map((item, index) => (
                         <div key={index} item={item} index={index} className="cartListMain">
                             <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
                             <img src={imageSrc + item.image1} alt="productdetail_img" />
@@ -57,14 +57,14 @@ export default function CartListFrom() {
                     </div>
                 )}
             </div>
-            {product.length !== 0 && (
+            {items.length !== 0 && (
                 <div className="cartPrice">
                     <h3>Total()</h3>
                     <h3>\</h3>
                 </div>
             )}
             <div className='popkornBtnbox'>
-                <Link to="/order"  state={ {items} }>
+                <Link to="/order" state={{ items }}>
                     <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} ></PopkornBtn>
                 </Link>
             </div>
