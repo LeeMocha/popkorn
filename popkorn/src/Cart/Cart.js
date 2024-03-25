@@ -1,6 +1,7 @@
 import React from 'react';
-import CartList from './CartList/CartList'
+
 import CartListFrom from './CartListFrom/CartListFrom'
+import Header from '../header/Header';
 
 import './Cart.css'
 
@@ -9,10 +10,12 @@ import './Cart.css'
 
 function Cart() {
     return (
-        <div className='Cartmain'>
-            {/* <CartList /> */}
-            <CartListFrom />
-        </div>
+        <>
+            <Header />
+            <div className='Cartmain'>
+                <CartListFrom />
+            </div>
+        </>
     );
 }
 

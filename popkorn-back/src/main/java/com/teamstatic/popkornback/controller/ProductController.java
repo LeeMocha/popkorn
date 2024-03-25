@@ -14,18 +14,14 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/product")
 @RestController
 public class ProductController {
-    
+
     ProductService pService;
 
     @GetMapping("/productlist")
     public List<Product> productlist(String categoryl, String categorym) {
-        System.out.println(categoryl);
-        System.out.println(categorym);
         List<Product> list = pService.findByCategorylAndCategorym(categoryl, categorym);
 
-        System.out.println(list);
-
-        if(list.size() > 0){
+        if (list.size() > 0) {
             return list;
         } else {
             return null;
