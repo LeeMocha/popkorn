@@ -1,14 +1,31 @@
 import Orderproduct from './Orderproduct/Orderproduct';
 
 import './Order.css';
-import { useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Logincontext } from './../App';
 
 export default function Order() {
 
     const paymentsbtnSrc = process.env.PUBLIC_URL + "/paymentsbtnIMG/";
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
+    const [isLogined] = useContext(Logincontext);
+    const [data , setData] = useState({
+        ocode : null,
+        id : sessionStorage.getItem('loginID'),
+        orderstate : 'payed',
+        nuorder : isLogined,
+        paymenttype : '',
+        fullname : '',
+        rewordcheck : false,
+        phone : '',
+        country : '',
+        city : '',
+        address1 : '',
+        address2 : '',
+        zipcode : 0
+    });
 
     useEffect(() => {
         const preventRefresh = (event) => {
@@ -21,42 +38,46 @@ export default function Order() {
         };
     }, []);
 
-    const onClickPayment = () => {
+    const onClickPayment = (data) => {
         if (!window.IMP) return;
         /* 1. 가맹점 식별하기 */
         const { IMP } = window;
         IMP.init("imp71862281"); // 가맹점 식별코드
 
         /* 2. 결제 데이터 정의하기 */
-        const data = {
-            pg: "kakaopay", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
+        const toImpData = {
+            pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
             pay_method: "card", // 결제수단
             merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-            amount: 1000, // 결제금액
+            amount: 100, // 결제금액
             name: "아임포트 결제 데이터 분석", // 주문명
             buyer_name: "홍길동", // 구매자 이름
             buyer_tel: "01012341234", // 구매자 전화번호
             buyer_email: "example@example.com", // 구매자 이메일
             buyer_addr: "신사동 661-16", // 구매자 주소
             buyer_postcode: "06018", // 구매자 우편번호
+            rewordcheck : false
         };
 
         /* 4. 결제 창 호출하기 */
-        IMP.request_pay(data, callback);
+        IMP.request_pay(toImpData, callback);
     };
 
     function callback(response) {
         const { success, error_msg, imp_uid } = response;
         if (success) {
             alert("결제 성공");
+            console.log(response)
             sendImpUidToServer(imp_uid);
+            sendDataToServer(data)
         } else {
             alert(`결제 실패: ${error_msg}`);
         }
     }
 
+    
     function sendImpUidToServer(imp_uid) {
-        fetch(`/api/pay/kakaopay/${imp_uid}`, {
+        fetch(`/api/pay/datatoserver/${imp_uid}`, {
             method: 'GET',
         })
             .then(response => {
@@ -66,6 +87,18 @@ export default function Order() {
                 console.log(error);
             });
     }
+    const sendDataToServer = (data)=>{
+        console.log(data)
+    }
+
+    const setDataHandler = useCallback((e)=>{
+        if(e.target.name === 'rewordcheck'){
+            data[e.target.name] = e.target.name ==='on'? true : false
+        }else{
+            data[e.target.name] = e.target.value;
+        }
+        setData( {...data });
+    }, [data])
 
     return (
         <div className='orderBox'>
@@ -75,39 +108,37 @@ export default function Order() {
                     <h3>Shipping Address</h3>
                     <div className="shippingAddressBox">
                         <p>Country/Region</p>
-                        <select value='country' >
+                        <select value='country' name='country' onChange={setDataHandler}>
                             <option value=''>Country Selection</option>
                             <option value='South Korea'>South Korea</option>
                             <option value='United States'>United States</option>
                             <option value='Japan'>Japan</option>
-                            <option value=''></option>
-                            <option value=''></option>
                         </select>
                         <p>City</p>
-                        <input type="text" ></input>
+                        <input type="text" name='city' onChange={setDataHandler}></input>
                         <p>Address1</p>
-                        <input type="text"></input>
+                        <input type="text" name='address1' onChange={setDataHandler}></input>
                         <p>Address2</p>
-                        <input type="text"></input>
+                        <input type="text" name='address2' onChange={setDataHandler}></input>
                         <p>Zip code</p>
-                        <input type="text"></input>
+                        <input type="text" name='zipcode' onChange={setDataHandler}></input>
                     </div>
                 </div>
                 <div className='OrderInformationMain'>
                     <h3>Order Information</h3>
                     <div className="orderInformationbox">
                         <p>Full Name</p>
-                        <input type="text"></input>
+                        <input type="text" name='fullname' onChange={setDataHandler}></input>
                         <p>Email</p>
-                        <input type="text"></input>
+                        <input type="text" name='id' onChange={setDataHandler}></input>
                         <p>Phone</p>
-                        <input type="text"></input>
+                        <input type="text" name='phone' onChange={setDataHandler}></input>
                         <p>Use Reword</p>
-                        <input type="checkbox"></input>
+                        <input type="checkbox" name='rewordcheck' onChange={setDataHandler}></input>
                     </div >
                     <h3>PaymentMethod</h3>
                     <div className="paymentMethodMain">
-                        <button type='button' onClick={onClickPayment}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
+                        <button type='button' onClick={()=>onClickPayment(data)}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
                     </div>
                 </div>
             </div>
