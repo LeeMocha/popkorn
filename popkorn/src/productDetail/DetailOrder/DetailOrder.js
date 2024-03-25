@@ -12,12 +12,12 @@ export default function DetailOrder({ item }) {
     const pData = Location.state.item; // Object Type으로 전달 받음.
     const [pcode, setPcode] = useState(0);
     const [cnt, setCnt] = useState(1);
-    const [totalcnt, setTotalcnt] = useState(0);
-    const [selectOption, setSelectOption] = useState([]);
+    const [totalcnt, setTotalcnt] = useState(pData.price);
+    const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
     const [alternative, setAlternative] = useState([]);
-    
+
     const cntPlusHandler = () => {
         if (cnt < 10) {
             setCnt(cnt + 1);
