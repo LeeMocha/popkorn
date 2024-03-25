@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teamstatic.popkornback.domain.CartDTO;
 import com.teamstatic.popkornback.entity.Cart;
 import com.teamstatic.popkornback.service.CartService;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @AllArgsConstructor
 @RestController

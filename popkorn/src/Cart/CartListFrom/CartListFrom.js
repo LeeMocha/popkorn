@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 import "./CartListFrom.css";
 import axios from 'axios';
@@ -8,7 +8,7 @@ export default function CartListFrom() {
     const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
     const navigate = useNavigate();
-    const [product, setProduct] = useState([]);
+    const [items, setProduct] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
 
     useEffect(() => {
@@ -25,8 +25,8 @@ export default function CartListFrom() {
 
     // 주문 페이지로 이동
     function orderConfirm() {
-        if (window.confirm('Are you sure you want to go to the purchase page?')) {
-            navigate('/Order');
+        if (window.confirm('구매페이지로 이동하시겠습니까?')) {
+            // navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
 
@@ -38,8 +38,8 @@ export default function CartListFrom() {
                 <span style={{ color: ' #FE7CF3' }}>Select All</span>
             </label>
             <div className="CartListFromitem">
-                {product.length > 0 ? (
-                    product.map((item, index) => (
+                {items.length > 0 ? (
+                    items.map((item, index) => (
                         <div key={index} item={item} index={index} className="cartListMain">
                             <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
                             <img src={imageSrc + item.image1} alt="productdetail_img" />
@@ -57,14 +57,16 @@ export default function CartListFrom() {
                     </div>
                 )}
             </div>
-            {product.length !== 0 && (
+            {items.length !== 0 && (
                 <div className="cartPrice">
                     <h3>Total()</h3>
                     <h3>\</h3>
                 </div>
             )}
             <div className='popkornBtnbox'>
-                <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
+                <Link to="/order" state={{ items }}>
+                    <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} ></PopkornBtn>
+                </Link>
             </div>
         </div>
     )

@@ -3,9 +3,10 @@ import { useEffect } from "react";
 
 import "./Slot.css"
 import PriceOutput from "../../useModules/priceOutput/PriceOutput";
+import { Link } from "react-router-dom";
 
 export default function Slot({ item, index }) {
-
+   const mproductSrc = process.env.PUBLIC_URL + '/productIMG/';
    const [isActive, setIsActive] = useState(false);
 
    useEffect(() => {
@@ -31,11 +32,13 @@ export default function Slot({ item, index }) {
 
    return (
       <div className={`slot_wrap ${isActive ? 'active' : ''}`} onMouseEnter={handleHover} onMouseLeave={handleMouseOut}>
+         <Link to={`/productdetail?next=/detailmaining`} state={{ item }}>
          <div>
-            <img src={item.image} alt="item_image" className="slot_img" />
+            <img src={mproductSrc+item.image1} alt="item_image" className="slot_img" />
          </div>
+         </Link>
          <div className={`slot_span slot_span-${index}`}>
-            <span style={{ display: 'block'}}>{item.productName}</span>
+            <span style={{ display: 'block'}}>{item.productname}</span>
             <PriceOutput priceWon={item.price}/>
          </div>
          <div className="slot_sha"></div>
