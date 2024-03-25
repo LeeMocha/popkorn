@@ -26,6 +26,9 @@ public class PageRequestDTO {
 	private int size;	// 1 page당 출력 row 갯수
 	private String type;
 	private String keyword;
+	private String categoryl;
+	private String categorym;
+	private String categorys;
 	
 	public PageRequestDTO() {
 		this.page = 1;

@@ -1,14 +1,7 @@
-.CartListFrombox {
-    border-top: 2px solid rgb(34, 33, 33);
-    margin: 20px auto 0;
-    border-bottom: 2px solid rgb(34, 33, 33);
-    height: 300px;
+.CartListFromDiv {
+    padding-top: 70px;
 }
 
-.CartListFrombox>ul {
-    display: flex;
-    justify-content: space-evenly;
-}
 
 .popkornBtnbox {
     display: flex;
@@ -21,4 +14,46 @@
     justify-content: space-between;
     padding-top: 50px;
     padding-bottom: 50px;
+}
+
+.CartListFromitem {
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1.5px solid rgb(216, 214, 214);
+    border-bottom: 1.5px solid rgb(216, 214, 214);
+    padding-bottom: 10px;
+}
+
+.noCartListFrom {
+    margin: 0 auto;
+    height: 200px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center
+}
+
+.cartListMain {
+    display: flex;
+    gap: 130px;
+    padding-top: 10px;
+}
+
+.cartListMain>img {
+    width: 90px;
+    height: 90px;
+}
+
+.cartListMain>span {
+    width: 170px;
+}
+
+.cartListMain>.productnameclss {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.productnameclss>span:nth-child(2) {
+    font-size: 12px;
+    color: gray;
 }

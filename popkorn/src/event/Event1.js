@@ -9,13 +9,13 @@ import { Link } from 'react-router-dom';
 
 export default function Event1() {
 
-   const event1data = [
-      {
-         artist: "Le Sserafim",
-         youtubeSrc: "https://www.youtube.com/embed/bNKXxwOQYB8",
-         pImgSrc: "./Event1Img/lesserafim.svg"
-      }
-   ]
+   const item = {
+      productname: 'EASY',
+      artist: 'LE SSERAFIM',
+      price: 19300,
+      image1: 'easy.png'
+   }
+
 
    const [rotateX, setRotateX] = useState(0);
    const [rotateY, setRotateY] = useState(0);
@@ -88,9 +88,8 @@ export default function Event1() {
          <div >
             <iframe width="100%" height="700" src="https://www.youtube.com/embed/bNKXxwOQYB8" title="LE SSERAFIM (르세라핌) &#39;EASY&#39; OFFICIAL MV" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
             <div className='custom-rectangle active'>
-               <h1 className='event_title'>{event1data.artist}</h1>
                <div className='event_Pcircle'>
-                  <Link to="/productdetail">
+                  <Link to={`/productdetail?next=/detailmaining`} state={{ item }}>
                      <div
                         className="pImg_container"
                         onMouseMove={handleMouseMove}
