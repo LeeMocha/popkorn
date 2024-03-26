@@ -15,13 +15,14 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
 
     List<Product> findByProductname(String productname);
 
+
     @Query("SELECT p " +
-            "FROM Product p " +
-            "WHERE (p.artist, p.productname, p.alternative) IN " +
-            "      (SELECT p2.artist, MIN(p2.productname), MIN(p2.alternative) " +
-            "       FROM Product p2 " +
-            "       WHERE p2.artist = :artist " +
-            "       GROUP BY p2.artist)")
+    "FROM Product p " +
+    "WHERE p.artist = :artist " +
+    "AND p.pcode IN (SELECT MIN(p2.pcode) " +
+                    "FROM Product p2 " +
+                    "WHERE p2.artist = :artist " +
+                    "GROUP BY p2.productname)")
     List<Product> findFirstProductByArtist(String artist);
 
 }
