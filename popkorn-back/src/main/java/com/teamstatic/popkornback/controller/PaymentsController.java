@@ -3,7 +3,6 @@ package com.teamstatic.popkornback.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +12,7 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import com.teamstatic.popkornback.service.OrderDetailService;
 import com.teamstatic.popkornback.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,8 @@ public class PaymentsController {
 
    @Autowired
    PaymentService payService;
+   @Autowired
+   OrderDetailService odService;
 
    private PaymentsController() {
       this.iamportClient = new IamportClient("3803508415015286",
