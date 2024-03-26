@@ -71,7 +71,7 @@ export default function Ecertification(props) {
                     onChange={certificationhandle}
                 />
             </form>
-            {(ecertificationcode !== mailcode) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} />
+            {(ecertificationcode !== mailcode || ecertificationcode.length < 1) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} />
                 : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={() => { props.joinbutton(); memberjoin(); }} />}
         </>
     )

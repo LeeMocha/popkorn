@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @AllArgsConstructor
 @RestController
@@ -127,7 +127,6 @@ public class UserController {
 
         if (user.isPresent()) {
             String password = user.get().getPassword();
-
             if (passwordEncoder.matches(pwinput, password)) {
                 session.setAttribute("loginID", user.get().getId());
                 return ResponseEntity.ok(user.get().getId());
@@ -157,12 +156,11 @@ public class UserController {
         user.setReword(userdto.getReword());
         user.setCreatedate(seoulLocalDateTime);
         user.setStatus("signed");
-        user.setStatus("signed");
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
 
         user.setPassword(encodedPassword);
-        
+
         try {
             uservice.save(user);
             return ResponseEntity.ok("회원가입 성공");
@@ -177,9 +175,79 @@ public class UserController {
     String mailConfirm(@RequestBody Map<String, String> requestData) throws Exception {
         String email = requestData.get("email");
         String code = registerMail.sendSimpleMessage(email);
-        System.out.println("인증코드 : " + code);
         return code;
     }
+
+    @PostMapping("/updatepassword")
+    public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> requestBody) {
+        String emailinput = requestBody.get("emailinput");
+        String pwinput = requestBody.get("pwinput");
+        Optional<User> optionalUser = uservice.findById(emailinput);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String encodedPassword = passwordEncoder.encode(pwinput);
+            user.setPassword(encodedPassword);
+
+            try {
+                uservice.save(user);
+                return ResponseEntity.ok("비밀번호 변경 성공");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        }
+    }
+
+    @PostMapping("/passwordcheck")
+public ResponseEntity<Boolean> passwordcheck(HttpSession session, @RequestParam String currentpw) {
+    // 세션에서 사용자 ID 가져오기
+    String userId = (String) session.getAttribute("loginID");
     
+    if (userId != null) {
+        // 사용자 ID를 사용하여 데이터베이스에서 사용자 정보 가져오기
+        Optional<User> userOptional = uservice.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // 사용자 비밀번호 확인
+            boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
+            return ResponseEntity.ok(passwordMatch);
+        } else {
+            // 사용자를 찾을 수 없음
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }
+    } else {
+        // 세션에 사용자 ID가 없음
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+    }
+}
+
+@PostMapping("/redesignpassword")
+public ResponseEntity<String> redesignpassword(HttpSession session, @RequestParam String newpassword) {
+
+    String userId = (String) session.getAttribute("loginID");
+    
+    if (userId != null) {
+        Optional<User> userOptional = uservice.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            String encodedPassword = passwordEncoder.encode(newpassword);
+            user.setPassword(encodedPassword);
+            
+            try {
+                uservice.save(user);
+                session.invalidate();
+                return ResponseEntity.ok("비밀번호 변경 성공");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        }
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션에 사용자 ID가 없습니다.");
+    }
+}
 
 }

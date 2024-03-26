@@ -48,12 +48,6 @@ const Myaccountinfo = () => {
           <span>{nickname}</span>
         )}
         <br /><br />
-        Name &nbsp;
-        {editMode ? (
-          <input value={name} onChange={handleNameChange} className='editnickname' />
-        ) : (
-          <span>{name}</span>
-        )}
       </div>
 
 
