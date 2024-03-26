@@ -19,7 +19,7 @@ export default function CategoryS({currCategoryl, setCurrCategorym, setServData}
         {
             name: "goods",
             subcategorys: [
-                {subCategorysId: 4, name: "Officlal Fanlight"},
+                {subCategorysId: 4, name: "Official Fanlight"},
                 {subCategorysId: 5, name: "Slogan"},
                 {subCategorysId: 6, name: "Key Ring"},
                 {subCategorysId: 7, name: "Phone Case"}
