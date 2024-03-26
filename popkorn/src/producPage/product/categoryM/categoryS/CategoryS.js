@@ -1,6 +1,7 @@
+import axios from "axios";
 import "./CategoryS.css";
 
-export default function CategoryS({currCategoryl, setCurrCategorym}) {
+export default function CategoryS({currCategoryl, setCurrCategorym, setServData}) {
 
     const category = [
         {
@@ -36,10 +37,18 @@ export default function CategoryS({currCategoryl, setCurrCategorym}) {
 
     const subCategorys = category.find (
         c => c.name === currCategoryl
+
     )
 
     const setCurrCategorymHandler = (categorym)=>{
         setCurrCategorym(categorym)
+
+        axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${categorym}&page=1`)
+        .then(response => {
+            setServData(response.data.dtoList)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     return (
