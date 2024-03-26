@@ -22,7 +22,7 @@ export default function Mcontents({selectCeleb}) {
       <div className="mcontent_grid_container">
          <div className="artistLogo" onClick={gotoCelebsProduct}>
             <img src={logoSrc+selectCeleb.celebimg} alt="celeb_img" className="mp_artistLogo_img"/>
-            <span>MORE</span>
+            <span>{selectCeleb.artist}</span>
          </div>
          {
             artistProducts.map((item, i) => {

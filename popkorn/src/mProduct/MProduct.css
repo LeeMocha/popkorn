@@ -28,12 +28,14 @@
 .mp_artistLogo_img{
    position: absolute;
    width: 240px;
+   height: 240px;
    border-radius: 50%;
+   box-shadow: 4px 4px 3px gray;
 }
 
 .artistLogo span {
    position: absolute;
-   bottom: 40px;
+   bottom: 60px;
    font-size: 24px;
    color: #FE7CF3;
    font-weight: bold;
