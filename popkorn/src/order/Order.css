@@ -1,11 +1,10 @@
 .orderBox {
     margin: 0 auto;
     max-width: 1320px;
+    padding-top: 170px;
 }
 
-.orderBox>h1 {
-    padding-left: 15px;
-}
+
 
 .orderWindow {
     display: flex;
@@ -44,11 +43,11 @@
     padding-left: 250px;
 }
 
-.paymentMethodMain>button{
+.paymentMethodMain>button {
     border: none;
     background: #fff;
 }
 
-.kakaopay{
+.kakaopay {
     width: 100px;
 }

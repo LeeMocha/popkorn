@@ -38,6 +38,11 @@
     padding-top: 10px;
 }
 
+.CartListFromDiv > label {
+    display: flex;
+    justify-content: space-between;
+}
+
 .cartListMain>img {
     width: 90px;
     height: 90px;
