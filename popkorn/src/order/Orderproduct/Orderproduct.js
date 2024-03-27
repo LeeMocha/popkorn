@@ -15,9 +15,9 @@ export default function Orderproduct({ items }) {
                     </thead>
                     <tbody className='orderbox_tb'>
                         {
-                            items.map((item, index) => 
+                            items.map((item, index) =>
                                 <tr key={index}>
-                                    <td><img src={productimgSrc + item.image1} alt=""/></td><td>{item.productname}</td><td>{item.alternative}</td><td>{item.detailcount}</td><td>{item.price*item.detailcount}￦</td>
+                                    <td><img src={productimgSrc + item.image1} alt="" /></td><td>{item.productname}</td><td>{item.alternative}</td><td>{item.detailcount}</td><td>{item.price * item.detailcount}￦</td>
                                 </tr>
                             )
                         }
