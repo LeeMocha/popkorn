@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './memberdelete.css';
 import { Link } from "react-router-dom";
-
+import axios from 'axios';
 
 export const Memberdelete = () => {
 
@@ -14,13 +14,30 @@ export const Memberdelete = () => {
 
     const withdrawalvali = () => {
         if (withdrawalinput === withdrawalkeyword) {
-            alert("Withdrawal Procedure Complete. Thank you for coming");
+            if (window.confirm('Are you really withdraw Popkorn ID?')) {
+                alert("Withdrawal Procedure Complete. Thank you for using PopKorn.");
+                return true;
+            } else 
+            alert('Withdrawal Procedure Cancel.')
+            return false;
         }
     }
 
     const scrollToTop = () => {
         window.scrollTo(0, 0); 
 };
+
+const withdraw = async () => {
+    try {
+        const response = await axios.delete('/api/user/withdraw');
+        if (response.status === 200) {
+            console.log('회원 탈퇴 성공');
+            window.location.href = '/';
+        }
+    } catch (error) {
+        console.error('오류 발생:', error);
+    }
+}
 
     return (
         <div className="withdrawalwhole">
@@ -68,9 +85,7 @@ export const Memberdelete = () => {
                     onChange={withdrawalcheck}
                     placeholder='input the same message above' />
             </div>
-            <Link to='/' onClick={scrollToTop}>
-                <button className='withdrawal-completebtn' onClick={withdrawalvali} disabled={withdrawalinput !== withdrawalkeyword}>Withdrawal Complete</button>
-            </Link>
+                <button className='withdrawal-completebtn' onClick={() => {withdrawalvali() && withdraw()}} disabled={withdrawalinput !== withdrawalkeyword}>Withdrawal Complete</button>
         </div>
 
     );

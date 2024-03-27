@@ -80,6 +80,11 @@
     background: linear-gradient(20deg, #fe7cf3, #7de4ff);
 }
 
+.resetpw {
+    border: none;
+    background-color: white;
+    margin-top: 40px;
+}
 
 .emailinput,
 .pwinput {
