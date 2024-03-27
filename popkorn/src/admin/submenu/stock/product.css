@@ -65,10 +65,15 @@
 
 .status.album{
    background: #7a09099d;
-   color: #ffffff93;
+   color: #ffffffe3;
 }
 
 .status.photo{
    background: #232d9897;
+   color: #ffffffe3;
+}
+
+.status.goods{
+   background: #ceb73697;
    color: #ffffffe3;
 }
