@@ -22,7 +22,7 @@
    border-right: 1100px solid transparent;
    border-top: 150px solid transparent;
    border-bottom: 350px solid transparent;
-   top: 285px;
+   top: 290px;
    background: #fff;
    transform: rotate(140deg);
    overflow: visible;
@@ -191,8 +191,6 @@ opacity:0.2;
 transform: translate(10%, 10%) scale(1);
 opacity:0.5;
 }
-
-
 }
 
 

@@ -10,9 +10,9 @@ import axios from 'axios';
 export default function DetailOrder({ item }) {
     const Location = useLocation();
     const pData = Location.state.item; // Object Type으로 전달 받음.
-
-    const [cnt, setCnt] = useState(0);
-    const [totalcnt, setTotalcnt] = useState(0);
+    const [pcode, setPcode] = useState(0);
+    const [cnt, setCnt] = useState(1);
+    const [totalcnt, setTotalcnt] = useState(pData.price);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
@@ -36,18 +36,19 @@ export default function DetailOrder({ item }) {
 
     const optionHandler = (e) => {
         setSelectOption(e.target.value);
+        setPcode(alternative[e.target.selectedIndex].pcode)
     }
 
     const deleteHandler = () => {
         setSelectOption(""); //삭제 시 null
-        setTotalcnt(0); // 삭제하는 동시에 총가격 초기화
-        setCnt(0); // 삭제하는 동시에 수량 초기화
+        setTotalcnt(pData.price) // 삭제시 원가격으로 초기화
+        setCnt(1); // 삭제하는 동시에 수량 초기화
     }
 
     const addCart = async () => {
         await axios.post(`/api/cart/addcart`, {
             id: sessionStorage.getItem('loginID'),
-            pcode: pData.pcode,
+            pcode: pcode,
             detailcount: cnt,
             alternative: selectOption,
             price: pData.price,
@@ -59,20 +60,22 @@ export default function DetailOrder({ item }) {
 
     function cartConfirm() {
         if (isLoggedIn) {
-            if (window.confirm("Do you want add into Cart?")) {
-                addCart();
-                navigate('/cart');
+            if (selectOption.length === 0) {
+                window.confirm("옵션을 선택해주세요");
+            } else {
+                if (window.confirm("Do you want add into Cart?")) {
+                    addCart();
+                    navigate('/cart');
+                }
             }
         } else {
-            window.confirm("로그인 후 이용하시겠습니까?")
+            window.confirm("Do you want to log in and use it?");
             navigate('/authMain');
         }
     }
 
-
-
     function orderConfirm() {
-        if (window.confirm('구매페이지로 이동하시겠습니까?')) {
+        if (window.confirm('Are you sure you want to go to the purchase page?')) {
             navigate('/order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
         }
     }
@@ -90,14 +93,15 @@ export default function DetailOrder({ item }) {
                 <div className='singerwon'>
                     <p>{pData.artist}</p>
                     <h2>{pData.productname}</h2>
-                    <h2>\{pData.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <h2>￦{pData.price.toLocaleString()}</h2>
                 </div>
                 <select id='optionselect' onChange={optionHandler}>
+                    <option>Please select an option.</option>
                     {alternative.map((item, index) => (
                         <option key={index} value={item.alternative}>{item.alternative}</option>
                     ))}
                 </select>
-                {selectOption && (
+                {selectOption[1] && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
                         <button type="button" className='mainButton1' onClick={cntMinusHandler}>-</button>
@@ -108,7 +112,7 @@ export default function DetailOrder({ item }) {
                 )}
                 <div className='total'>
                     <h3>Total({cnt})</h3>
-                    <h2>\{totalcnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
+                    <h2>￦{totalcnt.toLocaleString()}</h2>
                 </div>
                 <div className='maintwoButton'>
                     <PopkornBtn btnName='Cart' btntype={true} btnfun={cartConfirm} />

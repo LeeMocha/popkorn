@@ -2,10 +2,7 @@ package com.teamstatic.popkornback.domain;
 
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.domain.Page;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.teamstatic.popkornback.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

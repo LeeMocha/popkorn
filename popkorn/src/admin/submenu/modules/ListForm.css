@@ -52,6 +52,7 @@
    align-items: baseline;
    color: gainsboro;
    text-align: left;
+   min-width: 100px;
 }
 
 .listform_table td{

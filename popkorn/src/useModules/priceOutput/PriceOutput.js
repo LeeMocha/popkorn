@@ -18,14 +18,14 @@ export default function PriceOutput({ priceWon }) {
 
     const radioHandler = () => {
         setRadioCheck(!radioCheck);
-        setCurrType(currType === "$" ? "\\" : "$");
+        setCurrType(currType === "$" ? "￦" : "$");
     };
 
     return (
         <div className="priceoutput_wrap">
-            <span className='priceoutput_check' onClick={radioHandler} >\<i className='xi-exchange'>$</i></span>
+            <span className='priceoutput_check' onClick={radioHandler} >￦<i className='xi-exchange'>$</i></span>
             {radioCheck ?
-                <span style={{ fontWeight: 'bold' }}> \{priceWon.toLocaleString()}</span> :
+                <span style={{ fontWeight: 'bold' }}> ￦{priceWon.toLocaleString()}</span> :
                 <span style={{ fontWeight: 'bold' }}>${((priceWon / rate).toFixed(2))}</span>
             }
         </div>

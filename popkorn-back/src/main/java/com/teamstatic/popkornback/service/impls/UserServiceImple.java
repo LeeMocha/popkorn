@@ -26,10 +26,8 @@ import com.teamstatic.popkornback.repository.UserRepository;
 import com.teamstatic.popkornback.service.UserService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 @RequiredArgsConstructor
 public class UserServiceImple implements UserService{
     
