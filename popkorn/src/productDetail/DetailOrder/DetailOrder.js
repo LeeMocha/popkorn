@@ -11,8 +11,8 @@ export default function DetailOrder({ item }) {
     const Location = useLocation();
     const pData = Location.state.item; // Object Type으로 전달 받음.
     const [pcode, setPcode] = useState(0);
-    const [cnt, setCnt] = useState(1);
-    const [totalcnt, setTotalcnt] = useState(pData.price);
+    const [cnt, setCnt] = useState(0);
+    const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
@@ -35,8 +35,17 @@ export default function DetailOrder({ item }) {
     }
 
     const optionHandler = (e) => {
-        setSelectOption(e.target.value);
-        setPcode(alternative[e.target.selectedIndex].pcode)
+        const selectedValue = e.target.value; // 선택된 옵션의 값
+        const selectedItem = alternative.find(item => item.pcode === parseInt(selectedValue)); // 선택된 값에 해당하는 아이템 찾기
+    
+        if (selectedItem) {
+            setSelectOption(selectedItem.alternative);
+            setPcode(e.target.value)
+        }else{
+            setSelectOption("");
+            setCnt(0);
+            setTotalcnt(0);
+        }
     }
 
     const deleteHandler = () => {
@@ -96,12 +105,12 @@ export default function DetailOrder({ item }) {
                     <h2>￦{pData.price.toLocaleString()}</h2>
                 </div>
                 <select id='optionselect' onChange={optionHandler}>
-                    <option>Please select an option.</option>
+                    <option value={-1}>Please select an option.</option>
                     {alternative.map((item, index) => (
-                        <option key={index} value={item.alternative}>{item.alternative}</option>
+                        <option key={index} value={item.pcode}>{item.alternative}</option>
                     ))}
                 </select>
-                {selectOption[1] && (
+                {selectOption && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
                         <button type="button" className='mainButton1' onClick={cntMinusHandler}>-</button>

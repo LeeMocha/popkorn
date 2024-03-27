@@ -3,12 +3,15 @@ package com.teamstatic.popkornback.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;
+import com.teamstatic.popkornback.entity.OrderDetail;
 import com.teamstatic.popkornback.entity.Product;
 import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -77,6 +80,17 @@ public class ProductController {
     public List<Product> getMethodName(@RequestParam String artist) {
         List<Product> list = pService.findFirstProductByArtist(artist);
         return list;
+    }
+    
+    @PostMapping("/checkDetailCount")
+    public boolean checkDetailCount(@RequestBody List<OrderDetail> orderDetails) {
+        for (OrderDetail orderDetail : orderDetails) {
+            if(orderDetail.getDetailcount() > pService.findByPcode(orderDetail.getPcode()).getStock()){
+                return false;
+            }
+        }
+
+        return true;
     }
     
 

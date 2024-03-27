@@ -48,40 +48,44 @@ public class ProductServiceImple implements ProductService {
         return pRepsitory.findByProductname(productname);
     }
 
-    public List<Product> findFirstProductByArtist(String artist){
+    public List<Product> findFirstProductByArtist(String artist) {
         return pRepsitory.findFirstProductByArtist(artist);
     }
 
-    public Product findByPcode(int pcode){
+    public Product findByPcode(int pcode) {
         return pRepsitory.findByPcode(pcode);
     }
 
-public PageResultDTO<ProductDTO, Product> findNewAll(PageRequestDTO requestDTO) {
+    public PageResultDTO<ProductDTO, Product> findNewAll(PageRequestDTO requestDTO) {
 
-    Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
 
-    Page<Product> albumResult = pRepsitory.findNewAlbum(pageable);
-    Page<Product> goodsResult = pRepsitory.findNewGoods(pageable);
-    Page<Product> photoResult = pRepsitory.findNewPhoto(pageable);
+        Page<Product> albumResult = pRepsitory.findNewAlbum(pageable);
+        Page<Product> goodsResult = pRepsitory.findNewGoods(pageable);
+        Page<Product> photoResult = pRepsitory.findNewPhoto(pageable);
 
-    // albumResult를 기준으로 새로운 Page 객체 생성
-    List<Product> combinedList = new ArrayList<>(albumResult.getContent());
-    combinedList.addAll(goodsResult.getContent());
-    combinedList.addAll(photoResult.getContent());
+        // albumResult를 기준으로 새로운 Page 객체 생성
+        List<Product> combinedList = new ArrayList<>(albumResult.getContent());
+        combinedList.addAll(goodsResult.getContent());
+        combinedList.addAll(photoResult.getContent());
 
-    // 페이지 처리를 위한 설정
-    int start = (int) pageable.getOffset();
-    int end = Math.min((start + 24), combinedList.size());
+        // 페이지 처리를 위한 설정
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + 24), combinedList.size());
 
-    // 새로운 페이지 객체 생성
-    Page<Product> resultPage = new PageImpl<>(combinedList.subList(start, end), pageable, combinedList.size());
+        // 새로운 페이지 객체 생성
+        Page<Product> resultPage = new PageImpl<>(combinedList.subList(start, end), pageable, combinedList.size());
 
-    return new PageResultDTO<>(resultPage, this::entityToDto);
+        return new PageResultDTO<>(resultPage, this::entityToDto);
 
-}
+    }
 
-    public long countAll(){
+    public long countAll() {
         return pRepsitory.count();
+    }
+
+    public Product save(Product product){
+        return pRepsitory.save(product);
     }
 
 }

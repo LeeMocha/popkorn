@@ -19,19 +19,8 @@ const Product = ({ currCategoryl, currCategorym, servData }) => {
                                         servData.map((item, index) => {
                                             if (item.categoryl === 'album') {
                                                 return <Slot2 key={index} item={item} index={index} />
-                                            }
-                                        }
-                                        )
-                                    }
-                                </div>
-                            </div>
-                            <div className="pruduct_photo_wrap">
-                                <span className="pruduct_album_wrap_span"><i className="xi-camera"></i> PHOTO</span>
-                                <div className="pruduct_album_wrap_slot">
-                                    {
-                                        servData.map((item, index) => {
-                                            if (item.categoryl === 'photo') {
-                                                return <Slot2 key={index} item={item} index={index} />
+                                            } else{
+                                                return null
                                             }
                                         }
                                         )
@@ -45,6 +34,23 @@ const Product = ({ currCategoryl, currCategorym, servData }) => {
                                         servData.map((item, index) => {
                                             if (item.categoryl === 'goods') {
                                                 return <Slot2 key={index} item={item} index={index} />
+                                            } else{
+                                                return null
+                                            }
+                                        }
+                                        )
+                                    }
+                                </div>
+                            </div>
+                            <div className="pruduct_photo_wrap">
+                                <span className="pruduct_album_wrap_span"><i className="xi-camera"></i> PHOTO</span>
+                                <div className="pruduct_album_wrap_slot">
+                                    {
+                                        servData.map((item, index) => {
+                                            if (item.categoryl === 'photo') {
+                                                return <Slot2 key={index} item={item} index={index} />
+                                            } else{
+                                                return null
                                             }
                                         }
                                         )
