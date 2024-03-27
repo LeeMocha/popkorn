@@ -1,4 +1,5 @@
 import Orderproduct from './Orderproduct/Orderproduct';
+import Header from '../header/Header';
 
 import './Order.css';
 import { useEffect } from 'react';
@@ -68,50 +69,53 @@ export default function Order() {
     }
 
     return (
-        <div className='orderBox'>
-            <h1 style={{ color: ' #b2ecfd' }}>Oder</h1>
-            <div className='orderWindow'>
-                <div>
-                    <h3>Shipping Address</h3>
-                    <div className="shippingAddressBox">
-                        <p>Country/Region</p>
-                        <select value='country' >
-                            <option value=''>Country Selection</option>
-                            <option value='South Korea'>South Korea</option>
-                            <option value='United States'>United States</option>
-                            <option value='Japan'>Japan</option>
-                            <option value=''></option>
-                            <option value=''></option>
-                        </select>
-                        <p>City</p>
-                        <input type="text" ></input>
-                        <p>Address1</p>
-                        <input type="text"></input>
-                        <p>Address2</p>
-                        <input type="text"></input>
-                        <p>Zip code</p>
-                        <input type="text"></input>
+        <>
+            <Header />
+            <div className='orderBox'>
+                <h1 style={{ color: ' #b2ecfd' }}>Oder</h1>
+                <div className='orderWindow'>
+                    <div>
+                        <h3>Shipping Address</h3>
+                        <div className="shippingAddressBox">
+                            <p>Country/Region</p>
+                            <select value='country' >
+                                <option value=''>Country Selection</option>
+                                <option value='South Korea'>South Korea</option>
+                                <option value='United States'>United States</option>
+                                <option value='Japan'>Japan</option>
+                                <option value=''></option>
+                                <option value=''></option>
+                            </select>
+                            <p>City</p>
+                            <input type="text" ></input>
+                            <p>Address1</p>
+                            <input type="text"></input>
+                            <p>Address2</p>
+                            <input type="text"></input>
+                            <p>Zip code</p>
+                            <input type="text"></input>
+                        </div>
+                    </div>
+                    <div className='OrderInformationMain'>
+                        <h3>Order Information</h3>
+                        <div className="orderInformationbox">
+                            <p>Full Name</p>
+                            <input type="text"></input>
+                            <p>Email</p>
+                            <input type="text"></input>
+                            <p>Phone</p>
+                            <input type="text"></input>
+                            <p>Use Reword</p>
+                            <input type="checkbox"></input>
+                        </div >
+                        <h3>PaymentMethod</h3>
+                        <div className="paymentMethodMain">
+                            <button type='button' onClick={onClickPayment}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
+                        </div>
                     </div>
                 </div>
-                <div className='OrderInformationMain'>
-                    <h3>Order Information</h3>
-                    <div className="orderInformationbox">
-                        <p>Full Name</p>
-                        <input type="text"></input>
-                        <p>Email</p>
-                        <input type="text"></input>
-                        <p>Phone</p>
-                        <input type="text"></input>
-                        <p>Use Reword</p>
-                        <input type="checkbox"></input>
-                    </div >
-                    <h3>PaymentMethod</h3>
-                    <div className="paymentMethodMain">
-                        <button type='button' onClick={onClickPayment}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
-                    </div>
-                </div>
+                <Orderproduct items={items} />
             </div>
-            <Orderproduct items={items} />
-        </div>
+        </>
     );
 }

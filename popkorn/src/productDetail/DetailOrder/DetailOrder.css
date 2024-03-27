@@ -2,7 +2,11 @@
     width: 420px;
     color: rgb(77, 76, 76);
     margin-left: 25px;
-    padding-top: 45px;
+    padding-top: 65px;
+}
+
+#optionselect>option:nth-child(1) {
+    display: none;
 }
 
 .mainButton {
