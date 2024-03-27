@@ -33,7 +33,9 @@ import com.teamstatic.popkornback.service.impls.UserServiceImple;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -201,43 +203,36 @@ public class UserController {
     }
 
     @PostMapping("/passwordcheck")
-public ResponseEntity<Boolean> passwordcheck(HttpSession session, @RequestParam String currentpw) {
-    // 세션에서 사용자 ID 가져오기
-    String userId = (String) session.getAttribute("loginID");
-    
-    if (userId != null) {
-        // 사용자 ID를 사용하여 데이터베이스에서 사용자 정보 가져오기
-        Optional<User> userOptional = uservice.findById(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            // 사용자 비밀번호 확인
-            boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
-            return ResponseEntity.ok(passwordMatch);
+    public ResponseEntity<Boolean> passwordcheck(HttpSession session, @RequestParam String currentpw) {
+        // 세션에서 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("loginID");
+
+        if (userId != null) {
+            Optional<User> userOptional = uservice.findById(userId);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
+                return ResponseEntity.ok(passwordMatch);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+            }
         } else {
-            // 사용자를 찾을 수 없음
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
         }
-    } else {
-        // 세션에 사용자 ID가 없음
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
     }
-}
 
-@PostMapping("/redesignpassword")
-public ResponseEntity<String> redesignpassword(HttpSession session, @RequestParam String newpassword) {
+    @PostMapping("/redesignpassword")
+    public ResponseEntity<String> redesignpassword(HttpSession session, @RequestParam String newpassword) {
 
-    String userId = (String) session.getAttribute("loginID");
-    
-    if (userId != null) {
-        Optional<User> userOptional = uservice.findById(userId);
-        if (userOptional.isPresent()) {
+        String userId = (String) session.getAttribute("loginID");
+
+        if (userId != null) {
+            Optional<User> userOptional = uservice.findById(userId);
             User user = userOptional.get();
             String encodedPassword = passwordEncoder.encode(newpassword);
             user.setPassword(encodedPassword);
-            
             try {
                 uservice.save(user);
-                session.invalidate();
                 return ResponseEntity.ok("비밀번호 변경 성공");
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
@@ -245,9 +240,39 @@ public ResponseEntity<String> redesignpassword(HttpSession session, @RequestPara
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
-    } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션에 사용자 ID가 없습니다.");
     }
-}
 
+    @PostMapping("/updatenickname")
+    public ResponseEntity<String> updatenickname(HttpSession session, @RequestParam String email,
+            @RequestParam String nickname) {
+        Optional<User> userOptional = uservice.findById(email);
+        User user = userOptional.get();
+        user.setNickname(nickname);
+        try {
+            uservice.save(user);
+            return ResponseEntity.ok(user.getNickname());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임 변경 실패");
+        }
+    }
+
+    @GetMapping("/{email}/nickname")
+    public ResponseEntity<String> getUserNickname(@PathVariable String email) {
+        Optional<User> userOptional = uservice.findById(email);
+        User user = userOptional.get();
+        return ResponseEntity.ok(user.getNickname());
+    }
+
+    @DeleteMapping("/withdraw")
+public ResponseEntity<String> withdraw(HttpSession session) {
+    String userId = (String) session.getAttribute("loginID");
+
+        try {
+            uservice.deleteById(userId);
+            session.invalidate();
+            return ResponseEntity.ok("회원 탈퇴 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴중 오류 발생");
+        }
+    }
 }

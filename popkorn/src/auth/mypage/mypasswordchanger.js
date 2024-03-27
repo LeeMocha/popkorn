@@ -58,6 +58,7 @@ export default function Mypasswordchanger() {
                     return false;
                 }
             };
+            
             const handlePasswordCheck = async () => {
                     const isPasswordMatch = await passwordcheck(currentpw);
                     if (isPasswordMatch) {
@@ -81,10 +82,6 @@ export default function Mypasswordchanger() {
                             console.error('오류 발생:', error);
                         }
                     };
-
-        const scrollToTop = () => {
-                window.scrollTo(0, 0);
-        };
 
         return (
                 <div className="passwordchangerwhole">
