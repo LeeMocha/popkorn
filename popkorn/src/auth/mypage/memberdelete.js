@@ -14,7 +14,12 @@ export const Memberdelete = () => {
 
     const withdrawalvali = () => {
         if (withdrawalinput === withdrawalkeyword) {
-            alert("Withdrawal Procedure Complete. Thank you for using PopKorn.");
+            if (window.confirm('Are you really withdraw Popkorn ID?')) {
+                alert("Withdrawal Procedure Complete. Thank you for using PopKorn.");
+                return true;
+            } else 
+            alert('Withdrawal Procedure Cancel.')
+            return false;
         }
     }
 
@@ -80,9 +85,7 @@ const withdraw = async () => {
                     onChange={withdrawalcheck}
                     placeholder='input the same message above' />
             </div>
-            <Link to='/' onClick={scrollToTop}>
-                <button className='withdrawal-completebtn' onClick={() => {withdrawalvali(); withdraw();}} disabled={withdrawalinput !== withdrawalkeyword}>Withdrawal Complete</button>
-            </Link>
+                <button className='withdrawal-completebtn' onClick={() => {withdrawalvali() && withdraw()}} disabled={withdrawalinput !== withdrawalkeyword}>Withdrawal Complete</button>
         </div>
 
     );

@@ -66,7 +66,7 @@ export const Resetpassword = ({ backprocess, resetprocess, emailinput, pwinput }
             placeholder="New Password"
             value={newpassword}
             onChange={pwvalidationhandle}
-            maxLength={16}
+            maxLength="16"
           />
           <button onClick={toggleShowpw} className='toggleshow' type='button'>
             {showpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
@@ -90,7 +90,7 @@ export const Resetpassword = ({ backprocess, resetprocess, emailinput, pwinput }
             placeholder="Confirm Password"
             value={pwconfirm}
             onChange={pwconfirmHandler}
-            maxLength={16}
+            maxLength="16"
           />
           <button onClick={toggleShowcheckpw} className='toggleshow' type='button'>
             {showcheckpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>

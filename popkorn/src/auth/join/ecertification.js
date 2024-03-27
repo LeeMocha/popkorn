@@ -69,6 +69,7 @@ export default function Ecertification(props) {
                     placeholder="Certification Code"
                     value={ecertificationcode}
                     onChange={certificationhandle}
+                    maxLength={12}
                 />
             </form>
             {(ecertificationcode !== mailcode || ecertificationcode.length < 1) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} />

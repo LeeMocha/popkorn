@@ -10,7 +10,7 @@ const Myaccountinfo = () => {
 
   // 이메일이 변경되었을 때 실행되는 useEffect
   useEffect(() => {
-    const fetchNickname = async () => {
+    const checkNickname = async () => {
       try {
         const response = await axios.get(`/api/user/${email}/nickname`);
         if (response.status === 200) {
@@ -25,7 +25,7 @@ const Myaccountinfo = () => {
 
     // 이메일이 유효한 경우에만 닉네임 가져오기 요청
     if (email) {
-      fetchNickname();
+      checkNickname();
     }
   }, [email]); // email이 변경될 때마다 실행
 
@@ -58,7 +58,22 @@ const Myaccountinfo = () => {
       <div className="account-header">
         My Account Information
       </div>
-      <button onClick={() => { !editMode ? toggleEditMode() : toggleEditMode(); updatenickname(); }} className='toggleupdate'>{editMode ? 'Save' : 'Modify'}</button>
+      <button 
+    onClick={() => { 
+        
+            if (nickname.length >= 6 && nickname.length <= 12) {
+                toggleEditMode();
+                updatenickname();
+            } else {
+                alert('닉네임은 6자 이상, 12자 이하여야 합니다.');
+            }
+        
+    }} 
+    className='toggleupdate' 
+    disabled={!(nickname.length >= 6 && nickname.length <= 12)}>
+    {editMode ? 'Save' : 'Modify'}
+</button>
+
 
       <div className='accountemail'>
         Email &nbsp;
@@ -70,7 +85,7 @@ const Myaccountinfo = () => {
       <div className='accountnickname'>
         Nickname &nbsp;
         {editMode ? (
-          <input value={nickname} onChange={handleNicknameChange} className='editnickname' />
+          <input value={nickname} onChange={handleNicknameChange} className='editnickname' maxLength={12} minLength={6}/>
         ) : (
           <span>{nickname}</span>
         )}

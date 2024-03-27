@@ -179,6 +179,7 @@ export const EmailCheck = () => {
                 value={pwinput}
                 onChange={handlePasswordChange}
                 onKeyDown={handleKeyPress}
+                maxLength="16"
               />
 
               <button onClick={toggleShowpw} className='toggleshow'>
