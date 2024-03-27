@@ -34,7 +34,8 @@ export const MyPageMain = (Props) => {
             <Header/>
             <div className="accountinfo">
                 <div className='accountcontent'>
-                    {sessionStorage.getItem('loginID')}<br />
+                    {sessionStorage.getItem('loginID')}<br/>
+                    
                     <br />
                 </div>
             </div>
