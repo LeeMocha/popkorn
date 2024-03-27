@@ -6,9 +6,9 @@ import Orderlist from './orderlist';
 import Memberdelete from './memberdelete';
 import Customerservice from './customerservice';
 import { Link } from 'react-router-dom';
-import Footer from '../footer';
 import Mypagebasic from './mypagebasic';
 import Header from '../../header/Header';
+import Footer from '../../footer/Footer';
 
 export const MyPageMain = (Props) => {
     const [showpage, setShowpage] = useState('');
@@ -34,7 +34,7 @@ export const MyPageMain = (Props) => {
             <Header/>
             <div className="accountinfo">
                 <div className='accountcontent'>
-                    {Props.emailinput}<br />
+                    {sessionStorage.getItem('loginID')}<br />
                     <br />
                 </div>
             </div>

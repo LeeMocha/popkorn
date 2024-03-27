@@ -1,5 +1,9 @@
 package com.teamstatic.popkornback.domain;
 
+
+import org.hibernate.annotations.CreationTimestamp;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +22,7 @@ public class UserDTO {
     private String password;
     private String nickname;
     private int reword;
+    @CreationTimestamp
     private String createdate;
     private String status;
 }

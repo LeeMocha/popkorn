@@ -1,13 +1,13 @@
 import { useState } from "react";
 import './mypasswordchange.css';
 import { charRegex, specialRegex, letterRegex, numRegex } from "../join/joinRegex";
-import { Link } from "react-router-dom";
-
+import axios from "axios";
 export default function Mypasswordchanger() {
 
-        const [passwordrecheck, SetPasswordrecheck] = useState('1');
+        const [passwordrecheck, SetPasswordrecheck] = useState(1);
         const [showpw, setShowpw] = useState(false);
         const [pwconfirm, setpwconfirm] = useState('');
+        const [currentpw, setCurrentpw] = useState('');
         const [newpassword, setNewpassword] = useState('');
 
         const pwvalidationhandle = (e) => {
@@ -35,13 +35,53 @@ export default function Mypasswordchanger() {
                 setpwconfirm(e.target.value);
         }
 
-        const pwupdatecomple = () => {
-                alert('비밀번호 변경 완료. 재로그인해주세요.');
-        };
+        const cupwconfirmHandler = (e) => {
+                setCurrentpw(e.target.value);
+        }
 
-        const scrollToTop = () => {
-                window.scrollTo(0, 0); 
-        };
+        const passwordcheck = async (currentpw) => {
+                try {
+                    const response = await axios.post('/api/user/passwordcheck', null, {
+                        params: {
+                            currentpw: currentpw
+                        }
+                    });
+                    if (response.status === 200 && response.data === true) {
+                        console.log('비밀번호 일치');
+                        return true;
+                    } else {
+                        console.log('비밀번호 불일치');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('오류 발생:', error);
+                    return false;
+                }
+            };
+            
+            const handlePasswordCheck = async () => {
+                    const isPasswordMatch = await passwordcheck(currentpw);
+                    if (isPasswordMatch) {
+                        pwrecheckcomple();
+                    } else {
+                        alert('비밀번호가 일치하지 않습니다.')
+                    }
+                };
+            
+                const redesignpassword = async () => {
+                        try {
+                            const response = await axios.post('/api/user/redesignpassword', null, { params: { newpassword: newpassword } });
+                            if (response.status === 200) {
+                                alert('비밀번호 변경 완료. 재로그인해주세요.');
+                                sessionStorage.removeItem('loginID');
+                                window.location.href="/";
+                            } else {
+                                console.log('비밀번호 변경 실패');
+                            }
+                        } catch (error) {
+                            console.error('오류 발생:', error);
+                        }
+                    };
 
         return (
                 <div className="passwordchangerwhole">
@@ -58,11 +98,15 @@ export default function Mypasswordchanger() {
                                                 <input type={showpw === false ? "password" : "text"}
                                                         maxLength={16}
                                                         minLength={8}
+                                                        value={currentpw}
                                                         className="currentpasswordinput"
+                                                        onChange={cupwconfirmHandler}
                                                 />
                                                 <button onClick={toggleShowpw} className='toggleshowpw'>
                                                         {showpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
-                                                <button onClick={pwrecheckcomple}><i className="xi-send" /></button>
+                                                        <button onClick={handlePasswordCheck}><i className="xi-send" /></button>
+
+
 
                                         </div>
                                 </>
@@ -112,9 +156,7 @@ export default function Mypasswordchanger() {
                                                         : newpassword === pwconfirm && pwconfirm.length > 7 ? "Password matching"
                                                                 : pwfinalcheck() && newpassword !== pwconfirm ? "Password mismatch" : null}
                                                 </div> </div>
-                                        <Link to='/' onClick={scrollToTop}>
-                                                <button onClick={pwupdatecomple} className="resetpwconfirm" disabled={!(newpassword === pwconfirm && pwconfirm.length > 7)}>Change Password</button>
-                                        </Link>
+                                        <button onClick={redesignpassword} className="resetpwconfirm" disabled={!(newpassword === pwconfirm && pwconfirm.length > 7)}>Change Password</button>
                                 </div>
                         }
                 </div >
