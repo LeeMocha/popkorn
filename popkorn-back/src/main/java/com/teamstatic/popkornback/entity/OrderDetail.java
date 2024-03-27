@@ -19,11 +19,11 @@ public class OrderDetail {
    
    @Id
    private int odcode;
-   private String merchantUid;
-   private int pcode;
-   private String productname;
-   private int count;
-   private String alternative;
-   private String image1;
+   private String merchantUid;   // response 에서 꺼내면 됨
+   private int pcode;            // items 에서 꺼내면 됨
+   private String productname;   // items 에서 꺼내면 됨
+   private int count;            // items 에서 꺼내면 됨
+   private String alternative;   // items 에서 꺼내면 됨
+   private String image1;        // items 에서 꺼내면 됨
 
 }
