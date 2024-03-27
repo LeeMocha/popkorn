@@ -53,7 +53,7 @@ export default function Order() {
         const toImpData = {
             pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
             pay_method: "card", // 결제수단
-            merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+            merchant_uid: `pop_${new Date().getTime()}`, // 주문번호
             amount: 100, // 결제금액
             buyer_name: data.buyer_name, // 구매자 이름
             buyer_tel: data.buyer_tel, // 구매자 전화번호
@@ -67,22 +67,17 @@ export default function Order() {
     };
 
     function callback(response) {
-        const { success, error_msg, imp_uid } = response;
+        const { success, error_msg } = response;
         if (success) {
             alert("결제 성공");
-            console.log(response)
-            sendImpUidToServer(imp_uid);
-            sendDataToServer(response)
+            sendImpUidToServer(response.imp_uid, items);
         } else {
             alert(`결제 실패: ${error_msg}`);
         }
     }
 
-
-    function sendImpUidToServer(imp_uid) {
-        fetch(`/api/pay/datatoserver/${imp_uid}`, {
-            method: 'GET',
-        })
+    function sendImpUidToServer(imp_uid, items) {
+        axios.post(`/api/pay/datatoserver`,{imp_uid, items})
             .then(response => {
                 console.log(response);
             })
@@ -90,9 +85,20 @@ export default function Order() {
                 console.log(error);
             });
     }
-    const sendDataToServer = (response) => {
-        axios.post(`/api/orderdetail`)
-    }
+
+    // const sendDataToServer = (response) => {
+
+    //     items.map((_, i) => {
+    //         items[i] = { ...items[i], merchantUid: response.merchant_uid }
+    //     })
+
+    //     axios.post(`/api/orderdetail/saveOrderDetail`, items)
+    //         .then(response => {
+    //             console.log(response.data)
+    //         }).catch(err => {
+    //             console.log(err)
+    //         })
+    // }
 
     const setDataHandler = useCallback((e) => {
         data[e.target.name] = e.target.value;

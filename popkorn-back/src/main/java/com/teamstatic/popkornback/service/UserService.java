@@ -1,13 +1,9 @@
 package com.teamstatic.popkornback.service;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import com.teamstatic.popkornback.entity.User;
 import com.teamstatic.popkornback.domain.PageRequestDTO;

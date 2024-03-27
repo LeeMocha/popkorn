@@ -16,8 +16,11 @@ const Product = ({ currCategoryl, currCategorym, servData }) => {
                                 <span className="pruduct_album_wrap_span"><i className="xi-album"></i> ALBUM</span>
                                 <div className="pruduct_album_wrap_slot">
                                     {
-                                        servData.map((item, index) =>
-                                            <Slot2 key={index} item={item} index={index} />
+                                        servData.map((item, index) => {
+                                            if (item.categoryl === 'album') {
+                                                return <Slot2 key={index} item={item} index={index} />
+                                            }
+                                        }
                                         )
                                     }
                                 </div>
@@ -26,25 +29,31 @@ const Product = ({ currCategoryl, currCategorym, servData }) => {
                                 <span className="pruduct_album_wrap_span"><i className="xi-camera"></i> PHOTO</span>
                                 <div className="pruduct_album_wrap_slot">
                                     {
-                                        servData.map((item, index) =>
-                                            <Slot2 key={index} item={item} index={index} />
+                                        servData.map((item, index) => {
+                                            if (item.categoryl === 'photo') {
+                                                return <Slot2 key={index} item={item} index={index} />
+                                            }
+                                        }
                                         )
                                     }
                                 </div>
                             </div>
                             <div className="pruduct_goods_wrap">
-                                <span className="pruduct_album_wrap_span"><i className="xi-gift-o"></i> GODDS</span>
+                                <span className="pruduct_album_wrap_span"><i className="xi-gift-o"></i> GOODS</span>
                                 <div className="pruduct_album_wrap_slot">
                                     {
-                                        servData.map((item, index) =>
-                                            <Slot2 key={index} item={item} index={index} />
+                                        servData.map((item, index) => {
+                                            if (item.categoryl === 'goods') {
+                                                return <Slot2 key={index} item={item} index={index} />
+                                            }
+                                        }
                                         )
                                     }
                                 </div>
                             </div>
                         </>
                         :
-                        <SubProduct servData={servData}/>
+                        <SubProduct servData={servData} />
                 }
             </div>
         </>

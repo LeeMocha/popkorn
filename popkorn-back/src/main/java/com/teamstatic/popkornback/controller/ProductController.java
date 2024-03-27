@@ -41,15 +41,30 @@ public class ProductController {
     @GetMapping("/findByCategorylAndCategorym")
     public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
             int page) {
-        PageRequestDTO requestDTO = PageRequestDTO.builder()
-                .page(page)
-                .size(20)
-                .categoryl(categoryl)
-                .categorym(categorym)
-                .build();
-        PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
-                requestDTO);
-        return resultDTO;
+
+
+        if(categoryl.equals("new")){
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+            .page(page)
+            .size(8)
+            .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findNewAll(requestDTO);
+            return resultDTO;
+
+        } else {
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+            .page(page)
+            .size(20)
+            .categoryl(categoryl)
+            .categorym(categorym)
+            .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
+                    requestDTO);
+            return resultDTO;
+        }
+
     }
 
     @GetMapping("/selectoption")
