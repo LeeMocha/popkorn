@@ -1,0 +1,126 @@
+.orderlistcontainer {
+  border: 2px solid rgba(214, 212, 212, 0.5);
+  border-radius: 25px;
+  margin-top: 50px;
+  width: 550px;
+  height: 220px;
+  padding: 20px;
+}
+
+.orderdetailscontainer {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 20px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  margin-top: 50px;
+  width: 550px;
+  height: 350px;
+}
+
+.orderlist1st {
+  display: flex;
+  height: 30px;
+}
+
+.orderdetaildate {
+  width: 300px;
+  font-size: 17px;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.orderdetailcheck {
+  margin-left: 80px;
+}
+
+.orderdetailpcode {
+  width: 300px;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.orderlist2nd {
+  margin-top: 10px;
+  display: flex;
+  height: 150px;
+}
+
+.orderdetailimg {
+  width: 300px;
+  height: 140px;
+  padding-left: 10px;
+}
+
+.orderdetailproductinfo {
+  width: 300px;
+  height: 150px;
+  padding-left: 10px;
+}
+
+.orderdetailcustomerinfo {
+  display: flex;
+  width: 100%;
+  height: 130px;
+}
+
+.orderlist3rd {
+  display: flex;
+}
+
+.orderdetailprice {
+
+}
+
+.orderdetailreturnrequest {
+  border: 1px gray solid;
+  border-radius: 25px;
+  background-color: white;
+  width: 160px;
+  height: 40px;
+  margin-right: 160px;
+  margin-left: 30px;
+}
+
+.orderdetailservice {
+  border: 1px gray solid;
+  border-radius: 25px;
+  background-color: white;
+  width: 160px;
+  height: 40px;
+  margin-right: 30px;
+}
+
+.orderpopup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  font-size: 50px;
+  cursor: pointer;
+  color: white;
+}
+
+.popup-close-btn:hover {
+  color: black;
+}
+
+.termsheader {
+  font-size: 25px;
+}

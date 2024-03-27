@@ -6,6 +6,7 @@ export default function Mypasswordchanger() {
 
         const [passwordrecheck, SetPasswordrecheck] = useState(1);
         const [showpw, setShowpw] = useState(false);
+        const [showconfirmpw, setShowconfirmpw] = useState(false);
         const [pwconfirm, setpwconfirm] = useState('');
         const [currentpw, setCurrentpw] = useState('');
         const [newpassword, setNewpassword] = useState('');
@@ -27,6 +28,10 @@ export default function Mypasswordchanger() {
                 showpw === false ? setShowpw(true) : setShowpw(false);
         }
 
+        const toggleShowconfirmpw = () => {
+                showconfirmpw === false ? setShowconfirmpw(true) : setShowconfirmpw(false);
+        }
+
         const pwrecheckcomple = () => {
                 SetPasswordrecheck(passwordrecheck + 1);
         }
@@ -41,47 +46,48 @@ export default function Mypasswordchanger() {
 
         const passwordcheck = async (currentpw) => {
                 try {
-                    const response = await axios.post('/api/user/passwordcheck', null, {
-                        params: {
-                            currentpw: currentpw
+                        const response = await axios.post('/api/user/passwordcheck', null, {
+                                params: {
+                                        currentpw: currentpw
+                                }
+                        });
+                        if (response.status === 200 && response.data === true) {
+                                console.log('비밀번호 일치');
+                                setShowpw(false);
+                                return true;
+                        } else {
+                                console.log('비밀번호 불일치');
+                                return false;
                         }
-                    });
-                    if (response.status === 200 && response.data === true) {
-                        console.log('비밀번호 일치');
-                        return true;
-                    } else {
-                        console.log('비밀번호 불일치');
-                        return false;
-                    }
                 } catch (error) {
-                    console.error('오류 발생:', error);
-                    return false;
+                        console.error('오류 발생:', error);
+                        return false;
                 }
-            };
-            
-            const handlePasswordCheck = async () => {
-                    const isPasswordMatch = await passwordcheck(currentpw);
-                    if (isPasswordMatch) {
+        };
+
+        const handlePasswordCheck = async () => {
+                const isPasswordMatch = await passwordcheck(currentpw);
+                if (isPasswordMatch) {
                         pwrecheckcomple();
-                    } else {
+                } else {
                         alert('비밀번호가 일치하지 않습니다.')
-                    }
-                };
-            
-                const redesignpassword = async () => {
-                        try {
-                            const response = await axios.post('/api/user/redesignpassword', null, { params: { newpassword: newpassword } });
-                            if (response.status === 200) {
+                }
+        };
+
+        const redesignpassword = async () => {
+                try {
+                        const response = await axios.post('/api/user/redesignpassword', null, { params: { newpassword: newpassword } });
+                        if (response.status === 200) {
                                 alert('비밀번호 변경 완료. 재로그인해주세요.');
                                 sessionStorage.removeItem('loginID');
-                                window.location.href="/";
-                            } else {
+                                window.location.href = "/";
+                        } else {
                                 console.log('비밀번호 변경 실패');
-                            }
-                        } catch (error) {
-                            console.error('오류 발생:', error);
                         }
-                    };
+                } catch (error) {
+                        console.error('오류 발생:', error);
+                }
+        };
 
         return (
                 <div className="passwordchangerwhole">
@@ -104,10 +110,7 @@ export default function Mypasswordchanger() {
                                                 />
                                                 <button onClick={toggleShowpw} className='toggleshowpw'>
                                                         {showpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
-                                                        <button onClick={handlePasswordCheck}><i className="xi-send" /></button>
-
-
-
+                                                <button onClick={handlePasswordCheck}><i className="xi-send" /></button>
                                         </div>
                                 </>
                                 :
@@ -141,14 +144,14 @@ export default function Mypasswordchanger() {
                                         </div>
                                         <div className="newpasswordreset">
                                                 New Password Confirm
-                                                <input type={showpw === false ? "password" : "text"}
+                                                <input type={showconfirmpw === false ? "password" : "text"}
                                                         maxLength={16}
                                                         minLength={8}
                                                         className="newpasswordresetinput"
                                                         onChange={pwconfirmHandler}
                                                 />
-                                                <button onClick={toggleShowpw} className='toggleshowpw'>
-                                                        {showpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
+                                                <button onClick={toggleShowconfirmpw} className='toggleshowpw'>
+                                                        {showconfirmpw === false ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
                                                 <div className="pwvalid5" style={{
                                                         color: !charRegex(newpassword) || !specialRegex(newpassword) || !letterRegex(newpassword) || !numRegex(newpassword) ? "#fe7cf3"
                                                                 : newpassword === pwconfirm && pwconfirm.length > 7 ? "#7de4ff" : "#fe7cf3"
