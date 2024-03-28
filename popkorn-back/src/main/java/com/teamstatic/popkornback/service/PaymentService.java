@@ -1,8 +1,12 @@
 package com.teamstatic.popkornback.service;
 
-import com.teamstatic.popkornback.entity.Payment;
+import java.util.List;
+
+import com.siot.IamportRestClient.response.Payment;
+import com.teamstatic.popkornback.entity.OrderDetail;
 
 public interface PaymentService {
     
-    Payment savePaymentData (Payment payment);
+    void savePaymentData(List<OrderDetail> orderDetail, Payment payment, String id);
+
 }
