@@ -6,14 +6,13 @@ import PopkornBtn from '../../useModules/PopkornBtn'
 import "./DetailOrder.css";
 import { Logincontext } from './../../App';
 import axios from 'axios';
-import Order from './../../order/Order';
 
 export default function DetailOrder() {
     const Location = useLocation();
     const pData = Location.state.item; // Object Type으로 전달 받음.
     const [pcode, setPcode] = useState(0);
-    const [cnt, setCnt] = useState(1);
-    const [totalcnt, setTotalcnt] = useState(pData.price);
+    const [cnt, setCnt] = useState(0);
+    const [totalcnt, setTotalcnt] = useState(0);
     const [selectOption, setSelectOption] = useState("");
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
@@ -37,12 +36,18 @@ export default function DetailOrder() {
     }
 
     const optionHandler = (e) => {
-        if (e.target.selectedIndex) {
-            setSelectOption(e.target.value)
-            setPcode(alternative[e.target.selectedIndex - 1].pcode)
+        const selectedValue = e.target.value; // 선택된 옵션의 값
+        const selectedItem = alternative.find(item => item.pcode === parseInt(selectedValue)); // 선택된 값에 해당하는 아이템 찾기
+    
+        if (selectedItem) {
+            setSelectOption(selectedItem.alternative);
+            setPcode(e.target.value)
+        }else{
+            setSelectOption("");
+            setCnt(0);
+            setTotalcnt(0);
         }
     }
-
 
     const deleteHandler = (e) => {
         setTotalcnt(pData.price); // 삭제시 원가격으로 초기화
@@ -104,7 +109,7 @@ export default function DetailOrder() {
             .then((response) => {
                 setAlternative(response.data);
             }).catch(err => console.log(err));
-    }, [])
+    }, [pData.productname])
 
     return (
         <div>
@@ -115,12 +120,12 @@ export default function DetailOrder() {
                     <h2>￦{pData.price.toLocaleString()}</h2>
                 </div>
                 <select id='optionselect' onChange={optionHandler}>
-                    <option>Please select an option</option>
+                    <option value={-1}>Please select an option.</option>
                     {alternative.map((item, index) => (
-                        <option key={index} value={item.alternative}>{item.alternative}</option>
+                        <option key={index} value={item.pcode}>{item.alternative}</option>
                     ))}
                 </select>
-                {selectOption &&
+                {selectOption && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
                         <button type="button" className='mainButton1' onClick={cntMinusHandler}>-</button>
@@ -128,7 +133,7 @@ export default function DetailOrder() {
                         <button type="button" className='mainButton1' onClick={cntPlusHandler}>+</button>
                         <button type="button" className='deletButton' onClick={deleteHandler}>x</button>
                     </div>
-                }
+                )}
                 <div className='total'>
                     <h3>Total({cnt})</h3>
                     <h2>￦{totalcnt.toLocaleString()}</h2>

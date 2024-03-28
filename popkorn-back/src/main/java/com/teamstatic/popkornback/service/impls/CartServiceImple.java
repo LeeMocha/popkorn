@@ -3,7 +3,7 @@ package com.teamstatic.popkornback.service.impls;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.teamstatic.popkornback.entity.Cart;
 import com.teamstatic.popkornback.repository.CartRepository;
@@ -29,9 +29,9 @@ public class CartServiceImple implements CartService {
         return cRepository.save(entity);
     }
 
-    public void deleteItems(List<Integer> itemIds) {
-        for (Integer itemId : itemIds) {
-            cRepository.deleteById(itemId);
-        }
+    @Transactional
+    public int deleteByIdAndPcode(String id, int pcode){
+        return cRepository.deleteByIdAndPcode(id, pcode);
     }
+
 }

@@ -15,6 +15,14 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
 
     List<Product> findByProductname(String productname);
 
+    @Query(value = "SELECT * FROM product WHERE pcode IN (SELECT MIN(pcode) FROM product WHERE categoryl = 'album' GROUP BY productname) ORDER BY receiptdate DESC", nativeQuery = true)
+    Page<Product> findNewAlbum(Pageable pageable);
+
+    @Query(value = "SELECT * FROM product WHERE pcode IN (SELECT MIN(pcode) FROM product WHERE categoryl = 'photo' GROUP BY productname) ORDER BY receiptdate DESC", nativeQuery = true)
+    Page<Product> findNewPhoto(Pageable pageable);
+
+    @Query(value = "SELECT * FROM product WHERE pcode IN (SELECT MIN(pcode) FROM product WHERE categoryl = 'goods' GROUP BY productname) ORDER BY receiptdate DESC", nativeQuery = true)
+    Page<Product> findNewGoods(Pageable pageable);
 
     @Query("SELECT p " +
     "FROM Product p " +
@@ -24,5 +32,7 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
                     "WHERE p2.artist = :artist " +
                     "GROUP BY p2.productname)")
     List<Product> findFirstProductByArtist(String artist);
+
+    Product findByPcode(int pcode);
 
 }

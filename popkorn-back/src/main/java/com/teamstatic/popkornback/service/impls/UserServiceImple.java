@@ -1,21 +1,12 @@
 package com.teamstatic.popkornback.service.impls;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.stereotype.Service;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
@@ -93,7 +84,6 @@ public class UserServiceImple implements UserService{
     }
 
 		public User save(User user) {
-			
 			return uRepository.save(user);
 	}
 

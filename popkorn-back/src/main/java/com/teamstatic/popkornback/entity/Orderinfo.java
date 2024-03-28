@@ -12,13 +12,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="payment")
+@Table(name="orderinfo")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
-public class Payment {
+public class Orderinfo {
     
     @Id
     private String merchantUid;

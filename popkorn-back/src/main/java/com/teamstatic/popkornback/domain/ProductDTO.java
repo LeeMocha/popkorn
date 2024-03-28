@@ -1,4 +1,6 @@
 package com.teamstatic.popkornback.domain;
+import javax.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +14,7 @@ import lombok.ToString;
 @Data
 public class ProductDTO {
     
+    @Id
     private int pcode;
     private String productname;
     private String artist;
