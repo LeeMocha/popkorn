@@ -11,4 +11,6 @@ public interface CartService {
     Cart findByIdAndPcode(String id, int pcode);
 
     Cart save(Cart entity);
+
+    int deleteByIdAndPcode(String id, int pcode);
 }

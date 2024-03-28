@@ -20,6 +20,12 @@ public interface ProductService {
 
     long countAll();
 
+    Product save(Product product);
+
+    public Product findByPcode(int pcode);
+
+    PageResultDTO<ProductDTO, Product> findNewAll(PageRequestDTO requestDTO);
+
     default Product dtoToEntity(ProductDTO dto) {
         return Product.builder()
                 .pcode(dto.getPcode())
