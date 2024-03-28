@@ -46,6 +46,7 @@ export default function CategoryS({currCategoryl, setCurrCategorym, setServData}
         axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${categorym}&page=1`)
         .then(response => {
             setServData(response.data.dtoList)
+            console.log(response.data.dtoList)
         }).catch(err => {
             console.log(err)
         })

@@ -17,7 +17,6 @@ export default function DetailOrder() {
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
     const [alternative, setAlternative] = useState([]);
-    const [items, setItems] = useState([]);
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
@@ -38,11 +37,12 @@ export default function DetailOrder() {
     const optionHandler = (e) => {
         const selectedValue = e.target.value; // 선택된 옵션의 값
         const selectedItem = alternative.find(item => item.pcode === parseInt(selectedValue)); // 선택된 값에 해당하는 아이템 찾기
-    
+
         if (selectedItem) {
             setSelectOption(selectedItem.alternative);
-            setPcode(e.target.value)
-        }else{
+            setPcode(e.target.value);
+            pData.price = selectedItem.price;
+        } else {
             setSelectOption("");
             setCnt(0);
             setTotalcnt(0);
@@ -80,32 +80,32 @@ export default function DetailOrder() {
             }
         } else {
             window.confirm("Do you want to log in and use it?");
-            addCart();
             navigate('/authMain');
         }
     }
 
     function orderConfirm() {
-        if (isLoggedIn) {
-            if (selectOption.length === 0) {
-                window.confirm("Please select an option");
-            } else {
-                window.confirm("Do you want add into Order")
-                items[0] = [{
-                    ...pData,
+        if (selectOption.length === 0) {
+            window.confirm("Please select an option");
+        } else if(cnt === 0){
+            window.alert("Please select the desired quantity")
+        }else { 
+            if (window.confirm("Do you want Order?")) {
+                const items = [{
+                    price: pData.price,
+                    image1: pData.image1,
                     pcode: pcode,
-                    cnt: cnt,
-                    totalcnt: totalcnt,
-                    selectOption: selectOption
-                }]
-                setItems(items);
+                    detailcount: cnt,
+                    alternative: selectOption,
+                    productname: pData.productname
+                }];
+                navigate('/order', {state : {items : items, totalprice: totalcnt} });
             }
         }
-
     }
 
     useEffect(() => {
-        axios.get(`/api/product/selectoption?productname=${pData.productname}`)
+        axios.post(`/api/product/selectoption`, { "productname": pData.productname })
             .then((response) => {
                 setAlternative(response.data);
             }).catch(err => console.log(err));
@@ -125,7 +125,7 @@ export default function DetailOrder() {
                         <option key={index} value={item.pcode}>{item.alternative}</option>
                     ))}
                 </select>
-                {selectOption && (
+                {selectOption != "" && (
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
                         <button type="button" className='mainButton1' onClick={cntMinusHandler}>-</button>
@@ -140,9 +140,7 @@ export default function DetailOrder() {
                 </div>
                 <div className='maintwoButton'>
                     <PopkornBtn btnName='Cart' btntype={true} btnfun={cartConfirm} />
-                    <Link to='/order' state={{ items }} >
-                        <PopkornBtn btnName='Order' btntype={false} btnfun={orderConfirm} />
-                    </Link>
+                    <PopkornBtn btnName='Order' btntype={false} btnfun={orderConfirm} />
                 </div>
                 <DetailInformation />
             </div>

@@ -1,6 +1,7 @@
 package com.teamstatic.popkornback.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,8 +71,9 @@ public class ProductController {
 
     }
 
-    @GetMapping("/selectoption")
-    public List<Product> selectoption(String productname) {
+    @PostMapping("/selectoption")
+    public List<Product> selectoption(@RequestBody Map<String, Object> request) {
+        String productname = (String)request.get("productname");
         List<Product> list = pService.findByProductname(productname);
         return list;
     }
