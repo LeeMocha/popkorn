@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import DetailInformation from '../DetailInformation/DetailInformation';
 import PopkornBtn from '../../useModules/PopkornBtn'
 
@@ -7,7 +7,7 @@ import "./DetailOrder.css";
 import { Logincontext } from './../../App';
 import axios from 'axios';
 
-export default function DetailOrder({ item }) {
+export default function DetailOrder() {
     const Location = useLocation();
     const pData = Location.state.item; // Object Type으로 전달 받음.
     const [pcode, setPcode] = useState(0);
@@ -17,6 +17,7 @@ export default function DetailOrder({ item }) {
     const navigate = useNavigate();
     const [isLoggedIn] = useContext(Logincontext);
     const [alternative, setAlternative] = useState([]);
+    const [items, setItems] = useState([]);
 
     const cntPlusHandler = () => {
         if (cnt < 10) {
@@ -48,9 +49,9 @@ export default function DetailOrder({ item }) {
         }
     }
 
-    const deleteHandler = () => {
-        setSelectOption(""); //삭제 시 null
-        setTotalcnt(pData.price) // 삭제시 원가격으로 초기화
+    const deleteHandler = (e) => {
+        setTotalcnt(pData.price); // 삭제시 원가격으로 초기화
+        setSelectOption(e.target.value); //값 지정x 무조건 value로 지정(안하면 오류남)
         setCnt(1); // 삭제하는 동시에 수량 초기화
     }
 
@@ -70,7 +71,7 @@ export default function DetailOrder({ item }) {
     function cartConfirm() {
         if (isLoggedIn) {
             if (selectOption.length === 0) {
-                window.confirm("옵션을 선택해주세요");
+                window.confirm("Please select an option");
             } else {
                 if (window.confirm("Do you want add into Cart?")) {
                     addCart();
@@ -79,14 +80,28 @@ export default function DetailOrder({ item }) {
             }
         } else {
             window.confirm("Do you want to log in and use it?");
+            addCart();
             navigate('/authMain');
         }
     }
 
     function orderConfirm() {
-        if (window.confirm('Are you sure you want to go to the purchase page?')) {
-            navigate('/order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+        if (isLoggedIn) {
+            if (selectOption.length === 0) {
+                window.confirm("Please select an option");
+            } else {
+                window.confirm("Do you want add into Order")
+                items[0] = [{
+                    ...pData,
+                    pcode: pcode,
+                    cnt: cnt,
+                    totalcnt: totalcnt,
+                    selectOption: selectOption
+                }]
+                setItems(items);
+            }
         }
+
     }
 
     useEffect(() => {
@@ -94,7 +109,7 @@ export default function DetailOrder({ item }) {
             .then((response) => {
                 setAlternative(response.data);
             }).catch(err => console.log(err));
-    }, [])
+    }, [pData.productname])
 
     return (
         <div>
@@ -125,10 +140,17 @@ export default function DetailOrder({ item }) {
                 </div>
                 <div className='maintwoButton'>
                     <PopkornBtn btnName='Cart' btntype={true} btnfun={cartConfirm} />
-                    <PopkornBtn btnName='Oder' btntype={false} btnfun={orderConfirm} />
+                    <Link to='/order' state={{ items }} >
+                        <PopkornBtn btnName='Order' btntype={false} btnfun={orderConfirm} />
+                    </Link>
                 </div>
                 <DetailInformation />
             </div>
-        </div>
+        </div >
     )
 }
+
+
+
+
+

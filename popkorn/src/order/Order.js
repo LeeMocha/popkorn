@@ -1,9 +1,10 @@
 import Orderproduct from './Orderproduct/Orderproduct';
+import Header from '../header/Header';
 
 import './Order.css';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Logincontext } from './../App';
+
 import axios from 'axios';
 
 export default function Order() {
@@ -11,7 +12,6 @@ export default function Order() {
     const paymentsbtnSrc = process.env.PUBLIC_URL + "/paymentsbtnIMG/";
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
-    const [isLogined] = useContext(Logincontext);
     const [data, setData] = useState({
         merchant_uid: '',
         buyer_name: '',
@@ -84,7 +84,7 @@ export default function Order() {
                 delete newItem.ccode;
                 items[i] = {...newItem, merchantUid: response.merchant_uid};
                 })
-                console.log(items)
+                
                 sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));                
                 alert("Order Sucsess !!");
 
@@ -121,48 +121,51 @@ export default function Order() {
     }, [data])
 
     return (
-        <div className='orderBox'>
-            <h1 style={{ color: ' #b2ecfd' }}>Oder</h1>
-            <div className='orderWindow'>
-                <div>
-                    <h3>Shipping Address</h3>
-                    <div className="shippingAddressBox">
-                        <p>Country/Region</p>
-                        <select name='country' onChange={setDataHandler}>
-                            <option value=''>Country Selection</option>
-                            <option value='South Korea'>South Korea</option>
-                            <option value='United States'>United States</option>
-                            <option value='Japan'>Japan</option>
-                        </select>
-                        <p>City</p>
-                        <input type="text" name='city' onChange={setDataHandler}></input>
-                        <p>Address1</p>
-                        <input type="text" name='address1' onChange={setDataHandler}></input>
-                        <p>Address2</p>
-                        <input type="text" name='address2' onChange={setDataHandler}></input>
-                        <p>Zip code</p>
-                        <input type="text" name='buyer_postcode' onChange={setDataHandler}></input>
+        <>
+            <Header />
+            <div className='orderBox'>
+                <h1 style={{ color: ' #b2ecfd' }}>Oder</h1>
+                <div className='orderWindow'>
+                    <div>
+                        <h3>Shipping Address</h3>
+                        <div className="shippingAddressBox">
+                            <p>Country/Region</p>
+                            <select name='country' onChange={setDataHandler}>
+                                <option value=''>Country Selection</option>
+                                <option value='South Korea'>South Korea</option>
+                                <option value='United States'>United States</option>
+                                <option value='Japan'>Japan</option>
+                            </select>
+                            <p>City</p>
+                            <input type="text" name='city' onChange={setDataHandler}></input>
+                            <p>Address1</p>
+                            <input type="text" name='address1' onChange={setDataHandler}></input>
+                            <p>Address2</p>
+                            <input type="text" name='address2' onChange={setDataHandler}></input>
+                            <p>Zip code</p>
+                            <input type="text" name='buyer_postcode' onChange={setDataHandler}></input>
+                        </div>
+                    </div>
+                    <div className='OrderInformationMain'>
+                        <h3>Order Information</h3>
+                        <div className="orderInformationbox">
+                            <p>Full Name</p>
+                            <input type="text" name='buyer_name' onChange={setDataHandler}></input>
+                            <p>Email</p>
+                            <input type="text" name='buyer_email' onChange={setDataHandler}></input>
+                            <p>Phone</p>
+                            <input type="text" name='buyer_tel' onChange={setDataHandler}></input>
+                            <p>Use Reword</p>
+                            <input type="checkbox" name='rewordcheck'></input>
+                        </div >
+                        <h3>PaymentMethod</h3>
+                        <div className="paymentMethodMain">
+                            <button type='button' onClick={() => onClickPayment(data)}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
+                        </div>
                     </div>
                 </div>
-                <div className='OrderInformationMain'>
-                    <h3>Order Information</h3>
-                    <div className="orderInformationbox">
-                        <p>Full Name</p>
-                        <input type="text" name='buyer_name' onChange={setDataHandler}></input>
-                        <p>Email</p>
-                        <input type="text" name='buyer_email' onChange={setDataHandler}></input>
-                        <p>Phone</p>
-                        <input type="text" name='buyer_tel' onChange={setDataHandler}></input>
-                        <p>Use Reword</p>
-                        <input type="checkbox" name='rewordcheck'></input>
-                    </div >
-                    <h3>PaymentMethod</h3>
-                    <div className="paymentMethodMain">
-                        <button type='button' onClick={() => onClickPayment(data)}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
-                    </div>
-                </div>
+                <Orderproduct items={items} />
             </div>
-            <Orderproduct items={items} />
-        </div>
+        </>
     );
 }
