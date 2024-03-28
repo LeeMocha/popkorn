@@ -1,8 +1,9 @@
 import { useState } from "react"
 
-export default function Paging({totalPage, limit, page, setPage}) {
+export default function Paging({pageData}) {
+    const [page, setPage] = useState(pageData.page);
+
     const [currPage, setCurrPage] = useState(page);
-    const pagesNum = Math.ceil(totalPage/limit)
 
     let firstNum = currPage - (currPage % 5) + 1
     let lastNum = currPage - (currPage % 5) + 5
@@ -19,9 +20,9 @@ export default function Paging({totalPage, limit, page, setPage}) {
             </button>
             {/* pageArray */}
             <button 
-                onClick={() => setPage(firstNum)}
-                aria-current={page === firstNum ? "page" : null}>
-                {firstNum}
+                onClick={() => setPage(pageData.start)}
+                aria-current={page === pageData.start ? "page" : null}>
+                {pageData.start}
             </button>
 
             {
@@ -47,11 +48,11 @@ export default function Paging({totalPage, limit, page, setPage}) {
             }
 
             {/* <angle-right /> */}
-            <button onClick={() => setPage(page+1)} disabled={page===pagesNum}>
+            <button onClick={() => setPage(page+1)} disabled={page===servData}>
             &gt;
             </button>
             {/* <fa-angle-double-right /> */}
-            <button onClick={() => setPage(pagesNum)} disabled={page===pagesNum}>
+            <button onClick={() => setPage(servData)} disabled={page===servData}>
             &gt;&gt;
             </button>
         </div>

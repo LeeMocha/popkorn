@@ -34,17 +34,17 @@
 
 .dropList_wrap.fade-out{
 
-
-    animation: moveLeft 0.4s linear forwards;
+    animation: slideOut 0.4s linear forwards;
     visibility: hidden;
 }
 
-@keyframes moveLeft {
-    0% {
+@keyframes slideOut {
+    from {
         opacity: 1;
      }
   
-     100% {
+     to {
+        left: -150px;
         transform: translateX(-150%);
         opacity: 0;
      }

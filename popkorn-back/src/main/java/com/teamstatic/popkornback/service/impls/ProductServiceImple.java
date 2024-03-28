@@ -41,6 +41,7 @@ public class ProductServiceImple implements ProductService {
         return new PageResultDTO<>(result, entity -> entityToDto(entity));
     }
 
+
     @Override
     public List<Product> findByProductname(String productname) {
         return pRepsitory.findByProductname(productname);

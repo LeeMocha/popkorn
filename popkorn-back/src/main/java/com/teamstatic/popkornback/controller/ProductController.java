@@ -14,13 +14,10 @@ import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 @AllArgsConstructor
 @RequestMapping("/api/product")
 @RestController
 public class ProductController {
-
 
     ProductService pService;
 
@@ -47,10 +44,13 @@ public class ProductController {
                 .categoryl(categoryl)
                 .categorym(categorym)
                 .build();
-        PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
+        
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
                 requestDTO);
-        return resultDTO;
+            return resultDTO;
+
     }
+
 
     @GetMapping("/selectoption")
     public List<Product> selectoption(String productname) {
@@ -63,6 +63,7 @@ public class ProductController {
         List<Product> list = pService.findFirstProductByArtist(artist);
         return list;
     }
+
     
 
 }
