@@ -205,7 +205,7 @@ export const EmailCheck = () => {
               <button onClick={resetForm} className='embtn'>To Start-up Page</button>
             </>
             : emailcheck === '4' ?
-              <ConfirmEmail emailinput={emailinput} emailcheck={emailcheck}/>
+              <ConfirmEmail emailinput={emailinput} emailcheck={emailcheck} />
               : null}
       </div>
     </div>

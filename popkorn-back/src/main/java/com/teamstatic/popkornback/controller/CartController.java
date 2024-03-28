@@ -12,6 +12,7 @@ import com.teamstatic.popkornback.entity.Cart;
 import com.teamstatic.popkornback.service.CartService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @AllArgsConstructor
 @RestController
