@@ -2,9 +2,9 @@ import Orderproduct from './Orderproduct/Orderproduct';
 import Header from '../header/Header';
 
 import './Order.css';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Logincontext } from './../App';
+
 import axios from 'axios';
 
 export default function Order() {
@@ -12,7 +12,6 @@ export default function Order() {
     const paymentsbtnSrc = process.env.PUBLIC_URL + "/paymentsbtnIMG/";
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
-    const [isLogined] = useContext(Logincontext);
     const [data, setData] = useState({
         merchant_uid: '',
         buyer_name: '',
@@ -85,7 +84,7 @@ export default function Order() {
                 delete newItem.ccode;
                 items[i] = {...newItem, merchantUid: response.merchant_uid};
                 })
-                console.log(items)
+                
                 sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));                
                 alert("Order Sucsess !!");
 

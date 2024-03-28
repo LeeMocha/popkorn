@@ -6,7 +6,6 @@ import PopkornBtn from '../../useModules/PopkornBtn'
 import "./DetailOrder.css";
 import { Logincontext } from './../../App';
 import axios from 'axios';
-import Order from './../../order/Order';
 
 export default function DetailOrder() {
     const Location = useLocation();
@@ -110,7 +109,7 @@ export default function DetailOrder() {
             .then((response) => {
                 setAlternative(response.data);
             }).catch(err => console.log(err));
-    }, [])
+    }, [pData.productname])
 
     return (
         <div>
