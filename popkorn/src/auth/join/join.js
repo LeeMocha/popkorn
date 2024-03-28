@@ -9,7 +9,7 @@ export default function Join(props) {
 
     const [join, setJoin] = useState({
         id: props.emailinput,
-        createdate: '',
+        createdate: null,
         nickname: '',
         password: '',
         reword: 0,

@@ -6,7 +6,9 @@
   border-radius: 40px;
   background-color: whitesmoke;
   padding: 20px;
-  margin: 50px auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 125px;
 }
 
 .withdrawal-check {
@@ -16,7 +18,9 @@
   border-radius: 20px;
   background-color: rgb(255, 242, 243);
   padding: 20px;
-  margin: 50px auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 125px;
   color: red;
   font-size: 23px;
   text-align: center;
@@ -30,7 +34,9 @@
   border-radius: 20px;
   background-color: whitesmoke;
   padding: 20px;
-  margin: 50px auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 125px;
   text-align: center;
 }
 
@@ -49,7 +55,7 @@
 .withdrawal-completebtn {
   font-family: 'TmoneyRoundWindExtraBold';
   width: 560px;
-  margin-left: 80px;
+  margin-left: 50px;
   height: 60px;
   font-size: 23px;
   border: 1px solid whitesmoke;

@@ -1,8 +1,12 @@
 package com.teamstatic.popkornback.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +27,12 @@ public class User {
     private String password;
     private String nickname;
     private int reword;
-    private String createdate;
+
+    @CreationTimestamp
+    private LocalDateTime createdate;
+    public void setCreatedate(LocalDateTime createdate) {
+        this.createdate = createdate;
+    }
 
     private String status;
 

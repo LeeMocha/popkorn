@@ -1,5 +1,7 @@
 package com.teamstatic.popkornback.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,17 +34,19 @@ public interface UserService {
                 .password(dto.getPassword())
                 .nickname(dto.getNickname())
                 .reword(dto.getReword())
-                .createdate(dto.getCreatedate())
+                .createdate(LocalDateTime.now())
                 .status(dto.getStatus()).build();
     }
 
     default UserDTO entityToDto(User entity) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+String formattedDateTime = LocalDateTime.now().format(formatter);
         return UserDTO.builder()
                 .id(entity.getId())
                 .password(entity.getPassword())
                 .nickname(entity.getNickname())
                 .reword(entity.getReword())
-                .createdate(entity.getCreatedate())
+                .createdate(formattedDateTime)
                 .status(entity.getStatus()).build();
     }
 

@@ -49,6 +49,8 @@ export function JoinNickname(props) {
                     placeholder="Nickname"
                     value={nickname}
                     onChange={nicknamehandle}
+                    minLength={6}
+                    maxLength={12}
                 />
                 <button type='button' className='memberreset' onClick={() => setNickname('')}><i className='xi-close-thin' /></button>
 

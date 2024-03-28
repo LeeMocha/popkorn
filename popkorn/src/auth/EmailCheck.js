@@ -1,8 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import Mainlogo from '../header/logo/Mainlogo/Mainlogo';
 import { emCheck, pwCheck, resetChecks, areChecksValid } from './logincheck';
 import Join from './join/join';
 import axios from 'axios';
+import ConfirmEmail from './resetpassword/confirmEmail';
 
 const Memberlist = {
   email: "agr4005@naver.com",
@@ -23,7 +24,7 @@ export const EmailCheck = () => {
       const response = await axios.get(`/api/user/emailcheck?emailinput=${emailinput}`);
       if (response.data === "Emailcheck success") {
         setemailcheck('2');
-      } else if (response.data === "Emailcheck failed"){
+      } else if (response.data === "Emailcheck failed") {
         setemailcheck('3');
       }
     } catch (error) {
@@ -38,7 +39,7 @@ export const EmailCheck = () => {
       if (loginResponse.status !== 200 || loginResponse.data === "Login failed") {
         setpwInput('');
         alert('Invalid Password. Please check your Email or Password.');
-        return; 
+        return;
       }
       console.log(loginResponse);
       sessionStorage.setItem('loginID', userID);
@@ -49,8 +50,12 @@ export const EmailCheck = () => {
       console.error('로그인 중 오류 발생:', error);
     }
   };
-  
-  
+
+  const resetpw = () => {
+    if (emailcheck === '2') {
+      setemailcheck('4');
+    }
+  }
 
   const handleKeyPress = (event) => {
     if (event.keyCode === 13) {
@@ -66,7 +71,7 @@ export const EmailCheck = () => {
     const newEmailValue = e.target.value;
     setemailInput(newEmailValue);
     setemailcheck('1');
-    
+
     const isValidEmail = emCheck(newEmailValue);
     if (!isValidEmail) {
       setEmailinfo('Invalid Email type');
@@ -128,14 +133,20 @@ export const EmailCheck = () => {
           </>
           : null}
 
-        {emailcheck === '1' ?
-          <button onClick={() => {
-            initialcheck();
-            areChecksValid();
-          }}
-            className='embtn' disabled={emailinfo !== '' || emailinput.length < 1}>Progress</button>
-          : null
-        }
+        {emailcheck === '1' ? (
+          <>
+            <button
+              onClick={() => {
+                initialcheck();
+                areChecksValid();
+              }}
+              className='embtn'
+              disabled={emailinfo !== '' || emailinput.length < 1}
+            >
+              Progress
+            </button>
+          </>
+        ) : null}
 
         {emailcheck === '2' ?
           <>
@@ -168,6 +179,7 @@ export const EmailCheck = () => {
                 value={pwinput}
                 onChange={handlePasswordChange}
                 onKeyDown={handleKeyPress}
+                maxLength="16"
               />
 
               <button onClick={toggleShowpw} className='toggleshow'>
@@ -182,14 +194,19 @@ export const EmailCheck = () => {
               // areChecksValid();
             }} className='embtn'>Login</button><br /><br />
             <button onClick={resetForm} className='embtn'>Back</button>
-
+            <br />
+            <button className='resetpw' onClick={resetpw}>
+              forgot your password? Click and reset your password
+            </button>
           </>
           : emailcheck === '3' ?
             <>
               <Join emailinput={emailinput} emailcheck={emailcheck} setemailcheck={setemailcheck} />
               <button onClick={resetForm} className='embtn'>To Start-up Page</button>
             </>
-            : null}
+            : emailcheck === '4' ?
+              <ConfirmEmail emailinput={emailinput} emailcheck={emailcheck}/>
+              : null}
       </div>
     </div>
   );

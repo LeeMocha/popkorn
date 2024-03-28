@@ -1,7 +1,10 @@
 package com.teamstatic.popkornback.service.impls;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.teamstatic.popkornback.entity.OrderDetail;
 import com.teamstatic.popkornback.repository.OrderDetailRepository;
 import com.teamstatic.popkornback.service.OrderDetailService;
 
@@ -13,5 +16,9 @@ import lombok.RequiredArgsConstructor;
 public class OrderDetailServiceImple implements OrderDetailService{
 
    final OrderDetailRepository odRepository;
+
+   public List<OrderDetail> save(List<OrderDetail> orderDetail){
+      return odRepository.saveAll(orderDetail);
+   }
 
 }
