@@ -126,7 +126,7 @@ export default function DetailOrder() {
                         <option key={index} value={item.pcode}>{item.alternative}</option>
                     ))}
                 </select>
-                {selectOption && (
+                {selectOption && 
                     <div className='mainButton'>
                         <h6>{selectOption}</h6>
                         <button type="button" className='mainButton1' onClick={cntMinusHandler}>-</button>
