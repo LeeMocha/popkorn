@@ -168,11 +168,11 @@ export default function Order() {
                         </div >
                         <h3>PaymentMethod</h3>
                         <div className="paymentMethodMain">
-                            <PopkornBtn btnName={"Order Now"} btntype={false} btnfun={onClickPayment} />
+                            <PopkornBtn btnName={"Order Now"} btntype={false} btnfun={() => onClickPayment(data)} />
                         </div>
                     </div>
                 </div>
-                <Orderproduct items={items}/>
+                <Orderproduct items={items} />
             </div>
         </>
     );
