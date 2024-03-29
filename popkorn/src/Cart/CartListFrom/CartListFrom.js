@@ -14,63 +14,60 @@ export default function CartListFrom() {
     useEffect(() => {
         axios.get(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`)
             .then(response => {
-                // items의 길이만큼 selectCheck 초기화
-                const initialSelectCheck = response.data.map(item => ({ ...item, checked: false }));
                 setProduct(response.data);
-                setSelectCheck(initialSelectCheck);
+                setSelectCheck(new Array(response.data.length).fill(false));
             }).catch(err => console.log(err))
     }, []);
 
-    const deletHandler = () => {
-        // 체크된 상품들의 인덱스를 모읍니다.
-        const checkedIndexes = selectCheck.reduce((acc, curr, index) => {
-            if (curr.checked) {
-                acc.push(index);
+    const deleteHandler = () => {
+        const updatedItems = items.filter((_, index) => !selectCheck[index]);
+        setProduct(updatedItems);
+
+        const checkedItemIds = selectCheck.reduce((acc, checked, index) => {
+            if (checked) {
+                acc.push({ id: items[index].id, pcode: items[index].pcode, productname: items[index].productname });
             }
             return acc;
         }, []);
-        axios.delete(`/api/cart/deletecart`, {
-            data: { checkedIndexes },
-        })
-            .then(response => {
-                console.log("Selected items deleted successfully!");
-            })
-            .catch(error => {
-                console.error("Error deleting selected items:", error);
-            });
+
+        checkedItemIds.forEach(({ id, pcode, productname }) => {
+            axios.delete(`/api/cart/delete?id=${id}&pcode=${pcode}`)
+                .then(response => {
+                    console.log(`${productname} 삭제 성공`);
+                })
+                .catch(error => {
+                    console.error(`상품 삭제 오류:`, error);
+                });
+        });
     }
 
 
-    // 체크된 상품을 오더창으로 넘기게 끔 해주기(이부분 수정해줘야함 : 혜나)
-    const recheck = () => {
-        const allitems = selectCheck(items.checked)
-    }
 
 
-    // 전체 상품을 선택/해제 기능
+
     const checkSelectAll = () => {
         // 모든 상품이 선택되어 있는지 확인
-        const allChecked = selectCheck.every(item => item.checked);
+        const allChecked = selectCheck.every(check => check);
 
         // 모든 상품이 선택되어 있으면 전체 선택 해제
         if (allChecked) {
             setSelectAll(false);
-            setSelectCheck(selectCheck.map(item => ({ ...item, checked: false })));
+            setSelectCheck(new Array(items.length).fill(false));
         } else {
             // 모든 상품 선택
             setSelectAll(true);
-            setSelectCheck(selectCheck.map(item => ({ ...item, checked: true })));
+            setSelectCheck(new Array(items.length).fill(true));
         }
     };
 
     // 각 상품을 선택/해제하는 함수
     const checkSelect = (index) => {
         const updatedSelectCheck = [...selectCheck];
-        updatedSelectCheck[index] = { ...updatedSelectCheck[index], checked: !updatedSelectCheck[index].checked };
+        updatedSelectCheck[index] = !updatedSelectCheck[index];
         setSelectCheck(updatedSelectCheck);
 
         // 전체 상품이 선택되어 있는지 확인
-        const allChecked = updatedSelectCheck.every(item => item.checked);
+        const allChecked = updatedSelectCheck.every(check => check);
 
         // 하나라도 선택 해제되어 있으면 전체 선택 해제
         if (!allChecked) {
@@ -84,20 +81,8 @@ export default function CartListFrom() {
     // 주문 페이지로 이동
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
-            // 필터링된 상품 정보를 담을 배열 초기화
-            const selectedItems = [];
-            // 선택된 상품의 인덱스를 추적하기 위한 변수
-            let newIndex = 0;
-            // 체크된 상품만 selectedItems 배열에 추가
-            selectCheck.forEach((item, index) => {
-                if (item.checked) {
-                    selectedItems.push({ ...items[index], newIndex });
-                    newIndex++; // 인덱스 증가
-                }
-            });
-            // navigate('/Order', { state: { selectedItems } }); // 선택된 상품 정보를 주문 페이지로 전달
-        } else {
-            console.log(selectCheck);
+            // navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
+            console.log(items);
         }
     }
 
@@ -107,13 +92,13 @@ export default function CartListFrom() {
             <label>
                 <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
                 <span style={{ color: ' #FE7CF3' }}>Select All</span>
-                <button onClick={deletHandler}>ALL CD</button>
+                <button onClick={deleteHandler}>ALL CD</button>
             </label>
             <div className="CartListFromitem">
                 {items.length > 0 ? (
                     items.map((item, index) => (
                         <div key={index} item={item} index={index} className="cartListMain">
-                            <input type="checkbox" onChange={() => checkSelect(index)} checked={selectCheck[index]?.checked || false} />
+                            <input type="checkbox" onChange={() => checkSelect(index)} checked={selectCheck[index]} />
                             <img src={imageSrc + item.image1} alt="productdetail_img" />
                             <div className="productnameclss">
                                 <span>{item.productname}</span>
@@ -141,3 +126,7 @@ export default function CartListFrom() {
         </div>
     )
 }
+
+
+
+

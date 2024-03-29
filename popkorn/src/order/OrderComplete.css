@@ -1,0 +1,13 @@
+.completeMain {
+    margin: 0 auto;
+    max-width: 1320px;
+    padding-bottom: 50px;
+    margin-top: 100px;
+}
+
+.completeMain>h3 {
+    display: flex;
+    justify-content: space-around;
+    color: rgb(249, 64, 64);
+    padding-top: 20px;
+}
