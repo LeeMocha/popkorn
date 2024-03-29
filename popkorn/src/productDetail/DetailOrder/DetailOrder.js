@@ -56,16 +56,20 @@ export default function DetailOrder() {
     }
 
     const addCart = async () => {
-        await axios.post(`/api/cart/addcart`, {
-            id: sessionStorage.getItem('loginID'),
-            pcode: pcode,
-            detailcount: cnt,
-            alternative: selectOption,
-            price: pData.price,
-            image1: pData.image1,
-            productname: pData.productname
-        }).then()
-            .catch(err => console.log(err));
+        try {
+            await axios.post(`/api/cart/addcart`, {
+                id: sessionStorage.getItem('loginID'),
+                pcode: pcode,
+                detailcount: cnt,
+                alternative: selectOption,
+                price: pData.price,
+                image1: pData.image1,
+                productname: pData.productname
+            });
+            navigate('/cart');
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+        }
     }
 
     function cartConfirm() {
@@ -75,7 +79,6 @@ export default function DetailOrder() {
             } else {
                 if (window.confirm("Do you want add into Cart?")) {
                     addCart();
-                    navigate('/cart');
                 }
             }
         } else {

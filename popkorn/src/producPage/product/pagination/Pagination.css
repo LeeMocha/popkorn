@@ -1,3 +1,33 @@
+.paging_wrap{
+    display: inline-block;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa_angle_double_left{
+    cursor: pointer;
+}
+
 .page_prev {
     cursor: pointer;
+}
+
+.page_next {
+    cursor: pointer;
+}
+
+.paging_pagenum_div{
+
+}
+
+.paging_pagenum_div span{
+    display: inline-block;
+    margin: 10px;
+}
+
+.currpagenum{
+    color: #FE7CF3;
 }

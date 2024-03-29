@@ -3,7 +3,7 @@ import Slot2 from "./slot2/Slot2";
 import "./Product.css";
 import SubProduct from "./SubProduct";
 
-const Product = ({ currCategoryl, currCategorym, servData }) => {
+const Product = ({ currCategoryl, currCategorym, servData, setPageData, pageData }) => {
 
 
     return (
@@ -59,7 +59,7 @@ const Product = ({ currCategoryl, currCategorym, servData }) => {
                             </div>
                         </>
                         :
-                        <SubProduct servData={servData} />
+                        <SubProduct servData={servData} setPageData={setPageData} pageData={pageData}/>
                 }
             </div>
         </>
