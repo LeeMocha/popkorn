@@ -21,7 +21,7 @@ public class OrderDetail {
    
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private int odcode;
+   private int Aodcode;
    private String merchantUid;   
    private int pcode;            
    private String productname;
