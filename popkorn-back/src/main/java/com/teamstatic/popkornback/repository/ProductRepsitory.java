@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.teamstatic.popkornback.entity.Product;
 
 public interface ProductRepsitory extends JpaRepository<Product, Integer> {
-    
     @Query("SELECT p FROM Product p WHERE p.categoryl = :categoryl AND p.categorym = :categorym AND p.pcode IN (SELECT MIN(p2.pcode) FROM Product p2 WHERE p2.categorym =:categorym GROUP BY p2.productname)")
     Page<Product> findByCategorylAndCategorym(String categoryl, String categorym, Pageable pageable);
 

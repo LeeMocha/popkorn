@@ -95,7 +95,7 @@ public class PageResultDTO<DTO, EN> {
         this.size = pageable.getPageSize();
 
         //temp end page
-        int tempEnd = (int)(Math.ceil(page/5.0)) * 10;
+        int tempEnd = (int)(Math.ceil(page/5.0)) * 5;
 
         start = tempEnd - 4;
 
