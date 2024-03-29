@@ -2,24 +2,27 @@
   margin-right: 50px;
   margin-left: 50px;
   padding-top: 160px;
-  font-family: 'TmoneyRoundWindExtraBold';
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .accountinfo {
-  border: 1px solid linear-gradient(20deg, #ADFF2F, #E6E6FA);
-  background: linear-gradient(20deg, #ADFF2F, #E6E6FA);
-  height: 150px;
+  background-image: linear-gradient(to left, #7de4ff, #fe7cf3);
   display: flex;
-  padding: 20px 180px 0px 180px;
-  margin-bottom: 50px;
-  justify-content: space-between;
+  width: 100%;
+  height: 150px;
+  margin: 50px auto;
+  align-items: center;
+  border-radius: 10px;
 }
 
 .accountcontent {
   font-size: 25px;
   font-weight: bold;
-  color: black;
-
+  color: #fff;
+  margin: 0 100px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .accountsetbtn {
@@ -51,11 +54,13 @@
 .mypagesmallheader {
   width: 350px;
   height: 50px;
-  color: black;
-  font-size: 30px;
+  color: #7de4ff;
+  font-size: 26px;
   margin-top: 32px;
-  border-bottom: 3px solid;
+  border-bottom: 1.5px solid rgb(216, 214, 214);
   text-align: left;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .mypageside ul {
@@ -64,7 +69,7 @@
 }
 
 .mypageside li button {
-  font-family: 'TmoneyRoundWindExtraBold';
+  font-family: 'Noto Sans KR', sans-serif;
   width: 300px;
   margin-top: 10px;
   margin-left: 30px;
@@ -73,9 +78,11 @@
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease;
-  font-size: 20px;
+  font-size: 18px;
   background: white;
-  box-shadow: 10px 10px 50px -20px #000808;
+  box-shadow: 1px 1px 3px grey;
+  margin-bottom: 10px;
+  border-radius: 10px;
 }
 
 .mypageactive {
@@ -110,16 +117,17 @@
 .basicsituation {
   width: 800px;
   height: 250px;
-  border: 1px solid;
   margin-top: 100px;
 }
 
 .situationsmallheader {
-  background: #E6E6E6;
+  background: #7de4ff;
+  color: #fff;
   line-height: 50px;
   text-align: center;
   font-size: 20px;
   height: 50px;
+  border-radius: 10px;
 }
 
 .situationstatus {
@@ -130,7 +138,7 @@
 .situationstatusdeliver2,
 .situationstatusdeliver3 {
   padding-top: 20px;
-  border-right: 1px solid;
+  border-right: 1.5px solid rgb(216, 214, 214);
   width: 180px;
   height: 120px;
   margin-top: 20px;
@@ -146,5 +154,11 @@
 .deliveryvalue {
   padding-top: 15px;
   font-size: 45px;
-  color: rgb(34, 34, 224);
+  color: #fe7cf3;
+}
+
+@media (max-width: 880px) {
+  .accountcontent_span1{
+    display: none;
+  }
 }

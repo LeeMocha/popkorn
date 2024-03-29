@@ -1,4 +1,5 @@
 import './Orderproduct.css';
+import PriceOutput from './../../useModules/priceOutput/PriceOutput';
 
 export default function Orderproduct({ items }) {
     const productimgSrc = process.env.PUBLIC_URL + "/productIMG/";
@@ -34,7 +35,7 @@ export default function Orderproduct({ items }) {
                     </tbody>
                 </table>
                 <div className="orderproductPrice">
-                    <h3>{totalPrice}￦</h3>
+                    <PriceOutput priceWon={totalPrice}/>
                 </div>
             </div>
         </div>
