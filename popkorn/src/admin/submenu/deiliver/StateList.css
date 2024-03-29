@@ -1,0 +1,12 @@
+.statelistMain {
+    width: 100%;
+}
+
+.seateState {
+    width: 20%;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+
+}

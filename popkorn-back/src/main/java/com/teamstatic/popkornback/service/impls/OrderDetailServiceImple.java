@@ -21,4 +21,8 @@ public class OrderDetailServiceImple implements OrderDetailService{
       return odRepository.saveAll(orderDetail);
    }
 
+   @Override
+    public List<OrderDetail> findByMerchantUid(String merchantUid) {
+        return odRepository.findByMerchantUid( merchantUid);
+    }
 }

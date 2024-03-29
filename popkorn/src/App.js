@@ -68,6 +68,8 @@ function App() {
           <Route path='/authmain' element={<AuthMain />}></Route>
           <Route path="/ordercomplete" Component={OrderComplete}></Route>
           <Route path='/adminmain' element={isAdmin ? <AdminMain /> : <Main />}></Route>
+          {/* <Route path='/searchorder' element={SearchOrder}/> */}
+          {/* <Route path='/refund' element={Refund}/> */}
         </Routes>
       </BrowserRouter>
       {/* <TBBtn/> */}
