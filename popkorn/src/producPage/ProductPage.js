@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import Header from '../header/Header';
 import DropList from './product/dropList/DropList';
 import Product from './product/Product';
-import Paging from './product/paging/Paging';
 import axios from "axios";
 
 import "./ProductPage.css";
-import Pagination from './product/pagination/Pagination';
+
 
 export default function ProductPage() {
 
@@ -26,31 +25,10 @@ export default function ProductPage() {
         prev : 0,
         next : 0,
         totalPage : 0,
-        pageList : ""
+        pageList : []
     });
 
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMoveCategory, setIsMoveCategory] = useState(false);
-
-    function moveCategory() {
-        if (isMoveCategory !== window.scrollY) {
-            try {
-                document.querySelectorAll('.categoryM_wrap').classList.add('fade-out')
-            } catch (e) {
-
-            }
-        }
-    }
-
-    const controlMove = () => {
-        if (window.scrollY !== 0 || window.innerWidth <= 700) {
-            document.querySelectorAll('.fade-out').forEach()
-
-            setIsMoveCategory(window.scrollY);
-
-            window.addEventListener('scroll', moveCategory);
-        }
-    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -66,27 +44,17 @@ export default function ProductPage() {
 
     useEffect(() => {
         menuHandler();
-    }, [])
+    }, [pageData])
 
     const menuHandler = async () => {
         await axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${currCategorym}&page=${pageData.page}`)
             .then(response => {
                 setServData(response.data.dtoList)
-                setPageData({
-                    page : response.data.page,
-                    size : response.data.size,
-                    start : response.data.start,
-                    end : response.data.end,
-                    prev : response.data.prev,
-                    next : response.data.next,
-                    totalpage : response.data.totalPage,
-                    pageList : response.data.pageList
-                })
-                console.log(response.data)
             }).catch(err => {
                 console.log(err)
             })     
     }
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -101,9 +69,9 @@ export default function ProductPage() {
             <Header />
             <div className={`dropList_wrap ${isScrolled ? "fade-out" : ""}`}>
                 <DropList currCategoryl={currCategoryl} setCurrCategoryl={setCurrCategoryl} setCurrCategorym={setCurrCategorym} setServData={setServData} 
-                isScrolled={isScrolled}/>
+                isScrolled={isScrolled} setPageData={setPageData}/>
             </div>
-            <Product currCategoryl={currCategoryl} currCategorym={currCategorym} servData={servData} />
+            <Product currCategoryl={currCategoryl} currCategorym={currCategorym} servData={servData} setPageData={setPageData} pageData={pageData}/>
             {
                 popkornlogossrc.map((src, index) =>
                     <img
@@ -115,7 +83,6 @@ export default function ProductPage() {
                     />
                 )
             }
-            <Pagination pageData={pageData} setPageData={setPageData}/> 
             <img src={popkornmainlogo} className='product_back_logo' alt="product_back_img" />
         </div>
     );

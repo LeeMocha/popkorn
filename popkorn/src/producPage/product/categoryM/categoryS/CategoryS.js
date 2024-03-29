@@ -1,7 +1,7 @@
 import axios from "axios";
 import "./CategoryS.css";
 
-export default function CategoryS({ currCategoryl, setCurrCategorym, setServData }) {
+export default function CategoryS({ categorylname, setCurrCategorym, setServData, setPageData, setCurrCategoryl}) {
 
     const category = [
         {
@@ -36,16 +36,26 @@ export default function CategoryS({ currCategoryl, setCurrCategorym, setServData
     ]
 
     const subCategorys = category.find(
-        c => c.name === currCategoryl
-
+        c => c.name === categorylname
     )
 
     const setCurrCategorymHandler = (categorym) => {
         setCurrCategorym(categorym)
+        setCurrCategoryl(categorylname)
 
-        axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${categorym}&page=1`)
+        axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${categorylname}&categorym=${categorym}&page=1`)
             .then(response => {
                 setServData(response.data.dtoList)
+                setPageData({
+                    page : response.data.page,
+                    size : response.data.size,
+                    start : response.data.start,
+                    end : response.data.end,
+                    prev : response.data.prev,
+                    next : response.data.next,
+                    totalpage : response.data.totalPage,
+                    pageList : response.data.pageList
+                })
             }).catch(err => {
                 console.log(err)
             })
