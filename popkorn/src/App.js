@@ -15,6 +15,8 @@ import Order from './order/Order';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import React from 'react';
+import { OrderComplete } from './order/OrderComplete';
+
 
 
 // 로그인 상태는 Session 전역으로 관리함. 
@@ -64,7 +66,8 @@ function App() {
           <Route path="/cart" Component={Cart}></Route>
           <Route path="/order" Component={Order}></Route>
           <Route path='/authmain' element={<AuthMain />}></Route>
-          <Route path='/adminmain' element={isAdmin? <AdminMain />: <Main/>}></Route>
+          <Route path="/ordercomplete" Component={OrderComplete}></Route>
+          <Route path='/adminmain' element={isAdmin ? <AdminMain /> : <Main />}></Route>
         </Routes>
       </BrowserRouter>
       {/* <TBBtn/> */}

@@ -12,6 +12,7 @@ export default function Order() {
     const paymentsbtnSrc = process.env.PUBLIC_URL + "/paymentsbtnIMG/";
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
+    const totalprice = Location.state.totalprice; // Object Type으로 전달 받음.
     const [data, setData] = useState({
         merchant_uid: '',
         buyer_name: '',
@@ -67,12 +68,15 @@ export default function Order() {
         
                 /* 4. 결제 창 호출하기 */
                 IMP.request_pay(toImpData, callback);
+
+                // 이 부분
+
             } else {
                 alert("Payment is not possible because the remaining items are less than the quantity you wish to purchase.")
                 return null;
             }
         })
-        .catch(err => console.log(err))       
+        .catch(err => console.log(err))
     };
 
     function callback(response) {
@@ -85,8 +89,9 @@ export default function Order() {
                 items[i] = {...newItem, merchantUid: response.merchant_uid};
                 })
                 
-                sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));                
-                alert("Order Sucsess !!");
+                sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));
+
+
 
             } catch (error) {
                 alert("Order Failed !!");
@@ -164,7 +169,7 @@ export default function Order() {
                         </div>
                     </div>
                 </div>
-                <Orderproduct items={items} />
+                <Orderproduct items={items} priceWon={totalprice} />
             </div>
         </>
     );
