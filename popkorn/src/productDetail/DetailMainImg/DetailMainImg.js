@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 export default function DetailMainImg() {
     const Location = useLocation();
+    console.log(Location);
     
     const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
     const pData = Location.state.item;
