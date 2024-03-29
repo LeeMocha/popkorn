@@ -39,8 +39,7 @@ public class ProductController {
     }
 
     @GetMapping("/findByCategorylAndCategorym")
-    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
-            int page) {
+    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym, int page) {
 
 
         if(categoryl.equals("new")){

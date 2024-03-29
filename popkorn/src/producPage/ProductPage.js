@@ -18,7 +18,15 @@ export default function ProductPage() {
     const [logoIndex, setLogoIndex] = useState(0);
     const [servData, setServData] = useState([]);
 
-    const [pageData, setPageData] = useState([]);
+    const [pageData, setPageData] = useState({
+        page : 1,
+        size : 0,
+        start : 0,
+        end : 0,
+        prev : 0,
+        next : 0,
+        totalPage : 0
+    });
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMoveCategory, setIsMoveCategory] = useState(false);
@@ -60,15 +68,22 @@ export default function ProductPage() {
     }, [])
 
     const menuHandler = async () => {
-        await axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${currCategorym}&page=1`)
+        await axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl}&categorym=${currCategorym}&page=${pageData.page}`)
             .then(response => {
                 setServData(response.data.dtoList)
-                setPageData(response.data)
+                setPageData({
+                    page : response.data.page,
+                    size : response.data.size,
+                    start : response.data.start,
+                    end : response.data.end,
+                    prev : response.data.prev,
+                    next : response.data.next,
+                    totalpage : response.data.totalPage
+                })
                 console.log(response.data)
             }).catch(err => {
                 console.log(err)
-            })
-            
+            })     
     }
 
     useEffect(() => {
@@ -98,7 +113,8 @@ export default function ProductPage() {
                     />
                 )
             }
-            <Pagination pageData={pageData} />
+            <Pagination pageData={pageData} setPageData={setPageData}/> 
+            {/* <Paging pageData={pageData} setPageData={setPageData}/> */}
             <img src={popkornmainlogo} className='product_back_logo' alt="product_back_img" />
         </div>
     );
