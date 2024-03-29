@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import './DropList.css';
 import CategoryM from './../categoryM/CategoryM';
 
-const DropList = ({currCategoryl, setCurrCategoryl, setCurrCategorym, setServData}) => {
+const DropList = ({currCategoryl, setCurrCategoryl, setCurrCategorym, setServData, isScrolled}) => {
 
     const [isClicked, setIsClicked] = useState(false);
 
@@ -24,7 +24,8 @@ const DropList = ({currCategoryl, setCurrCategoryl, setCurrCategorym, setServDat
                     <li className="photo" onClick={currCHandler}>PHOTO</li>
                 </ul>
             </div>
-            <CategoryM currCategoryl={currCategoryl} isClicked={isClicked} setIsClicked={setIsClicked} setCurrCategorym={setCurrCategorym} setServData={setServData}/>
+            <CategoryM currCategoryl={currCategoryl} isClicked={isClicked} setIsClicked={setIsClicked} setCurrCategorym={setCurrCategorym} setServData={setServData}
+            isScrolled={isScrolled}/>
         </div>
     )
 }

@@ -19,6 +19,7 @@ export default function CartListFrom() {
             }).catch(err => console.log(err))
     }, []);
 
+
     const deleteHandler = () => {
         const updatedItems = items.filter((_, index) => !selectCheck[index]);
         setProduct(updatedItems);
@@ -42,9 +43,7 @@ export default function CartListFrom() {
     }
 
 
-
-
-
+    // 전체 상품을 선택/해제 기능
     const checkSelectAll = () => {
         // 모든 상품이 선택되어 있는지 확인
         const allChecked = selectCheck.every(check => check);
@@ -81,10 +80,20 @@ export default function CartListFrom() {
     // 주문 페이지로 이동
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
-            // navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
-            console.log(items);
+            // 체크된 상품들만을 필터링하여 새로운 배열에 추가
+            const selectedItems = items.filter((item, index) => selectCheck[index]);
+            console.log(selectedItems);
+            // 선택된 상품들이 있는지 확인
+            if (selectedItems.length > 0) {
+                // 주문 페이지로 이동하며 선택된 상품들을 함께 전달
+                navigate('/Order', { state: { items: selectedItems } });
+            } else {
+                alert('상품을 선택해주세요.');
+            }
         }
     }
+    
+
 
     return (
         <div className='CartListFromDiv'>
@@ -118,15 +127,11 @@ export default function CartListFrom() {
                 {/* 상품들의 배열. 메서드는 주어진 조건을 만족하는 요소들을 새로운 배열로 반환( 메서드에 전달되는 함수의 인자) =>
                 열에서 현재 인덱스에 해당하는 항목의 checked 속성을 확인합니다. ?.는 옵셔널 체이닝 연산자로, 해당 항목이 존재하고 checked 속성이 존재하는 경우에만 접근합니다.
                  이것은 selectCheck[index]가 정의되지 않거나 checked 속성이 없는 경우를 방지 */}
-                <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}>
+                {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
                     <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
-                </Link>
+                {/* </Link> */}
 
             </div>
         </div>
     )
 }
-
-
-
-
