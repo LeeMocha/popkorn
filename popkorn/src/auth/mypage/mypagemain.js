@@ -34,9 +34,9 @@ export const MyPageMain = (Props) => {
             <Header/>
             <div className="accountinfo">
                 <div className='accountcontent'>
-                    {sessionStorage.getItem('loginID')}<br/>
-                    
-                    <br />
+                    <span className='accountcontent_span1'>Welcome to popKorn!</span>
+                    &nbsp;&nbsp;&nbsp;
+                    <span>{sessionStorage.getItem('loginID')}</span>
                 </div>
             </div>
             <div className='mypageflex'>
