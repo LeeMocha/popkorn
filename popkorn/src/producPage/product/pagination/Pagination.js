@@ -1,39 +1,60 @@
-import { useState } from "react"
+
 
 import "./Pagination.css";
+import StackChart from '../../../admin/submenu/modules/chart/StackChart';
 
-export default function Pagination({ pageData, setPageData }) {
+// pageData.prev 는 false 로 넘어옴 
+// pageData.prev가 ture 일 때 pageData.page(1)로 이동
 
-    const [page, setPage] = useState(pageData.page);
 
-    const displayPageNo = 5;
-    const spageNum = (epageNum - displayPageNo) + 1;
-    const epageNum = Math.ceil(pageData.page / displayPageNo) * displayPageNo;
-    
-    const lastPageNo = Math.ceil(pageData.totalPage / pageData.size);
-        if(epageNum > lastPageNo) {
-            epageNum = lastPageNo;
+export default function Pagination({ pageData, setPageData, menuHandler }) {
+
+    const pageHandeler = (pagenum) => {
+        setPageData({ ...pageData, page: pagenum });
+    }
+
+    const prevHandeler = () => {
+       if(pageData.page > 1) {
+        setPageData({...pageData, page: 1});
+       }
+       return setPageData;
+    }
+
+    const nextHandeler = () => {
+        if(pageData.page > 0) {
+            setPageData({...pageData, page: pageData.end})
         }
-    
-    const pageArray = () => {
-        
+        return setPageData;
     }
 
 
-  
+    console.log(pageData.prev)
     return (
         <div className="paging_wrap">
-            <ul className="paging_container">
-                <li className="page_prev" onClick={() => setPage(page - 1)} disabled={page === 1}
-                >
-                    &lt;
-                </li>
-                <li>
-                    
+            <div className="paging_prev_div">
+                <span className="fa_angle_double_left" onClick={prevHandeler}>
+                &lt;&lt;
+                </span>
+                <span className="angle_left">
 
-                </li>
+                </span>
+            </div>
+            <div className="paging_pagenum_div">
+                {
+                    pageData.pageList.map((pagenum) =>
+                        <span className={pageData.page === pagenum ? 'currpagenum' : 'pagenum'} onClick={() => { pageHandeler(pagenum) }}>{pagenum}</span>
+                    )
+                }
+            </div>
+            <div className="paging_next_div">
+                <span className="angle_right">
 
-            </ul>
+                </span>
+                <span className="fa_angle_double_right" onClick={nextHandeler}>
+                &gt;&gt;
+                </span>
+            </div>
         </div>
     )
 }
+
