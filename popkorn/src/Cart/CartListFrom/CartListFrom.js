@@ -19,28 +19,14 @@ export default function CartListFrom() {
             }).catch(err => console.log(err))
     }, []);
 
-    const deleteHandler = () => {
-        const updatedItems = items.filter((_, index) => !selectCheck[index]);
-        setProduct(updatedItems);
 
-        const checkedItemIds = selectCheck.reduce((acc, checked, index) => {
-            if (checked) {
-                acc.push({ id: items[index].id, pcode: items[index].pcode, productname: items[index].productname });
-            }
-            return acc;
-        }, []);
-
-        checkedItemIds.forEach(({ id, pcode, productname }) => {
-            axios.delete(`/api/cart/delete?id=${id}&pcode=${pcode}`)
-                .then(response => {
-                    console.log(`${productname} 삭제 성공`);
-                })
-                .catch(error => {
-                    console.error(`상품 삭제 오류:`, error);
-                });
-        });
+    const deletHandler = () => {
+        setProduct(items.filter(setselectCheck))
+        // 상품전체 삭제(각각의 대한 상품은 삭제 불가 이부분은 수정예정)
     }
 
+
+    // 전체 상품을 선택/해제 기능
     const checkSelectAll = () => {
         // 모든 상품이 선택되어 있는지 확인
         const allChecked = selectCheck.every(check => check);
@@ -74,6 +60,7 @@ export default function CartListFrom() {
         }
     };
 
+    // 주문 페이지로 이동
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
