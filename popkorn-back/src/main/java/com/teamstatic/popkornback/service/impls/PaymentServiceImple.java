@@ -73,4 +73,10 @@ public class PaymentServiceImple implements PaymentService {
             odRepository.saveAll(orderDetail);
     }
 
+    
+     @Override
+    public List<Orderinfo> findByStatus(String status) {
+        return payRepository.findByStatus(status);
+    }
+
 }
