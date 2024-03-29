@@ -5,13 +5,32 @@
     width: 100%;
     border-top: lightgray solid 0.1px;
     visibility: hidden;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }
 
 .categoryM_wrap.active{
     visibility: visible;
     transition: all 0.2s ease-in-out;
 }
+
+/* scroll Event ========== ========== ========== */
+.categoryM_wrap.fade-out{
+    position: fixed;
+    animation: slideOut 0.4s linear forwards;
+    visibility: hidden;
+}
+
+@keyframes slideOut {
+    0% {
+        opacity: 1;
+     }
+  
+     100% {
+        transform: translateX(-150%);
+        opacity: 0;
+     }
+}
+
 
 /* hover Effect */
 /* .categoryM_container */

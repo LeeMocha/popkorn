@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './orderlist.css';
+import axios from 'axios';
+
 
 export const OrderList = () => {
-
-  const orders = [
-    { id: 1, product: 'Product A', price: 10},
-    { id: 2, product: 'Product B', price: 30},
-  ];
-  const total = orders.reduce((sum, order) => sum + order.price, 0);
+  
   const [showPopup, setShowPopup] = useState(false);
+  const [orders, setOrders] = useState([]);
+
+  const total = orders.reduce((sum, order) => sum + order.price, 0);
+
+  useEffect(() => {
+    axios.get(`/api/user/orderlist?status=ordered`)
+        .then(response => {
+          setOrders(response.data);
+        }).catch(err => console.log(err))
+}, []);
 
   const handleTermsClick = () => {
     setShowPopup(true);
@@ -20,27 +27,27 @@ export const OrderList = () => {
         My Order List
       </div>
 
-
-      <div className='orderlistcontainer'>
+        {orders.map((order, index) => (
+                             
+      <div className='orderlistcontainer' key={index}>
         <div className='orderlist1st'>
           <div className='orderdetaildate'>주문 일자 : 2024-03-27</div>
           <div className='orderdetailcheck' onClick={handleTermsClick}>주문 상세 보기</div>
         </div>
+
         <div className='orderlist2nd'>
           <div className='orderdetailimg'>일단 사진 들어가는곳</div>
           <div className='orderdetailproductinfo'>
-            {orders.map(order => (
-              <div key={order.id}>
-                {order.product}<br/>
-                {order.price}&#36;
-              </div>
-            ))}
+          {order.productname}
+        {order.alternative}
+        {order.detailcount}
+        {order.price}￦
           </div>
         </div>
         <button className='orderdetailreturnrequest'>반품 요청</button>
         <button className='orderdetailservice'>고객 문의</button>
       </div>
-
+        ))}
       {showPopup && (
         <div className="orderpopup-overlay">
           <div className='orderdetailscontainer'>
