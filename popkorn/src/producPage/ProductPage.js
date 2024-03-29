@@ -25,7 +25,8 @@ export default function ProductPage() {
         end : 0,
         prev : 0,
         next : 0,
-        totalPage : 0
+        totalPage : 0,
+        pageList : ""
     });
 
     const [isScrolled, setIsScrolled] = useState(false);
@@ -78,7 +79,8 @@ export default function ProductPage() {
                     end : response.data.end,
                     prev : response.data.prev,
                     next : response.data.next,
-                    totalpage : response.data.totalPage
+                    totalpage : response.data.totalPage,
+                    pageList : response.data.pageList
                 })
                 console.log(response.data)
             }).catch(err => {
@@ -114,7 +116,6 @@ export default function ProductPage() {
                 )
             }
             <Pagination pageData={pageData} setPageData={setPageData}/> 
-            {/* <Paging pageData={pageData} setPageData={setPageData}/> */}
             <img src={popkornmainlogo} className='product_back_logo' alt="product_back_img" />
         </div>
     );
