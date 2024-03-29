@@ -1,39 +1,30 @@
-import { useState } from "react"
+
 
 import "./Pagination.css";
 
+
 export default function Pagination({ pageData, setPageData }) {
 
-    const [page, setPage] = useState(pageData.page);
-
-    const displayPageNo = 5;
-    const spageNum = (epageNum - displayPageNo) + 1;
-    const epageNum = Math.ceil(pageData.page / displayPageNo) * displayPageNo;
-    
-    const lastPageNo = Math.ceil(pageData.totalPage / pageData.size);
-        if(epageNum > lastPageNo) {
-            epageNum = lastPageNo;
-        }
-    
-    const pageArray = () => {
-        
+    const pageHandeler = (pagenum) => {
+        setPageData({ ...pageData, page: pagenum });
     }
 
-
-  
     return (
         <div className="paging_wrap">
-            <ul className="paging_container">
-                <li className="page_prev" onClick={() => setPage(page - 1)} disabled={page === 1}
-                >
-                    &lt;
-                </li>
-                <li>
-                    
+            <div className="paging_prev_div">
 
-                </li>
+            </div>
+            <div className="paging_pagenum_div">
+                {
+                    pageData.pageList.map((pagenum) =>
+                        <span className={pageData.page === pagenum ? 'currpagenum' : 'pagenum'} onClick={() => { pageHandeler(pagenum) }}>{pagenum}</span>
+                    )
+                }
+            </div>
+            <div className="paging_next_div">
 
-            </ul>
+            </div>
         </div>
     )
 }
+
