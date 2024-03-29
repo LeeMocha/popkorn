@@ -12,9 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import org.springframework.data.domain.Pageable;
-
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -262,8 +260,8 @@ public class UserController {
     }
 
     @DeleteMapping("/withdraw")
-public ResponseEntity<String> withdraw(HttpSession session) {
-    String userId = (String) session.getAttribute("loginID");
+    public ResponseEntity<String> withdraw(HttpSession session) {
+        String userId = (String) session.getAttribute("loginID");
 
         try {
             uservice.deleteById(userId);
@@ -273,4 +271,11 @@ public ResponseEntity<String> withdraw(HttpSession session) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴중 오류 발생");
         }
     }
+
+    @GetMapping("/orderlist")
+    List<User> orderlist(String status) {
+
+        return uservice.findByStatus(status);
+    }
+    
 }
