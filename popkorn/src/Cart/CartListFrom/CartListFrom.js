@@ -20,9 +20,26 @@ export default function CartListFrom() {
     }, []);
 
 
-    const deletHandler = () => {
-        setProduct(items.filter(setselectCheck))
-        // 상품전체 삭제(각각의 대한 상품은 삭제 불가 이부분은 수정예정)
+    const deleteHandler = () => {
+        const updatedItems = items.filter((_, index) => !selectCheck[index]);
+        setProduct(updatedItems);
+
+        const checkedItemIds = selectCheck.reduce((acc, checked, index) => {
+            if (checked) {
+                acc.push({ id: items[index].id, pcode: items[index].pcode, productname: items[index].productname });
+            }
+            return acc;
+        }, []);
+
+        checkedItemIds.forEach(({ id, pcode, productname }) => {
+            axios.delete(`/api/cart/delete?id=${id}&pcode=${pcode}`)
+                .then(response => {
+                    console.log(`${productname} 삭제 성공`);
+                })
+                .catch(error => {
+                    console.error(`상품 삭제 오류:`, error);
+                });
+        });
     }
 
 
