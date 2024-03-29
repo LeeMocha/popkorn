@@ -1,3 +1,9 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.notosanskr * {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 .completeMain {
     margin: 0 auto;
     max-width: 1320px;
@@ -6,8 +12,28 @@
 }
 
 .completeMain>h3 {
-    display: flex;
-    justify-content: space-around;
-    color: rgb(249, 64, 64);
+    color: #FE7CF3;
+}
+
+.completeBox {
+    margin: 0 auto;
+    padding: 0 500px;
     padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+.completeWindow {
+    border-top: 1px solid rgb(194, 193, 193);
+    border-bottom: 1px solid rgb(194, 193, 193);
+}
+
+.completeBox>p {
+    color: rgb(255, 0, 0);
+    font-size: 13px;
+}
+
+.complecteTable {
+    border-top: 2px solid rgb(216, 214, 214);
+    border-bottom: 2px solid rgb(216, 214, 214);
 }

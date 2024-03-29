@@ -3,7 +3,8 @@ import Header from '../header/Header';
 
 import './Order.css';
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import OrderComplete from '../order/OrderComplete';
 
 import axios from 'axios';
 
@@ -13,6 +14,7 @@ export default function Order() {
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
     const totalprice = Location.state.totalprice; // Object Type으로 전달 받음.
+    const navigate = useNavigate();
     const [data, setData] = useState({
         merchant_uid: '',
         buyer_name: '',
@@ -45,59 +47,59 @@ export default function Order() {
         }
 
         axios.post(`/api/product/checkDetailCount`, items)
-        .then(response => {
-            console.log(response.data)
-            if(response.data){
-                if (!window.IMP) return;
-                /* 1. 가맹점 식별하기 */
-                const { IMP } = window;
-                IMP.init("imp71862281"); // 가맹점 식별코드
-        
-                /* 2. 결제 데이터 정의하기 */
-                const toImpData = {
-                    pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
-                    pay_method: "card", // 결제수단
-                    merchant_uid: `pop_${new Date().getTime()}`, // 주문번호
-                    amount: 100, // 결제금액
-                    buyer_name: data.buyer_name, // 구매자 이름
-                    buyer_tel: data.buyer_tel, // 구매자 전화번호
-                    buyer_email: data.buyer_email, // 구매자 이메일
-                    buyer_addr: `${data.address2} ${data.address1} ${data.city} ${data.country}`, // 구매자 주소
-                    buyer_postcode: data.buyer_postcode, // 구매자 우편번호
-                };
-        
-                /* 4. 결제 창 호출하기 */
-                IMP.request_pay(toImpData, callback);
+            .then(response => {
+                console.log(response.data)
+                if (response.data) {
+                    if (!window.IMP) return;
+                    /* 1. 가맹점 식별하기 */
+                    const { IMP } = window;
+                    IMP.init("imp71862281"); // 가맹점 식별코드
 
-                // 이 부분
+                    /* 2. 결제 데이터 정의하기 */
+                    const toImpData = {
+                        pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
+                        pay_method: "card", // 결제수단
+                        merchant_uid: `pop_${new Date().getTime()}`, // 주문번호
+                        amount: 100, // 결제금액
+                        buyer_name: data.buyer_name, // 구매자 이름
+                        buyer_tel: data.buyer_tel, // 구매자 전화번호
+                        buyer_email: data.buyer_email, // 구매자 이메일
+                        buyer_addr: `${data.address2} ${data.address1} ${data.city} ${data.country}`, // 구매자 주소
+                        buyer_postcode: data.buyer_postcode, // 구매자 우편번호
+                    };
 
-            } else {
-                alert("Payment is not possible because the remaining items are less than the quantity you wish to purchase.")
-                return null;
-            }
-        })
-        .catch(err => console.log(err))
+                    /* 4. 결제 창 호출하기 */
+                    IMP.request_pay(toImpData, callback);
+
+                    // 이 부분
+
+                } else {
+                    alert("Payment is not possible because the remaining items are less than the quantity you wish to purchase.")
+                    return null;
+                }
+            })
+            .catch(err => console.log(err))
     };
 
     function callback(response) {
         const { success, error_msg } = response;
         if (success) {
             try {
-                items.map((item , i) => {
-                let newItem = {...item};
-                delete newItem.ccode;
-                items[i] = {...newItem, merchantUid: response.merchant_uid};
+                items.map((item, i) => {
+                    let newItem = { ...item };
+                    delete newItem.ccode;
+                    items[i] = { ...newItem, merchantUid: response.merchant_uid };
                 })
-                
+
                 sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));
 
-
+                navigate("/ordercomplete", { state: { items: items, response: response } })
 
             } catch (error) {
                 alert("Order Failed !!");
                 console.log(error)
             }
-            
+
         } else {
             alert(`Order Failed !! : ${error_msg}`);
         }
@@ -105,9 +107,9 @@ export default function Order() {
 
     function sendImpUidToServer(imp_uid, items, id) {
         const request = {
-            "imp_uid" : imp_uid,
-            "items" : items,
-            "id" : id
+            "imp_uid": imp_uid,
+            "items": items,
+            "id": id
         }
         axios.post(`/api/pay/datatoserver`, request)
             .then(response => {
