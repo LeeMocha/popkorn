@@ -1,4 +1,3 @@
-import React from 'react';
 import './Orderproduct.css';
 
 export default function Orderproduct({ items }) {

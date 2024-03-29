@@ -19,6 +19,7 @@ export default function CartListFrom() {
             }).catch(err => console.log(err))
     }, []);
 
+
     const deleteHandler = () => {
         const updatedItems = items.filter((_, index) => !selectCheck[index]);
         setProduct(updatedItems);
@@ -41,6 +42,8 @@ export default function CartListFrom() {
         });
     }
 
+
+    // 전체 상품을 선택/해제 기능
     const checkSelectAll = () => {
         // 모든 상품이 선택되어 있는지 확인
         const allChecked = selectCheck.every(check => check);
@@ -74,6 +77,7 @@ export default function CartListFrom() {
         }
     };
 
+    // 주문 페이지로 이동
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
