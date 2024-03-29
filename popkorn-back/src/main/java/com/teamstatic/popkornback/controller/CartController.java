@@ -48,4 +48,9 @@ public class CartController {
         return cService.findByIdAndPcode(id, pcode);
     }
 
+    @DeleteMapping("/delete")
+    public void deletecart(String id, int pcode) {
+        cService.deleteByIdAndPcode(id, pcode);
+    }
+    
 }

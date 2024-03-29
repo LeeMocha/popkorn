@@ -42,7 +42,7 @@ export const EmailCheck = () => {
         return;
       }
       sessionStorage.setItem('loginID', userID);
-      alert(`${userID}님 popKorn에 오신 것을 환영합니다.`);
+      alert(`Welcome to PopKorn, ${userID}`);
       window.location.href = '/';
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);

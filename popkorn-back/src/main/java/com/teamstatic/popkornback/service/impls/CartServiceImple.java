@@ -2,6 +2,8 @@ package com.teamstatic.popkornback.service.impls;
 
 import java.util.List;
 
+import javax.mail.FetchProfile.Item;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

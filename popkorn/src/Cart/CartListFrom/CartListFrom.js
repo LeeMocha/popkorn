@@ -22,20 +22,23 @@ export default function CartListFrom() {
     const deleteHandler = () => {
         const updatedItems = items.filter((_, index) => !selectCheck[index]);
         setProduct(updatedItems);
+
         const checkedItemIds = selectCheck.reduce((acc, checked, index) => {
             if (checked) {
-                acc.push(items[index].id);
+                acc.push({ id: items[index].id, pcode: items[index].pcode, productname: items[index].productname });
             }
-            console.log(items.filter((_, index) => selectCheck[index]));
             return acc;
         }, []);
-        axios.delete('/api/cart/delete', { data: { itemIds: checkedItemIds } })
-            .then(response => {
-                console.log("상품 삭제 성공");
-            })
-            .catch(error => {
-                console.error("상품 삭제 오류:", error);
-            });
+
+        checkedItemIds.forEach(({ id, pcode, productname }) => {
+            axios.delete(`/api/cart/delete?id=${id}&pcode=${pcode}`)
+                .then(response => {
+                    console.log(`${productname} 삭제 성공`);
+                })
+                .catch(error => {
+                    console.error(`상품 삭제 오류:`, error);
+                });
+        });
     }
 
     const checkSelectAll = () => {
@@ -71,13 +74,22 @@ export default function CartListFrom() {
         }
     };
 
-    // 주문 페이지로 이동
     function orderConfirm() {
         if (window.confirm('구매페이지로 이동하시겠습니까?')) {
-            // navigate('/Order'); //리액트es06 문법이후로만 적용됨.(페이지 이동)
-            console.log(items);
+            // 체크된 상품들만을 필터링하여 새로운 배열에 추가
+            const selectedItems = items.filter((item, index) => selectCheck[index]);
+            console.log(selectedItems);
+            // 선택된 상품들이 있는지 확인
+            if (selectedItems.length > 0) {
+                // 주문 페이지로 이동하며 선택된 상품들을 함께 전달
+                navigate('/Order', { state: { items: selectedItems } });
+            } else {
+                alert('상품을 선택해주세요.');
+            }
         }
     }
+    
+
 
     return (
         <div className='CartListFromDiv'>
@@ -108,9 +120,13 @@ export default function CartListFrom() {
                 )}
             </div>
             <div className='popkornBtnbox'>
-                <Link to="/order" state={{ items }}>
-                    <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} ></PopkornBtn>
-                </Link>
+                {/* 상품들의 배열. 메서드는 주어진 조건을 만족하는 요소들을 새로운 배열로 반환( 메서드에 전달되는 함수의 인자) =>
+                열에서 현재 인덱스에 해당하는 항목의 checked 속성을 확인합니다. ?.는 옵셔널 체이닝 연산자로, 해당 항목이 존재하고 checked 속성이 존재하는 경우에만 접근합니다.
+                 이것은 selectCheck[index]가 정의되지 않거나 checked 속성이 없는 경우를 방지 */}
+                {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
+                    <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
+                {/* </Link> */}
+
             </div>
         </div>
     )
