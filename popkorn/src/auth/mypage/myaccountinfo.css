@@ -1,11 +1,12 @@
 .my-account-info .account-header {
   font-size: 30px;
   text-align: left;
+  color: #7de4ff;
 }
 
 .account-header {
   width: 700px;
-  border-bottom: 3px solid black;
+  border-bottom: 1.5px solid rgb(216, 214, 214);
   font-size: 30px;
   color: black;
   margin-top: -13px;
@@ -16,9 +17,9 @@
 .editnickname {
   padding: 8px 20px;
   margin-bottom: 10px;
-  font-family: 'TmoneyRoundWindExtraBold';
+  font-family: 'Noto Sans KR', sans-serif;
   border: 0px;
-  border-bottom: 3px solid;
+  border-bottom: 1.5px solid rgb(216, 214, 214);
   font-size: 20px;
   width: 250px;
   outline: none;
@@ -45,14 +46,11 @@
 }
 
 .accountterms {
-  color: #4d4b4b;
+  color: #fe7cf3;
   cursor: pointer;
   width: 350px;
-
-}
-
-.accountterms:hover {
   text-decoration: underline;
+  font-size: 16px;
 }
 
 .toggleupdate {
@@ -64,6 +62,13 @@
 .accountnickname {
   margin-top: 20px;
   font-size: 22px;
+  color: #fe7cf3;
+}
+
+.accountemail span,
+.accountnickname span {
+  color: #000;
+  font-size: 18px;
 }
 
 

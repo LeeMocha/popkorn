@@ -85,7 +85,7 @@ const withdraw = async () => {
                     onChange={withdrawalcheck}
                     placeholder='input the same message above' />
             </div>
-                <button className='withdrawal-completebtn' onClick={() => {withdrawalvali() && withdraw()}} disabled={withdrawalinput !== withdrawalkeyword}>Withdrawal Complete</button>
+                <button className='withdrawal-completebtn' onClick={() => {withdrawalvali() && withdraw()}} disabled={withdrawalinput !== withdrawalkeyword}>Withdraw</button>
         </div>
 
     );
