@@ -115,7 +115,7 @@ export default function ProductPage() {
                     />
                 )
             }
-            <Pagination pageData={pageData} setPageData={setPageData}/> 
+            <Pagination pageData={pageData} setPageData={setPageData} menuHandler={menuHandler}/> 
             <img src={popkornmainlogo} className='product_back_logo' alt="product_back_img" />
         </div>
     );

@@ -3,7 +3,7 @@ import { useState } from "react"
 import "./Pagination.css";
 import { Link } from "react-router-dom";
 
-export default function Pagination({ pageData, setPageData }) {
+export default function Pagination({ pageData, setPageData, menuHandler }) {
 
     const [page, setPage] = useState(pageData.page);
 
@@ -17,8 +17,8 @@ export default function Pagination({ pageData, setPageData }) {
         }
     
     const handlePageChange = (pageNumber) => {
-        setPage(pageNumber);
         setPageData({...pageData, page : pageNumber});
+        menuHandler()
     }
     
     const pageArray = () => {
@@ -39,7 +39,7 @@ export default function Pagination({ pageData, setPageData }) {
                 <li>
 
                 </li>
-                {/* {
+                {
                     pageArray().map((i) => 
                         <li key={i}>
                             {
@@ -53,8 +53,8 @@ export default function Pagination({ pageData, setPageData }) {
                             }
                         </li>
                     )
-                } */}
-                {
+                }
+                {/* {
                     pageData.pageList.map(page => (
                         <li key={page}>
                             <Link to={``}>
@@ -62,7 +62,7 @@ export default function Pagination({ pageData, setPageData }) {
                             </Link>
                         </li>
                     ))
-                }
+                } */}
                 <li className="page_next" onClick={() => handlePageChange(page + 1)} disabled={page === lastPageNo}> 
                 &gt;
                 </li>
