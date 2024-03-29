@@ -2,6 +2,15 @@
     margin: 0 auto;
     max-width: 1320px;
     padding-top: 170px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.orderBox h3{
+    color: #7de4ff;
+}
+
+.orderBox p{
+    color: #FE7CF3;
 }
 
 
@@ -26,11 +35,6 @@
 .orderproductbox>ul {
     display: flex;
     justify-content: space-evenly;
-}
-
-.orderproductPrice {
-    display: flex;
-    justify-content: space-between;
 }
 
 .orderInformationbox {
