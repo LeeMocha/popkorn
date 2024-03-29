@@ -97,7 +97,7 @@ export default function CartListFrom() {
 
     return (
         <div className='CartListFromDiv'>
-            <h1 style={{ color: ' #b2ecfd' }}>Cart</h1>
+            <h1 style={{ color: ' #7de4ff' }}>Cart</h1>
             <label>
                 <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
                 <span style={{ color: ' #FE7CF3' }}>Select All</span>

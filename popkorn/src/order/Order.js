@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OrderComplete from '../order/OrderComplete';
 
 import axios from 'axios';
+import PopkornBtn from '../useModules/PopkornBtn';
 
 export default function Order() {
 
@@ -131,7 +132,7 @@ export default function Order() {
         <>
             <Header />
             <div className='orderBox'>
-                <h1 style={{ color: ' #b2ecfd' }}>Oder</h1>
+                <h1 style={{ color: ' #7de4ff' }}>Oder</h1>
                 <div className='orderWindow'>
                     <div>
                         <h3>Shipping Address</h3>
@@ -167,11 +168,11 @@ export default function Order() {
                         </div >
                         <h3>PaymentMethod</h3>
                         <div className="paymentMethodMain">
-                            <button type='button' onClick={() => onClickPayment(data)}><img src={paymentsbtnSrc + "kakaopay.png"} alt="kakaopay.png" className='kakaopay' /></button>
+                            <PopkornBtn btnName={"Order Now"} btntype={false} btnfun={onClickPayment} />
                         </div>
                     </div>
                 </div>
-                <Orderproduct items={items} priceWon={totalprice} />
+                <Orderproduct items={items}/>
             </div>
         </>
     );
