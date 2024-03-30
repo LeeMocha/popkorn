@@ -2,11 +2,26 @@
     width: 100%;
 }
 
+.statelistMain {
+    display: flex;
+    flex-direction: column;
+}
+
 .seateState {
-    width: 20%;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 20px;
+    width: 100%;
+    border: 1px solid rgb(182, 182, 182);
+    border-radius: 5px;
     margin-top: 20px;
     margin-left: 20px;
+    background: #94939385;
+    text-align: center;
+    color: white;
+}
 
+.seateState p {
+    font-size: 10px;
+}
+
+.statelistBox {
+    display: flex;
 }

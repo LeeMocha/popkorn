@@ -7,18 +7,19 @@ export default function StateList() {
 
     return (
         <div className="statelistMain">
-            <div>
-            {satate.map((satate, i) => (
-                <div key={i}>
-                    <h3>Order Number : {satate[0]}</h3>
-                    <p>배송 날짜 :</p>
+            <div className='statelistBox'>
+                <div>
+                    {satate.map((satate, i) => (
+                        <div key={i} className='seateState'>
+                            <h3>Order Number : {satate[0]}</h3>
+                            <p>배송 날짜 :</p>
+                        </div>
+                    ))
+                    }
                 </div>
-            ))
-            }
-            </div>
-            <div className='stateDetail'>
-                이부분은 상태 상세
-
+                <div className='stateDetail'>
+                    <h3>Delivery progress</h3>
+                </div>
             </div>
 
         </div>
