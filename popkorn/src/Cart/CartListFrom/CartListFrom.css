@@ -1,7 +1,15 @@
 .CartListFromDiv {
-    padding-top: 70px;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 3.79%;
+    padding-top: 5%;
 }
 
+@media(max-width : 1330px) {
+    .CartListFromDiv {
+        width: 90%;
+    }
+}
 
 .popkornBtnbox {
     display: flex;
@@ -9,51 +17,50 @@
     padding-top: 20px;
 }
 
-.cartPrice {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 50px;
-    padding-bottom: 50px;
-}
 
 .CartListFromitem {
-    padding-top: 10px;
-    margin-top: 10px;
-    border-top: 1.5px solid rgb(216, 214, 214);
-    border-bottom: 1.5px solid rgb(216, 214, 214);
-    padding-bottom: 10px;
+    border-top: 1px solid rgb(194, 193, 193);
+    border-bottom: 1px solid gray;
+    display: block;
+    padding-bottom: 0.76%;
 }
 
 .noCartListFrom {
-    margin: 0 auto;
-    height: 200px;
     display: flex;
-    justify-content: space-around;
-    align-items: center
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+
 }
 
-.cartListMain {
-    display: flex;
-    gap: 130px;
-    padding-top: 10px;
-}
-
-.CartListFromDiv > label {
+.container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.52%;
+}
+
+.CartListFromDiv button {
+    margin-left: auto;
 }
 
 .cartListMain>img {
-    width: 90px;
-    height: 90px;
+    width: 10%;
+    height: auto;
 }
 
-.cartListMain>span {
-    width: 170px;
+.cartListMain {
+    padding-top: 0.76%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
 }
 
 .cartListMain>.productnameclss {
-    width: 500px;
+    width: 45%;
     display: flex;
     flex-direction: column;
 }
@@ -61,4 +68,9 @@
 .productnameclss>span:nth-child(2) {
     font-size: 12px;
     color: gray;
+}
+
+.xi-cart {
+    font-size: 50px;
+    color: #fe7cf3;
 }
