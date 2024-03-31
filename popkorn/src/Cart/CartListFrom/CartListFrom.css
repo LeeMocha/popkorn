@@ -20,7 +20,7 @@
 
 .CartListFromitem {
     border-top: 1px solid rgb(194, 193, 193);
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid rgb(194, 193, 193);
     display: block;
     padding-bottom: 0.76%;
 }

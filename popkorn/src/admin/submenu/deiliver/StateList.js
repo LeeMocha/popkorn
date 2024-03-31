@@ -1,27 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './StateList.css'
 
 export default function StateList() {
-    const [satate, setsatate] = useState(['1', '2', '3']);
-    // 디자인 제작을 위한 임시 정보
+    const [state, setState] = useState(['1', '2', '3', '4', '5']);
+    // 테스트(임시)
+
+
 
     return (
         <div className="statelistMain">
             <div className='statelistBox'>
-                <div>
-                    {satate.map((satate, i) => (
+                <div className='statei'>
+                    {state.map((state, i) => (
                         <div key={i} className='seateState'>
-                            <h3>Order Number : {satate[0]}</h3>
-                            <p>배송 날짜 :</p>
+                            <div className='seateShipping'>
+                                <span>Shipping</span>
+                            </div>
+                            <h3>Order Number : {state[0]}</h3>
+                            <p>Delivery Date :</p>
                         </div>
                     ))
                     }
                 </div>
-                <div className='stateDetail'>
-                    <h3>Delivery progress</h3>
+                
+                <div className='stateDelivery'>
+                    <h3><i className='xi-spinner-1 xi-spin'></i>Delivery progress</h3>
+                    <div className='stateProgress'>
+                        <div className='arrow'>
+                            <span><i className='xi-check'></i></span>
+                        </div>
+                        <p />
+                        <div className='arrow'>
+                            <span><i className='xi-check'></i></span>
+                        </div>
+                        <p />
+                        <div className='arrow'>
+                            <span><i className='xi-check'></i></span>
+                        </div>
+                        <p />
+                        <div className='arrow'>
+                            <span><i className='xi-check'></i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     );
 }

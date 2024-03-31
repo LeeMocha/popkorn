@@ -93,9 +93,15 @@ export default function CartListFrom() {
         }
     }
 
+    // 장바구니 비어있을 시, 홈화면으로 이동
+    function continueConfirm() {
+        navigate('/')
+    }
+
     return (
         <div className='CartListFromDiv'>
             <h1 style={{ color: ' #7de4ff' }}>Cart</h1>
+
             <div className='container'>
                 {items.length !== 0 && (
                     <>
@@ -107,6 +113,7 @@ export default function CartListFrom() {
                     </>
                 )}
             </div>
+
             <div className="CartListFromitem">
                 {items.length > 0 ? (
                     items.map((item, index) => (
@@ -128,12 +135,21 @@ export default function CartListFrom() {
                     </div>
                 )}
             </div>
-            <div className='popkornBtnbox'>
-                {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
-                <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
-                {/* </Link> */}
 
+            <div className='popkornBtnbox'>
+                {items.length !== 0 ? (
+                    <>
+                        {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
+                        <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
+                        {/* </Link> */}
+                    </>
+                ) :
+                    <>
+                        <PopkornBtn btnName={'Continue shopping!'} btntype={true} btnfun={continueConfirm} />
+                    </>
+                }
             </div>
+
         </div>
     )
 }

@@ -1,27 +1,87 @@
+/* 전체 (div) */
 .statelistMain {
     width: 100%;
-}
-
-.statelistMain {
     display: flex;
     flex-direction: column;
 }
 
+/* 왼쪽(div) + 오른쪽(div) 배치*/
+.statelistBox {
+    display: flex;
+    padding-left: 20px;
+}
+
+/*  Order Number 전체 (div) 크기 조정 */
+.statei {
+    width: 15%;
+}
+
+/* Order Number 전체(div)  */
 .seateState {
-    width: 100%;
-    border: 1px solid rgb(182, 182, 182);
+    border: 1px solid #b6b6b6;
     border-radius: 5px;
     margin-top: 20px;
-    margin-left: 20px;
-    background: #94939385;
+    background: rgba(148, 147, 147, 0.53);
     text-align: center;
     color: white;
 }
 
-.seateState p {
+.seateState span {
     font-size: 10px;
 }
 
-.statelistBox {
+.seateState>h3 {
+    margin-top: -5px;
+}
+
+.seateState p {
+    font-size: 11px;
+}
+
+/* 배송상태에 따라 색이 바뀌어야함(div : 임시) */
+.seateShipping {
+    border: 1px solid rgba(255, 0, 0, 0.495);
+    background: rgba(255, 0, 0, 0.495);
+    border-radius: 5px;
+    width: 50PX;
+    margin: 10px 5px;
+    height: 20px;
+    line-height: 15px;
+}
+
+/* Delivery progress 전체(div)  */
+.stateDelivery {
+    width: 80%;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    margin-top: 20px;
+    background: rgba(148, 147, 147, 0.53);
+    margin-left: 20px;
+    color: white;
+}
+
+.stateDelivery h3 {
+    padding-left: 20px;
+}
+
+.stateProgress {
+    border-top: 1px solid #fff;
     display: flex;
+    align-items: center;
+}
+
+.arrow {
+    border: 1px solid#00fe199a;
+    background: #00fe199a;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+}
+
+.stateProgress>p {
+    width: 20%;
+    border-top: 2px solid #00fe199a;
+    height: 1px;
 }
