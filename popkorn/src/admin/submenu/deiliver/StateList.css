@@ -3,15 +3,16 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+
 }
 
-/* 왼쪽(div) + 오른쪽(div) 배치*/
+/* 왼쪽(div) + 오른쪽(div)  배치*/
 .statelistBox {
     display: flex;
     padding-left: 20px;
 }
 
-/*  Order Number 전체 (div) 크기 조정 */
+/*  Order Number 전체 (div) - 크기 조정 */
 .statei {
     width: 15%;
 }
@@ -26,7 +27,7 @@
     color: white;
 }
 
-.seateState span {
+.seateState span:nth-child(1) {
     font-size: 10px;
 }
 
@@ -37,6 +38,11 @@
 .seateState p {
     font-size: 11px;
 }
+
+.seateState>p {
+    color: #414141;
+}
+
 
 /* 배송상태에 따라 색이 바뀌어야함(div : 임시) */
 .seateShipping {
@@ -68,8 +74,13 @@
 .stateProgress {
     display: flex;
     align-items: center;
-    width: 70%;
-    padding-top: 10px;
+    width: 80%;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.stateps {
+    padding-top: 20px;
 }
 
 .stateProgressarrow {
@@ -95,27 +106,99 @@
 .stateProgress>p {
     width: 25%;
     border-top: 2px solid #00fe199a;
-    height: 1px;
 }
 
 /* 단계별 항목  */
 .stepByStep {
     display: flex;
     align-items: center;
-}
-
-.stage {
-    width: 10%;
+    padding-left: 15px;
 }
 
 .stage>p {
     font-size: 12px;
-    color: #4a4a4a;
+    color: #414141;
+    text-align: center;
 }
 
 .stepByStepStage {
     display: flex;
     justify-content: space-between;
-    padding-left: 15%;
-    width: 70%;
+    padding-left: 7%;
+    width: 85%;
+}
+
+/* 정보 전체 div */
+.informationDiv {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+/* 정보 div */
+.stateInformation {
+    border: 1px solid #7de4ff;
+    background: #7de5ff2c;
+    width: 25%;
+    margin-top: 30px;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.stateInformation>p {
+    font-size: 12px;
+    color: #414141;
+}
+
+.stateInformation1 {
+    border: 1px solid #FE7CF3;
+    background: #fe7cf327;
+    width: 25%;
+    margin-top: 30px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.stateInformation1>p {
+    font-size: 12px;
+    color: #414141;
+}
+
+.stateInformation2 {
+    border: 1px solid #6f50f7;
+    background: #947cfe43;
+    width: 25%;
+    margin-top: 30px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.stateInformation2>p {
+    font-size: 12px;
+    color: #414141;
+}
+
+/* 반응 */
+@media(max-width : 1300px) {
+    .statelistBox {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .stateDelivery {
+        width: 90%;
+    }
+
+    .statei {
+        width: 90%;
+        margin-left: 2%;
+    }
+
+    .stage {
+        width: 40px;
+        padding-left: 10px;
+        margin: 5px 5px 5px 5px;
+        font-size: 13px;
+    }
 }
