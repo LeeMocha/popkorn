@@ -16,7 +16,7 @@ export default function Icons({isScrolled}) {
       }
     
       try {
-        await axios.get('/api/user/logout');
+        await axios.get('http://3.35.11.217:8080/api/user/logout');
         alert(`로그아웃 되었습니다.`);
         // 세션에서 loginID 삭제
         sessionStorage.removeItem('loginID');

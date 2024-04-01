@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     const storedLoginID = sessionStorage.getItem('loginID');
-    axios.get(`/api/user/selectone?id=${storedLoginID}`)
+    axios.get(`http://3.35.11.217:8080/api/user/selectone?id=${storedLoginID}`)
       .then(response => {
         if (storedLoginID === response.data.id && response.data.status === 'admin') {
           setIsloggedIn(true);
