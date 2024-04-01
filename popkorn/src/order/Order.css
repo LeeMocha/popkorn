@@ -1,19 +1,17 @@
 .orderBox {
     margin: 0 auto;
-    max-width: 1320px;
+    width: 80%;
     padding-top: 170px;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-.orderBox h3{
+.orderBox h3 {
     color: #7de4ff;
 }
 
-.orderBox p{
+.orderBox p {
     color: #FE7CF3;
 }
-
-
 
 .orderWindow {
     display: flex;
