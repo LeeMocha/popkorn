@@ -64,12 +64,24 @@
     padding-left: 20px;
 }
 
+/* 단계별 체크박스(div) */
 .stateProgress {
-    border-top: 1px solid #fff;
     display: flex;
     align-items: center;
+    width: 70%;
+    padding-top: 10px;
 }
 
+.stateProgressarrow {
+    display: flex;
+    justify-content: space-around;
+}
+
+.stateDelivery>div:nth-child(2) {
+    border-top: 1px solid #fff;
+}
+
+/* 진행상태에 따라 색이 바뀌어야함(div : 임시) */
 .arrow {
     border: 1px solid#00fe199a;
     background: #00fe199a;
@@ -81,7 +93,29 @@
 }
 
 .stateProgress>p {
-    width: 20%;
+    width: 25%;
     border-top: 2px solid #00fe199a;
     height: 1px;
+}
+
+/* 단계별 항목  */
+.stepByStep {
+    display: flex;
+    align-items: center;
+}
+
+.stage {
+    width: 10%;
+}
+
+.stage>p {
+    font-size: 12px;
+    color: #4a4a4a;
+}
+
+.stepByStepStage {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 15%;
+    width: 70%;
 }
