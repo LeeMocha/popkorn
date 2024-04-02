@@ -8,7 +8,7 @@
 
 .listform_wrap::-webkit-scrollbar {
    width: 6px;  /* 스크롤바의 너비 */
-   
+   height: 10px;
 }
 
 .listform_wrap::-webkit-scrollbar-thumb {
@@ -19,7 +19,8 @@
 
 .listform_wrap::-webkit-scrollbar-track {
    background: rgba(243, 247, 253, 0.37);  /*스크롤바 뒷 배경 색상*/
-   height: 90%;
+   /* height: 90%; */
+   margin-top: 45px;
 }
 
 .listform_column_wrap{
