@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { charRegex, specialRegex, letterRegex, numRegex } from "../join/joinRegex";
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 export const Resetpassword = ({ backprocess, resetprocess, emailinput, pwinput }) => {
   const [newpassword, setNewpassword] = useState('');
@@ -35,10 +35,10 @@ export const Resetpassword = ({ backprocess, resetprocess, emailinput, pwinput }
 
   const updatepassword = async (emailinput) => {
     try {
-      const response = await axios.post('/api/user/updatepassword', {
+      const response = await apiCall('/api/user/updatepassword',"POST", {
         emailinput: emailinput,
         pwinput: newpassword
-      });
+      }, null);
       if (response.status === 200) {
         console.log('비밀번호 변경 성공');
       } else {

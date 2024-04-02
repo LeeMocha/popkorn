@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './orderlist.css';
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
@@ -35,7 +35,7 @@ export const OrderList = () => {
   const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/pay/orders?status=paid`)
+    apiCall(`/api/pay/orders?status=paid`, "GET" ,null, null)
       .then(response => {
         const sortedOrders = response.data.sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
         setOrders(sortedOrders);
@@ -45,7 +45,7 @@ export const OrderList = () => {
 
   const popupClick = (order) => {
     if (order) {
-      axios.get(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`)
+      apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET" , null, null)
         .then(response => {
           setOrderDetails(response.data);
           setSelectedOrder(order);

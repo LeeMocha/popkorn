@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './memberdelete.css';
-import { Link } from "react-router-dom";
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 export const Memberdelete = () => {
 
@@ -29,7 +28,9 @@ export const Memberdelete = () => {
 
 const withdraw = async () => {
     try {
-        const response = await axios.delete('/api/user/withdraw');
+        const userId = sessionStorage.getItem('loginID');
+        const request = {"userId" : userId}
+        const response = await apiCall('/api/user/withdraw', "DELETE" , request, null);
         if (response.status === 200) {
             console.log('회원 탈퇴 성공');
             window.location.href = '/';
