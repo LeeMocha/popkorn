@@ -119,22 +119,25 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
-            @RequestParam String pwinput) {
-        Optional<User> user = uservice.findById(emailinput);
+public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+    String emailinput = requestBody.get("emailinput");
+    String pwinput = requestBody.get("pwinput");
 
-        if (user.isPresent()) {
-            String password = user.get().getPassword();
-            if (passwordEncoder.matches(pwinput, password)) {
-                session.setAttribute("loginID", user.get().getId());
-                return ResponseEntity.ok(user.get().getId());
-            } else {
-                return ResponseEntity.ok("Login failed");
-            }
+    Optional<User> user = uservice.findById(emailinput);
+
+    if (user.isPresent()) {
+        String password = user.get().getPassword();
+        if (passwordEncoder.matches(pwinput, password)) {
+            session.setAttribute("loginID", user.get().getId());
+            return ResponseEntity.ok(user.get().getId());
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
+            return ResponseEntity.ok("Login failed");
         }
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
     }
+}
+
 
     @GetMapping("/logout")
     public void logout(HttpSession session) {
@@ -142,31 +145,33 @@ public class UserController {
     }
 
     @PostMapping("/memberjoin")
-    public ResponseEntity<String> memberjoin(@RequestBody UserDTO userdto) {
+    public ResponseEntity<String> memberJoin(@RequestParam("id") String id,
+                                             @RequestParam("password") String password,
+                                             @RequestParam("nickname") String nickname) {
+    
         ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
-
+    
         User user = new User();
-
-        user.setId(userdto.getId());
-        user.setPassword(userdto.getPassword());
-        user.setNickname(userdto.getNickname());
-        user.setReword(userdto.getReword());
+    
+        user.setId(id);  
+        user.setPassword(password);  
+        user.setNickname(nickname);  
         user.setCreatedate(seoulLocalDateTime);
         user.setStatus("signed");
-
+    
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-
+    
         user.setPassword(encodedPassword);
-
+    
         try {
             uservice.save(user);
             return ResponseEntity.ok("회원가입 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
         }
-
     }
+    
 
     @PostMapping("/mailConfirm")
     @ResponseBody
@@ -277,5 +282,5 @@ public class UserController {
 
         return uservice.findByStatus(status);
     }
-    
+
 }
