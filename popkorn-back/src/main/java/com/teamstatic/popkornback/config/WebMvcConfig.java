@@ -10,7 +10,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("http://localhost:3000")
                 .allowedMethods("*") // 필요한 HTTP 메서드들만 허용
                 .allowedHeaders("*") // 필요한 헤더들만 허용
                 .maxAge(3600);
