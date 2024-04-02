@@ -16,6 +16,7 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import React from 'react';
 import { OrderComplete } from './order/OrderComplete';
+import { apiCall } from './service/apiService';
 
 
 
@@ -33,21 +34,23 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const storedLoginID = sessionStorage.getItem('loginID');
-    axios.get(`/api/user/selectone?id=${storedLoginID}`)
-      .then(response => {
-        if (storedLoginID === response.data.id && response.data.status === 'admin') {
-          setIsloggedIn(true);
-          setIsAdmin(true);
-          console.log("admin 로그인")
-        } else if (storedLoginID === response.data.id) {
-          setIsloggedIn(true);
-          console.log("user 로그인")
-        }
-      })
-      .catch(err => {
-        console.log("해당하는 로그인 정보 없음=>" + err);
-      });
+   const storedLoginID = sessionStorage.getItem('loginID');
+
+apiCall(`/api/user/selectone?id=${storedLoginID}`, "GET", null, null)
+  .then(response => {
+    if (storedLoginID === response.data.id && response.data.status === 'admin') {
+      setIsloggedIn(true);
+      setIsAdmin(true);
+      console.log("admin 로그인");
+    } else if (storedLoginID === response.data.id) {
+      setIsloggedIn(true);
+      console.log("user 로그인");
+    }
+  })
+  .catch(err => {
+    console.log("해당하는 로그인 정보 없음=>" + err);
+  });
+
   }, []);
 
   useEffect(() => {

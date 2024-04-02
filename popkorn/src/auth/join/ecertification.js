@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PrevNextButtons from "./prevnextbtn";
 import DisableprevNextButtons from './disableprevnextbtn';
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 export default function Ecertification(props) {
 
@@ -16,24 +16,24 @@ export default function Ecertification(props) {
 
     const memberjoin = async () => {
         try {
-            const Response = await axios.post('/api/user/memberjoin', {
+            const Response = await apiCall('/api/user/memberjoin', 'POST', {
                 id: join.id,
                 password: join.password,
                 nickname: join.nickname
-            });
+            }, null);
             if (Response.status === 200) {
                 console.log('회원가입 성공');
             } else {
-                console.log('회원가입 실패')
+                console.log('회원가입 실패');
             }
         } catch (error) {
             console.error('오류 발생:', error);
         }
-    };
+    };    
 
     const mailConfirm = async () => {
         try {
-            const Response = await axios.post('/api/user/mailConfirm', { email: props.emailinput });
+            const Response = await apiCall('/api/user/mailConfirm',"POST", { email: props.emailinput }, null);
             console.log('인증코드:', Response.data);
             setMailcode(Response.data);
         } catch (error) {
