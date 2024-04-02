@@ -8,7 +8,7 @@ export default function Mcontents({selectCeleb}) {
    const logoSrc = process.env.PUBLIC_URL + '/celebIMG/';
 
    useEffect(()=>{
-      axios.get(`http://3.35.11.217:8080/api/product/findByArtist?artist=${selectCeleb.artist}`)
+      axios.get(`/api/product/findByArtist?artist=${selectCeleb.artist}`)
       .then(response=>{
          setArtistProducts(response.data)
       }).catch(err => console.log)

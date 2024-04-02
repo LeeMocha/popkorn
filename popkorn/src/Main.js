@@ -13,15 +13,15 @@ export default function Main() {
     const [celebs, setCelebs] = useState([]);
     const [selectCeleb, setSelectCeleb] = useState({})
 
-    useEffect(()=> {
-        axios.get("http://3.35.11.217:8080/api/celeb/celeblist")
-        .then(response=>{
-           setCelebs(response.data);
-           setSelectCeleb(response.data[0]);
-        }).catch( err => console.log(err))
-        
-     }, [])
-     
+    useEffect(() => {
+        axios.get("/api/celeb/celeblist")
+            .then(response => {
+                setCelebs(response.data);
+                setSelectCeleb(response.data[0]);
+            }).catch(err => console.log(err))
+
+    }, [])
+
     return (
         <>
             <Header />
