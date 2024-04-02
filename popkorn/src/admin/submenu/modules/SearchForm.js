@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import "./SearchForm.css";
-import axios from "axios";
+import { apiCall } from "../../../service/apiService";
 
 export default function SearchForm({setDataState, entity}) {
 
@@ -13,7 +13,7 @@ export default function SearchForm({setDataState, entity}) {
 
    const getSearchData = () => {
       if(searchKeyword!==''){
-         axios.get(`/api/${entity}/searchlist?keyword=${searchKeyword}&page=1`)
+         apiCall(`/api/${entity}/searchlist?keyword=${searchKeyword}&page=1`, "GET", null, null)
          .then(response => {
             console.log(response.data)
             setDataState(response.data);

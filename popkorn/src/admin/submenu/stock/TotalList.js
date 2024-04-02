@@ -1,10 +1,10 @@
 
 import { useEffect, useState } from "react";
 import "./product.css";
-import axios from "axios";
 import TypeIt from "typeit-react";
 import SearchForm from "../modules/SearchForm";
 import ListForm from "../modules/ListForm";
+import { apiCall } from "../../../service/apiService";
 
 export default function TotalList() {
    const [page, setPage] = useState(1);
@@ -18,7 +18,7 @@ export default function TotalList() {
    });
 
    useEffect(() => {
-      axios.get(`/api/product/productlist?page=${page}&size=20`)
+      apiCall(`/api/product/productlist?page=${page}&size=20`, "GET", null, null)
          .then(response => {
             setDataState(response.data);
          })

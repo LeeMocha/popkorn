@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 import "./CartListFrom.css";
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 export default function CartListFrom() {
     const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
@@ -12,7 +12,7 @@ export default function CartListFrom() {
     const [selectCheck, setSelectCheck] = useState([]); // 각 각의 상품체크 초기화
 
     useEffect(() => {
-        axios.get(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`)
+        apiCall(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`, "GET", null, null)
             .then(response => {
                 setProduct(response.data);
                 setSelectCheck(new Array(response.data.length).fill(false));
@@ -32,7 +32,7 @@ export default function CartListFrom() {
         }, []);
 
         checkedItemIds.forEach(({ id, pcode, productname }) => {
-            axios.delete(`/api/cart/delete?id=${id}&pcode=${pcode}`)
+            apiCall(`/api/cart/delete?id=${id}&pcode=${pcode}`, "DELETE", null, null)
                 .then(response => {
                     console.log(`${productname} 삭제 성공`);
                 })

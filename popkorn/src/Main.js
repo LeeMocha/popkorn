@@ -6,22 +6,22 @@ import Celeb from './celeb/Celeb';
 import MProduct from './mProduct/MProduct';
 import Footer from './footer/Footer';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiCall } from './service/apiService';
 
 export default function Main() {
 
     const [celebs, setCelebs] = useState([]);
     const [selectCeleb, setSelectCeleb] = useState({})
 
-    useEffect(() => {
-        axios.get("/api/celeb/celeblist")
-            .then(response => {
-                setCelebs(response.data);
-                setSelectCeleb(response.data[0]);
-            }).catch(err => console.log(err))
-
-    }, [])
-
+    useEffect(()=> {
+        apiCall("/api/celeb/celeblist", "GET", null, null)
+        .then(response=>{
+           setCelebs(response.data);
+           setSelectCeleb(response.data[0]);
+        }).catch( err => console.log(err))
+        
+     }, [])
+     
     return (
         <>
             <Header />

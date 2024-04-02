@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import "./ListForm.css";
-import axios from 'axios';
+import { apiCall } from '../../../service/apiService';
 
 // 공통된 컬럼 추출
 function extractCommonColumns(data) {
@@ -44,7 +44,7 @@ export default function ListForm({ data, setDataState, pk }) {
    };
 
    const deleteDate = (id) => {
-      axios.get(`/api/user/delete?id=${id}`)
+      apiCall(`/api/user/delete?id=${id}`, "GET", null, null)
       .then(response => {
          setDataState(response.data);
      })
