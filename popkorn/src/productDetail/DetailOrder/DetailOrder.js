@@ -5,7 +5,7 @@ import PopkornBtn from '../../useModules/PopkornBtn'
 
 import "./DetailOrder.css";
 import { Logincontext } from './../../App';
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 export default function DetailOrder() {
     const Location = useLocation();
@@ -57,7 +57,7 @@ export default function DetailOrder() {
 
     const addCart = async () => {
         try {
-            await axios.post(`/api/cart/addcart`, {
+            await apiCall(`/api/cart/addcart`, "POST", {
                 id: sessionStorage.getItem('loginID'),
                 pcode: pcode,
                 detailcount: cnt,
@@ -65,7 +65,7 @@ export default function DetailOrder() {
                 price: pData.price,
                 image1: pData.image1,
                 productname: pData.productname
-            });
+            }, null);
             navigate('/cart');
         } catch (error) {
             console.error('Error adding item to cart:', error);
@@ -108,7 +108,7 @@ export default function DetailOrder() {
     }
 
     useEffect(() => {
-        axios.post(`/api/product/selectoption`, { "productname": pData.productname })
+        apiCall(`/api/product/selectoption`, "POST", { "productname": pData.productname })
             .then((response) => {
                 setAlternative(response.data);
             }).catch(err => console.log(err));

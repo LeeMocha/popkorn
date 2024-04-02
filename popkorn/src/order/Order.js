@@ -6,15 +6,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OrderComplete from '../order/OrderComplete';
 
-import axios from 'axios';
 import PopkornBtn from '../useModules/PopkornBtn';
+import { apiCall } from '../service/apiService';
 
 export default function Order() {
 
-    const paymentsbtnSrc = process.env.PUBLIC_URL + "/paymentsbtnIMG/";
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
-    const totalprice = Location.state.totalprice; // Object Type으로 전달 받음.
     const navigate = useNavigate();
     const [data, setData] = useState({
         merchant_uid: '',
@@ -47,9 +45,8 @@ export default function Order() {
             return;
         }
 
-        axios.post(`/api/product/checkDetailCount`, items)
+        apiCall(`/api/product/checkDetailCount`, "POST", items, null)
             .then(response => {
-                console.log(response.data)
                 if (response.data) {
                     if (!window.IMP) return;
                     /* 1. 가맹점 식별하기 */
@@ -92,13 +89,12 @@ export default function Order() {
                     items[i] = { ...newItem, merchantUid: response.merchant_uid };
                 })
 
-                sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));
-
-                navigate("/ordercomplete", { state: { items: items, response: response } })
+                console.log(sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID')))
 
             } catch (error) {
                 alert("Order Failed !!");
                 console.log(error)
+                return null;
             }
 
         } else {
@@ -112,7 +108,7 @@ export default function Order() {
             "items": items,
             "id": id
         }
-        axios.post(`/api/pay/datatoserver`, request)
+        apiCall(`/api/pay/datatoserver`, "POST", request)
             .then(response => {
                 console.log(response);
             })

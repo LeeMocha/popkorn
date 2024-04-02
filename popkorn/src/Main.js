@@ -6,7 +6,7 @@ import Celeb from './celeb/Celeb';
 import MProduct from './mProduct/MProduct';
 import Footer from './footer/Footer';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiCall } from './service/apiService';
 
 export default function Main() {
 
@@ -14,7 +14,7 @@ export default function Main() {
     const [selectCeleb, setSelectCeleb] = useState({})
 
     useEffect(()=> {
-        axios.get("http://3.35.11.217:8080/api/celeb/celeblist")
+        apiCall("/api/celeb/celeblist", "GET", null, null)
         .then(response=>{
            setCelebs(response.data);
            setSelectCeleb(response.data[0]);
