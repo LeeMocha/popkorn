@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Logincontext } from './../../App';
-import axios from "axios";
+import { apiCall } from "../../service/apiService";
 export default function Icons({isScrolled}) {
 
    const [isLoggedIn, setIsloggedIn] = useContext(Logincontext);
@@ -10,15 +10,13 @@ export default function Icons({isScrolled}) {
 
    const logOut = async () => {
       const loginID = sessionStorage.getItem('loginID');
-    
       if (!loginID) {
         return;
       }
     
       try {
-        await axios.get('http://3.35.11.217:8080/api/user/logout');
+        await apiCall('/api/user/logout', "GET", null, null);
         alert(`로그아웃 되었습니다.`);
-        // 세션에서 loginID 삭제
         sessionStorage.removeItem('loginID');
         setIsloggedIn(false);
       } catch (error) {
