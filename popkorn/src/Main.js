@@ -14,7 +14,7 @@ export default function Main() {
     const [selectCeleb, setSelectCeleb] = useState({})
 
     useEffect(()=> {
-        axios.get("/api/celeb/celeblist")
+        axios.get("http://3.35.11.217:8080/api/celeb/celeblist")
         .then(response=>{
            setCelebs(response.data);
            setSelectCeleb(response.data[0]);

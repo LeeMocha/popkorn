@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teamstatic.popkornback.entity.OrderDetail;
-import com.teamstatic.popkornback.entity.Orderinfo;
+
 import com.teamstatic.popkornback.service.OrderDetailService;
 
 import lombok.AllArgsConstructor;
