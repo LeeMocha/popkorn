@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './myaccountinfo.css';
 import { UseTerms } from './useTerms';
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 const Myaccountinfo = () => {
   const [editMode, setEditMode] = useState(false);
   const [email, setEmail] = useState(sessionStorage.getItem('loginID'));
   const [nickname, setNickname] = useState('');
 
-  // 이메일이 변경되었을 때 실행되는 useEffect
   useEffect(() => {
     const checkNickname = async () => {
       try {
-        const response = await axios.get(`/api/user/${email}/nickname`);
+        const response = await apiCall(`/api/user/${email}/nickname`, "GET" , null ,null);
         if (response.status === 200) {
           setNickname(response.data);
         } else {
@@ -23,7 +22,6 @@ const Myaccountinfo = () => {
       }
     };
 
-    // 이메일이 유효한 경우에만 닉네임 가져오기 요청
     if (email) {
       checkNickname();
     }
@@ -39,7 +37,7 @@ const Myaccountinfo = () => {
 
   const updatenickname = async () => {
     try {
-      const response = await axios.post(`/api/user/updatenickname?nickname=${nickname}&email=${email}`);
+      const response = await apiCall(`/api/user/updatenickname?nickname=${nickname}&email=${email}`, "POST" , null, null);
       if (response.status === 200) {
         setNickname(response.data);
         return true;

@@ -118,25 +118,24 @@ public class UserController {
     }
 
     @PostMapping("/login")
-public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String, String> requestBody) {
-    String emailinput = requestBody.get("emailinput");
-    String pwinput = requestBody.get("pwinput");
+    public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+        String emailinput = requestBody.get("emailinput");
+        String pwinput = requestBody.get("pwinput");
 
-    Optional<User> user = uservice.findById(emailinput);
+        Optional<User> user = uservice.findById(emailinput);
 
-    if (user.isPresent()) {
-        String password = user.get().getPassword();
-        if (passwordEncoder.matches(pwinput, password)) {
-            session.setAttribute("loginID", user.get().getId());
-            return ResponseEntity.ok(user.get().getId());
+        if (user.isPresent()) {
+            String password = user.get().getPassword();
+            if (passwordEncoder.matches(pwinput, password)) {
+                session.setAttribute("loginID", user.get().getId());
+                return ResponseEntity.ok(user.get().getId());
+            } else {
+                return ResponseEntity.ok("Login failed");
+            }
         } else {
-            return ResponseEntity.ok("Login failed");
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
         }
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
     }
-}
-
 
     @GetMapping("/logout")
     public void logout(HttpSession session) {
@@ -145,24 +144,24 @@ public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String
 
     @PostMapping("/memberjoin")
     public ResponseEntity<String> memberJoin(@RequestParam("id") String id,
-                                             @RequestParam("password") String password,
-                                             @RequestParam("nickname") String nickname) {
-    
+            @RequestParam("password") String password,
+            @RequestParam("nickname") String nickname) {
+
         ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
-    
+
         User user = new User();
-    
-        user.setId(id);  
-        user.setPassword(password);  
-        user.setNickname(nickname);  
+
+        user.setId(id);
+        user.setPassword(password);
+        user.setNickname(nickname);
         user.setCreatedate(seoulLocalDateTime);
         user.setStatus("signed");
-    
+
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-    
+
         user.setPassword(encodedPassword);
-    
+
         try {
             uservice.save(user);
             return ResponseEntity.ok("회원가입 성공");
@@ -170,7 +169,6 @@ public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
         }
     }
-    
 
     @PostMapping("/mailConfirm")
     @ResponseBody
@@ -203,15 +201,15 @@ public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String
     }
 
     @PostMapping("/passwordcheck")
-    public ResponseEntity<Boolean> passwordcheck(HttpSession session, @RequestParam String currentpw) {
-        // 세션에서 사용자 ID 가져오기
-        String userId = (String) session.getAttribute("loginID");
-
+    public ResponseEntity<Boolean> passwordCheck(@RequestBody Map<String, Object> request) {
+        String currentpw = (String) request.get("currentpw");
+        String userId = (String) request.get("userId");
         if (userId != null) {
             Optional<User> userOptional = uservice.findById(userId);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
+                System.out.println(passwordMatch);
                 return ResponseEntity.ok(passwordMatch);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
@@ -222,10 +220,10 @@ public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String
     }
 
     @PostMapping("/redesignpassword")
-    public ResponseEntity<String> redesignpassword(HttpSession session, @RequestParam String newpassword) {
+    public ResponseEntity<String> redesignpassword(@RequestBody Map<String, Object> request) {
 
-        String userId = (String) session.getAttribute("loginID");
-
+        String userId = (String) request.get("userId");
+        String newpassword = (String) request.get("newpassword");
         if (userId != null) {
             Optional<User> userOptional = uservice.findById(userId);
             User user = userOptional.get();
@@ -233,9 +231,9 @@ public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String
             user.setPassword(encodedPassword);
             try {
                 uservice.save(user);
-                return ResponseEntity.ok("비밀번호 변경 성공");
+                return ResponseEntity.ok("Change Password Complete");
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Change Password Failed. Please retry.");
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
@@ -264,8 +262,8 @@ public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String
     }
 
     @DeleteMapping("/withdraw")
-    public ResponseEntity<String> withdraw(HttpSession session) {
-        String userId = (String) session.getAttribute("loginID");
+    public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> request) {
+        String userId = (String) request.get("userId");
 
         try {
             uservice.deleteById(userId);
