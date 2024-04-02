@@ -20,8 +20,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import com.teamstatic.popkornback.entity.OrderDetail;
 import com.teamstatic.popkornback.entity.Orderinfo;
-import com.teamstatic.popkornback.entity.Product;
-import com.teamstatic.popkornback.entity.User;
+
 import com.teamstatic.popkornback.service.CartService;
 import com.teamstatic.popkornback.service.OrderDetailService;
 import com.teamstatic.popkornback.service.PaymentService;
