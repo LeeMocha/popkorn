@@ -73,6 +73,11 @@ i {
   transition: opacity 0.3s;
 }
 
+.bottomBtn>i{
+  left: 13px;
+  bottom: 25px;
+}
+
 .TBBtn_wrap .topBtn.visible {
   opacity: 1;
 }
@@ -90,5 +95,8 @@ i {
 }
 
 .hidden{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: 0;
 }
