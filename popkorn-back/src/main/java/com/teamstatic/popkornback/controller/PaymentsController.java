@@ -59,6 +59,8 @@ public class PaymentsController {
    public IamportResponse<Payment> datatoserver(@RequestBody Map<String, Object> request)
          throws IamportResponseException, IOException {
 
+      if(request== null) return null;
+
       String imp_uid = (String) request.get("imp_uid");
       String id = (String) request.get("id");
       List<Map<String, Object>> items = (List<Map<String, Object>>) request.get("items");
@@ -67,10 +69,10 @@ public class PaymentsController {
       for (Map<String, Object> item : items) {
          OrderDetail detail = new OrderDetail();
          detail.setMerchantUid((String) item.get("merchantUid"));
-         detail.setPcode((int) item.get("pcode"));
+         detail.setPcode(Integer.parseInt((String) item.get("pcode")));
          detail.setProductname((String) item.get("productname"));
          detail.setPrice((int) item.get("price"));
-         detail.setDetailcount((int) item.get("detailcount"));
+         detail.setDetailcount((int)item.get("detailcount"));
          detail.setAlternative((String) item.get("alternative"));
          detail.setImage1((String) item.get("image1"));
          orderDetail.add(detail);

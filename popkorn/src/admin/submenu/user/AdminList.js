@@ -7,13 +7,14 @@ import SearchForm from "../modules/SearchForm";
 import "./user.css";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { apiCall } from "../../../service/apiService";
 
 export default function AdminList() {
     const [page, setPage] = useState(1);
     const [data, setDataState] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/user/adminlist?page=${page}&size=20`)
+        apiCall(`/api/user/adminlist?page=${page}&size=20`, "GET", null, null)
             .then(response => {
                 setDataState(response.data);
             })

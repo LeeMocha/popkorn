@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Slot from "../slot/Slot";
-import axios from "axios";
+import { apiCall } from "../../service/apiService";
 
 export default function Mcontents({selectCeleb}) {
 
@@ -8,7 +8,7 @@ export default function Mcontents({selectCeleb}) {
    const logoSrc = process.env.PUBLIC_URL + '/celebIMG/';
 
    useEffect(()=>{
-      axios.get(`http://3.35.11.217:8080/api/product/findByArtist?artist=${selectCeleb.artist}`)
+      apiCall(`/api/product/findByArtist?artist=${selectCeleb.artist}`, "GET", null, null)
       .then(response=>{
          setArtistProducts(response.data)
       }).catch(err => console.log)

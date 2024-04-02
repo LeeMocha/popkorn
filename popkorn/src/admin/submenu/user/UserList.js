@@ -4,7 +4,7 @@ import SearchForm from "../modules/SearchForm";
 
 import "./user.css";
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiCall } from "../../../service/apiService";
 
 export default function UserList() {
     const [page, setPage] = useState(1);
@@ -18,7 +18,7 @@ export default function UserList() {
         });
 
     useEffect(() => {
-        axios.get(`/api/user/userlist?page=${page}&size=20`)
+        apiCall(`/api/user/userlist?page=${page}&size=20`, "GET", null, null)
             .then(response => {
                 console.log(response.data);
                 setDataState(response.data);
