@@ -19,7 +19,7 @@ const OrderItem = ({ order, onClick }) => {
         Phone: {order.buyerTel} <br />
       </div>
       <div className='orderbtn'>
-        <button className='refundbtn'>Refund</button>
+        <button className='refundbtn' state={{ id: order.merchant_uid }}>Refund</button>
         <button className='inquirementbtn'>Inquirement</button>
         <div className='ordertotalprice'>
           Total amount : {order.paidAmount} ₩
