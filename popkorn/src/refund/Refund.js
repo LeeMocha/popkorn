@@ -1,13 +1,16 @@
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Refund.css";
 import { useEffect, useState } from "react";
 import { apiCall } from "../service/apiService";
 import PopkornBtn from "../useModules/PopkornBtn";
 
-export default function Refund({id}) {
+export default function Refund() {
 
-    id = 'pop_1712027954605'
+    const Location = useLocation();
+    // const id = Location.state.id; // Object Type으로 전달 받음.
+
+    const id = 'pop_1712027954605'
 
     const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
     const navigate = useNavigate();
@@ -90,9 +93,9 @@ export default function Refund({id}) {
             <div className='CartListFromDiv'>
                 <h1 style={{ color: ' #7de4ff' }}>Refund</h1>
                 <br></br>
-                <h4>Order number : </h4><span> {orderinfo.merchantUid} </span>
-                <h4>Order date : </h4> <span>  {orderinfo.paidAt} </span>
-                <h4>Order address : </h4> <span> {orderinfo.buyerAddr} </span>
+                <h4>Order number : <span> {orderinfo.merchantUid} </span></h4>
+                <h4>Order date : <span>  {orderinfo.paidAt} </span></h4> 
+                <h4>Order address : <span> {orderinfo.buyerAddr} </span></h4> 
                 <br></br>
                 <div className='container'>
                     {items.length !== 0 && (

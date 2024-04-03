@@ -56,37 +56,33 @@ public class PaymentsController {
    }
 
    @PostMapping("/datatoserver")
-   public IamportResponse<Payment> datatoserver(@RequestBody Map<String, Object> request)
+   public boolean datatoserver(@RequestBody Map<String, Object> request)
          throws IamportResponseException, IOException {
-
-      if(request== null) return null;
-
+            
       String imp_uid = (String) request.get("imp_uid");
       String id = (String) request.get("id");
       List<Map<String, Object>> items = (List<Map<String, Object>>) request.get("items");
       List<OrderDetail> orderDetail = new ArrayList<>();
+      IamportResponse<Payment> paymentIamportResponse = iamportClient.paymentByImpUid(imp_uid);
+      Payment payment = paymentIamportResponse.getResponse();
 
       for (Map<String, Object> item : items) {
          OrderDetail detail = new OrderDetail();
          detail.setMerchantUid((String) item.get("merchantUid"));
-         detail.setPcode(Integer.parseInt((String) item.get("pcode")));
+         detail.setPcode((int) item.get("pcode"));
          detail.setProductname((String) item.get("productname"));
          detail.setPrice((int) item.get("price"));
-         detail.setDetailcount((int)item.get("detailcount"));
+         detail.setDetailcount((int) item.get("detailcount"));
          detail.setAlternative((String) item.get("alternative"));
          detail.setImage1((String) item.get("image1"));
          orderDetail.add(detail);
       }
 
-      IamportResponse<Payment> paymentIamportResponse = iamportClient.paymentByImpUid(imp_uid);
-
-      Payment payment = paymentIamportResponse.getResponse();
-
       // 재고가 주문량보다 적을 경우 주문 취소
       for (OrderDetail product : orderDetail) {
          if (product.getDetailcount() > pService.findByPcode(product.getPcode()).getStock()) {
             iamportClient.cancelPaymentByImpUid(new CancelData(imp_uid, true));
-            return null;
+            return false;
          }
       }
 
@@ -94,23 +90,21 @@ public class PaymentsController {
 
          payService.savePaymentData(orderDetail, payment, id);
          // 결과 주문내역 return (merchant_uid, email, ETC)
-         return paymentIamportResponse;
+         return true;
 
       } catch (Exception e) {
          // 상기 try 부분에서 무결성에 문제가 생길경우 결제 취소.
          log.info("결제 오류 발생!!! 결제를 취소합니다. err =>" + e);
          iamportClient.cancelPaymentByImpUid(new CancelData(imp_uid, true));
-         return null;
+         return false;
       }
 
    }
 
    @GetMapping("/orders")
-public ResponseEntity<List<Orderinfo>> getOrdersById(@RequestParam String buyerEmail) {
-    List<Orderinfo> orders = payService.findById(buyerEmail);
-    return ResponseEntity.ok(orders);
-}
+   public ResponseEntity<List<Orderinfo>> getOrdersById(@RequestParam String buyerEmail) {
+      List<Orderinfo> orders = payService.findById(buyerEmail);
+      return ResponseEntity.ok(orders);
+   }
 
-
-   
 }

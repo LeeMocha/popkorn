@@ -29,9 +29,8 @@
     padding-left: 1%;
 }
 
-.completeBox>p {
-    color: rgb(255, 0, 0);
-    font-size: 12px
+.completeBox .xi-check-circle-o {
+    color: rgb(92, 255, 51);
 }
 
 .completeMap {
@@ -70,7 +69,12 @@
 }
 
 .ordercompleteinfo {
-    font-size: 2vw;
+    font-size: 1.5vw;
     font-weight: bold;
+    color: #FE7CF3;
+}
+
+.ordercompleteinfo > span{
+    font-size: 0.8vw;
     color: red;
 }
