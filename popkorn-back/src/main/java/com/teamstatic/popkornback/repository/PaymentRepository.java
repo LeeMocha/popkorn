@@ -8,5 +8,5 @@ import com.teamstatic.popkornback.entity.Orderinfo;
 
 public interface PaymentRepository extends JpaRepository<Orderinfo, String>{
 
-  List<Orderinfo> findByStatus(String status);
+  List<Orderinfo> findBybuyerEmail(String id);
 }

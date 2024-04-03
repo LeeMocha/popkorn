@@ -68,3 +68,9 @@
 .completeIndex>div>span {
     width: 100%;
 }
+
+.ordercompleteinfo {
+    font-size: 2vw;
+    font-weight: bold;
+    color: red;
+}

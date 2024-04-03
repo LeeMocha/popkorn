@@ -106,8 +106,8 @@ public class PaymentsController {
    }
 
    @GetMapping("/orders")
-public ResponseEntity<List<Orderinfo>> getOrdersByStatus(@RequestParam String status) {
-    List<Orderinfo> orders = payService.findByStatus(status);
+public ResponseEntity<List<Orderinfo>> getOrdersById(@RequestParam String buyerEmail) {
+    List<Orderinfo> orders = payService.findById(buyerEmail);
     return ResponseEntity.ok(orders);
 }
 
