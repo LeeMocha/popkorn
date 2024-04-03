@@ -1,8 +1,10 @@
 package com.teamstatic.popkornback.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.objenesis.ObjenesisHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,25 +42,25 @@ public class ProductController {
     }
 
     @GetMapping("/findByCategorylAndCategorym")
-    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym, int page) {
+    public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
+            int page) {
 
-
-        if(categoryl.equals("new")){
+        if (categoryl.equals("new")) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
-            .page(page)
-            .size(8)
-            .build();
+                    .page(page)
+                    .size(8)
+                    .build();
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findNewAll(requestDTO);
             return resultDTO;
 
         } else {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
-            .page(page)
-            .size(20)
-            .categoryl(categoryl)
-            .categorym(categorym)
-            .build();
+                    .page(page)
+                    .size(20)
+                    .categoryl(categoryl)
+                    .categorym(categorym)
+                    .build();
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
                     requestDTO);
@@ -67,10 +69,9 @@ public class ProductController {
 
     }
 
-
     @PostMapping("/selectoption")
     public List<Product> selectoption(@RequestBody Map<String, Object> request) {
-        String productname = (String)request.get("productname");
+        String productname = (String) request.get("productname");
         List<Product> list = pService.findByProductname(productname);
         return list;
     }
@@ -81,19 +82,22 @@ public class ProductController {
         return list;
     }
 
-    
     @PostMapping("/checkDetailCount")
-    public boolean checkDetailCount(@RequestBody List<OrderDetail> orderDetails) {
+    public Map<String, Object> checkDetailCount(@RequestBody List<OrderDetail> orderDetails) {
+
+        Map<String, Object> response = new HashMap<>();
+
         for (OrderDetail orderDetail : orderDetails) {
-            if(orderDetail.getDetailcount() > pService.findByPcode(orderDetail.getPcode()).getStock()){
-                return false;
+            if (orderDetail.getDetailcount() > pService.findByPcode(orderDetail.getPcode()).getStock()) {
+                response.put("result", false);
+                return response;
             }
         }
 
-        return true;
+        // If all checks passed
+        response.put("result", true);
+        response.put("imp_uid", "imp71862281");
+        return response;
     }
-    
-
-    
 
 }

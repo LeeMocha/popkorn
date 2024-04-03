@@ -1,6 +1,7 @@
 import "./Footer.css";
 import Mainlogo from '../header/logo/Mainlogo/Mainlogo';
 import { UseTerms } from '../auth/mypage/useTerms';
+import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <div className="footer_wrap">
@@ -10,8 +11,12 @@ export default function Footer() {
         <div className='footer-flex'>
           <div className="footer-content">
             <div className="footer_menu">
+              <Link to="/unsignedorder">
               <span>Unsigned Order</span>
+              </Link>
+              <Link to="/refund">
               <span>Refund</span>
+              </Link>
             </div>
               <UseTerms />
             <dl>
