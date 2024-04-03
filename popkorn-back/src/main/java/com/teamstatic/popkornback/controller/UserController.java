@@ -208,7 +208,6 @@ public class UserController {
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
-                System.out.println(passwordMatch);
                 return ResponseEntity.ok(passwordMatch);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);

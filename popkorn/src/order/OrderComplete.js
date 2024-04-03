@@ -35,10 +35,6 @@ export const OrderComplete = () => {
             const request = {"id" : orderinfo.merchant_uid, "password" : newRandomString}
             apiCall(`/api/orderdetail/makeorderkey`, "POST" , request, null)
             .then(response => {
-                console.log("주문키 생성");
-                console.log(response);
-                console.log(orderinfo.merchant_uid);
-                console.log(newRandomString);
             })
             .catch(err => console.log(err));
         }

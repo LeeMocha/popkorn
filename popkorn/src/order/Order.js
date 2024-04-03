@@ -51,8 +51,6 @@ export default function Order() {
         const emailinput = data.buyer_email;
         apiCall(`/api/orderdetail/emailcheck?emailinput=${emailinput}`, "GET", null, null)
             .then(checkresponse => {
-                console.log(checkresponse.data);
-                console.log(loginCheck);
                 if (checkresponse.data === true && loginCheck === 'false') {
                         alert('Email already exists. Go to the login page.');
                         window.onbeforeunload = null;
@@ -60,11 +58,11 @@ export default function Order() {
                 } else {
                     apiCall(`/api/product/checkDetailCount`, "POST", items, null)
                         .then(response => {
-                            if (response.data) {
+                            if (response.data.result) {
                                 if (!window.IMP) return;
                                 /* 1. 가맹점 식별하기 */
                                 const { IMP } = window;
-                                IMP.init("imp71862281"); // 가맹점 식별코드
+                                IMP.init(response.data.imp_uid); // 가맹점 식별코드
 
                                 /* 2. 결제 데이터 정의하기 */
                                 const toImpData = {
@@ -107,7 +105,6 @@ export default function Order() {
                     let newItem = { ...item };
                     delete newItem.ccode;
                     items[i] = { ...newItem, merchantUid: response.merchant_uid };
-                    console.log(sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID')))
                     navigate('/ordercomplete', { state: { items: items, response: response } });
                 })
             } catch (error) {
