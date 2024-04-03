@@ -1,106 +1,108 @@
 import { useState, useEffect } from 'react';
 import './orderlist.css';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { apiCall } from '../../service/apiService';
+import { Navigate, Link } from 'react-router-dom';
+
+const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
+
+const OrderItem = ({ order, onClick }) => {
+  return (
+    <div className='orderlistcontainer'>
+      <div className='orderlist1st'>
+        <div className='orderdetaildate'>Order date : {new Date(order.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
+        <div className='orderdetailcheck' onClick={() => onClick(order)}>Order detail</div>
+      </div>
+      <div className='orderlist2nd'>
+        <div className='orderdetailnumber'>Order Number : {order.merchantUid}</div><br />
+
+        Buyer name: {order.buyerName} <br />
+        Address: {order.buyerAddr} <br />
+        Phone: {order.buyerTel} <br />
+      </div>
+      <div className='orderbtn'>
+        <Link to="/refund" state={{id:order.merchantUid}}>
+          <button className='refundbtn'>Refund</button>
+        </Link>
+        <button className='inquirementbtn'>Inquirement</button>
+        <div className='ordertotalprice'>
+          Total amount : {order.paidAmount} ₩
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 export const OrderList = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [orderdetails, setOrderdetails] = useState([]);
-
-  const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
-
-  const total = orders.reduce((sum, order) => sum + order.price, 0);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/pay/orders?status=paid`)
+    apiCall(`/api/pay/orders?buyerEmail=${sessionStorage.getItem('loginID')}`, "GET", null, null)
       .then(response => {
-        const sortedOrders = response.data.sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt)); // 내림차순으로 정렬
+        const sortedOrders = response.data.sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
         setOrders(sortedOrders);
-      }).catch(err => console.log(err))
+      })
+      .catch(err => console.log(err));
   }, []);
 
-  useEffect(() => {
-    if (orderdetails.length > 0) {
-      axios.get(`/api/orderdetail/orderlist?merchantUid=${orderdetails[0].merchantUid}`)
+  const popupClick = (order) => {
+    if (order) {
+      apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET", null, null)
         .then(response => {
-          setOrderdetails(response.data);
-          console.log(orderdetails);
+          setOrderDetails(response.data);
+          setSelectedOrder(order);
+          setShowPopup(true);
         }).catch(err => console.log(err));
     }
-  },[]);
+  };
 
-  const popupclick = (order, ) => {
-    setShowPopup(true);
-    setOrderdetails([order]);
+  const closePopup = () => {
+    setShowPopup(false);
+    setOrderDetails([]);
+    setSelectedOrder(null);
   };
 
   return (
-    <>
-      <div className="orderlistwhole">
-        <div className="account-header">
-          My Order List
-        </div>
-        {orders.length === 0 ? (
-          <div>No Order Detail</div>
-        ) : (
-          <>
-            {orders.map((order, index) => (
-              <div className='orderlistcontainer' key={index}>
-                <div className='orderlist1st'>
-                  <div className='orderdetaildate'>주문 일자 : {new Date(order.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
-                  <div className='orderdetailcheck' onClick={() => popupclick(order)}>주문 상세 보기</div>
-                </div>
-                <div className='orderlist2nd'>
-                  <div className='orderdetailimg'><img src={imageSrc + orderdetails.image1} /></div>
-                  <div className='orderdetailproductinfo'>
-                    <div>{order.productname}</div>
-                    <div>{order.alternative}</div>
-                    <div>{order.detailcount}</div>
-                    <div>{order.price}￦</div>
-                  </div>
-                </div>
-                <button className='orderdetailreturnrequest'>반품 요청</button>
-                <button className='orderdetailservice'>고객 문의</button>
-              </div>
-            ))}
-          </>
-        )}
+    <div className="orderlistwhole">
+      <div className="account-header">
+        My Order List
       </div>
-
-      {showPopup && (
+      {orders.map((order, index) => (
+        <OrderItem key={index} order={order} onClick={popupClick} />
+      ))}
+      {showPopup && selectedOrder && (
         <div className="orderpopup-overlay">
           <div className='orderdetailscontainer'>
             <div className='orderlist1st'>
-              <div className='orderdetaildate'>주문 일자 : <br />{new Date(orderdetails[0].paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
-              <div className='orderdetailpcode'>주문번호 : {orderdetails[0].merchantUid}</div>
+              <div className='orderdetaildate'>Order date : <br />{new Date(selectedOrder.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
+              <div className='orderdetailpcode'>Order number : {selectedOrder.merchantUid}</div>
             </div>
-            <div className='orderlist2nd'>
-              <div className='orderdetailimg'>일단 사진 들어가는곳</div>
-              <div className='orderdetailproductinfo'>
-                <div>
-                  {orderdetails[0].productname}<br />
-                  {orderdetails[0].price}
+            {orderDetails.map((orderDetail, index) => (
+              <div className='orderdetailproductinfo' key={index}>
+                <div className='orderdetailinfo'>
+                  <div className='orderdetailimg'><img src={imageSrc + orderDetail.image1} alt="product" /></div>
+                  <div className='productmapvalue'>
+                    <div className='orderdetailpname'>{orderDetail.productname}</div>
+                    <div className='orderdetailalternative'>{orderDetail.alternative}</div>
+                    <div className='orderdetailcount'>{orderDetail.detailcount} EA / {orderDetail.price}￦</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className='orderdetailcustomerinfo'>
-              <div>
-                주문자명 : {orderdetails[0].buyerName} <br />
-                주소지 : {orderdetails[0].buyerAddr} <br />
-                전화번호 : {orderdetails[0].buyerTel} <br />
-              </div>
-            </div>
+            ))}
             <div className='orderlist3rd'>
-              <div className='orderdetailprice'>
-                총 결제금액 : {orderdetails[0].paidAmount} ₩
+              <div className='ordertotalprice'>
+                Total amount : {orderDetails.reduce((total, orderDetail) => total + (orderDetail.price * orderDetail.detailcount), 0)} ₩
               </div>
             </div>
-            <button className="popup-close-btn" onClick={() => setShowPopup(false)}>X</button>
+            <button className="popup-close-btn" onClick={closePopup}>X</button>
           </div>
         </div>
       )}
-    </>
+
+    </div>
   );
 };
 

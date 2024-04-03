@@ -6,20 +6,21 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OrderComplete from '../order/OrderComplete';
 
-import axios from 'axios';
 import PopkornBtn from '../useModules/PopkornBtn';
+import { apiCall } from '../service/apiService';
+import { Logincontext } from '../App';
 
 export default function Order() {
-
-    const paymentsbtnSrc = process.env.PUBLIC_URL + "/paymentsbtnIMG/";
+    window.onbeforeunload = null;
+    const loginCheck = sessionStorage.getItem('loginCheck');
+    const storedLoginID = sessionStorage.getItem('loginID');
     const Location = useLocation();
     const items = Location.state.items; // Object Type으로 전달 받음.
-    const totalprice = Location.state.totalprice; // Object Type으로 전달 받음.
     const navigate = useNavigate();
     const [data, setData] = useState({
         merchant_uid: '',
         buyer_name: '',
-        buyer_email: '',
+        buyer_email: loginCheck === 'true' ? storedLoginID : '',
         buyer_postcode: 0,
         buyer_tel: '',
         paid_amount: 0,
@@ -30,11 +31,12 @@ export default function Order() {
         buyer_addr: ``
     });
 
+    const preventRefresh = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+    };
+
     useEffect(() => {
-        const preventRefresh = (event) => {
-            event.preventDefault();
-            event.returnValue = '';
-        };
         window.addEventListener('beforeunload', preventRefresh);
         return () => {
             window.removeEventListener('beforeunload', preventRefresh);
@@ -47,39 +49,53 @@ export default function Order() {
             return;
         }
 
-        axios.post(`/api/product/checkDetailCount`, items)
-            .then(response => {
-                console.log(response.data)
-                if (response.data) {
-                    if (!window.IMP) return;
-                    /* 1. 가맹점 식별하기 */
-                    const { IMP } = window;
-                    IMP.init("imp71862281"); // 가맹점 식별코드
-
-                    /* 2. 결제 데이터 정의하기 */
-                    const toImpData = {
-                        pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
-                        pay_method: "card", // 결제수단
-                        merchant_uid: `pop_${new Date().getTime()}`, // 주문번호
-                        amount: 100, // 결제금액
-                        buyer_name: data.buyer_name, // 구매자 이름
-                        buyer_tel: data.buyer_tel, // 구매자 전화번호
-                        buyer_email: data.buyer_email, // 구매자 이메일
-                        buyer_addr: `${data.address2} ${data.address1} ${data.city} ${data.country}`, // 구매자 주소
-                        buyer_postcode: data.buyer_postcode, // 구매자 우편번호
-                    };
-
-                    /* 4. 결제 창 호출하기 */
-                    IMP.request_pay(toImpData, callback);
-
-                    // 이 부분
-
+        const emailinput = data.buyer_email;
+        apiCall(`/api/orderdetail/emailcheck?emailinput=${emailinput}`, "GET", null, null)
+            .then(checkresponse => {
+                if (checkresponse.data === true && loginCheck === 'false') {
+                    alert('Email already exists. Go to the login page.');
+                    window.removeEventListener('beforeunload', preventRefresh);
+                    window.location.href = '/auth';
                 } else {
-                    alert("Payment is not possible because the remaining items are less than the quantity you wish to purchase.")
-                    return null;
+                    apiCall(`/api/product/checkDetailCount`, "POST", items, null)
+                        .then(response => {
+                            if (response.data.result) {
+                                if (!window.IMP) return;
+                                /* 1. 가맹점 식별하기 */
+                                const { IMP } = window;
+                                IMP.init(response.data.imp_uid); // 가맹점 식별코드
+
+                                /* 2. 결제 데이터 정의하기 */
+                                const toImpData = {
+                                    pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
+                                    pay_method: "card", // 결제수단
+                                    merchant_uid: `pop_${new Date().getTime()}`, // 주문번호
+                                    amount: 100, // 결제금액
+                                    buyer_name: data.buyer_name, // 구매자 이름
+                                    buyer_tel: data.buyer_tel, // 구매자 전화번호
+                                    buyer_email: data.buyer_email, // 구매자 이메일
+                                    buyer_addr: `${data.address2} ${data.address1} ${data.city} ${data.country}`, // 구매자 주소
+                                    buyer_postcode: data.buyer_postcode, // 구매자 우편번호
+                                };
+
+                                /* 4. 결제 창 호출하기 */
+                                window.removeEventListener('beforeunload', preventRefresh);
+
+                                IMP.request_pay(toImpData, callback);
+
+                            } else {
+                                alert("Payment is not possible because the remaining items are less than the quantity you wish to purchase.")
+                                return null;
+                            }
+                        })
+                        .catch(err => console.log(err))
                 }
             })
-            .catch(err => console.log(err))
+            .catch(error => {
+                console.error('오류 발생:', error);
+            });
+
+
     };
 
     function callback(response) {
@@ -89,18 +105,20 @@ export default function Order() {
                 items.map((item, i) => {
                     let newItem = { ...item };
                     delete newItem.ccode;
-                    items[i] = { ...newItem, merchantUid: response.merchant_uid };
-                })
+                    items[i] = { ...newItem, merchantUid: response.merchant_uid, pcode: +items[i].pcode };
+                });
 
-                sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'));
-
-                navigate("/ordercomplete", { state: { items: items, response: response } })
-
+                // DB에 정보 입력 요청 보내기
+                if (sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'))) {
+                    // DB 입력 성공한 경우에만 navigate 호출
+                    navigate('/ordercomplete', { state: { items: items, response: response } });
+                } else {
+                    alert("The order payment has failed due to a system issue. Please try again later.");
+                }
             } catch (error) {
                 alert("Order Failed !!");
-                console.log(error)
+                console.log(error);
             }
-
         } else {
             alert(`Order Failed !! : ${error_msg}`);
         }
@@ -112,14 +130,17 @@ export default function Order() {
             "items": items,
             "id": id
         }
-        axios.post(`/api/pay/datatoserver`, request)
+        if (apiCall(`/api/pay/datatoserver`, "POST", request)
             .then(response => {
-                console.log(response);
+                if (response.data) return true;
+                else return false;
             })
             .catch(error => {
                 alert("Order Failed !!");
                 console.log(error)
-            });
+                return false;
+            })) return true;
+        else return false;
 
     }
 
@@ -160,7 +181,22 @@ export default function Order() {
                             <p>Full Name</p>
                             <input type="text" name='buyer_name' onChange={setDataHandler}></input>
                             <p>Email</p>
-                            <input type="text" name='buyer_email' onChange={setDataHandler}></input>
+                            {loginCheck === 'true' ? (
+                                <input
+                                    type="text"
+                                    name="buyer_email"
+                                    onChange={setDataHandler}
+                                    value={storedLoginID}
+                                    disabled
+                                />
+                            ) : (
+                                <input
+                                    type="text"
+                                    name="buyer_email"
+                                    onChange={setDataHandler}
+                                />
+                            )}
+
                             <p>Phone</p>
                             <input type="text" name='buyer_tel' onChange={setDataHandler}></input>
                             <p>Use Reword</p>

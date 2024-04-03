@@ -1,12 +1,224 @@
-.statelistMain {
-    width: 100%;
+.statelistBox::-webkit-scrollbar {
+    width: 2px;  /* 스크롤바의 너비 */
 }
 
-.seateState {
-    width: 20%;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-left: 20px;
+.statelistBox::-webkit-scrollbar-thumb {
+    height: 5%; /* 스크롤바의 길이 */
+    background: #FE7CF3; /* 스크롤바의 색상 */
+    border-radius:50px;
+}
 
+.statelistBox::-webkit-scrollbar-track {
+    background: rgba(243, 247, 253, 0.37);  /*스크롤바 뒷 배경 색상*/
+    margin-top: 20px;
+}
+
+/* 전체 (div) */
+.statelistMain {
+    width: 100%;
+    display: flex;
+}
+
+/* 왼쪽(div) + 오른쪽(div)  배치*/
+.statelistBox {
+    width: 20%;
+    max-height: 1170px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    overflow: auto;
+}
+
+/*  Order Number 전체 (div) - 크기 조정 */
+.statei {
+    width: 96%;
+    margin-top: 10px;
+    height: 100%;
+}
+
+/* Order Number 전체(div)  */
+.seateState {
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    margin-top: 10px;
+    background: rgba(148, 147, 147, 0.53);
+    text-align: center;
+    color: white;
+}
+
+.seateState span:nth-child(1) {
+    font-size: 10px;
+}
+
+.seateState>h3 {
+    margin-top: -5px;
+}
+
+.seateState p {
+    font-size: 11px;
+}
+
+.seateState>p {
+    color: #414141;
+}
+
+
+/* 배송상태에 따라 색이 바뀌어야함(div : 임시) */
+.seateShipping {
+    border: 1px solid rgba(255, 0, 0, 0.495);
+    background: rgba(255, 0, 0, 0.495);
+    border-radius: 5px;
+    width: 50PX;
+    margin: 10px 5px;
+    height: 20px;
+    line-height: 15px;
+}
+
+/* Delivery progress 전체(div)  */
+.stateDelivery {
+    width: 80%;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    margin-top: 20px;
+    background: rgba(148, 147, 147, 0.53);
+    margin-left: 10px; 
+    margin-right: 10px; 
+    color: white;
+}
+
+.stateDelivery h3 {
+    padding-left: 20px;
+}
+
+/* 단계별 체크박스(div) */
+.stateProgress {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.stateps {
+    padding-top: 20px;
+}
+
+.stateProgressarrow {
+    display: flex;
+    justify-content: space-around;
+}
+
+.stateDelivery>div:nth-child(2) {
+    border-top: 1px solid #fff;
+}
+
+/* 진행상태에 따라 색이 바뀌어야함(div : 임시) */
+.arrow {
+    border: 1px solid#00fe199a;
+    background: #00fe199a;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+}
+
+.stateProgress>p {
+    width: 25%;
+    border-top: 2px solid #00fe199a;
+}
+
+/* 단계별 항목  */
+.stepByStep {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.stage>p {
+    font-size: 12px;
+    color: #414141;
+    text-align: center;
+}
+
+.stepByStepStage {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 7%;
+    width: 85%;
+}
+
+/* 정보 전체 div */
+.informationDiv {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+/* 정보 div */
+.stateInformation {
+    border: 1px solid #7de4ff;
+    background: #7de5ff2c;
+    width: 25%;
+    margin-top: 30px;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.stateInformation>p {
+    font-size: 12px;
+    color: #414141;
+}
+
+.stateInformation1 {
+    border: 1px solid #FE7CF3;
+    background: #fe7cf327;
+    width: 25%;
+    margin-top: 30px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.stateInformation1>p {
+    font-size: 12px;
+    color: #414141;
+}
+
+.stateInformation2 {
+    border: 1px solid #6f50f7;
+    background: #947cfe43;
+    width: 25%;
+    margin-top: 30px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.stateInformation2>p {
+    font-size: 12px;
+    color: #414141;
+}
+
+/* 반응 */
+@media(max-width : 1300px) {
+    .statelistBox {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .stateDelivery {
+        width: 90%;
+    }
+
+    .statei {
+        width: 90%;
+        margin-left: 2%;
+    }
+
+    .stage {
+        width: 40px;
+        padding-left: 10px;
+        margin: 5px 5px 5px 5px;
+        font-size: 13px;
+    }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import './mypasswordchange.css';
 import { charRegex, specialRegex, letterRegex, numRegex } from "../join/joinRegex";
-import axios from "axios";
+import { apiCall } from "../../service/apiService";
 export default function Mypasswordchanger() {
 
         const [passwordrecheck, SetPasswordrecheck] = useState(1);
@@ -46,11 +46,11 @@ export default function Mypasswordchanger() {
 
         const passwordcheck = async (currentpw) => {
                 try {
-                        const response = await axios.post('/api/user/passwordcheck', null, {
-                                params: {
-                                        currentpw: currentpw
-                                }
-                        });
+
+                        const userId = sessionStorage.getItem('loginID');
+                        const request = {"currentpw":currentpw , "userId" : userId}
+
+                        const response = await apiCall('/api/user/passwordcheck', "POST", request , null);
                         if (response.status === 200 && response.data === true) {
                                 console.log('비밀번호 일치');
                                 setShowpw(false);
@@ -70,19 +70,21 @@ export default function Mypasswordchanger() {
                 if (isPasswordMatch) {
                         pwrecheckcomple();
                 } else {
-                        alert('비밀번호가 일치하지 않습니다.')
+                        alert('Password does not match.')
                 }
         };
 
         const redesignpassword = async () => {
                 try {
-                        const response = await axios.post('/api/user/redesignpassword', null, { params: { newpassword: newpassword } });
+                        const userId = sessionStorage.getItem('loginID');
+                        const request = {"newpassword" : newpassword, "userId" : userId}
+                        const response = await apiCall('/api/user/redesignpassword', "POST", request , null);
                         if (response.status === 200) {
-                                alert('비밀번호 변경 완료. 재로그인해주세요.');
+                                alert('Password has been changed. Please re-Login');
                                 sessionStorage.removeItem('loginID');
                                 window.location.href = "/";
                         } else {
-                                console.log('비밀번호 변경 실패');
+                                console.log('Password Change Failed');
                         }
                 } catch (error) {
                         console.error('오류 발생:', error);

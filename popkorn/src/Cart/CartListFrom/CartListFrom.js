@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import PopkornBtn from '../../useModules/PopkornBtn';
 import "./CartListFrom.css";
-import axios from 'axios';
+import { apiCall } from '../../service/apiService';
 
 export default function CartListFrom() {
     const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
@@ -12,7 +12,7 @@ export default function CartListFrom() {
     const [selectCheck, setSelectCheck] = useState([]); // 각 각의 상품체크 초기화
 
     useEffect(() => {
-        axios.get(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`)
+        apiCall(`/api/cart/selectlist?id=${sessionStorage.getItem('loginID')}`, "GET", null, null)
             .then(response => {
                 setProduct(response.data);
                 setSelectCheck(new Array(response.data.length).fill(false));
@@ -32,7 +32,7 @@ export default function CartListFrom() {
         }, []);
 
         checkedItemIds.forEach(({ id, pcode, productname }) => {
-            axios.delete(`/api/cart/delete?id=${id}&pcode=${pcode}`)
+            apiCall(`/api/cart/delete?id=${id}&pcode=${pcode}`, "DELETE", null, null)
                 .then(response => {
                     console.log(`${productname} 삭제 성공`);
                 })
@@ -79,7 +79,7 @@ export default function CartListFrom() {
 
     // 주문 페이지로 이동
     function orderConfirm() {
-        if (window.confirm('구매페이지로 이동하시겠습니까?')) {
+        if (window.confirm('Are you sure you want to go to the purchase page?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
             const selectedItems = items.filter((item, index) => selectCheck[index]);
             console.log(selectedItems);
@@ -88,21 +88,32 @@ export default function CartListFrom() {
                 // 주문 페이지로 이동하며 선택된 상품들을 함께 전달
                 navigate('/Order', { state: { items: selectedItems } });
             } else {
-                alert('상품을 선택해주세요.');
+                alert('Please select a product.');
             }
         }
     }
-    
 
+    // 장바구니 비어있을 시, 홈화면으로 이동
+    function continueConfirm() {
+        navigate('/')
+    }
 
     return (
         <div className='CartListFromDiv'>
             <h1 style={{ color: ' #7de4ff' }}>Cart</h1>
-            <label>
-                <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
-                <span style={{ color: ' #FE7CF3' }}>Select All</span>
-                <button onClick={deleteHandler}>ALL CD</button>
-            </label>
+
+            <div className='container'>
+                {items.length !== 0 && (
+                    <>
+                        <label>
+                            <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
+                            <span style={{ color: '#FE7CF3' }}>Select All</span>
+                        </label>
+                        <button onClick={deleteHandler}>ALL Delete</button>
+                    </>
+                )}
+            </div>
+
             <div className="CartListFromitem">
                 {items.length > 0 ? (
                     items.map((item, index) => (
@@ -114,24 +125,31 @@ export default function CartListFrom() {
                                 <span>[alternative : {item.alternative}]</span>
                             </div>
                             <span>{item.detailcount}</span>
-                            <span>{item.detailcount * item.price}</span>
+                            <span>￦{item.detailcount * item.price}</span>
                         </div>
                     ))
                 ) : (
                     <div className='noCartListFrom'>
+                        <span className='xi-cart'></span>
                         <span>Your shopping cart is empty.</span>
                     </div>
                 )}
             </div>
-            <div className='popkornBtnbox'>
-                {/* 상품들의 배열. 메서드는 주어진 조건을 만족하는 요소들을 새로운 배열로 반환( 메서드에 전달되는 함수의 인자) =>
-                열에서 현재 인덱스에 해당하는 항목의 checked 속성을 확인합니다. ?.는 옵셔널 체이닝 연산자로, 해당 항목이 존재하고 checked 속성이 존재하는 경우에만 접근합니다.
-                 이것은 selectCheck[index]가 정의되지 않거나 checked 속성이 없는 경우를 방지 */}
-                {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
-                    <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
-                {/* </Link> */}
 
+            <div className='popkornBtnbox'>
+                {items.length !== 0 ? (
+                    <>
+                        {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
+                        <PopkornBtn btnName={'Order Execution!'} btntype={false} btnfun={orderConfirm} />
+                        {/* </Link> */}
+                    </>
+                ) :
+                    <>
+                        <PopkornBtn btnName={'Continue shopping!'} btntype={true} btnfun={continueConfirm} />
+                    </>
+                }
             </div>
+
         </div>
     )
 }

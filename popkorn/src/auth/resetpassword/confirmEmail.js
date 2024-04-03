@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Resetpassword from './resetpassword';
+import { apiCall } from '../../service/apiService';
 
 export const ConfirmEmail = (props) => {
     const [ecertificationcode, setEcertificationcode] = useState('');
@@ -37,7 +37,7 @@ export const ConfirmEmail = (props) => {
 
     const mailConfirm = async () => {
         try {
-            const Response = await axios.post('/api/user/mailConfirm', { email: props.emailinput });
+            const Response = await apiCall('/api/user/mailConfirm',"POST", { email: props.emailinput }, null);
             console.log('인증코드:', Response.data);
             setMailcode(Response.data);
         } catch (error) {
@@ -66,7 +66,7 @@ export const ConfirmEmail = (props) => {
                     <button className="certificationbtn" onClick={() => {
                         alert("Please check your certification code in your email.");
                         mailConfirm();
-                    }}>send certification Code</button>
+                    }}>Click to send certification Code</button>
                     <br /><br />
                     <form>
                         <br></br>

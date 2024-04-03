@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Mainlogo from '../header/logo/Mainlogo/Mainlogo';
 import { emCheck, pwCheck, resetChecks, areChecksValid } from './logincheck';
 import Join from './join/join';
-import axios from 'axios';
 import ConfirmEmail from './resetpassword/confirmEmail';
+import { apiCall } from '../service/apiService';
 
 const Memberlist = {
   email: "agr4005@naver.com",
@@ -21,7 +21,7 @@ export const EmailCheck = () => {
 
   const initialcheck = async () => {
     try {
-      const response = await axios.get(`/api/user/emailcheck?emailinput=${emailinput}`);
+      const response = await apiCall(`/api/user/emailcheck?emailinput=${emailinput}`, "GET", null, null);
       if (response.data === "Emailcheck success") {
         setemailcheck('2');
       } else if (response.data === "Emailcheck failed") {
@@ -34,7 +34,10 @@ export const EmailCheck = () => {
 
   const Loginhandle = async () => {
     try {
-      const loginResponse = await axios.post('/api/user/login', null, { params: { "emailinput": emailinput, "pwinput": pwinput } });
+      const loginResponse = await apiCall('/api/user/login', 'POST', {
+        emailinput: emailinput,
+        pwinput: pwinput
+      }, null);
       const userID = loginResponse.data;
       if (loginResponse.status !== 200 || loginResponse.data === "Login failed") {
         setpwInput('');
@@ -47,7 +50,8 @@ export const EmailCheck = () => {
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);
     }
-  };
+  }
+  
 
   const resetpw = () => {
     if (emailcheck === '2') {
@@ -189,7 +193,7 @@ export const EmailCheck = () => {
             </div>
             <button onClick={() => {
               Loginhandle();
-              // areChecksValid();
+              areChecksValid();
             }} className='embtn'>Login</button><br /><br />
             <button onClick={resetForm} className='embtn'>Back</button>
             <br />

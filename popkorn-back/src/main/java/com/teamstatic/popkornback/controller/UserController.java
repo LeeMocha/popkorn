@@ -1,6 +1,5 @@
 package com.teamstatic.popkornback.controller;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,8 +117,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(HttpSession session, @RequestParam String emailinput,
-            @RequestParam String pwinput) {
+    public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+        String emailinput = requestBody.get("emailinput");
+        String pwinput = requestBody.get("pwinput");
+
         Optional<User> user = uservice.findById(emailinput);
 
         if (user.isPresent()) {
@@ -142,16 +142,18 @@ public class UserController {
     }
 
     @PostMapping("/memberjoin")
-    public ResponseEntity<String> memberjoin(@RequestBody UserDTO userdto) {
+    public ResponseEntity<String> memberJoin(@RequestParam("id") String id,
+            @RequestParam("password") String password,
+            @RequestParam("nickname") String nickname) {
+
         ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
 
         User user = new User();
 
-        user.setId(userdto.getId());
-        user.setPassword(userdto.getPassword());
-        user.setNickname(userdto.getNickname());
-        user.setReword(userdto.getReword());
+        user.setId(id);
+        user.setPassword(password);
+        user.setNickname(nickname);
         user.setCreatedate(seoulLocalDateTime);
         user.setStatus("signed");
 
@@ -165,7 +167,6 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
         }
-
     }
 
     @PostMapping("/mailConfirm")
@@ -199,10 +200,9 @@ public class UserController {
     }
 
     @PostMapping("/passwordcheck")
-    public ResponseEntity<Boolean> passwordcheck(HttpSession session, @RequestParam String currentpw) {
-        // 세션에서 사용자 ID 가져오기
-        String userId = (String) session.getAttribute("loginID");
-
+    public ResponseEntity<Boolean> passwordCheck(@RequestBody Map<String, Object> request) {
+        String currentpw = (String) request.get("currentpw");
+        String userId = (String) request.get("userId");
         if (userId != null) {
             Optional<User> userOptional = uservice.findById(userId);
             if (userOptional.isPresent()) {
@@ -218,10 +218,10 @@ public class UserController {
     }
 
     @PostMapping("/redesignpassword")
-    public ResponseEntity<String> redesignpassword(HttpSession session, @RequestParam String newpassword) {
+    public ResponseEntity<String> redesignpassword(@RequestBody Map<String, Object> request) {
 
-        String userId = (String) session.getAttribute("loginID");
-
+        String userId = (String) request.get("userId");
+        String newpassword = (String) request.get("newpassword");
         if (userId != null) {
             Optional<User> userOptional = uservice.findById(userId);
             User user = userOptional.get();
@@ -229,9 +229,9 @@ public class UserController {
             user.setPassword(encodedPassword);
             try {
                 uservice.save(user);
-                return ResponseEntity.ok("비밀번호 변경 성공");
+                return ResponseEntity.ok("Change Password Complete");
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Change Password Failed. Please retry.");
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
@@ -260,8 +260,8 @@ public class UserController {
     }
 
     @DeleteMapping("/withdraw")
-    public ResponseEntity<String> withdraw(HttpSession session) {
-        String userId = (String) session.getAttribute("loginID");
+    public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> request) {
+        String userId = (String) request.get("userId");
 
         try {
             uservice.deleteById(userId);
@@ -277,5 +277,5 @@ public class UserController {
 
         return uservice.findByStatus(status);
     }
-    
+
 }
