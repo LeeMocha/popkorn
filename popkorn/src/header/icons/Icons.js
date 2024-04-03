@@ -8,8 +8,8 @@ export default function Icons({isScrolled}) {
    const [isLoggedIn, setIsloggedIn] = useContext(Logincontext);
 
 
+   const loginID = sessionStorage.getItem('loginID');
    const logOut = async () => {
-      const loginID = sessionStorage.getItem('loginID');
       if (!loginID) {
         return;
       }
@@ -19,6 +19,7 @@ export default function Icons({isScrolled}) {
         alert(`로그아웃 되었습니다.`);
         sessionStorage.removeItem('loginID');
         setIsloggedIn(false);
+        window.location.href='/'
       } catch (error) {
         console.error('로그아웃 중 오류 발생:', error);
         return false;
@@ -30,7 +31,7 @@ export default function Icons({isScrolled}) {
          <Link to="/search"><i className="xi-search"></i></Link>
          <Link to={isLoggedIn?'/MyPageMain':'/AuthMain'}><i className="xi-user-o"></i></Link>
          <Link to="/cart"><i className="xi-cart-o"></i></Link>
-         <Link to ="/"><i className="xi-log-out" onClick={logOut}></i></Link>
+         <i className="xi-log-out" onClick={logOut} ></i>
       </div>
    );
 }

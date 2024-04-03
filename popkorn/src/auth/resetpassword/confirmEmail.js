@@ -66,7 +66,7 @@ export const ConfirmEmail = (props) => {
                     <button className="certificationbtn" onClick={() => {
                         alert("Please check your certification code in your email.");
                         mailConfirm();
-                    }}>send certification Code</button>
+                    }}>Click to send certification Code</button>
                     <br /><br />
                     <form>
                         <br></br>

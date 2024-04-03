@@ -9,4 +9,5 @@ public interface OrderDetailService {
     List<OrderDetail> save(List<OrderDetail> orderDetail);
 
     List<OrderDetail> findByMerchantUid(String merchantUid);
+
 }
