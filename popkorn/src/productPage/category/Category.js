@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Category.css";
 
 export default function Category({ currCategoryl, setCurrCategorym }) {
@@ -37,6 +37,19 @@ export default function Category({ currCategoryl, setCurrCategorym }) {
 
     const [categoryS, setCategoryS] = useState(categoryList[0])
     const [isHover, setIsHover] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY !== 0);
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    })
     
     const currHandler = (e, num) => {
         currCategoryl.current = e.target.className;
@@ -51,7 +64,7 @@ export default function Category({ currCategoryl, setCurrCategorym }) {
 
     return (
         <div className="category_wrap">
-            <div className="categoryM_container">
+            <div className={`categoryM_container  ${isScrolled ? "fade-out" : ""} ${isScrolled ? "fade-out" : ""}`}>
                 <ul className="category_event">
                     <li className="new" onMouseOver={(e) => {
                         let num = 0
@@ -70,7 +83,7 @@ export default function Category({ currCategoryl, setCurrCategorym }) {
                         currHandler(e, num)
                     }}>PHOTO</li>
                 </ul>
-                <div className={`categoryS_container ${isHover ? "active" : ""} `} onMouseLeave={leaveHandler}>
+                <div className={`categoryS_container ${isHover ? "active" : ""}`} onMouseLeave={leaveHandler}>
                 <div className={`transform_Cwrap ${isHover ? "active" : ""}`}></div>
                     {
                         categoryS.subcategorys.map(subcategory =>

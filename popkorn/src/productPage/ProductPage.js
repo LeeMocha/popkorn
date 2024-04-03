@@ -4,6 +4,7 @@ import Header from "../header/Header";
 import Category from "./category/Category";
 import Popkornlogo from "./popkornlogo/Popkornlogo";
 import Product from "./product/Product";
+import { apiCall } from "../service/apiService";
 
 export default function ProductPage() {
     const currCategoryl = useRef('new');
@@ -28,8 +29,7 @@ export default function ProductPage() {
     }, [currCategorym, pageState])
 
     const menuHandler = async () => {
-        console.log(productData.pageData.page)
-        await axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}`).then(response => {
+        await apiCall(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}`,"GET",null,null).then(response => {
             setProductData({
                 servData: response.data.dtoList,
                 pageData: {
