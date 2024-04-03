@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Main from './Main';
-import ProductPage from './producPage/ProductPage';
+import ProductPage from './productPage/ProductPage';
 import MyPageMain from './auth/mypage/mypagemain';
 import AuthMain from './auth/AuthMain';
 import TBBtn from './useModules/TBBtn'
