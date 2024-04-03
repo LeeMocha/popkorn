@@ -46,11 +46,12 @@ export const OrderComplete = () => {
             <div className='completeMain'>
                 <h1 style={{ color: ' #7de4ff' }}>Order complete</h1>
                 <div className='completeBox'>
-                    <h2><i className='xi-check-circle-o'></i> Your order is complete!</h2>
+                    <h3><i className='xi-check-circle-o'></i> Your order is complete!</h3>
                     {items && (
                         <div className='ordercompleteinfo'>
                             <p>Order Number : {orderinfo.merchant_uid}</p>
                             <p><i className='xi-key'></i>Password : {randomString}</p>
+                            <span>It is essential for unsigned order inquiry.</span>
                         </div>
                     )}
                 </div>
@@ -58,8 +59,8 @@ export const OrderComplete = () => {
                 <div className='completeWindow'>
                     {orderinfo && (
                         <>
-                            <p>Order Number : <span style={{ color: 'red' }}>{orderinfo.merchant_uid}</span></p>
-                            <p>Password : <span style={{ color: 'red' }}>{randomString}</span></p>
+                            <p>Order Number : <span style={{ color: '#FE7CF3' }}>{orderinfo.merchant_uid}</span></p>
+                            <p>Password : <span style={{ color: '#FE7CF3' }}>{randomString}</span></p>
                             <p>Payment amount : {orderinfo.paid_amount}</p>
                             <p>Buyer's Name : {orderinfo.buyer_name}</p>
                             <p>Buyer's phone number : {orderinfo.buyer_tel}</p>
@@ -84,7 +85,7 @@ export const OrderComplete = () => {
                     ))}
                 </div>
                 <div className='popkornBtnbox'>
-                    <PopkornBtn btnName={'Check'} btnfun={completechek} />
+                    <PopkornBtn btnName={'To Main'} btnfun={completechek} />
                 </div>
             </div >
         </>

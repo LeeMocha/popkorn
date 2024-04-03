@@ -13,3 +13,7 @@
 .refund_wrap h4{
     color: #fe7cf3;
 }
+
+.refund_wrap h4>span{
+    color: #000;
+}
