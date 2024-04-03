@@ -67,8 +67,8 @@ export default function Refund() {
     };
 
     // 주문 페이지로 이동
-    function orderConfirm() {
-        if (window.confirm('Are you sure you want to go to the purchase page?')) {
+    function refundrConfirm() {
+        if (window.confirm('Are you sure you to refund?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
             const selectedItems = items.filter((item, index) => selectCheck[index]);
             console.log(selectedItems);
@@ -134,9 +134,7 @@ export default function Refund() {
                     <div className='popkornBtnbox'>
                         {items.length !== 0 ? (
                             <>
-                                {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
-                                <PopkornBtn btnName={'Refund Execution!'} btntype={false} btnfun={orderConfirm} />
-                                {/* </Link> */}
+                                <PopkornBtn btnName={'Refund Execution!'} btntype={false} btnfun={refundrConfirm} />
                             </>
                         ) :
                             <>
