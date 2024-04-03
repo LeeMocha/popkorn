@@ -27,32 +27,6 @@
     z-index: -2;
 }
 
-/* scroll Event ========== ========== ========== */
-.dropList_wrap {
-    transition: all 0.4s ease-in-out;
-}
-
-.dropList_wrap.fade-out{
-
-    animation: slideOut 0.4s linear forwards;
-    visibility: hidden;
-}
-
-@keyframes slideOut {
-    from {
-        opacity: 1;
-     }
-  
-     to {
-        left: -150px;
-        transform: translateX(-150%);
-        opacity: 0;
-     }
-}
-
-/* scroll Event ========== ========== ========== */
-
-
 @keyframes poplogos1 {
     0% {
         transform: translate(0%, 0%);

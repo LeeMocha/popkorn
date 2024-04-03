@@ -1,25 +1,22 @@
-import Slot2 from "./slot2/Slot2";
-
+import Slot2 from "./slot2/Slot2"
 import "./Product.css";
-import SubProduct from "./SubProduct";
 
-const Product = ({ currCategoryl, currCategorym, servData, setPageData, pageData }) => {
-
-
+export default function Product({ currCategoryl, currCategorym, productData }) {
+    console.log(currCategoryl.current);
     return (
         <>
             <div className="product_wrap">
                 {
-                    currCategoryl === 'new' && currCategorym === 'All' ?
+                    currCategoryl.current === 'new' && currCategorym === 'all' ?
                         <>
                             <div className="pruduct_album_wrap">
                                 <span className="pruduct_album_wrap_span"><i className="xi-album"></i> ALBUM</span>
                                 <div className="pruduct_album_wrap_slot">
                                     {
-                                        servData.map((item, index) => {
+                                        productData.servData.map((item, index) => {
                                             if (item.categoryl === 'album') {
                                                 return <Slot2 key={index} item={item} index={index} />
-                                            } else{
+                                            } else {
                                                 return null
                                             }
                                         }
@@ -31,10 +28,10 @@ const Product = ({ currCategoryl, currCategorym, servData, setPageData, pageData
                                 <span className="pruduct_album_wrap_span"><i className="xi-gift-o"></i> GOODS</span>
                                 <div className="pruduct_album_wrap_slot">
                                     {
-                                        servData.map((item, index) => {
+                                        productData.servData.map((item, index) => {
                                             if (item.categoryl === 'goods') {
                                                 return <Slot2 key={index} item={item} index={index} />
-                                            } else{
+                                            } else {
                                                 return null
                                             }
                                         }
@@ -46,10 +43,10 @@ const Product = ({ currCategoryl, currCategorym, servData, setPageData, pageData
                                 <span className="pruduct_album_wrap_span"><i className="xi-camera"></i> PHOTO</span>
                                 <div className="pruduct_album_wrap_slot">
                                     {
-                                        servData.map((item, index) => {
+                                        productData.servData.map((item, index) => {
                                             if (item.categoryl === 'photo') {
                                                 return <Slot2 key={index} item={item} index={index} />
-                                            } else{
+                                            } else {
                                                 return null
                                             }
                                         }
@@ -59,11 +56,18 @@ const Product = ({ currCategoryl, currCategorym, servData, setPageData, pageData
                             </div>
                         </>
                         :
-                        <SubProduct servData={servData} setPageData={setPageData} pageData={pageData}/>
+                        <div className='subproduct_container'>
+                            <div className="subproduct_wrap">
+                                {
+                                    productData.servData.map((item, index) =>
+                                        <Slot2 key={index} item={item} index={index} />
+                                    )
+                                }
+                            </div>
+                            {/* <Pagination pageData={pageData} setPageData={setPageData} /> */}
+                        </div>
                 }
             </div>
         </>
     )
 }
-
-export default Product;
