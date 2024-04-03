@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './orderlist.css';
 import { apiCall } from '../../service/apiService';
+import { Navigate, Link } from 'react-router-dom';
 
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
@@ -12,14 +13,16 @@ const OrderItem = ({ order, onClick }) => {
         <div className='orderdetailcheck' onClick={() => onClick(order)}>Order detail</div>
       </div>
       <div className='orderlist2nd'>
-        <div className='orderdetailnumber'>Order Number : {order.merchantUid}</div><br/>
-        
+        <div className='orderdetailnumber'>Order Number : {order.merchantUid}</div><br />
+
         Buyer name: {order.buyerName} <br />
         Address: {order.buyerAddr} <br />
         Phone: {order.buyerTel} <br />
       </div>
       <div className='orderbtn'>
-        <button className='refundbtn' state={{ id: order.merchant_uid }}>Refund</button>
+        <Link to="/refund" state={{id:order.merchantUid}}>
+          <button className='refundbtn'>Refund</button>
+        </Link>
         <button className='inquirementbtn'>Inquirement</button>
         <div className='ordertotalprice'>
           Total amount : {order.paidAmount} ₩
@@ -37,7 +40,7 @@ export const OrderList = () => {
   const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
-    apiCall(`/api/pay/orders?buyerEmail=${sessionStorage.getItem('loginID')}`, "GET" ,null, null)
+    apiCall(`/api/pay/orders?buyerEmail=${sessionStorage.getItem('loginID')}`, "GET", null, null)
       .then(response => {
         const sortedOrders = response.data.sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
         setOrders(sortedOrders);
@@ -47,7 +50,7 @@ export const OrderList = () => {
 
   const popupClick = (order) => {
     if (order) {
-      apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET" , null, null)
+      apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET", null, null)
         .then(response => {
           setOrderDetails(response.data);
           setSelectedOrder(order);

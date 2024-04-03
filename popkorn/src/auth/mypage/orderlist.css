@@ -213,14 +213,14 @@
   margin-top: 7%;
 }
 
-.orderbtn {
+.orderbtn{
   display: flex;
   justify-content: space-around;
   align-items: baseline;
 }
 
 .refundbtn, .inquirementbtn {
-  width: 15%;
+  width: 200px;
   border: 0px;
   border-radius: 2vw;
   height: 3vw;

@@ -4,13 +4,12 @@ import "./Refund.css";
 import { useEffect, useState } from "react";
 import { apiCall } from "../service/apiService";
 import PopkornBtn from "../useModules/PopkornBtn";
+import Header from './../header/Header';
 
 export default function Refund() {
 
     const Location = useLocation();
-    // const id = Location.state.id; // Object Type으로 전달 받음.
-
-    const id = 'pop_1712027954605'
+    const id = Location.state.id;// Object Type으로 전달 받음.
 
     const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
     const navigate = useNavigate();
@@ -68,8 +67,8 @@ export default function Refund() {
     };
 
     // 주문 페이지로 이동
-    function orderConfirm() {
-        if (window.confirm('Are you sure you want to go to the purchase page?')) {
+    function refundrConfirm() {
+        if (window.confirm('Are you sure you to refund?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
             const selectedItems = items.filter((item, index) => selectCheck[index]);
             console.log(selectedItems);
@@ -89,61 +88,62 @@ export default function Refund() {
     }
 
     return (
-        <div className="refund_wrap">
-            <div className='CartListFromDiv'>
-                <h1 style={{ color: ' #7de4ff' }}>Refund</h1>
-                <br></br>
-                <h4>Order number : <span> {orderinfo.merchantUid} </span></h4>
-                <h4>Order date : <span>  {orderinfo.paidAt} </span></h4> 
-                <h4>Order address : <span> {orderinfo.buyerAddr} </span></h4> 
-                <br></br>
-                <div className='container'>
-                    {items.length !== 0 && (
-                        <>
-                            <label>
-                                <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
-                                <span style={{ color: '#FE7CF3' }}>Select All</span>
-                            </label>
-                        </>
-                    )}
-                </div>
+        <>
+            <Header />
+            <div className="refund_wrap">
+                <div className='CartListFromDiv'>
+                    <h1 style={{ color: ' #7de4ff' }}>Refund</h1>
+                    <br></br>
+                    <h4>Order number : <span> {orderinfo.merchantUid} </span></h4>
+                    <h4>Order date : <span>  {orderinfo.paidAt} </span></h4>
+                    <h4>Order address : <span> {orderinfo.buyerAddr} </span></h4>
+                    <br></br>
+                    <div className='container'>
+                        {items.length !== 0 && (
+                            <>
+                                <label>
+                                    <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
+                                    <span style={{ color: '#FE7CF3' }}>Select All</span>
+                                </label>
+                            </>
+                        )}
+                    </div>
 
-                <div className="CartListFromitem">
-                    {items.length > 0 ? (
-                        items.map((item, index) => (
-                            <div key={index} item={item} index={index} className="cartListMain">
-                                <input type="checkbox" onChange={() => checkSelect(index)} checked={selectCheck[index]} />
-                                <img src={imageSrc + item.image1} alt="productdetail_img" />
-                                <div className="productnameclss">
-                                    <span>{item.productname}</span>
-                                    <span>[alternative : {item.alternative}]</span>
+                    <div className="CartListFromitem">
+                        {items.length > 0 ? (
+                            items.map((item, index) => (
+                                <div key={index} item={item} index={index} className="cartListMain">
+                                    <input type="checkbox" onChange={() => checkSelect(index)} checked={selectCheck[index]} />
+                                    <img src={imageSrc + item.image1} alt="productdetail_img" />
+                                    <div className="productnameclss">
+                                        <span>{item.productname}</span>
+                                        <span>[alternative : {item.alternative}]</span>
+                                    </div>
+                                    <span>{item.detailcount}</span>
+                                    <span>￦{item.detailcount * item.price}</span>
                                 </div>
-                                <span>{item.detailcount}</span>
-                                <span>￦{item.detailcount * item.price}</span>
+                            ))
+                        ) : (
+                            <div className='noCartListFrom'>
+                                <span className='xi-document'></span>
+                                <span>Your order status does not exist.</span>
                             </div>
-                        ))
-                    ) : (
-                        <div className='noCartListFrom'>
-                            <span className='xi-document'></span>
-                            <span>Your order status does not exist.</span>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
 
-                <div className='popkornBtnbox'>
-                    {items.length !== 0 ? (
-                        <>
-                            {/* <Link to="/order" state={{ items: items.filter((item, index) => selectCheck[index]?.checked) }}> */}
-                            <PopkornBtn btnName={'Refund Execution!'} btntype={false} btnfun={orderConfirm} />
-                            {/* </Link> */}
-                        </>
-                    ) :
-                        <>
-                            <PopkornBtn btnName={'Continue shopping!'} btntype={true} btnfun={continueConfirm} />
-                        </>
-                    }
+                    <div className='popkornBtnbox'>
+                        {items.length !== 0 ? (
+                            <>
+                                <PopkornBtn btnName={'Refund Execution!'} btntype={false} btnfun={refundrConfirm} />
+                            </>
+                        ) :
+                            <>
+                                <PopkornBtn btnName={'Continue shopping!'} btntype={true} btnfun={continueConfirm} />
+                            </>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
