@@ -1,27 +1,46 @@
+.statelistBox::-webkit-scrollbar {
+    width: 2px;  /* 스크롤바의 너비 */
+}
+
+.statelistBox::-webkit-scrollbar-thumb {
+    height: 5%; /* 스크롤바의 길이 */
+    background: #FE7CF3; /* 스크롤바의 색상 */
+    border-radius:50px;
+}
+
+.statelistBox::-webkit-scrollbar-track {
+    background: rgba(243, 247, 253, 0.37);  /*스크롤바 뒷 배경 색상*/
+    margin-top: 20px;
+}
+
 /* 전체 (div) */
 .statelistMain {
     width: 100%;
     display: flex;
-    flex-direction: column;
-
 }
 
 /* 왼쪽(div) + 오른쪽(div)  배치*/
 .statelistBox {
+    width: 20%;
+    max-height: 1170px;
     display: flex;
-    padding-left: 20px;
+    flex-direction: column;
+    padding-left: 10px;
+    overflow: auto;
 }
 
 /*  Order Number 전체 (div) - 크기 조정 */
 .statei {
-    width: 15%;
+    width: 96%;
+    margin-top: 10px;
+    height: 100%;
 }
 
 /* Order Number 전체(div)  */
 .seateState {
     border: 1px solid #b6b6b6;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
     background: rgba(148, 147, 147, 0.53);
     text-align: center;
     color: white;
@@ -62,7 +81,8 @@
     border-radius: 5px;
     margin-top: 20px;
     background: rgba(148, 147, 147, 0.53);
-    margin-left: 20px;
+    margin-left: 10px; 
+    margin-right: 10px; 
     color: white;
 }
 

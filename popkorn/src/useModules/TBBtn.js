@@ -47,10 +47,10 @@ const TBBtn = () => {
 
   return (
     <div className={`TBBtn_wrap ${isVisible ? 'visible' : ''}`}>
-      <div className={`topBtn ${isVisible ? '' : 'hidden'}`} title="Go to Top" onClick={handleTopClick}>
+      <div className={`topBtn ${isVisible ? '' : 'hidden'}`} onClick={handleTopClick}>
         <i className='xi-angle-up-min'></i>
       </div>
-      <div className={`bottomBtn ${isVisible ? '' : 'hidden'}`} title="Go to Bottom" onClick={handleBottomClick}>
+      <div className={`bottomBtn ${isVisible ? '' : 'hidden'}`} onClick={handleBottomClick}>
         <i className='xi-angle-down-min'></i>
       </div>
     </div>

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -209,7 +208,6 @@ public class UserController {
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
-                System.out.println(passwordMatch);
                 return ResponseEntity.ok(passwordMatch);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
