@@ -14,6 +14,9 @@ export default function Footer() {
               <Link to="/unsignedorder">
               <span>Unsigned Order</span>
               </Link>
+              <Link to="/refund">
+              <span>Refund</span>
+              </Link>
             </div>
               <UseTerms />
             <dl>

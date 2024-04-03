@@ -51,7 +51,7 @@ export default function Order() {
                     if (!window.IMP) return;
                     /* 1. 가맹점 식별하기 */
                     const { IMP } = window;
-                    IMP.init("imp71862281"); // 가맹점 식별코드
+                    IMP.init(response.data.imp_uid); // 가맹점 식별코
 
                     /* 2. 결제 데이터 정의하기 */
                     const toImpData = {
