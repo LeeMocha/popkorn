@@ -10,7 +10,7 @@ public interface PaymentService {
     
     void savePaymentData(List<OrderDetail> orderDetail, Payment payment, String id);
 
-    List<Orderinfo> findByStatus(String status);
+    List<Orderinfo> findById(String id);
 
     
 

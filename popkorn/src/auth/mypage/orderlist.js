@@ -12,6 +12,8 @@ const OrderItem = ({ order, onClick }) => {
         <div className='orderdetailcheck' onClick={() => onClick(order)}>Order detail</div>
       </div>
       <div className='orderlist2nd'>
+        <div className='orderdetailnumber'>Order Number : {order.merchantUid}</div><br/>
+        
         Buyer name: {order.buyerName} <br />
         Address: {order.buyerAddr} <br />
         Phone: {order.buyerTel} <br />
@@ -35,7 +37,7 @@ export const OrderList = () => {
   const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
-    apiCall(`/api/pay/orders?status=paid`, "GET" ,null, null)
+    apiCall(`/api/pay/orders?buyerEmail=${sessionStorage.getItem('loginID')}`, "GET" ,null, null)
       .then(response => {
         const sortedOrders = response.data.sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
         setOrders(sortedOrders);

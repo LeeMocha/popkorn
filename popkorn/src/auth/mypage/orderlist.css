@@ -63,7 +63,6 @@
 
 .orderdetaildate {
   width: 50%;
-  margin-bottom: 5%;
 }
 
 .orderdetailcheck {
@@ -78,6 +77,12 @@
   color: #333;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.orderdetailnumber {
+  font-size: 1.5vw;
+  font-weight: bold;
+  color: red;
 }
 
 .orderdetailcheck:hover {
@@ -95,10 +100,9 @@
 }
 
 .orderlist2nd {
-  margin-top: 1%;
   display: flex;
-  align-items: center;
   height: auto;
+  flex-direction: column;
 }
 
 .orderdetailimg img {

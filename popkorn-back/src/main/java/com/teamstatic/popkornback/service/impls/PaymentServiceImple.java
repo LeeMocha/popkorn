@@ -74,8 +74,8 @@ public class PaymentServiceImple implements PaymentService {
     }
 
      @Override
-    public List<Orderinfo> findByStatus(String status) {
-        return payRepository.findByStatus(status);
+    public List<Orderinfo> findById(String id) {
+        return payRepository.findBybuyerEmail(id);
     }
 
 }

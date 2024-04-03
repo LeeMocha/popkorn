@@ -54,7 +54,6 @@ public class RegisterMail implements MailServiceInter {
 		return message;
 	}
 
-	// 랜덤 인증 코드 전송
 	@Override
 	public String createKey() {
 		StringBuffer key = new StringBuffer();

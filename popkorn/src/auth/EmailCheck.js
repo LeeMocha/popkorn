@@ -193,7 +193,7 @@ export const EmailCheck = () => {
             </div>
             <button onClick={() => {
               Loginhandle();
-              // areChecksValid();
+              areChecksValid();
             }} className='embtn'>Login</button><br /><br />
             <button onClick={resetForm} className='embtn'>Back</button>
             <br />

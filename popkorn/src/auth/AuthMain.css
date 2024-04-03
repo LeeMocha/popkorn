@@ -81,9 +81,13 @@
 }
 
 .resetpw {
+    font-family: 'TmoneyRoundWindExtraBold';
     border: none;
     background-color: white;
+    color: #7de4ff;
     margin-top: 40px;
+    font-size: 1.2vw;
+    cursor: pointer;
 }
 
 .emailinput,
