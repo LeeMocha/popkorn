@@ -1,8 +1,0 @@
-.subproduct_wrap {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    row-gap: 30px;
-    column-gap: 10px;
-    margin: 20px auto 40px;
-}

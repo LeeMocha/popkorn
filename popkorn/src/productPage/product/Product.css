@@ -1,8 +1,8 @@
 .product_wrap{
     width: 90%;
     height: 100%;
-    margin: 150px auto;
-    padding-top: 150px;
+    margin: auto;
+    padding-top: 230px;
 }
 
 .pruduct_album_wrap_span{
@@ -22,4 +22,13 @@
 
 .pruduct_album_wrap_span i{
     color:#FE7CF3;
+}
+
+.subproduct_wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    row-gap: 30px;
+    column-gap: 10px;
+    margin: 20px auto 40px;
 }
