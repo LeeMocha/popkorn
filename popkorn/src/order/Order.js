@@ -31,11 +31,12 @@ export default function Order() {
         buyer_addr: ``
     });
 
+    const preventRefresh = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+    };
+
     useEffect(() => {
-        const preventRefresh = (event) => {
-            event.preventDefault();
-            event.returnValue = '';
-        };
         window.addEventListener('beforeunload', preventRefresh);
         return () => {
             window.removeEventListener('beforeunload', preventRefresh);
@@ -52,9 +53,9 @@ export default function Order() {
         apiCall(`/api/orderdetail/emailcheck?emailinput=${emailinput}`, "GET", null, null)
             .then(checkresponse => {
                 if (checkresponse.data === true && loginCheck === 'false') {
-                        alert('Email already exists. Go to the login page.');
-                        window.onbeforeunload = null;
-                        window.location.href = '/auth';
+                    alert('Email already exists. Go to the login page.');
+                    window.removeEventListener('beforeunload', preventRefresh);
+                    window.location.href = '/auth';
                 } else {
                     apiCall(`/api/product/checkDetailCount`, "POST", items, null)
                         .then(response => {
@@ -78,9 +79,9 @@ export default function Order() {
                                 };
 
                                 /* 4. 결제 창 호출하기 */
-                                IMP.request_pay(toImpData, callback);
+                                window.removeEventListener('beforeunload', preventRefresh);
 
-                                // 이 부분
+                                IMP.request_pay(toImpData, callback);
 
                             } else {
                                 alert("Payment is not possible because the remaining items are less than the quantity you wish to purchase.")
@@ -104,15 +105,20 @@ export default function Order() {
                 items.map((item, i) => {
                     let newItem = { ...item };
                     delete newItem.ccode;
-                    items[i] = { ...newItem, merchantUid: response.merchant_uid };
+                    items[i] = { ...newItem, merchantUid: response.merchant_uid, pcode: +items[i].pcode };
+                });
+
+                // DB에 정보 입력 요청 보내기
+                if (sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'))) {
+                    // DB 입력 성공한 경우에만 navigate 호출
                     navigate('/ordercomplete', { state: { items: items, response: response } });
-                })
+                } else {
+                    alert("The order payment has failed due to a system issue. Please try again later.");
+                }
             } catch (error) {
                 alert("Order Failed !!");
-                console.log(error)
-                return null;
+                console.log(error);
             }
-
         } else {
             alert(`Order Failed !! : ${error_msg}`);
         }
@@ -124,14 +130,17 @@ export default function Order() {
             "items": items,
             "id": id
         }
-        apiCall(`/api/pay/datatoserver`, "POST", request)
+        if (apiCall(`/api/pay/datatoserver`, "POST", request)
             .then(response => {
-                console.log(response);
+                if (response.data) return true;
+                else return false;
             })
             .catch(error => {
                 alert("Order Failed !!");
                 console.log(error)
-            });
+                return false;
+            })) return true;
+        else return false;
 
     }
 
