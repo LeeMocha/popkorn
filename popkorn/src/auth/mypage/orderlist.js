@@ -13,7 +13,7 @@ const OrderItem = ({ order, onClick }) => {
         <div className='orderdetailcheck' onClick={() => onClick(order)}>Order detail</div>
       </div>
       <div className='orderlist2nd'>
-        <div className='orderdetailnumber'>Order Number : {order.merchantUid}</div><br />
+        <div className='orderdetailnumber'>Order Number : <span>{order.merchantUid}</span></div><br />
 
         Buyer name: {order.buyerName} <br />
         Address: {order.buyerAddr} <br />
@@ -78,7 +78,7 @@ export const OrderList = () => {
           <div className='orderdetailscontainer'>
             <div className='orderlist1st'>
               <div className='orderdetaildate'>Order date : <br />{new Date(selectedOrder.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
-              <div className='orderdetailpcode'>Order number : {selectedOrder.merchantUid}</div>
+              <div className='orderdetailpcode'>Order number : <span>{selectedOrder.merchantUid}</span></div>
             </div>
             {orderDetails.map((orderDetail, index) => (
               <div className='orderdetailproductinfo' key={index}>

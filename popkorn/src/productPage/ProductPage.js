@@ -8,7 +8,7 @@ import { apiCall } from "../service/apiService";
 
 export default function ProductPage() {
     const currCategoryl = useRef('new');
-    const [currCategorym, setCurrCategorym] = useState('all');
+    const [currCategorym, setCurrCategorym] = useState('New');
     const [pageState, setPageState] = useState(1);
     const [productData, setProductData] = useState({
         servData: [],
@@ -24,12 +24,7 @@ export default function ProductPage() {
     });
 
     useEffect(() => {
-        console.log('**** ***')
-        menuHandler();
-    }, [currCategorym, pageState])
-
-    const menuHandler = async () => {
-        await apiCall(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}`,"GET",null,null).then(response => {
+        apiCall(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}`,"GET",null,null).then(response => {
             setProductData({
                 servData: response.data.dtoList,
                 pageData: {
@@ -39,21 +34,22 @@ export default function ProductPage() {
                     next: response.data.next,
                     start: response.data.start,
                     end: response.data.end,
-                    pageList: response.data.pageList
+                    pageList: response.data.pageList,
+                    totalPage: response.data.totalPage
                 }
             })
         }).catch(err => {
             console.log("ProductPage axios ERROR=>" + err);
         })
-    }
+    }, [currCategorym, pageState])
 
     return (
         <div className="product_page_wrap">
             <Header/>
 
-            <Category currCategoryl={currCategoryl} setCurrCategorym={setCurrCategorym} />
+            <Category currCategoryl={currCategoryl} setCurrCategorym={setCurrCategorym} setPageState={setPageState}/>
 
-            <Product currCategoryl={currCategoryl} currCategorym={currCategorym} productData={productData}/>
+            <Product currCategoryl={currCategoryl} currCategorym={currCategorym} productData={productData} setPageState={setPageState}/>
 
             <Popkornlogo/>
 

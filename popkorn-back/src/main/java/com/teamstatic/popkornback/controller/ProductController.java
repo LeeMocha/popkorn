@@ -47,7 +47,7 @@ public class ProductController {
 
         if (categoryl.equals("new")) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
-                    .page(page)
+                    .page(1)
                     .size(8)
                     .build();
 
