@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PrevNextButtons from "./prevnextbtn";
 import DisableprevNextButtons from './disableprevnextbtn';
 import { apiCall } from '../../service/apiService';
@@ -30,12 +30,16 @@ export default function Ecertification(props) {
             console.error('오류 발생:', error);
         }
     };    
-
+    useEffect(() => {
+        mailConfirm();
+    }, []);
+    
     const mailConfirm = async () => {
         try {
             const Response = await apiCall('/api/user/mailConfirm',"POST", { email: props.emailinput }, null);
             console.log('인증코드:', Response.data);
             setMailcode(Response.data);
+            alert("Please check your certification code in your email.");
         } catch (error) {
             console.error('오류 발생:', error);
         }
@@ -57,11 +61,6 @@ export default function Ecertification(props) {
                 And checking email cerfitication
             </div>
 
-            <button className="certificationbtn" onClick={() => {
-                alert("Please check your certification code in your email.");
-                mailConfirm();
-            }}>Click to send certification Code</button>
-            <br /><br />
             <form>
                 <br></br>
                 <input className="certificationinput"

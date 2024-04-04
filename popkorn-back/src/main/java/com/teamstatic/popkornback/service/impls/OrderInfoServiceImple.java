@@ -1,5 +1,7 @@
 package com.teamstatic.popkornback.service.impls;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.teamstatic.popkornback.entity.Orderinfo;
@@ -14,8 +16,12 @@ public class OrderInfoServiceImple implements OrderInfoService{
     
     private final OrderInfoRepository oiRepository;
 
-    public Orderinfo findByMerchantUid(String merchantUid){
+     public List<Orderinfo> findByMerchantUid(String merchantUid) {
         return oiRepository.findByMerchantUid(merchantUid);
     }
-
+    
+    @Override
+    public List<Orderinfo> findByEmail(String email) {
+        return oiRepository.findByBuyerEmail(email);
+    }
 }

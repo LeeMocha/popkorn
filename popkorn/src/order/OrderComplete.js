@@ -13,10 +13,13 @@ export const OrderComplete = () => {
     const orderinfo = Location.state.response;
     const [randomString, setRandomString] = useState('');
 
+    const logincheck = sessionStorage.getItem('loginID');
+
     const completechek = () => {
         window.confirm('홈화면으로 돌아가시겠습니까?')
         navigate('/')
     }
+
 
     function generateRandomString() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -28,15 +31,18 @@ export const OrderComplete = () => {
         return randomString;
     }
 
+
     useEffect(() => {
-        if (items && orderinfo?.merchant_uid) {
-            const newRandomString = generateRandomString();
-            setRandomString(newRandomString); // 상태 업데이트
-            const request = {"id" : orderinfo.merchant_uid, "password" : newRandomString}
-            apiCall(`/api/orderdetail/makeorderkey`, "POST" , request, null)
-            .then(response => {
-            })
-            .catch(err => console.log(err));
+        if (!logincheck) {
+            if (items && orderinfo?.merchant_uid) {
+                const newRandomString = generateRandomString();
+                setRandomString(newRandomString);
+                const request = { "id": orderinfo.merchant_uid, "password": newRandomString }
+                apiCall(`/api/orderdetail/makeorderkey`, "POST", request, null)
+                    .then(response => {
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     }, [items, orderinfo]);
 
@@ -50,8 +56,13 @@ export const OrderComplete = () => {
                     {items && (
                         <div className='ordercompleteinfo'>
                             <p>Order Number : {orderinfo.merchant_uid}</p>
-                            <p><i className='xi-key'></i>Password : {randomString}</p>
-                            <span>It is essential for unsigned order inquiry.</span>
+                            {!logincheck ?
+                                <>
+                                    <p><i className='xi-key'></i>Password : {randomString}</p>
+                                    <span>It is essential for unsigned order inquiry.</span>
+                                </>
+                                : null
+                            }
                         </div>
                     )}
                 </div>
@@ -60,7 +71,11 @@ export const OrderComplete = () => {
                     {orderinfo && (
                         <>
                             <p>Order Number : <span style={{ color: '#FE7CF3' }}>{orderinfo.merchant_uid}</span></p>
-                            <p>Password : <span style={{ color: '#FE7CF3' }}>{randomString}</span></p>
+                            {!logincheck ?
+                                <>
+                                    <p>Password : <span style={{ color: '#FE7CF3' }}>{randomString}</span></p>
+                                </> : null
+                            }
                             <p>Payment amount : {orderinfo.paid_amount}</p>
                             <p>Buyer's Name : {orderinfo.buyer_name}</p>
                             <p>Buyer's phone number : {orderinfo.buyer_tel}</p>
