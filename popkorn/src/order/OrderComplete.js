@@ -16,8 +16,8 @@ export const OrderComplete = () => {
     const logincheck = sessionStorage.getItem('loginID');
 
     const completechek = () => {
-        window.confirm('홈화면으로 돌아가시겠습니까?')
-        navigate('/')
+        if(window.confirm('홈화면으로 돌아가시겠습니까?'))
+            navigate('/')
     }
 
 
