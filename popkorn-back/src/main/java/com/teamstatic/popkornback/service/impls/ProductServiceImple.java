@@ -43,6 +43,13 @@ public class ProductServiceImple implements ProductService {
         return new PageResultDTO<>(result, entity -> entityToDto(entity));
     }
 
+    public PageResultDTO<ProductDTO, Product> findByCategoryLAndCategoryMAndKeyword(String categoryl, String categorym, String keyword, PageRequestDTO requestDTO){
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+
+        Page<Product> result = pRepsitory.findByCategoryLAndCategoryMAndKeyword(categoryl,categorym,keyword,pageable);
+
+        return new PageResultDTO<>(result, entity -> entityToDto(entity));
+    };
 
     @Override
     public List<Product> findByProductname(String productname) {
@@ -79,6 +86,15 @@ public class ProductServiceImple implements ProductService {
 
         return new PageResultDTO<>(resultPage, this::entityToDto);
 
+    }
+
+    public PageResultDTO<ProductDTO, Product>findAllByKeywordLike(String keyword, PageRequestDTO requestDTO){
+
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+
+        Page<Product> result = pRepsitory.findAllByKeywordLike(keyword, pageable);
+
+        return new PageResultDTO<>(result, entity -> entityToDto(entity));
     }
 
     public long countAll() {

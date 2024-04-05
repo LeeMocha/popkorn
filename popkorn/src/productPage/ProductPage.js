@@ -7,8 +7,10 @@ import Product from "./product/Product";
 import { apiCall } from "../service/apiService";
 
 export default function ProductPage() {
+    
     const currCategoryl = useRef('new');
     const [currCategorym, setCurrCategorym] = useState('New');
+    const [currKeyword, setCurrKeyword] = useState('');
     const [pageState, setPageState] = useState(1);
     const [productData, setProductData] = useState({
         servData: [],
@@ -24,7 +26,7 @@ export default function ProductPage() {
     });
 
     useEffect(() => {
-        apiCall(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}`,"GET",null,null).then(response => {
+        apiCall(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}&keyword=${currKeyword}`,"GET",null,null).then(response => {
             setProductData({
                 servData: response.data.dtoList,
                 pageData: {
@@ -47,7 +49,7 @@ export default function ProductPage() {
         <div className="product_page_wrap">
             <Header/>
 
-            <Category currCategoryl={currCategoryl} setCurrCategorym={setCurrCategorym} setPageState={setPageState}/>
+            <Category currCategoryl={currCategoryl} setCurrCategorym={setCurrCategorym} setPageState={setPageState} setCurrKeyword={setCurrKeyword}/>
 
             <Product currCategoryl={currCategoryl} currCategorym={currCategorym} productData={productData} setPageState={setPageState}/>
 

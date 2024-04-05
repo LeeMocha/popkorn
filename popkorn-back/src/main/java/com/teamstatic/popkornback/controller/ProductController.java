@@ -43,7 +43,7 @@ public class ProductController {
 
     @GetMapping("/findByCategorylAndCategorym")
     public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
-            int page) {
+            int page, String keyword) {
 
         if (categoryl.equals("new")) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
@@ -54,7 +54,7 @@ public class ProductController {
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findNewAll(requestDTO);
             return resultDTO;
 
-        } else {
+        } else if(keyword.length()<=0) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
                     .page(page)
                     .size(20)
@@ -64,7 +64,24 @@ public class ProductController {
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
                     requestDTO);
+
             return resultDTO;
+
+        } else {
+                        System.out.println(keyword);
+            
+                        PageRequestDTO requestDTO = PageRequestDTO.builder()
+                                .page(page)
+                                .size(20)
+                                .categoryl(categoryl)
+                                .categorym(categorym)
+                                .build();
+            
+                        PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndCategoryMAndKeyword(categoryl, categorym,
+                                keyword,requestDTO);
+
+                        return resultDTO;
+            
         }
 
     }

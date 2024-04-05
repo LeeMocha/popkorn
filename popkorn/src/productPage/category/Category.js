@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Category.css";
 
 
-export default function Category({ currCategoryl, setCurrCategorym, setPageState }) {
+export default function Category({ currCategoryl, setCurrCategorym, setPageState, setCurrKeyword }) {
 
     const categoryList = [
         {
@@ -39,6 +39,8 @@ export default function Category({ currCategoryl, setCurrCategorym, setPageState
     const [categoryS, setCategoryS] = useState(categoryList[0])
     const [isHover, setIsHover] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [keyCateL, setKeyCateL] = useState('album');
+    const [keyCateM, setKeyCateM] = useState('all');
 
     useEffect(() => {
         const handleScroll = () => {
@@ -64,13 +66,25 @@ export default function Category({ currCategoryl, setCurrCategorym, setPageState
     }
 
     const categorySHandler = (e) => {
-        if(currCategoryl.current==="new" && e.target.innerText==="New"){
+        if (currCategoryl.current === "new" && e.target.innerText === "New") {
             setCurrCategorym(e.target.innerText);
             setPageState(1);
-        }else {
+        } else {
             setCurrCategorym(e.target.innerText);
             setPageState(1);
         }
+    }
+
+    const searchBtnHandler = () =>{
+        console.log(keyCateL)
+        console.log(keyCateM)
+        currCategoryl.current = keyCateL.toLowerCase();
+        setCurrCategorym(keyCateM.toLowerCase())
+        setPageState(1);
+    }
+
+    const searchInputHandler = (keyword) => {
+        setCurrKeyword(keyword)
     }
 
     return (
@@ -94,9 +108,26 @@ export default function Category({ currCategoryl, setCurrCategorym, setPageState
                         currHandler(e, num)
                     }}>PHOTO</li>
                 </ul>
+                <div className="product_searchbar_bar">
+                    <select onChange={(e) => setKeyCateL(e.target.value)} value={keyCateL}>
+                        <option value="album" key="1">ALBUM</option>
+                        <option value="goods" key="2">GOODS</option>
+                        <option value="photo" key="3">PHOTO</option>
+                    </select>
+                    &nbsp;
+                    <select onChange={(e) => setKeyCateM(e.target.value)}>
+                    {categoryList.find(cat => cat.name === keyCateL)?.subcategorys.map(subcategory =>
+                            <option value={subcategory.name} key={subcategory.subCategorysId}>{subcategory.name}</option>
+                        )}
+                    </select>
+                    <input className="product_searchinput" placeholder="Let's Search Products" onChange={(e)=>searchInputHandler(e.target.value)}/>
+                    <i className="xi-search" onClick={searchBtnHandler}></i>
+                </div>
             </div>
-            <div className={`categoryS_container ${isHover ? "active" : ""} ${isScrolled ? ()=>{setIsScrolled(false)
-                 return "fade-out";} : ""}`} onMouseLeave={leaveHandler}>
+            <div className={`categoryS_container ${isHover ? "active" : ""} ${isScrolled ? () => {
+                setIsScrolled(false)
+                return "fade-out";
+            } : ""}`} onMouseLeave={leaveHandler}>
                 <div className={`transform_Cwrap ${isHover ? "active" : ""}`}></div>
                 {
                     categoryS.subcategorys.map(subcategory =>

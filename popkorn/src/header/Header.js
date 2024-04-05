@@ -21,6 +21,10 @@ export default function Header() {
             document.querySelectorAll('.logo_imgs1').forEach(e => e.classList.add('fade-out'));
             document.querySelectorAll('.logo_imgs2').forEach(e => e.classList.add('fade-out'));
             document.querySelector('.dimmer').classList.add('fade-out');
+            document.querySelector('.categoryS_container').classList.add('fade-out');
+            document.querySelector('.categoryM_container').classList.add('fade-out');
+            document.querySelector('.categoryS_container').classList.remove('active');
+
          } catch(e){
             
          }

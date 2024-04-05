@@ -108,7 +108,6 @@ export const EmailCheck = () => {
   return (
     <div className='emailwhole'>
       <Mainlogo />
-
       <div className='emailbg'>
         {emailcheck === '1' ?
           <>

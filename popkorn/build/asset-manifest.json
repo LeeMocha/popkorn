@@ -1,11 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.c40c23e8.css",
-    "main.js": "/static/js/main.ff9615dc.js",
+    "main.css": "/static/css/main.758cd71e.css",
+    "main.js": "/static/js/main.d377203a.js",
     "static/js/453.39970b43.chunk.js": "/static/js/453.39970b43.chunk.js",
     "static/media/JAPAN 2nd Single [UNFORGIVEN] Solo Jacket.png": "/static/media/JAPAN 2nd Single [UNFORGIVEN] Solo Jacket.2488ea0c5dedad800326.png",
     "static/media/lesserafim.svg": "/static/media/lesserafim.3a90b55e9356d2f155ba34d2fa0a3ab8.svg",
-    "static/media/LESSERAFIMDetailMain.png": "/static/media/LESSERAFIMDetailMain.175231a1b7fe1899094a.png",
     "static/media/exocard.jpg": "/static/media/exocard.ca5712e2f24ed976f01d.jpg",
     "static/media/exobok.jpg": "/static/media/exobok.1c50aa9eaf7a8bdf17bc.jpg",
     "static/media/slick.svg": "/static/media/slick.7ba97953187dc2907930.svg",
@@ -19,12 +18,12 @@
     "static/media/logo_p.svg": "/static/media/logo_p.d56f9f2d241343aa9afe99252f96d5a2.svg",
     "static/media/logo_p2.svg": "/static/media/logo_p2.d56f9f2d241343aa9afe99252f96d5a2.svg",
     "static/media/logo_n.svg": "/static/media/logo_n.b3d9d03e367a081f33fed9c1ecbc64f9.svg",
-    "main.c40c23e8.css.map": "/static/css/main.c40c23e8.css.map",
-    "main.ff9615dc.js.map": "/static/js/main.ff9615dc.js.map",
+    "main.758cd71e.css.map": "/static/css/main.758cd71e.css.map",
+    "main.d377203a.js.map": "/static/js/main.d377203a.js.map",
     "453.39970b43.chunk.js.map": "/static/js/453.39970b43.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c40c23e8.css",
-    "static/js/main.ff9615dc.js"
+    "static/css/main.758cd71e.css",
+    "static/js/main.d377203a.js"
   ]
 }
