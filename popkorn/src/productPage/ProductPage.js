@@ -1,4 +1,3 @@
-import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 import Header from "../header/Header";
 import Category from "./category/Category";
