@@ -24,15 +24,24 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT * FROM product WHERE pcode IN (SELECT MIN(pcode) FROM product WHERE categoryl = 'goods' GROUP BY productname) ORDER BY receiptdate DESC", nativeQuery = true)
     Page<Product> findNewGoods(Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.categoryl = :categoryl AND p.categorym = :categorym AND " +
+            "(p.productname LIKE CONCAT('%', :keyword, '%') OR p.artist LIKE CONCAT('%', :keyword, '%') OR p.categorys LIKE CONCAT('%', :keyword, '%'))")
+    Page<Product> findByCategoryLAndCategoryMAndKeyword(String categoryl, String categorym, String keyword, Pageable pageable);
+
     @Query("SELECT p " +
-    "FROM Product p " +
-    "WHERE p.artist = :artist " +
-    "AND p.pcode IN (SELECT MIN(p2.pcode) " +
-                    "FROM Product p2 " +
-                    "WHERE p2.artist = :artist " +
-                    "GROUP BY p2.productname)")
+            "FROM Product p " +
+            "WHERE p.artist = :artist " +
+            "AND p.pcode IN (SELECT MIN(p2.pcode) " +
+            "FROM Product p2 " +
+            "WHERE p2.artist = :artist " +
+            "GROUP BY p2.productname)")
     List<Product> findFirstProductByArtist(String artist);
 
     Product findByPcode(int pcode);
+
+    @Query(value = "SELECT * FROM product p WHERE " +
+            "p.productname LIKE %:keyword% OR " +
+            "p.artist LIKE %:keyword%", nativeQuery = true)
+    Page<Product> findAllByKeywordLike(String keyword, Pageable pageable);
 
 }

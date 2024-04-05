@@ -1,5 +1,4 @@
 import Mainlogo from './Mainlogo/Mainlogo'
-import { useState } from 'react'
 
 import p from './logoIMG/logo_p.svg'
 import o from './logoIMG/logo_o.svg'
@@ -46,7 +45,7 @@ export default function Logo({ isScrolled, handleLogoMouseOver }) {
    return (
       <div className={`logo_wrap`}>
          <Flogo isScrolled={isScrolled} />
-         <div onMouseOver={handleLogoMouseOver} className={`logo_main ${isScrolled ? "fade-out" : ""}`}>
+         <div onMouseOver={handleLogoMouseOver} className={`logo_main`}>
             <Mainlogo/>
          </div>
          <Blogo isScrolled={isScrolled} />

@@ -11,6 +11,8 @@
 .categoryM_container {
     transition: all 0.4s ease-in-out;
     animation: slideIn 0.4s linear forwards;
+    display: flex;
+    align-items: center;
 }
 
 .categoryM_container.fade-out{
@@ -133,4 +135,37 @@
 
 .category_event li:hover::before{
     width: 100%;
+}
+
+.product_searchbar_bar{
+    position: absolute;
+    right: 120px;
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.product_searchbar_bar select {
+    border: 0px;
+    border-bottom: 1.5px solid #7de3ff;
+    outline: none;
+    background-color: transparent;
+    color: #7de3ff;
+    text-wrap: wrap;
+    font-size: 12px;
+}
+
+.product_searchinput {
+    background-color: transparent;
+    border: 0px;
+    outline: none;
+    margin-left: 3%;
+    padding-right: 5%;
+    font-size: 22px;
+    border-bottom: 1.5px solid #7de3ff;
+    color: #FE7CF3;
+}
+
+.product_searchinput::placeholder{
+    color: #FE7CF3;
 }
