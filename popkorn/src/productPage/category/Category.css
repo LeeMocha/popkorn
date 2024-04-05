@@ -164,8 +164,16 @@
     font-size: 22px;
     border-bottom: 1.5px solid #7de3ff;
     color: #FE7CF3;
+    width: 240px;
 }
 
 .product_searchinput::placeholder{
     color: #FE7CF3;
+}
+
+.product_searchbar_bar .xi-close{
+    position: absolute;
+    right: 25px;
+    font-size: 12px;
+    bottom: 10px;
 }

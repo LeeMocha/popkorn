@@ -87,6 +87,14 @@ export default function Category({ currCategoryl, setCurrCategorym, setPageState
         setCurrKeyword(keyword)
     }
 
+    const eraseBtnHandler = () => {
+        const inputElement = document.querySelector('.product_searchinput');
+        if (inputElement) {
+            inputElement.value = ''; // input 요소의 값을 지움
+            setCurrKeyword(''); // React state를 업데이트하여 검색 키워드를 초기화
+        }
+    }
+
     return (
         <div className="category_wrap">
             <div className={`categoryM_container  ${isScrolled ? "fade-out" : ""}`}>
@@ -109,18 +117,21 @@ export default function Category({ currCategoryl, setCurrCategorym, setPageState
                     }}>PHOTO</li>
                 </ul>
                 <div className="product_searchbar_bar">
-                    <select onChange={(e) => setKeyCateL(e.target.value)} value={keyCateL}>
+                    <select onChange={(e) => {setKeyCateL(e.target.value)
+                        setKeyCateM(categoryList.find(sub => sub.name === e.target.value)?.subcategorys[0].name)
+                    }} value={keyCateL}>
                         <option value="album" key="1">ALBUM</option>
                         <option value="goods" key="2">GOODS</option>
                         <option value="photo" key="3">PHOTO</option>
                     </select>
                     &nbsp;
                     <select onChange={(e) => setKeyCateM(e.target.value)}>
-                    {categoryList.find(cat => cat.name === keyCateL)?.subcategorys.map(subcategory =>
+                    {categoryList.find(sub => sub.name === keyCateL)?.subcategorys.map(subcategory =>
                             <option value={subcategory.name} key={subcategory.subCategorysId}>{subcategory.name}</option>
                         )}
                     </select>
                     <input className="product_searchinput" placeholder="Let's Search Products" onChange={(e)=>searchInputHandler(e.target.value)}/>
+                    <i className="xi-close" onClick={eraseBtnHandler}></i>
                     <i className="xi-search" onClick={searchBtnHandler}></i>
                 </div>
             </div>
