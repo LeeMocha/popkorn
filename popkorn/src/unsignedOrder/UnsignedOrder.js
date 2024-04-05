@@ -83,7 +83,7 @@ export default function UnsugnedOrder() {
                                         <input
                                             className='emailinput'
                                             type="text"
-                                            placeholder="Insert Ordered Id"
+                                            placeholder="Insert Order Number"
                                             maxLength="25"
                                             onChange={certificationordernum}
                                             value={ordernum}
@@ -96,14 +96,14 @@ export default function UnsugnedOrder() {
                                         <input
                                             className='pwinput'
                                             type={showpw === false ? "password" : "text"}
-                                            placeholder="Password"
-                                            maxLength="16"
+                                            placeholder="Order Password"
+                                            maxLength="10"
                                             onChange={certificationorderpw}
                                             value={orderpw}
                                         />
 
                                         <button onClick={toggleShowpw} className='toggleshow'>
-                                            {showpw ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
+                                            {showpw ? <i className='xi-eye-off' /> : <i className='xi-eye' />}</button>
                                         <button type='reset' className='memberreset' onClick={() => setOrderpw('')}>
                                             <i className='xi-close-thin' /></button>
 

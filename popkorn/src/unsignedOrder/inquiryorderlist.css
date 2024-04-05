@@ -17,12 +17,12 @@
 }
 
 .orderdetailscontainer::-webkit-scrollbar {
-  width: 12px; 
+  width: 12px;
 }
 
 .orderdetailscontainer::-webkit-scrollbar-thumb {
-  background-color: #888; 
-  border-radius: 6px; 
+  background-color: #888;
+  border-radius: 6px;
 }
 
 .orderdetailscontainer::-webkit-scrollbar-track {
@@ -31,13 +31,13 @@
 
 .orderdetailscontainer::-webkit-scrollbar-button:vertical:start:decrement,
 .orderdetailscontainer::-webkit-scrollbar-button:vertical:start:increment {
-    display: block;
-    height: 10px;
+  display: block;
+  height: 10px;
 }
 
 .orderdetailscontainer::-webkit-scrollbar-button:vertical:end:decrement {
-    display: block;
-    width: 10px;
+  display: block;
+  width: 10px;
 }
 
 .orderdetailscontainer {
@@ -49,8 +49,8 @@
   overflow-y: auto;
   margin-top: 5%;
   width: 70%;
-  min-width: 300px; 
-  max-width: 800px; 
+  min-width: 300px;
+  max-width: 800px;
   height: auto;
   overflow-x: hidden;
   display: flex;
@@ -97,8 +97,8 @@
 
 .inquirypcode {
   width: 50%;
-  min-width: 150px; 
-  max-width: 300px; 
+  min-width: 150px;
+  max-width: 300px;
   text-align: right;
 }
 
@@ -117,24 +117,25 @@
 
 .orderdetailproductinfo {
   width: 100%;
-  min-width: 200px; 
-  max-width: 600px;  
+  min-width: 200px;
+  max-width: 600px;
   padding-left: 1%;
   margin-top: 3%;
 }
 
 .inquirymapvalue {
   margin-left: 5%;
-  min-width: 200px; 
-  max-width: 400px;  
+  min-width: 200px;
+  max-width: 400px;
 }
 
 .inquiryorderdetailinfo {
   display: flex;
   width: 100%;
-  min-width: 200px; 
-  max-width: 600px;  
-  border: 1px solid #888;;
+  min-width: 200px;
+  max-width: 600px;
+  border: 1px solid #888;
+  ;
   border-radius: 2vw;
   padding: 3%;
 }
@@ -219,12 +220,14 @@
 }
 
 .inquiryorderbtn {
+  font-family: 'TmoneyRoundWindExtraBold';
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
 
-.inquiryrefundbtn, .inquiryinquirement {
+.inquiryrefundbtn,
+.inquiryinquirement {
   width: 22%;
   border: 0px;
   border-radius: 2vw;
@@ -236,7 +239,8 @@
   word-break: keep-all;
 }
 
-.inputemail, .inputcertification {
+.inputemail,
+.inputcertification {
   font-family: 'TmoneyRoundWindExtraBold';
   padding-left: 0px;
   padding-bottom: 5px;
@@ -258,7 +262,7 @@
   color: #fe7cf3;
 }
 
-.mailcodesend > i {
+.mailcodesend>i {
   margin-left: -40px;
 }
 
@@ -302,11 +306,8 @@
   right: 10px;
   background-color: transparent;
   border: none;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
-}
-
-.popup-close-btn:hover {
   color: black;
 }
 
@@ -323,6 +324,7 @@
 }
 
 .orderpopup-overlay {
+  font-family: 'TmoneyRoundWindExtraBold';
   position: fixed;
   top: 0;
   left: 0;
@@ -333,4 +335,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.ordernumberlist {
+  font-family: 'TmoneyRoundWindExtraBold';
+  width: 500px;
+  display: flex;
+  padding: 20px;
+  height: 30px;
+  border: 1px solid rgba(214, 212, 212, 0.5);
+  ;
+  border-radius: 25px;
+  margin: 50px auto;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.inquiryorderbtn {
+  width: 80px;
+  height: 30px;
+  padding-top: 5px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.inquiryorderbtn:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+  color: #555;
+  transform: scale(1.05);
+}
+.inquiryorderspan {
+  color:#fe7cf3;
 }

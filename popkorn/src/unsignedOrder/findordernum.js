@@ -4,20 +4,20 @@ import { emCheck } from '../auth/logincheck';
 
 function OrderDetailsPopup({ order, onClose }) {
   return (
-      <div className="orderpopup-overlay">
-    <div className="order-details-popup">
+    <div className="orderpopup-overlay">
+      <div className="order-details-popup">
 
-      <h2>Order Details</h2>
-      <p>Order Number: {order.merchantUid}</p>
-      <p>Email: {order.buyerEmail}</p>
-      <p>Paid At: {new Date(order.paidAt).toLocaleString()}</p> {/* 시간을 보기 좋게 포맷팅 */}
-      <button onClick={onClose}>Close</button>
+        <h2>Order Details</h2>
+        <p>Order Number:<span className="inquiryorderspan"> {order.merchantUid}</span></p>
+        <p>Email: {order.buyerEmail}</p>
+        <p>Paid At: {new Date(order.paidAt).toLocaleString()}</p>
+        <button onClick={onClose} className="popup-close-btn">X</button>
       </div>
     </div>
   );
 }
 
-export default function FindOrderNum() { // 함수명 수정: camelCase 규칙을 따르도록 수정
+export default function FindOrderNum() {
   const [ecertificationcode, setEcertificationcode] = useState('');
   const [mailcode, setMailcode] = useState('');
   const [inputemail, setInputemail] = useState('');
@@ -27,21 +27,34 @@ export default function FindOrderNum() { // 함수명 수정: camelCase 규칙�
   const [checkmerchantuid, Setcheckmerchantuid] = useState([]);
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [emailinfo, setEmailinfo] = useState('');
 
   const certificationhandle = (e) => {
     setEcertificationcode(e.target.value);
   }
 
   const handleEmailChange = (e) => {
-    setInputemail(e.target.value);
-    setIsEmailValid(emCheck(e.target.value));
-  }
+    const newEmailValue = e.target.value;
+    setInputemail(newEmailValue);
+    const isValidEmail = emCheck(newEmailValue);
+    setIsEmailValid(isValidEmail);
+
+    if (!isValidEmail || newEmailValue.length === 0) {
+      setEmailinfo('Invalid Email type');
+    } else if (isEmailValid && emCheck(newEmailValue)) {
+      setEmailinfo('Email already exists. If you are a member, please use MyPage');
+    } else {
+      setEmailinfo('');
+    }
+}
+
 
   const mailConfirm = async () => {
     try {
       const response = await apiCall('/api/user/mailConfirm', "POST", { email: inputemail }, null);
       alert("Please check your certification code in your email.");
       setMailcode(response.data);
+      console.log(response.data);
       setIsEmailConfirmClicked(true);
     } catch (error) {
       console.error('Error occurred:', error);
@@ -115,39 +128,38 @@ export default function FindOrderNum() { // 함수명 수정: camelCase 규칙�
       {ecertificationcheck === 1 ?
         <>
           <div>
-            <h2 className='member-guide'>
+            <h2 className='memberguide'>
               Certification Email
             </h2>
           </div>
 
-          <div className='confirm-email'>
+          <div className='confirmemail'>
             Please proceed after sending <br />
             And checking email certification
 
             <br /><br />
 
             <input
-              className='input-email'
+              className='inputemail'
               type="text"
               placeholder="Insert Email"
               maxLength="20"
               onChange={handleEmailChange}
               value={inputemail}
             />
+            
             {!isEmailValid || !emCheck(inputemail) || inputemail.length === 0 || inputemail.length > 20 ? null :
-              <button onClick={mailConfirm} className="mail-code-send"><i className="xi-send" /></button>
+              <button onClick={mailConfirm} className="mailcodesend"><i className="xi-send" /></button>
             }
-          </div>
-          {!isEmailValid && emCheck(inputemail) ?
-            <div className="existed-email">
-              Email already exists. If you are a member, please use MyPage
+            <div className="existedemail">
+            {emailinfo}
             </div>
-            : null}
-          <br></br>
+          </div>
+
           {isEmailConfirmClicked &&
             <>
               <input
-                className="input-certification"
+                className="inputcertification"
                 type="text"
                 placeholder="Certification Code"
                 onChange={certificationhandle}
@@ -155,7 +167,7 @@ export default function FindOrderNum() { // 함수명 수정: camelCase 규칙�
               />
 
               {(ecertificationcode !== mailcode || ecertificationcode.length < 1) ? null :
-                <button onClick={emailToMerchantUid} className="mail-code-send"><i className="xi-send" /></button>
+                <button onClick={emailToMerchantUid} className="mailcodesend"><i className="xi-send" /></button>
               }
             </>
           }
@@ -164,16 +176,16 @@ export default function FindOrderNum() { // 함수명 수정: camelCase 규칙�
         : ecertificationcheck === 2 ?
           <>
             <div>
-              <h2 className='member-guide'>
+              <h2 className='memberguide'>
                 Here's your Order Number
               </h2>
               <h3>For non-members, only 10 recent orders will be printed</h3>
               <div>
                 <ul>
                   {orders.map((order, index) => (
-                    <li key={index}>
-                      <span>Order Number: {order.merchantUid}</span>
-                      <button onClick={() => showOrderDetails(order)}>View Details</button>
+                    <li key={index} className="ordernumberlist">
+                      <span>Order Number:<span className="inquiryorderspan"> {order.merchantUid}</span></span>
+                      <button onClick={() => showOrderDetails(order)} className="inquiryorderbtn">Details</button>
                     </li>
                   ))}
                 </ul>
