@@ -1,8 +1,8 @@
 .searchform_wrap{
-   width: 90%;
-   margin: 50px auto 5px;
    display: flex;
+   margin: 0 auto;
    justify-content: space-between;
+   width: 90%;
 }
 
 .searchform_wrap div{

@@ -1,9 +1,8 @@
 
 import { useState } from "react";
 import "./SearchForm.css";
-import { apiCall } from "../../../service/apiService";
 
-export default function SearchForm({setDataState, entity}) {
+export default function SearchForm({setCurrKeyword}) {
 
    const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -12,17 +11,7 @@ export default function SearchForm({setDataState, entity}) {
    }
 
    const getSearchData = () => {
-      if(searchKeyword!==''){
-         apiCall(`/api/${entity}/searchlist?keyword=${searchKeyword}&page=1`, "GET", null, null)
-         .then(response => {
-            console.log(response.data)
-            setDataState(response.data);
-         })
-         .catch(err => {
-            console.error('Error searching data:', err);
-         })
-
-      }
+      setCurrKeyword(searchKeyword);
    }
 
    return (
@@ -32,7 +21,7 @@ export default function SearchForm({setDataState, entity}) {
             <button type="button" className="searchform_btn" onClick={getSearchData}><i className="xi-search"></i></button>
          </div>
          <div>
-            <button type="button" className="searchform_add_btn">Add</button>
+            <button type="button" className="searchform_add_btn">delete</button>
          </div>
       </div>
    );

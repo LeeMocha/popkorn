@@ -38,7 +38,7 @@ public class ProductServiceImple implements ProductService {
 
         Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
 
-        Page<Product> result = pRepsitory.findAll(pageable);
+        Page<Product> result = pRepsitory.findAllByKeywordLike(requestDTO.getKeyword(),pageable);
 
         return new PageResultDTO<>(result, entity -> entityToDto(entity));
     }
@@ -49,7 +49,16 @@ public class ProductServiceImple implements ProductService {
         Page<Product> result = pRepsitory.findByCategoryLAndCategoryMAndKeyword(categoryl,categorym,keyword,pageable);
 
         return new PageResultDTO<>(result, entity -> entityToDto(entity));
-    };
+    }
+    
+    public PageResultDTO<ProductDTO, Product> findByCategoryLAndKeyword(String categoryl, String keyword, PageRequestDTO requestDTO){
+        
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+    
+        Page<Product> result = pRepsitory.findByCategoryLAndKeyword(categoryl,keyword,pageable);
+    
+        return new PageResultDTO<>(result, entity -> entityToDto(entity));
+    }
 
     @Override
     public List<Product> findByProductname(String productname) {

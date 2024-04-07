@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "u.id LIKE %:keyword% OR " +
             "u.nickname LIKE %:keyword% OR " +
             "u.reword LIKE %:keyword% OR " +
+            "u.status LIKE %:keyword% OR " +
             "u.createDate LIKE %:keyword%", nativeQuery = true)
     Page<User> findAllByKeywordLike(String keyword, Pageable pageable);
 

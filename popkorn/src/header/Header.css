@@ -1,3 +1,7 @@
+.header_wrap.fade-out {
+   pointer-events: painted;
+}
+
 .header_wrap {
    display: inline-flex;
    position: fixed;

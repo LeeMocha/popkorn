@@ -1,3 +1,8 @@
+.category_wrap.fade-out {
+    transform: translateX(-300%);
+    transition: all 0.4s ease-in-out;
+}
+
 .category_wrap {
     position: fixed;
     width: 100%;
@@ -63,15 +68,16 @@
 .categoryS_container{
     position: relative;
     width: 100%;
-    min-height: 240px;
     visibility: hidden;
     overflow: hidden;
     border-radius: 0.5em;
     transition: all 0.4s ease-in-out;
+    height: 0;
     --c: #7de3ff;
 }
 
 .categoryS_container.active{
+    min-height: 240px;
     visibility: visible;
     transition: all 0.4s ease-in-out;
 }
@@ -79,6 +85,8 @@
 .categoryS_container.fade-out{
     animation: slideOut 0.4s linear forwards;
     visibility: hidden;
+    pointer-events: none;
+
 }
 
 .subcategory{
