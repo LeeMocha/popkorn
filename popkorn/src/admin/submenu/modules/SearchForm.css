@@ -3,6 +3,7 @@
    margin: 0 auto;
    justify-content: space-between;
    width: 90%;
+   padding-top: 10px;
 }
 
 .searchform_wrap div{
