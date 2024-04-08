@@ -14,6 +14,7 @@ import TotalList from "./submenu/stock/TotalList";
 import AdminList from "./submenu/user/AdminList";
 import UserList from "./submenu/user/UserList";
 import StateList from "./submenu/deiliver/StateList";
+import Add from "./submenu/stock/Add";
 
 
 export default function AdminMain() {
@@ -81,8 +82,8 @@ export default function AdminMain() {
             key: 3,
             icon: "xi-box",
             main: "Stock",
-            subMenu: [{ subkey: "Total List", component: () => <TotalList /> }
-                , { subkey: "Add", component: () => <></> }
+            subMenu: [{ subkey: "Total List", component: <TotalList /> }
+                , { subkey: "Add", component: <Add /> }
                 , { subkey: "Update", component: () => <></> }
                 , { subkey: "Drop", component: () => <></> }]
         },
