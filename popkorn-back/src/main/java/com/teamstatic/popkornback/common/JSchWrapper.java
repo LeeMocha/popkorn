@@ -37,11 +37,11 @@ public class JSchWrapper {
         try {
          // 대상 폴더로 이동
          channelSftp.cd("html"+dirPath);
- 
+
          // 파일 업로드
          channelSftp.put(fileInputStream, fileName);
          isSuccess = true;
- 
+
          System.out.println("File uploaded : " + dirPath + "/" + fileName);
  
      } catch (Exception e) {
@@ -173,12 +173,14 @@ public class JSchWrapper {
      * @throws Exception
      */
     public void connectSFTP() throws Exception {
+        System.out.println("connection 시작 => 응응");
+        
         // JSch 객체를 생성
         JSch jsch = new JSch();
-
+        
         // JSch 세션 객체를 생성 (사용자 이름, 접속할 호스트, 포트 전달)
         jschSession = jsch.getSession("popkorn", "112.175.185.152", 2022);
-
+        
         // 패스워드 설정
         jschSession.setPassword("static1217!");
 
@@ -186,18 +188,21 @@ public class JSchWrapper {
         Properties config = new Properties();
         config.put("StrictHostKeyChecking", "no");
         jschSession.setConfig(config);
-
+        
         // 접속
         jschSession.connect();
-
+        
         // sftp 채널 열기
         channel = jschSession.openChannel("sftp");
-
+        
         // sftp 채널 연결
         channelSftp = (ChannelSftp) channel;
         channelSftp.connect();
-    }
 
+
+        System.out.println("connection 연결 완료 =>");
+    }
+    
     /**
      * SFTP 접속해제
      */

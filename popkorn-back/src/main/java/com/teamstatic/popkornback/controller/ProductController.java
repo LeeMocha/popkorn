@@ -15,10 +15,10 @@ import com.teamstatic.popkornback.common.JSchWrapper;
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;
-import com.teamstatic.popkornback.domain.UserDTO;
+
 import com.teamstatic.popkornback.entity.OrderDetail;
 import com.teamstatic.popkornback.entity.Product;
-import com.teamstatic.popkornback.entity.User;
+
 import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -151,7 +151,8 @@ public class ProductController {
                     .keyword(keyword)
                     .build();
 
-            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndKeyword(categoryl, keyword ,requestDTO);
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndKeyword(categoryl, keyword,
+                    requestDTO);
             return resultDTO;
 
         } else if (keyword.length() <= 0) {
@@ -187,13 +188,22 @@ public class ProductController {
     }
 
     @PostMapping("/productSave")
-    public Boolean postMethodName(@RequestParam("file") MultipartFile file, @RequestBody Product entity) {
+    public Boolean postMethodName(ProductDTO dto) {
+        
+        
+        System.out.println("**"+dto);
+        
+
         try {
+
+            Product entity = pService.dtoToEntity(dto);
+
             JSchWrapper jsch = new JSchWrapper();
             jsch.connectSFTP();
 
             // 파일 업로드 로직 추가
-            boolean uploadSuccess = jsch.uploadFile(file.getInputStream(), file.getOriginalFilename(), "/productIMG");
+            boolean uploadSuccess = jsch.uploadFile(dto.getImageFile().getInputStream(),
+            dto.getImageFile().getOriginalFilename(), "/productIMG");
 
             // JSchWrapper 연결 종료
             jsch.disconnectSFTP();
