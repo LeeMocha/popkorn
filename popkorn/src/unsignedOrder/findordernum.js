@@ -37,11 +37,10 @@ export default function FindOrderNum() {
     const newEmailValue = e.target.value;
     setInputemail(newEmailValue);
     const isValidEmail = emCheck(newEmailValue);
-    setIsEmailValid(isValidEmail);
 
-    if (!isValidEmail || newEmailValue.length === 0) {
+    if (!isValidEmail && newEmailValue.length > 0) {
       setEmailinfo('Invalid Email type');
-    } else if (isEmailValid && emCheck(newEmailValue)) {
+    } else if (!isEmailValid && newEmailValue.length > 1) {
       setEmailinfo('Email already exists. If you are a member, please use MyPage');
     } else {
       setEmailinfo('');
@@ -185,7 +184,7 @@ export default function FindOrderNum() {
                   {orders.map((order, index) => (
                     <li key={index} className="ordernumberlist">
                       <span>Order Number:<span className="inquiryorderspan"> {order.merchantUid}</span></span>
-                      <button onClick={() => showOrderDetails(order)} className="inquiryorderbtn">Details</button>
+                      <button onClick={() => showOrderDetails(order)} className="inquiryorderdetailstn">Details</button>
                     </li>
                   ))}
                 </ul>

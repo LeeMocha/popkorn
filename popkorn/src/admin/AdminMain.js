@@ -14,7 +14,9 @@ import TotalList from "./submenu/stock/TotalList";
 import AdminList from "./submenu/user/AdminList";
 import UserList from "./submenu/user/UserList";
 import StateList from "./submenu/deiliver/StateList";
+import Add from "./submenu/stock/Add";
 
+import Send from "./submenu/email/Send";
 
 export default function AdminMain() {
 
@@ -63,20 +65,14 @@ export default function AdminMain() {
         },
         {
             key: 1,
-            icon: "xi-calendar",
-            main: "Event",
-            subMenu: [{ key: 0, subkey: "Main Event", component: <MainEvent /> }
-                , { key: 1, subkey: "Slide Event", component: <SlideEvent /> }]
-        },
-        {
-            key: 2,
             icon: "xi-users-o",
             main: "User",
             subMenu: [{ subkey: "User List", component: <UserList /> }
-                , { subkey: "Admin List", component: <AdminList /> }]
+                // , { subkey: "Admin List", component: <AdminList /> }
+            ]
         },
         {
-            key: 3,
+            key: 2,
             icon: "xi-document",
             main: "Order",
             subMenu: [{ subkey: "Order List", component: () => <></> }
@@ -84,26 +80,33 @@ export default function AdminMain() {
                 , { subkey: "Legacy", component: () => <></> }]
         },
         {
-            key: 4,
+            key: 3,
             icon: "xi-box",
             main: "Stock",
-            subMenu: [{ subkey: "Total List", component: () => <TotalList /> }
-                , { subkey: "Add", component: () => <></> }
+            subMenu: [{ subkey: "Total List", component: <TotalList /> }
+                , { subkey: "Add", component: <Add /> }
                 , { subkey: "Update", component: () => <></> }
                 , { subkey: "Drop", component: () => <></> }]
         },
         {
-            key: 5,
+            key: 4,
             icon: "xi-truck",
             main: "Diliver",
-            subMenu: [{ subkey: "State List", component: () => <StateList /> }
+            subMenu: [{ subkey: "State List", component: <StateList /> }
                 , { subkey: "Completed", component: () => <></> }]
+        },
+        {
+            key: 5,
+            icon: "xi-calendar",
+            main: "Event",
+            subMenu: [{ key: 0, subkey: "Main Event", component: <MainEvent /> }
+                , { key: 1, subkey: "Slide Event", component: <SlideEvent /> }]
         },
         {
             key: 6,
             icon: "xi-mail-o",
             main: "Mail",
-            subMenu: [{ subkey: "Send", component: () => <></> }
+            subMenu: [{ subkey: "Send", component: () => <Send /> }
                 , { subkey: "Batch", component: () => <></> }]
         },
         {

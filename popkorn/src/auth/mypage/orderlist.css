@@ -80,8 +80,13 @@
 
 .orderdetailnumber {
   font-size: 1.5vw;
+  color: #000;
+}
+
+.orderdetailnumber span{
+  font-size: 1.5vw;
   font-weight: bold;
-  color: red;
+  color: #FE7CF3;
 }
 
 .orderdetailcheck:hover {
@@ -96,6 +101,13 @@
   min-width: 150px; 
   max-width: 300px; 
   text-align: right;
+}
+.orderdetailpcode span{
+  width: 50%;
+  min-width: 150px; 
+  max-width: 300px; 
+  text-align: right;
+  color: #FE7CF3;
 }
 
 .orderlist2nd {
@@ -171,11 +183,11 @@
 
 .popup-close-btn {
   position: absolute;
-  top: 1%;
-  right: 2%;
+  top: 10px;
+  right: 20px;
   background-color: transparent;
   border: none;
-  font-size: 5vw;
+  font-size: 50px;
   cursor: pointer;
   color: white;
 }
@@ -212,14 +224,14 @@
   margin-top: 7%;
 }
 
-.orderbtn {
+.orderbtn{
   display: flex;
   justify-content: space-around;
   align-items: baseline;
 }
 
 .refundbtn, .inquirementbtn {
-  width: 15%;
+  width: 200px;
   border: 0px;
   border-radius: 2vw;
   height: 3vw;

@@ -82,7 +82,7 @@ export default function DetailOrder() {
                 }
             }
         } else {
-            window.confirm("Do you want to log in and use it?");
+            if(window.confirm("Do you want to log in and use it?"));
             navigate('/authMain');
         }
     }

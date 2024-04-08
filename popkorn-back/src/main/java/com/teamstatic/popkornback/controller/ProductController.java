@@ -4,18 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.objenesis.ObjenesisHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.teamstatic.popkornback.common.JSchWrapper;
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;
+import com.teamstatic.popkornback.domain.UserDTO;
 import com.teamstatic.popkornback.entity.OrderDetail;
 import com.teamstatic.popkornback.entity.Product;
+import com.teamstatic.popkornback.entity.User;
 import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,18 +46,18 @@ public class ProductController {
 
     @GetMapping("/findByCategorylAndCategorym")
     public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
-            int page) {
+            int page, String keyword) {
 
         if (categoryl.equals("new")) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
-                    .page(page)
+                    .page(1)
                     .size(8)
                     .build();
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findNewAll(requestDTO);
             return resultDTO;
 
-        } else {
+        } else if (keyword.length() <= 0) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
                     .page(page)
                     .size(20)
@@ -64,7 +67,25 @@ public class ProductController {
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
                     requestDTO);
+
             return resultDTO;
+
+        } else {
+            System.out.println(keyword);
+
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+                    .page(page)
+                    .size(20)
+                    .categoryl(categoryl)
+                    .categorym(categorym)
+                    .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndCategoryMAndKeyword(categoryl,
+                    categorym,
+                    keyword, requestDTO);
+
+            return resultDTO;
+
         }
 
     }
@@ -100,4 +121,92 @@ public class ProductController {
         return response;
     }
 
+    @GetMapping("/searchlist")
+    public PageResultDTO<ProductDTO, Product> searchlist(String categoryl, String categorym,
+            int page, String keyword) {
+
+        if (categoryl.equals("new")) {
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+                    .page(1)
+                    .size(8)
+                    .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findNewAll(requestDTO);
+            return resultDTO;
+
+        } else if (categoryl.equals("all")) {
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+                    .page(page)
+                    .size(20)
+                    .keyword(keyword)
+                    .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findAll(requestDTO);
+            return resultDTO;
+
+        } else if (categorym.equals("all")) {
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+                    .page(page)
+                    .size(20)
+                    .keyword(keyword)
+                    .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndKeyword(categoryl, keyword ,requestDTO);
+            return resultDTO;
+
+        } else if (keyword.length() <= 0) {
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+                    .page(page)
+                    .size(20)
+                    .categoryl(categoryl)
+                    .categorym(categorym)
+                    .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
+                    requestDTO);
+
+            return resultDTO;
+
+        } else {
+            System.out.println(keyword);
+
+            PageRequestDTO requestDTO = PageRequestDTO.builder()
+                    .page(page)
+                    .size(20)
+                    .categoryl(categoryl)
+                    .categorym(categorym)
+                    .build();
+
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndCategoryMAndKeyword(categoryl,
+                    categorym,
+                    keyword, requestDTO);
+
+            return resultDTO;
+
+        }
+    }
+
+    @PostMapping("/productSave")
+    public Boolean postMethodName(@RequestParam("file") MultipartFile file, @RequestBody Product entity) {
+        try {
+            JSchWrapper jsch = new JSchWrapper();
+            jsch.connectSFTP();
+
+            // 파일 업로드 로직 추가
+            boolean uploadSuccess = jsch.uploadFile(file.getInputStream(), file.getOriginalFilename(), "/productIMG");
+
+            // JSchWrapper 연결 종료
+            jsch.disconnectSFTP();
+
+            pService.save(entity);
+
+            return uploadSuccess;
+
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace(); // 혹은 로깅을 통한 예외 처리
+            return false; // 실패 시 false 반환
+        }
+
+    }
 }
