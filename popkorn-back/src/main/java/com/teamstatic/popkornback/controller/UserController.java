@@ -110,9 +110,9 @@ public class UserController {
     public ResponseEntity<String> emailcheck(@RequestParam String emailinput) {
         Optional<User> user = uservice.findById(emailinput);
         if (user.isPresent()) {
-            return ResponseEntity.ok("Emailcheck success");
+            return ResponseEntity.ok("success");
         } else {
-            return ResponseEntity.ok("Emailcheck failed");
+            return ResponseEntity.ok("failed");
         }
     }
 
@@ -277,5 +277,46 @@ public class UserController {
 
         return uservice.findByStatus(status);
     }
+
+    @PostMapping("/resetpassword")
+    public ResponseEntity<String> resetpassword(@RequestBody Map<String, Object> request) {
+
+        String ordernuminput = (String) request.get("ordernuminput");
+        String newpassword = (String) request.get("newpassword");
+        if (ordernuminput != null) {
+            Optional<User> userOptional = uservice.findById(ordernuminput);
+            User user = userOptional.get();
+            String encodedPassword = passwordEncoder.encode(newpassword);
+            user.setPassword(encodedPassword);
+            try {
+                uservice.save(user);
+                return ResponseEntity.ok("Change Password Complete");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Change Password Failed. Please retry.");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        }
+    }
+
+   // 컨트롤러
+
+   @PostMapping("/mailsend")
+   public ResponseEntity<String> sendEmail(@RequestBody Map<String, String> requestData) {
+       String to = requestData.get("emailRecipient");
+       String Title = requestData.get("emailTitle");
+       String content = requestData.get("emailContent");
+
+       System.out.println(to);
+       System.out.println(Title);
+       System.out.println(content);
+       try {
+           registerMail.sendEmail(to, Title, content);
+           return ResponseEntity.ok("Email sent successfully");
+       } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
+       }
+   }
 
 }
