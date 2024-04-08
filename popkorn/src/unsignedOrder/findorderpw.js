@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { apiCall } from "../service/apiService";
 import { emCheck } from '../auth/logincheck';
-
-function OrderDetailsPopup({ order, onClose }) {
-  return (
-    <div className="orderpopup-overlay">
-      <div className="order-details-popup">
-
-        <h2>Order Details</h2>
-        <p>Order Number:<span className="inquiryorderspan"> {order.merchantUid}</span></p>
-        <p>Email: {order.buyerEmail}</p>
-        <p>Paid At: {new Date(order.paidAt).toLocaleString()}</p>
-        <button onClick={onClose} className="popup-close-btn">X</button>
-      </div>
-    </div>
-  );
-}
+import Orderpwchanges from "./orderpwchange";
 
 export default function FindOrderpw() {
   const [ecertificationcode, setEcertificationcode] = useState('');
@@ -25,21 +11,23 @@ export default function FindOrderpw() {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isEmailConfirmClicked, setIsEmailConfirmClicked] = useState(false);
   const [checkmerchantuid, Setcheckmerchantuid] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [emailinfo, setEmailinfo] = useState('');
+  const [ordernuminput, setordernuminput] = useState('');
 
   const certificationhandle = (e) => {
     setEcertificationcode(e.target.value);
   }
 
   const handleEmailChange = (e) => {
-    setInputemail(e.target.value);
-    setIsEmailValid(emCheck(e.target.value));
     const newEmailValue = e.target.value;
-
+    setInputemail(newEmailValue);
     const isValidEmail = emCheck(newEmailValue);
-    if (!isValidEmail) {
+    setIsEmailValid(isValidEmail);
+
+    if (!isValidEmail && newEmailValue.length > 0) {
       setEmailinfo('Invalid Email type');
+    } else if (!isEmailValid && newEmailValue.length > 1) {
+      setEmailinfo('Email already exists. If you are a member, please use MyPage');
     } else {
       setEmailinfo('');
     }
@@ -57,17 +45,33 @@ export default function FindOrderpw() {
     }
   };
 
+  const handleordernumcheck = (e) => {
+    setordernuminput(e.target.value);
+  }
+
+  const ordernumcheck = async () => {
+    try {
+      const response = await apiCall(`/api/user/emailcheck?emailinput=${ordernuminput}`, "GET", null, null);
+      if (response.data === "success") {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('confirm failed:', error);
+    }
+  } 
+  
+  
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await apiCall(`/api/orderinfo/findByEmail?email=${inputemail}`, 'GET', null, null);
-        const sortedOrders = response.data.sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
-        setOrders(sortedOrders.slice(0, 10));
       } catch (error) {
         console.error('Failed to fetch orders:', error);
       }
     };
-
     if (isEmailConfirmClicked) {
       fetchOrders();
     }
@@ -128,6 +132,15 @@ export default function FindOrderpw() {
             <br /><br />
 
             <input
+              className='inputordernum'
+              type="text"
+              placeholder="Insert Order Number"
+              maxLength="20"
+              onChange={handleordernumcheck}
+              value={ordernuminput}
+            />
+
+            <input
               className='inputemail'
               type="text"
               placeholder="Insert Email"
@@ -135,17 +148,15 @@ export default function FindOrderpw() {
               onChange={handleEmailChange}
               value={inputemail}
             />
-            
+
             {!isEmailValid || !emCheck(inputemail) || inputemail.length === 0 || inputemail.length > 20 ? null :
               <button onClick={mailConfirm} className="mailcodesend"><i className="xi-send" /></button>
             }
           </div>
-          {!isEmailValid && emCheck(inputemail) ?
-            <div className="existedemail">
-              Email already exists. If you are a member, please use MyPage
-            </div>
-            : !emCheck(inputemail)|| inputemail.length === 0 ? 'invalid EmailType': null}
-          <br></br>
+
+          <div className="existedemail">
+            {emailinfo}
+          </div>
           {isEmailConfirmClicked &&
             <>
               <input
@@ -156,26 +167,15 @@ export default function FindOrderpw() {
                 maxLength={12}
               />
 
-              {(ecertificationcode !== mailcode || ecertificationcode.length < 1) ? null :
-                <button onClick={emailToMerchantUid} className="mailcodesend"><i className="xi-send" /></button>
+              {ecertificationcode !== mailcode || ecertificationcode.length < 1 ? null :
+                <button onClick={() => { emailToMerchantUid(); ordernumcheck();}} className="mailcodesend"><i className="xi-send" /></button>
               }
             </>
           }
         </>
 
-        : ecertificationcheck === 2 ?
-          <>
-            <div>
-              <h2 className='memberguide'>
-                Here's your Order Password
-              </h2>
-              <h3>For non-members, only 10 recent orders will be printed</h3>
-              <div>
-                
-              </div>
-            </div>
-
-          </>
+        : ecertificationcheck === 2 && ordernumcheck ?
+          <Orderpwchanges ordernuminput={ordernuminput}/>
 
           : null}
     </>

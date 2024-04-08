@@ -16,6 +16,7 @@ import UserList from "./submenu/user/UserList";
 import StateList from "./submenu/deiliver/StateList";
 import Add from "./submenu/stock/Add";
 
+import Send from "./submenu/email/Send";
 
 export default function AdminMain() {
 
@@ -91,7 +92,7 @@ export default function AdminMain() {
             key: 4,
             icon: "xi-truck",
             main: "Diliver",
-            subMenu: [{ subkey: "State List", component: () => <StateList /> }
+            subMenu: [{ subkey: "State List", component: <StateList /> }
                 , { subkey: "Completed", component: () => <></> }]
         },
         {
@@ -105,7 +106,7 @@ export default function AdminMain() {
             key: 6,
             icon: "xi-mail-o",
             main: "Mail",
-            subMenu: [{ subkey: "Send", component: () => <></> }
+            subMenu: [{ subkey: "Send", component: () => <Send /> }
                 , { subkey: "Batch", component: () => <></> }]
         },
         {

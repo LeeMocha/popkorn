@@ -83,9 +83,9 @@
 }
 
 .inquirydetailnumber {
-  font-size: 1.5vw;
+  font-family: 'TmoneyRoundWindExtraBold';
+  font-size: 24px;
   font-weight: bold;
-  color: red;
 }
 
 .inquirydetailcheck:hover {
@@ -95,7 +95,8 @@
   transform: scale(1.05);
 }
 
-.inquirypcode {
+.inquirynumber {
+  font-family: 'TmoneyRoundWindExtraBold';
   width: 50%;
   min-width: 150px;
   max-width: 300px;
@@ -176,21 +177,6 @@
   align-items: flex-start;
 }
 
-.popup-close-btn {
-  position: absolute;
-  top: 1%;
-  right: 2%;
-  background-color: transparent;
-  border: none;
-  font-size: 5vw;
-  cursor: pointer;
-  color: white;
-}
-
-.popup-close-btn:hover {
-  color: black;
-}
-
 .termsheader {
   font-size: 3vw;
 }
@@ -240,7 +226,7 @@
 }
 
 .inputemail,
-.inputcertification {
+.inputcertification, .inputordernum {
   font-family: 'TmoneyRoundWindExtraBold';
   padding-left: 0px;
   padding-bottom: 5px;
@@ -253,12 +239,12 @@
   width: 300px;
 }
 
-.inputemail:focus {
+.inputemail:focus , .inputordernum:focus{
   border-image: linear-gradient(20deg, #fe7cf3, #7de4ff);
   border-image-slice: 1;
 }
 
-.inputemail::placeholder {
+.inputemail::placeholder, .inputordernum::placeholder {
   color: #fe7cf3;
 }
 
@@ -300,7 +286,7 @@
   align-items: center;
 }
 
-.popup-close-btn {
+.inquirypopup-close-btn {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -308,9 +294,12 @@
   border: none;
   font-size: 22px;
   cursor: pointer;
-  color: black;
+  color: white;
 }
 
+.inquirypopup-close-btn:hover {
+  color: black;
+}
 .order-details-popup {
   position: fixed;
   top: 50%;
@@ -351,8 +340,8 @@
   align-items: flex-end;
 }
 
-.inquiryorderbtn {
-  width: 80px;
+.inquiryorderdetailstn {
+  width: 30%;
   height: 30px;
   padding-top: 5px;
   background-color: white;
@@ -364,7 +353,7 @@
   transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
-.inquiryorderbtn:hover {
+.inquiryorderdetailstn:hover {
   background-color: #f0f0f0;
   border-color: #999;
   color: #555;

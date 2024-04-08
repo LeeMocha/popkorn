@@ -1,26 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './customerservice.css';
 
-
 export const Customerservice = () => {
+    const [selectedCategory, setSelectedCategory] = useState('Delivery');
+    const [selectedQuestion, setSelectedQuestion] = useState(null);
 
-    const [showcontent, setShowcontent] = useState(0);
+    const categories = ['Delivery', 'Order', 'Membership', 'Exchange & Return'];
+    const faqData = {
+        'Delivery': [
+            { question: '질문1', answer: '답1' },
+            { question: '질문2', answer: '답2' },
+            { question: '질문3', answer: '답3' },
+            { question: '질문4', answer: '답4' },
+            { question: '질문5', answer: '답5' }
+        ],
+        'Order': [
+            { question: '질문1', answer: '답1' },
+            { question: '질문2', answer: '답2' },
+            { question: '질문3', answer: '답3' },
+            { question: '질문4', answer: '답4' },
+            { question: '질문5', answer: '답5' }
+        ],
+        'Membership': [
+            { question: '질문1', answer: '답1' },
+            { question: '질문2', answer: '답2' },
+            { question: '질문3', answer: '답3' },
+            { question: '질문4', answer: '답4' },
+            { question: '질문5', answer: '답5' }
+        ],
+        'Exchange & Return': [
+            { question: '질문1', answer: '답1' },
+            { question: '질문2', answer: '답2' },
+            { question: '질문3', answer: '답3' },
+            { question: '질문4', answer: '답4' },
+            { question: '질문5', answer: '답5' }
+        ]
+    };
 
-    const servicecontentdisplay1 = () => {
-        setShowcontent(1)
-    }
-    const servicecontentdisplay2 = () => {
-        setShowcontent(2)
-    }
-    const servicecontentdisplay3 = () => {
-        setShowcontent(3)
-    }
-    const servicecontentdisplay4 = () => {
-        setShowcontent(4)
-    }
-    const servicecontentdisplay5 = () => {
-        setShowcontent(5)
-    }
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+        setSelectedQuestion(null);
+    };
+
+    const handleQuestionClick = (question) => {
+        setSelectedQuestion(selectedQuestion === question ? null : question);
+    };
+
+    useEffect(() => {
+        setSelectedQuestion(null);
+    }, [selectedCategory]);
 
     return (
         <div className="customerservicewhole">
@@ -28,40 +56,28 @@ export const Customerservice = () => {
                 Customer Service
             </div>
             <div className="customerserviceheader">
-                frequently asked question
+                Frequently Asked Questions
             </div>
             <div className='frequentlyaskedcategory'>
-                <div className="frequentlyaskedcategory1">Delivery</div>
-                <div className="frequentlyaskedcategory2">Order</div>
-                <div className="frequentlyaskedcategory3">Membership</div>
-                <div className="frequentlyaskedcategory4">Exchange & Return</div>
-            </div>
-            <div>
-                <button className='askservicebtn' onClick={servicecontentdisplay1}><span className='contentsmallheader'>1</span>How to check the delivery of the ordered product?</button>
-                <div className='askservicecontent' style={showcontent === 1 ? { display: 'block' } : { display: 'none' }}>a1a1a1a1a1a1</div>
+                {categories.map((category, index) => (
+                    <div key={index} className={`frequentlyaskedcategory${index + 1} ${selectedCategory === category ? 'selectedCategory' : ''}`} onClick={() => handleCategoryClick(category)}>
+                        {category}
+                    </div>
+                ))}
             </div>
 
-            <div>
-                <button className='askservicebtn' onClick={servicecontentdisplay2}><span className='contentsmallheader'>2</span>How many days does it usually take to ship?</button>
-                <div className='askservicecontent' style={showcontent === 2 ? { display: 'block' } : { display: 'none' }}>b1b1b1b1b1b1b1</div>
-            </div>
-            <div>
-                <button className='askservicebtn' onClick={servicecontentdisplay3}><span className='contentsmallheader'>3</span>ccccccccc</button>
-                <div className='askservicecontent' style={showcontent === 3 ? { display: 'block' } : { display: 'none' }}>c1c1c1c1c1c1</div>
-            </div>
-            <div>
-                <button className='askservicebtn' onClick={servicecontentdisplay4}><span className='contentsmallheader'>4</span>dddddddddd</button>
-                <div className='askservicecontent' style={showcontent === 4 ? { display: 'block' } : { display: 'none' }}>d1d1d1d1d1d1</div>
-            </div>
-            <div>
-                <button className='askservicebtn' onClick={servicecontentdisplay5}><span className='contentsmallheader'>5</span>eeeeeeeeeeee</button>
-                <div className='askservicecontent' style={showcontent === 5 ? { display: 'block' } : { display: 'none' }}>e1e1e1e1e1</div>
-            </div>
-
-
+            {faqData[selectedCategory].map((faq, index) => (
+                <div key={index}>
+                    <button className='askservicebtn' onClick={() => handleQuestionClick(faq.question)}>
+                        <span className='contentsmallheader'>{index + 1}</span>&nbsp;&nbsp;&nbsp;
+                        {faq.question}
+                    </button>
+                    <div className='askservicecontent' style={{ display: selectedQuestion === faq.question ? 'block' : 'none' }}>
+                        {faq.answer}
+                    </div>
+                </div>
+            ))}
         </div>
-
-
     );
 };
 

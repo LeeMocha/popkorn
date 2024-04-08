@@ -12,7 +12,7 @@ const OrderItem = ({ order, onClick }) => {
         <div className='inquirydetailcheck' onClick={() => onClick(order)}>Order detail</div>
       </div>
       <div className='inquiryorder2nd'>
-        <div className='inquirydetailnumber'>Order Number : {order.merchantUid}</div><br/>
+        <div className='inquirydetailnumber'>Order Number : <span className="inquiryorderspan">{order.merchantUid}</span></div><br/>
         
         Buyer name: {order.buyerName} <br />
         Address: {order.buyerAddr} <br />
@@ -84,7 +84,7 @@ export const OrderList = ({ ordernum }) => {
           <div className='orderdetailscontainer'>
             <div className='inquiryorder1st'>
               <div className='inquirydate'>Order date : {new Date(selectedOrder.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
-              <div className='inquirypcode'>Order number : {selectedOrder.merchantUid}</div>
+              <div className='inquirynumber'>Order number : <span className="inquiryorderspan">{selectedOrder.merchantUid}</span></div>
             </div>
             {orderDetails.map((orderDetail, index) => (
               <div className='inquiryproductinfo' key={index}>
@@ -103,7 +103,7 @@ export const OrderList = ({ ordernum }) => {
                 Total amount : {orderDetails.reduce((total, orderDetail) => total + (orderDetail.price * orderDetail.detailcount), 0)} ₩
               </div>
             </div>
-            <button className="popup-close-btn" onClick={closePopup}>X</button>
+            <button className="inquirypopup-close-btn" onClick={closePopup}>X</button>
           </div>
         </div>
       )}
