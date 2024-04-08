@@ -33,6 +33,8 @@ public interface ProductService {
 
     PageResultDTO<ProductDTO, Product>findAllByKeywordLike(String keyword, PageRequestDTO requestDTO);
 
+    PageResultDTO<ProductDTO, Product>findByCategoryLAndKeyword(String catagoryl, String keyword, PageRequestDTO requestDTO);
+
     default Product dtoToEntity(ProductDTO dto) {
         return Product.builder()
                 .pcode(dto.getPcode())

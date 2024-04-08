@@ -28,6 +28,10 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
             "(p.productname LIKE CONCAT('%', :keyword, '%') OR p.artist LIKE CONCAT('%', :keyword, '%') OR p.categorys LIKE CONCAT('%', :keyword, '%'))")
     Page<Product> findByCategoryLAndCategoryMAndKeyword(String categoryl, String categorym, String keyword, Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.categoryl = :categoryl AND " +
+            "(p.productname LIKE CONCAT('%', :keyword, '%') OR p.artist LIKE CONCAT('%', :keyword, '%') OR p.categorys LIKE CONCAT('%', :keyword, '%'))")
+    Page<Product> findByCategoryLAndKeyword(String categoryl, String keyword, Pageable pageable);
+
     @Query("SELECT p " +
             "FROM Product p " +
             "WHERE p.artist = :artist " +
@@ -40,6 +44,10 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
     Product findByPcode(int pcode);
 
     @Query(value = "SELECT * FROM product p WHERE " +
+            "p.categoryl LIKE %:keyword% OR " +
+            "p.categorym LIKE %:keyword% OR " +
+            "p.categorys LIKE %:keyword% OR " +
+            "p.alternative LIKE %:keyword% OR " +
             "p.productname LIKE %:keyword% OR " +
             "p.artist LIKE %:keyword%", nativeQuery = true)
     Page<Product> findAllByKeywordLike(String keyword, Pageable pageable);

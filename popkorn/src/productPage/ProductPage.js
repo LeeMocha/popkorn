@@ -7,7 +7,8 @@ import { apiCall } from "../service/apiService";
 
 export default function ProductPage() {
     
-    const currCategoryl = useRef('new');
+    const currCategorylRef = useRef('new');
+    const [currCategoryl, setCurrCategoryl] = useState('new');
     const [currCategorym, setCurrCategorym] = useState('New');
     const [currKeyword, setCurrKeyword] = useState('');
     const [pageState, setPageState] = useState(1);
@@ -25,7 +26,7 @@ export default function ProductPage() {
     });
 
     useEffect(() => {
-        apiCall(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}&keyword=${currKeyword}`,"GET",null,null).then(response => {
+        apiCall(`/api/product/searchlist?categoryl=${currCategoryl}&categorym=${currCategorym}&page=${pageState}&keyword=${currKeyword}`,"GET",null,null).then(response => {
             setProductData({
                 servData: response.data.dtoList,
                 pageData: {
@@ -42,15 +43,15 @@ export default function ProductPage() {
         }).catch(err => {
             console.log("ProductPage axios ERROR=>" + err);
         })
-    }, [currCategorym, pageState])
+    }, [currCategorym, pageState, currCategoryl])
 
     return (
         <div className="product_page_wrap">
             <Header/>
 
-            <Category currCategoryl={currCategoryl} setCurrCategorym={setCurrCategorym} setPageState={setPageState} setCurrKeyword={setCurrKeyword}/>
+            <Category currCategorylRef={currCategorylRef} setCurrCategoryl={setCurrCategoryl} setCurrCategorym={setCurrCategorym} setPageState={setPageState} setCurrKeyword={setCurrKeyword}/>
 
-            <Product currCategoryl={currCategoryl} currCategorym={currCategorym} productData={productData} setPageState={setPageState}/>
+            <Product currCategorylRef={currCategorylRef} setCurrCategoryl={setCurrCategoryl} currCategorym={currCategorym} productData={productData} setPageState={setPageState}/>
 
             <Popkornlogo/>
 

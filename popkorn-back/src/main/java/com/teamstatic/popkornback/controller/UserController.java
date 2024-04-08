@@ -50,10 +50,11 @@ public class UserController {
     private HttpSession session;
 
     @GetMapping("/userlist")
-    public PageResultDTO<UserDTO, User> userList(int page) {
+    public PageResultDTO<UserDTO, User> userList(int page, String keyword) {
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)
                 .size(20)
+                .keyword(keyword)
                 .build();
 
         PageResultDTO<UserDTO, User> resultDTO = uservice.pageList(requestDTO);
@@ -92,7 +93,7 @@ public class UserController {
     @GetMapping("/delete")
     public PageResultDTO<UserDTO, User> userDelete(@RequestParam String id) {
         uservice.deleteById(id);
-        return userList(1);
+        return userList(1, "");
     }
 
     @GetMapping("/selectone")

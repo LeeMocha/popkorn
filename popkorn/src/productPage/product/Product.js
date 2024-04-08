@@ -70,7 +70,7 @@ export function Else({ productData, setPageState }) {
     );
 }
 
-export default function Product({ currCategoryl, productData, setPageState }) {
+export default function Product({ currCategorylRef, productData, setPageState }) {
 
     const [elseKey, setElseKey] = useState(0); // Key 값을 변경하기 위한 상태
 
@@ -83,7 +83,7 @@ export default function Product({ currCategoryl, productData, setPageState }) {
         <>
             <div className="product_wrap">
                 {
-                    currCategoryl.current === 'new' ?
+                    currCategorylRef.current === 'new' ?
                         <NewAll productData={productData} />
                         :
                         <Else key={elseKey} productData={productData} setPageState={setPageState} />
