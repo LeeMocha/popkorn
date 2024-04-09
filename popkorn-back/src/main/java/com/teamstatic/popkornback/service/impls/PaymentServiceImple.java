@@ -65,7 +65,7 @@ public class PaymentServiceImple implements PaymentService {
                     cRepository.deleteByIdAndPcode(id, orderDetail2.getPcode());
                 }
                 User user = uRepository.findById(id).get();
-                user.setReword(user.getReword() + (int) (payment.getAmount().intValue() * 0.01));
+                user.setReword(user.getReword() + (int) (payment.getAmount().intValue() * 0.1));
                 uRepository.save(user);
             }
 

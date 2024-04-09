@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Vector;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -15,12 +16,12 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class JSchWrapper {
-   
-   private Session jschSession = null;
-   private Channel channel = null;
-   private ChannelSftp channelSftp = null;
 
-   /**
+    private Session jschSession = null;
+    private Channel channel = null;
+    private ChannelSftp channelSftp = null;
+
+    /**
      * 파일 업로드
      *
      * @param fileName
@@ -35,19 +36,21 @@ public class JSchWrapper {
         FileInputStream fis = null;
 
         try {
-         // 대상 폴더로 이동
-         channelSftp.cd("html"+dirPath);
- 
-         // 파일 업로드
-         channelSftp.put(fileInputStream, fileName);
-         isSuccess = true;
- 
-         System.out.println("File uploaded : " + dirPath + "/" + fileName);
- 
-     } catch (Exception e) {
-         throw e;
-     } finally {
+            // 대상 폴더로 이동
+            channelSftp.cd("html" + dirPath);
+
+            // 파일 업로드
+            channelSftp.put(fileInputStream, fileName);
+            isSuccess = true;
+
+            System.out.println("File uploaded : " + dirPath + "/" + fileName);
+
+        } catch (Exception e) {
+            throw e;
+
+        } finally {
             close(fis);
+            fileInputStream.close();
         }
 
         return isSuccess;

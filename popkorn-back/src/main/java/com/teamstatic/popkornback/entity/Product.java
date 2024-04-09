@@ -1,22 +1,26 @@
 package com.teamstatic.popkornback.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="product")
+@Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
 public class Product {
-    
+
     @Id
     private int pcode;
 
@@ -30,7 +34,14 @@ public class Product {
     private int stock;
     private int releasing;
     private int storing;
-    private String receiptdate;
+
+    @CreationTimestamp
+    private LocalDateTime receiptdate;
+
+    public void setCreatedate(LocalDateTime receiptdate) {
+        this.receiptdate = receiptdate;
+    }
+
     private String image1;
     private String image2;
     private String image3;

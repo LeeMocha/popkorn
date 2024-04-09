@@ -5,7 +5,7 @@
     background: rgba(148, 147, 147, 0.53);
     text-align: center;
     color: white;
-    height: 750px;
+    min-height: 750px;
 }
 
 .add_header span{
@@ -28,7 +28,7 @@
 }
 
 .add_image_input img{
-    width: 500px;
+    width: 450px;
     height: 600px;
 }
 
@@ -37,16 +37,103 @@
 }
 
 .add_input_wrap span{
-    margin: 10px 0;
+    margin: 10px 0 0;
 }
 
 .add_input_wrap input{
     width: 300px;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 
 .add_input_wrap{
     display: flex;
     flex-direction: column;
     align-items: start;
+}
+
+.add_btn_wrap{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.add_insert_btn, .add_reset_btn{
+    display: inline-block;
+    width: 150px;
+}
+
+.add_list_wrap{
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    margin: 10px 10px 10px;
+    background: rgba(148, 147, 147, 0.53);
+    text-align: center;
+    color: white;
+    height: 410px;
+}
+
+.add_list_contents{
+    width: 100%;
+    height: 320px;
+    overflow: auto;
+}
+
+.add_list_contents::-webkit-scrollbar {
+    width: 6px;
+    /* 스크롤바의 너비 */
+    height: 10px;
+ }
+ 
+ .add_list_contents::-webkit-scrollbar-thumb {
+    height: 10%;
+    /* 스크롤바의 길이 */
+    background: gainsboro;
+    /* 스크롤바의 색상 */
+    border-radius: 80px;
+ }
+ 
+ .add_list_contents::-webkit-scrollbar-track {
+    background: rgba(243, 247, 253, 0.37);
+ }
+
+ .add_list_wrap span{
+    display: block;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: left;
+ }
+
+.add_btn_wrap2{
+    display: flex;
+    justify-content: right;
+    margin: 10px 10px 10px 0 ;
+    align-items: end;
+}
+
+.add_btn_wrap2 button{
+    height: 20px;
+    margin: 0 10px;
+}
+
+.add_list_li{
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    margin: 4px auto;
+    padding-bottom: 4px;
+    border-bottom: 0.5px solid #b6b6b6;
+    width: 90%;
+}
+
+.add_list_li p{
+    margin-right: 10px;
+    text-overflow: ellipsis;
+}
+
+.add_list_li input{
+    margin-right: 10px;
 }

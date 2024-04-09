@@ -63,6 +63,7 @@ public class PageResultDTO<DTO, EN> {
     private long dashboard1;
     private long dashboard2;
     private long dashboard3;
+    private long dashboard4;
 
 	
 	//** 생성자
