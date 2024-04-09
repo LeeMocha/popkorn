@@ -52,4 +52,7 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
             "p.artist LIKE %:keyword%", nativeQuery = true)
     Page<Product> findAllByKeywordLike(String keyword, Pageable pageable);
 
+    long countByCategoryl(String categoryl);
+
 }
+

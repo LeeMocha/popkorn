@@ -49,7 +49,7 @@ export default function Add() {
    // Handle image upload
    const handleImageUpload = (event) => {
       const file = event.target.files[0]; // Get the first file selected by the user
-      console.log(file)
+
       if (file) { // Check if file exists
          setImageFile(file); // Set the image file in the state
          const imageURL1 = URL.createObjectURL(file); // Create URL for the selected image
@@ -82,10 +82,10 @@ export default function Add() {
    }
 
    const datatoServer = () => {
-      const formData = new FormData();
-
+      
       // Add form data
       addList.map((item, index) => {
+         const formData = new FormData();
 
          formData.append(`productname`, item.productName);
          formData.append(`artist`, item.artist);
@@ -101,9 +101,9 @@ export default function Add() {
          apiCall('/api/product/productSave', 'POST', formData, null)
             .then(response => {
                if (response.data) {
-                  alert("File Upload Success!!")
+                  alert(`Upload Success!! FileName => ${item.image1}`)
                } else {
-                  alert("File Upload Failed!!")
+                  alert(`Upload Failed!! FileName => ${item.image1}`)
                }
 
             })

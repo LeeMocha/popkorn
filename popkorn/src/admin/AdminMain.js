@@ -84,9 +84,7 @@ export default function AdminMain() {
             icon: "xi-box",
             main: "Stock",
             subMenu: [{ subkey: "Total List", component: <TotalList /> }
-                , { subkey: "Add", component: <Add /> }
-                , { subkey: "Update", component: () => <></> }
-                , { subkey: "Drop", component: () => <></> }]
+                , { subkey: "Add", component: <Add /> }]
         },
         {
             key: 4,

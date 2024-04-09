@@ -35,6 +35,8 @@ public interface ProductService {
 
     PageResultDTO<ProductDTO, Product>findByCategoryLAndKeyword(String catagoryl, String keyword, PageRequestDTO requestDTO);
 
+    long countByCategoryl(String categoryl);
+
     default Product dtoToEntity(ProductDTO dto) {
         return Product.builder()
                 .pcode(dto.getPcode())
