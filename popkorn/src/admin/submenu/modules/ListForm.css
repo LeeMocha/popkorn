@@ -70,6 +70,10 @@
    text-align: center;
 }
 
+.xi-check{
+   color: greenyellow;
+}
+
 
 .listform_table th,
 .listform_table td {
@@ -90,7 +94,7 @@
    align-items: baseline;
    color: gainsboro;
    text-align: left;
-   min-width: 100px;
+   min-width: 50px;
 }
 
 .listform_table td {
