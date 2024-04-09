@@ -31,6 +31,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
 
    const [tooltipContent, setTooltipContent] = useState(null);  // ellipse 를 표현하기위한 tooltip state
    const commonColumns = extractCommonColumns(data);
+   const imageSrc = process.env.PUBLIC_URL + `/${entity}IMG/`
 
    if (!Array.isArray(data) || data.length === 0) {
       return <div className='listform_nodata'>No data provided.</div>;
@@ -89,23 +90,29 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
                   {data.map((item, rowIndex) => (
                      <tr key={rowIndex}>
                         <td className='checkboxcontainer'>
-                           <input type="checkbox"/>
+                           <input type="checkbox" />
                         </td>
 
                         {commonColumns.map((columnName, colIndex) => (
-                           <td key={colIndex}>
-                              {columnName !== "status" && columnName !== "categoryl" ? (
-                                 <span
-                                    title={`${item[columnName]}`}
-                                    onMouseEnter={() => handleCellMouseEnter(item[columnName])}
-                                    onMouseLeave={handleCellMouseLeave}>{item[columnName]}</span>
-                              ) : (
-                                 <div className={`status ${item[columnName].toLowerCase()}`}><span title={`${item[columnName]}`}
-                                    onMouseEnter={() => handleCellMouseEnter(item[columnName])}
-                                    onMouseLeave={handleCellMouseLeave}
-                                 >{item[columnName]}</span>
+                           <td key={colIndex}>{
+                              columnName === "image1" ?
+                                 <div className='list_form_img_div'>
+                                    <img className='list_form_img' src={imageSrc + item[columnName]} alt={item[columnName]}></img>
+                                    <span>{item[columnName]}</span>
                                  </div>
-                              )}
+                                 :
+                                 columnName !== "status" && columnName !== "categoryl" ? (
+                                    <span
+                                       title={`${item[columnName]}`}
+                                       onMouseEnter={() => handleCellMouseEnter(item[columnName])}
+                                       onMouseLeave={handleCellMouseLeave}>{item[columnName]}</span>
+                                 ) : (
+                                    <div className={`status ${item[columnName].toLowerCase()}`}><span title={`${item[columnName]}`}
+                                       onMouseEnter={() => handleCellMouseEnter(item[columnName])}
+                                       onMouseLeave={handleCellMouseLeave}
+                                    >{item[columnName]}</span>
+                                    </div>
+                                 )}
                            </td>
                         ))}
                         <td>

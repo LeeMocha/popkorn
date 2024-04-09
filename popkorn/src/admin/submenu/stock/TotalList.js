@@ -8,8 +8,8 @@ import { apiCall } from "../../../service/apiService";
 
 export default function TotalList() {
 
-   const currCategoryl = useRef('all');
-   const [currCategorym, setCurrCategorym] = useState('All');
+   const [currCategoryl, setCurrCategoryl] = useState('all');
+   const [currCategorym, setCurrCategorym] = useState('all');
    const [currKeyword, setCurrKeyword] = useState('');
    const [pageState, setPageState] = useState(1);
    const [productData, setProductData] = useState({
@@ -21,44 +21,18 @@ export default function TotalList() {
          next: true,
          start: 0,
          end: 0,
-         pageList: []
+         pageList: [],
+         dashboard1 : 0,
+         dashboard2 : 0,
+         dashboard3 : 0,
+         dashboard4 : 0,
       }
    });
-   const categoryList = [
-      {
-         name: "all",
-         subcategorys: [
-            { subCategorysId: 1, name: "all" }
-         ]
-      },
-      {
-         name: "album",
-         subcategorys: [
-            { subCategorysId: 3, name: "All" }
-         ]
-      },
-      {
-         name: "goods",
-         subcategorys: [
-            { subCategorysId: 4, name: "Official Fanlight" },
-            { subCategorysId: 5, name: "Key Ring" },
-            { subCategorysId: 6, name: "Phone Case" },
-            { subCategorysId: 7, name: "ETC" }
-         ]
-      },
-
-      {
-         name: "photo",
-         subcategorys: [
-            { subCategorysId: 8, name: "Photo Book" },
-            { subCategorysId: 9, name: "Photo Card" }
-         ]
-      }
-   ]
+   const categoryListL = ['all', 'album', 'goods', 'photo']
+   const categoryListM = {'all':['all'], 'album': ['all'], 'goods' : ['all', 'Official Fanlight', 'Key Ring', 'Phone Case', 'ETC'], 'photo' : ['all', 'Photo Book', 'Photo Card']}
 
    useEffect(() => {
-
-      apiCall(`/api/product/searchlist?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}&keyword=${currKeyword}`, "GET", null, null).then(response => {
+      apiCall(`/api/product/searchlist?categoryl=${currCategoryl}&categorym=${currCategorym}&page=${pageState}&keyword=${currKeyword}`, "GET", null, null).then(response => {
          setProductData({
             servData: response.data.dtoList,
             pageData: {
@@ -69,13 +43,18 @@ export default function TotalList() {
                start: response.data.start,
                end: response.data.end,
                pageList: response.data.pageList,
-               totalPage: response.data.totalPage
+               totalPage: response.data.totalPage,
+               dashboard1 : response.data.dashboard1,
+               dashboard2 : response.data.dashboard2,
+               dashboard3 : response.data.dashboard3,
+               dashboard4 : response.data.dashboard4,
             }
-         })
+         })  
       }).catch(err => {
          console.log("ProductPage axios ERROR=>" + err);
       })
-   }, [pageState, currKeyword, currCategorym])
+
+   }, [pageState, currKeyword, currCategorym, currCategoryl])
 
    return (
       <div className="productlist_wrap">
@@ -84,32 +63,33 @@ export default function TotalList() {
                <TypeIt options={{ loop: false }} className="productlist_type">Total List</TypeIt>
             </div>
             <div className="productlist_statistical">
-               <div><span>TOTAL PRODUCT</span><span></span></div>
-               {/* <div><span>TODAY's SALES</span><span>{data.dashboard2}</span></div>
-            <div><span>MONTHLY SALES</span><span>{data.dashboard3}</span></div> */}
+               <div><span>TOTAL PRODUCT</span><span>{productData.pageData.dashboard1}</span></div>
+               <div><span>ALBUM</span><span>{productData.pageData.dashboard2}</span></div>
+            <div><span>GOODS</span><span>{productData.pageData.dashboard3}</span></div>
+            <div><span>PHOTO</span><span>{productData.pageData.dashboard4}</span></div>
             </div>
          </div>
          <div className="admincategory_wrap">
             <div>
-
                <select onChange={(e) => {
-                  currCategoryl.current = e.target.value;
-                  setCurrCategorym(categoryList.find(sub => sub.name === e.target.value)?.subcategorys[0].name);
+                  setCurrCategoryl(e.target.value);
+                  setCurrCategorym(categoryListM[e.target.value][0]);
                   setPageState(1);
-               }} value={currCategoryl.current}>
-                  <option value="all" key="0">All</option>
-                  <option value="album" key="1">ALBUM</option>
-                  <option value="goods" key="2">GOODS</option>
-                  <option value="photo" key="3">PHOTO</option>
+               }}>
+                  {
+                     categoryListL.map((category, index)=>
+                        <option value={category} key={index}>{category}</option>
+                     )
+                  }
                </select>
                &nbsp;
                <select onChange={(e) => {
+                  console.log(e.target.value)
                   setCurrCategorym(e.target.value)
                   setPageState(1);
                }}>
-                  <option value="all" key="0">All</option>
-                  {categoryList.find(sub => sub.name === currCategoryl.current)?.subcategorys.map(subcategory =>
-                     <option value={subcategory.name} key={subcategory.subCategorysId}>{subcategory.name}</option>
+                  {categoryListM[currCategoryl].map((subcategory, index) =>
+                     <option value={subcategory} key={index}>{subcategory}</option>
                   )}
                </select>
             </div>

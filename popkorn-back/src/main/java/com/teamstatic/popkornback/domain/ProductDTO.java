@@ -1,5 +1,10 @@
 package com.teamstatic.popkornback.domain;
+import java.time.LocalDateTime;
+
 import javax.persistence.Id;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +31,12 @@ public class ProductDTO {
     private int stock;
     private int releasing;
     private int storing;
-    private String receiptdate;
+    @CreationTimestamp
+    private LocalDateTime receiptdate;
     private String image1;
     private String image2;
     private String image3;
+
+    private MultipartFile imageFile;
 
 }

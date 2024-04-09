@@ -114,4 +114,8 @@ public class ProductServiceImple implements ProductService {
         return pRepsitory.save(product);
     }
 
+    public long countByCategoryl(String categoryl){
+        return pRepsitory.countByCategoryl(categoryl);
+    }
+
 }

@@ -15,10 +15,10 @@ import com.teamstatic.popkornback.common.JSchWrapper;
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;
-import com.teamstatic.popkornback.domain.UserDTO;
+
 import com.teamstatic.popkornback.entity.OrderDetail;
 import com.teamstatic.popkornback.entity.Product;
-import com.teamstatic.popkornback.entity.User;
+
 import com.teamstatic.popkornback.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -132,6 +132,12 @@ public class ProductController {
                     .build();
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findNewAll(requestDTO);
+
+            resultDTO.setDashboard1(pService.countAll());
+            resultDTO.setDashboard2(pService.countByCategoryl("album"));
+            resultDTO.setDashboard3(pService.countByCategoryl("goods"));
+            resultDTO.setDashboard4(pService.countByCategoryl("photo"));
+
             return resultDTO;
 
         } else if (categoryl.equals("all")) {
@@ -142,6 +148,12 @@ public class ProductController {
                     .build();
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findAll(requestDTO);
+
+            resultDTO.setDashboard1(pService.countAll());
+            resultDTO.setDashboard2(pService.countByCategoryl("album"));
+            resultDTO.setDashboard3(pService.countByCategoryl("goods"));
+            resultDTO.setDashboard4(pService.countByCategoryl("photo"));
+
             return resultDTO;
 
         } else if (categorym.equals("all")) {
@@ -151,7 +163,14 @@ public class ProductController {
                     .keyword(keyword)
                     .build();
 
-            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndKeyword(categoryl, keyword ,requestDTO);
+            PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategoryLAndKeyword(categoryl, keyword,
+                    requestDTO);
+
+            resultDTO.setDashboard1(pService.countAll());
+            resultDTO.setDashboard2(pService.countByCategoryl("album"));
+            resultDTO.setDashboard3(pService.countByCategoryl("goods"));
+            resultDTO.setDashboard4(pService.countByCategoryl("photo"));
+
             return resultDTO;
 
         } else if (keyword.length() <= 0) {
@@ -164,6 +183,11 @@ public class ProductController {
 
             PageResultDTO<ProductDTO, Product> resultDTO = pService.findByCategorylAndCategorym(categoryl, categorym,
                     requestDTO);
+
+            resultDTO.setDashboard1(pService.countAll());
+            resultDTO.setDashboard2(pService.countByCategoryl("album"));
+            resultDTO.setDashboard3(pService.countByCategoryl("goods"));
+            resultDTO.setDashboard4(pService.countByCategoryl("photo"));
 
             return resultDTO;
 
@@ -181,22 +205,34 @@ public class ProductController {
                     categorym,
                     keyword, requestDTO);
 
-            return resultDTO;
+            resultDTO.setDashboard1(pService.countAll());
+            resultDTO.setDashboard2(pService.countByCategoryl("album"));
+            resultDTO.setDashboard3(pService.countByCategoryl("goods"));
+            resultDTO.setDashboard4(pService.countByCategoryl("photo"));
 
+            return resultDTO;
         }
     }
 
     @PostMapping("/productSave")
-    public Boolean postMethodName(@RequestParam("file") MultipartFile file, @RequestBody Product entity) {
+    public Boolean postMethodName(ProductDTO dto) {
+
+        Product entity = pService.dtoToEntity(dto);
+
+        JSchWrapper jsch = new JSchWrapper();
+
         try {
-            JSchWrapper jsch = new JSchWrapper();
+
             jsch.connectSFTP();
 
             // 파일 업로드 로직 추가
-            boolean uploadSuccess = jsch.uploadFile(file.getInputStream(), file.getOriginalFilename(), "/productIMG");
+            boolean uploadSuccess = jsch.uploadFile(dto.getImageFile().getInputStream(),
+                    dto.getImageFile().getOriginalFilename(), "/productIMG");
 
             // JSchWrapper 연결 종료
             jsch.disconnectSFTP();
+
+            entity.setImage1(dto.getImageFile().getOriginalFilename());
 
             pService.save(entity);
 
@@ -206,6 +242,9 @@ public class ProductController {
             // 예외 처리
             e.printStackTrace(); // 혹은 로깅을 통한 예외 처리
             return false; // 실패 시 false 반환
+        } finally {
+            // 항상 연결 종료
+            jsch.disconnectSFTP();
         }
 
     }
