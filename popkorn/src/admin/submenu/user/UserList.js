@@ -29,7 +29,7 @@ export default function UserList() {
     });
 
     useEffect(() => {
-        apiCall(`/api/user/userlist?page=${pageState}&size=20&keyword=${currKeyword}`, "GET", null, null)
+        apiCall(`/api/user/searchlist?page=${pageState}&size=20&keyword=${currKeyword}`, "GET", null, null)
             .then(response => {
                 setDataState({
                     ...response.data, pageData: {
