@@ -48,7 +48,7 @@
 .add_input_wrap{
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .add_btn_wrap{
@@ -111,7 +111,7 @@
     display: flex;
     justify-content: right;
     margin: 10px 10px 10px 0 ;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .add_btn_wrap2 button{
