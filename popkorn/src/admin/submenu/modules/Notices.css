@@ -29,7 +29,7 @@
 
 .message_flex {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     flex-direction: row-reverse;
     margin-bottom: 10px;
 }
@@ -58,7 +58,7 @@
 .others_message_wrap{
     margin-bottom: 10px;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     
 }
 
