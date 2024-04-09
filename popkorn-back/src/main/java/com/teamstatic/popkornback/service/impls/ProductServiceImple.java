@@ -38,11 +38,27 @@ public class ProductServiceImple implements ProductService {
 
         Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
 
-        Page<Product> result = pRepsitory.findAll(pageable);
+        Page<Product> result = pRepsitory.findAllByKeywordLike(requestDTO.getKeyword(),pageable);
 
         return new PageResultDTO<>(result, entity -> entityToDto(entity));
     }
 
+    public PageResultDTO<ProductDTO, Product> findByCategoryLAndCategoryMAndKeyword(String categoryl, String categorym, String keyword, PageRequestDTO requestDTO){
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+
+        Page<Product> result = pRepsitory.findByCategoryLAndCategoryMAndKeyword(categoryl,categorym,keyword,pageable);
+
+        return new PageResultDTO<>(result, entity -> entityToDto(entity));
+    }
+    
+    public PageResultDTO<ProductDTO, Product> findByCategoryLAndKeyword(String categoryl, String keyword, PageRequestDTO requestDTO){
+        
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+    
+        Page<Product> result = pRepsitory.findByCategoryLAndKeyword(categoryl,keyword,pageable);
+    
+        return new PageResultDTO<>(result, entity -> entityToDto(entity));
+    }
 
     @Override
     public List<Product> findByProductname(String productname) {
@@ -81,12 +97,25 @@ public class ProductServiceImple implements ProductService {
 
     }
 
+    public PageResultDTO<ProductDTO, Product>findAllByKeywordLike(String keyword, PageRequestDTO requestDTO){
+
+        Pageable pageable = requestDTO.getPageable(Sort.by("receiptdate").descending());
+
+        Page<Product> result = pRepsitory.findAllByKeywordLike(keyword, pageable);
+
+        return new PageResultDTO<>(result, entity -> entityToDto(entity));
+    }
+
     public long countAll() {
         return pRepsitory.count();
     }
 
     public Product save(Product product){
         return pRepsitory.save(product);
+    }
+
+    public long countByCategoryl(String categoryl){
+        return pRepsitory.countByCategoryl(categoryl);
     }
 
 }

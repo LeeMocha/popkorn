@@ -2,6 +2,9 @@ package com.teamstatic.popkornback.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.ProductDTO;
@@ -18,6 +21,8 @@ public interface ProductService {
 
     List<Product> findFirstProductByArtist(String artist);
 
+    PageResultDTO<ProductDTO, Product> findByCategoryLAndCategoryMAndKeyword(String categoryl, String categorym, String keyword, PageRequestDTO requestDTO);
+
     long countAll();
 
     Product save(Product product);
@@ -25,6 +30,12 @@ public interface ProductService {
     public Product findByPcode(int pcode);
 
     PageResultDTO<ProductDTO, Product> findNewAll(PageRequestDTO requestDTO);
+
+    PageResultDTO<ProductDTO, Product>findAllByKeywordLike(String keyword, PageRequestDTO requestDTO);
+
+    PageResultDTO<ProductDTO, Product>findByCategoryLAndKeyword(String catagoryl, String keyword, PageRequestDTO requestDTO);
+
+    long countByCategoryl(String categoryl);
 
     default Product dtoToEntity(ProductDTO dto) {
         return Product.builder()

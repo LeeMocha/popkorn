@@ -2,25 +2,66 @@
 import { useState } from "react";
 import "./UnsignedOrder.css"
 import Mainlogo from "../header/logo/Mainlogo/Mainlogo";
-import Orderlist from "../auth/mypage/orderlist";
 import Findorderinfo from "./findorderinfo";
+import { apiCall } from "../service/apiService";
+import Inquiryorderlist from "./inquiryorderlist";
 
-export default function UnsugnedOrder(props) {
+export default function UnsugnedOrder() {
 
     const [showpw, setShowpw] = useState(false);
     const [unsignedorder, setUnsignedorder] = useState(1);
+    const [ordernum, setOrdernum] = useState('');
+    const [orderpw, setOrderpw] = useState('');
 
-    const certificationroute = (e) => {
-        setUnsignedorder(unsignedorder+1);
+    const certificationordernum = (e) => {
+        setOrdernum(e.target.value);
     }
 
-    const resetroute = (e) => {
+    const certificationorderpw = (e) => {
+        setOrderpw(e.target.value);
+    }
+
+    const resetroute = () => {
         setUnsignedorder(1);
+    }
+    const certificationroute = () => {
+        setUnsignedorder(2);
+    }
+
+    const gotoorderlist = () => {
+        setUnsignedorder(3)
     }
 
     const toggleShowpw = () => {
         showpw === false ? setShowpw(true) : setShowpw(false);
     }
+
+    const inquiryhandle = async () => {
+        try {
+          const response = await apiCall('/api/orderdetail/inquiry', 'POST', {
+            emailinput: ordernum,
+            pwinput: orderpw
+          }, null);
+          if (response.data === "Login failed") {
+            alert('Invalid Information. Please check your OrderNUmber or Password.');
+            setOrdernum('');
+            setOrderpw('');
+          } else {
+          alert(`Ecertification Complete`);
+          gotoorderlist();
+          }
+        } catch (error) {
+          console.error('로그인 중 오류 발생:', error);
+        }
+      }
+
+      const inquirycheck = () => {
+        if (!ordernum || !orderpw) {
+            return false;
+        } else {
+            return true;
+        }
+      }
 
     return (
         <div className="unsignedO_wrap">
@@ -42,8 +83,10 @@ export default function UnsugnedOrder(props) {
                                         <input
                                             className='emailinput'
                                             type="text"
-                                            placeholder="Insert Ordered Id"
+                                            placeholder="Insert Order Number"
                                             maxLength="25"
+                                            onChange={certificationordernum}
+                                            value={ordernum}
                                         />
                                     </div>
 
@@ -53,19 +96,21 @@ export default function UnsugnedOrder(props) {
                                         <input
                                             className='pwinput'
                                             type={showpw === false ? "password" : "text"}
-                                            placeholder="Password"
-                                            maxLength="16"
+                                            placeholder="Order Password"
+                                            maxLength="10"
+                                            onChange={certificationorderpw}
+                                            value={orderpw}
                                         />
 
                                         <button onClick={toggleShowpw} className='toggleshow'>
-                                            {showpw ? <i className='xi-eye' /> : <i className='xi-eye-off' />}</button>
-                                        <button type='reset' className='memberreset' >
+                                            {showpw ? <i className='xi-eye-off' /> : <i className='xi-eye' />}</button>
+                                        <button type='reset' className='memberreset' onClick={() => setOrderpw('')}>
                                             <i className='xi-close-thin' /></button>
 
                                     </div>
                                     <div className='pwinfo'></div>
                                 </div>
-                                <button className='embtn'>Search Order</button><br /><br />
+                                <button className='embtn' onClick={inquiryhandle} disabled={inquirycheck ? false : true}>Search Order</button><br /><br />
                                 <br />
                                 <button className='resetpw' onClick={certificationroute}>
                                     forgot OrderNumber or password?
@@ -73,19 +118,14 @@ export default function UnsugnedOrder(props) {
                             </>
                             : unsignedorder === 2 ? 
                             <Findorderinfo/>
-                           
                             : unsignedorder === 3 ? 
                             
-                            <Orderlist/>
+                            <Inquiryorderlist ordernum={ordernum}/>
        
                             : null}
                     </div>
                     {unsignedorder < 2 ? null :
-                    unsignedorder === 2 ? 
-                    <button onClick={resetroute}className='embtn'>To Order Inquiry Page</button>
-                    : 
-                    <button></button>
-                    }
+                    <button onClick={resetroute}className='embtn'>To Order Inquiry Page</button>}
                 </div>
             </div>
         </div>

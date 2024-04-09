@@ -1,13 +1,16 @@
-import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 import Header from "../header/Header";
 import Category from "./category/Category";
 import Popkornlogo from "./popkornlogo/Popkornlogo";
 import Product from "./product/Product";
+import { apiCall } from "../service/apiService";
 
 export default function ProductPage() {
-    const currCategoryl = useRef('new');
-    const [currCategorym, setCurrCategorym] = useState('all');
+    
+    const currCategorylRef = useRef('new');
+    const [currCategoryl, setCurrCategoryl] = useState('new');
+    const [currCategorym, setCurrCategorym] = useState('New');
+    const [currKeyword, setCurrKeyword] = useState('');
     const [pageState, setPageState] = useState(1);
     const [productData, setProductData] = useState({
         servData: [],
@@ -23,13 +26,7 @@ export default function ProductPage() {
     });
 
     useEffect(() => {
-        console.log('**** ***')
-        menuHandler();
-    }, [currCategorym, pageState])
-
-    const menuHandler = async () => {
-        console.log(productData.pageData.page)
-        await axios.get(`/api/product/findByCategorylAndCategorym?categoryl=${currCategoryl.current}&categorym=${currCategorym}&page=${pageState}`).then(response => {
+        apiCall(`/api/product/searchlist?categoryl=${currCategoryl}&categorym=${currCategorym}&page=${pageState}&keyword=${currKeyword}`,"GET",null,null).then(response => {
             setProductData({
                 servData: response.data.dtoList,
                 pageData: {
@@ -39,21 +36,22 @@ export default function ProductPage() {
                     next: response.data.next,
                     start: response.data.start,
                     end: response.data.end,
-                    pageList: response.data.pageList
+                    pageList: response.data.pageList,
+                    totalPage: response.data.totalPage
                 }
             })
         }).catch(err => {
             console.log("ProductPage axios ERROR=>" + err);
         })
-    }
+    }, [currCategorym, pageState, currCategoryl])
 
     return (
         <div className="product_page_wrap">
             <Header/>
 
-            <Category currCategoryl={currCategoryl} setCurrCategorym={setCurrCategorym} />
+            <Category currCategorylRef={currCategorylRef} setCurrCategoryl={setCurrCategoryl} setCurrCategorym={setCurrCategorym} setPageState={setPageState} setCurrKeyword={setCurrKeyword}/>
 
-            <Product currCategoryl={currCategoryl} currCategorym={currCategorym} productData={productData}/>
+            <Product currCategorylRef={currCategorylRef} setCurrCategoryl={setCurrCategoryl} currCategorym={currCategorym} productData={productData} setPageState={setPageState}/>
 
             <Popkornlogo/>
 

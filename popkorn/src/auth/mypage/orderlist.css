@@ -11,7 +11,6 @@
   width: 90%;
   height: auto;
   padding: 2%;
-
 }
 
 .orderdetailscontainer::-webkit-scrollbar {
@@ -81,8 +80,13 @@
 
 .orderdetailnumber {
   font-size: 1.5vw;
+  color: #000;
+}
+
+.orderdetailnumber span{
+  font-size: 1.5vw;
   font-weight: bold;
-  color: red;
+  color: #FE7CF3;
 }
 
 .orderdetailcheck:hover {
@@ -97,6 +101,13 @@
   min-width: 150px; 
   max-width: 300px; 
   text-align: right;
+}
+.orderdetailpcode span{
+  width: 50%;
+  min-width: 150px; 
+  max-width: 300px; 
+  text-align: right;
+  color: #FE7CF3;
 }
 
 .orderlist2nd {
@@ -172,11 +183,11 @@
 
 .popup-close-btn {
   position: absolute;
-  top: 1%;
-  right: 2%;
+  top: 10px;
+  right: 20px;
   background-color: transparent;
   border: none;
-  font-size: 5vw;
+  font-size: 50px;
   cursor: pointer;
   color: white;
 }

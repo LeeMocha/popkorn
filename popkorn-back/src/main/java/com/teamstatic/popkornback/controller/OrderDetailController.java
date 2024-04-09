@@ -2,6 +2,9 @@ package com.teamstatic.popkornback.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +69,7 @@ public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requ
 
     user.setId(id);
     user.setPassword(encodedPassword);
-    user.setNickname(password); // id를 nickname에 할당합니다.
+    user.setNickname(password);
     user.setStatus("unsigned");
     try {
         uservice.save(user);
@@ -75,6 +78,25 @@ public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requ
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문키 생성 실패");
     }
 }
+
+@PostMapping("/inquiry")
+    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody) {
+        String emailinput = requestBody.get("emailinput");
+        String pwinput = requestBody.get("pwinput");
+
+        Optional<User> user = uservice.findById(emailinput);
+
+        if (user.isPresent()) {
+            String password = user.get().getPassword();
+            if (passwordEncoder.matches(pwinput, password)) {
+                return ResponseEntity.ok(user.get().getId());
+            } else {
+                return ResponseEntity.ok("Login failed");
+            }
+        } else {
+            return ResponseEntity.ok("Login failed");
+        }
+    }
 
 
     

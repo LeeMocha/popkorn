@@ -30,7 +30,7 @@ public class UserServiceImple implements UserService{
 		Pageable pageable = requestDTO.getPageable(Sort.by("createdate").descending());
 
 		// => repository 실행
-		Page<User> result = uRepository.findAll(pageable);
+		Page<User> result = uRepository.findAllByKeywordLike(requestDTO.getKeyword(), pageable);
 		
 //		Function<Guestbook, GuestbookDTO> fn = entity -> entityToDto(entity);
 		// Function 인터페이스는 함수형 인터페이스

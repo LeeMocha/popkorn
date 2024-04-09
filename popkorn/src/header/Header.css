@@ -1,3 +1,7 @@
+.header_wrap.fade-out {
+   pointer-events: painted;
+}
+
 .header_wrap {
    display: inline-flex;
    position: fixed;
@@ -44,6 +48,7 @@
    cursor: pointer;
    position: relative;
    z-index: 999;
+   pointer-events: painted;
 }
 
 @keyframes App-logo-spin {
@@ -155,6 +160,16 @@
    visibility: hidden;
 }
 
+.dimmer.fade-out {
+   opacity: 0;
+   visibility: hidden;
+   pointer-events: none;
+}
+
+.header_wrap.fade-out{
+   pointer-events: none;
+}
+
 
 @media (max-width: 1150px) {
    .icons_wrap {
@@ -212,16 +227,19 @@
    .menu_wrap.fade-out {
       animation: moveUp 0.4s linear forwards;
       visibility: hidden;
+      pointer-events: none;
    }
 
    .icons_wrap.fade-out {
       animation: moveUp2 0.4s linear forwards;
       visibility: hidden;
+      pointer-events: none;
    }
 
    .dimmer.fade-out {
       transform: translateY(-100%);
       transition: all 0.6s ease-in-out;
+      pointer-events: none;
    }
    .logo_wrap .logo_wrap.fade-out{
       animation: logoMain 0.6s linear forwards;

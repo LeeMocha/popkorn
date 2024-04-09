@@ -11,7 +11,8 @@
 .Memberbg {
     width: 600px;
     padding-top: 32px;
-    height: 900px;
+    padding-bottom: 120px;
+    height: 100%;
     background-color: white;
     text-align: center;
     margin: auto;

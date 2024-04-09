@@ -16,11 +16,16 @@ export default function Header() {
    function moveScrolled() {
       if (isMoveScrolled !== window.scrollY) {
          try{
+            document.querySelector('.header_wrap').classList.add('fade-out');
             document.querySelector('.menu_wrap').classList.add('fade-out');
             document.querySelector('.icons_wrap').classList.add('fade-out');
             document.querySelectorAll('.logo_imgs1').forEach(e => e.classList.add('fade-out'));
             document.querySelectorAll('.logo_imgs2').forEach(e => e.classList.add('fade-out'));
             document.querySelector('.dimmer').classList.add('fade-out');
+            document.querySelector('.categoryS_container').classList.add('fade-out');
+            document.querySelector('.categoryM_container').classList.add('fade-out');
+            document.querySelector('.categoryS_container').classList.remove('active');
+
          } catch(e){
             
          }

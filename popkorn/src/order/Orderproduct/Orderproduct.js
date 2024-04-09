@@ -1,12 +1,14 @@
 import './Orderproduct.css';
 import PriceOutput from './../../useModules/priceOutput/PriceOutput';
+import { apiCall } from '../../service/apiService';
 
-export default function Orderproduct({ items }) {
+export default function Orderproduct({ items, useReword }) {
     const productimgSrc = process.env.PUBLIC_URL + "/productIMG/";
 
     const totalPrice = items.reduce((accumulator, currentItem) => {
-        return accumulator + (currentItem.price * currentItem.detailcount);
+        return accumulator + (currentItem.price * currentItem.detailcount - useReword);
     }, 0);
+
 
     return (
         <div>
