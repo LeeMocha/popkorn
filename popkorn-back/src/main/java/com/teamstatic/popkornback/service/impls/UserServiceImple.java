@@ -34,7 +34,7 @@ public class UserServiceImple implements UserService{
 		
 //		Function<Guestbook, GuestbookDTO> fn = entity -> entityToDto(entity);
 		// Function 인터페이스는 함수형 인터페이스
-		// 그러므로 익명객체 문법, 람다를 사용하여 fn 초기화
+		// 그러므로 익명객체 문법, 람다를 사용하여 fn 초기화	
 		// entity 와 함께 entity를 dto 로 바꿔주는 entityToDto메서드 전달 
 		// 람다식을 인자로 직접 사용해도 됨 (이로서 JAVA 도 함수형 언어라 할 수 있게 됨)
 		
@@ -83,7 +83,7 @@ public class UserServiceImple implements UserService{
         return uRepository.countByStatus(status);
     }
 
-		public User save(User user) {
+	public User save(User user) {
 			return uRepository.save(user);
 	}
 
