@@ -15,8 +15,7 @@ public interface MailServiceInter {
 
 	public String sendSimpleMessage(String to) throws Exception;
 
-	public String sendEmail(String to) throws Exception;
-
 	public void sendEmail(String to, String subject, String content) throws Exception;
+
 } 
   

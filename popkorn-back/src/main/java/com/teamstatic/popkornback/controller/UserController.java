@@ -3,6 +3,7 @@ package com.teamstatic.popkornback.controller;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,11 +20,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.UserDTO;
 import com.teamstatic.popkornback.entity.User;
+import com.teamstatic.popkornback.repository.UserRepository;
 import com.teamstatic.popkornback.service.impls.RegisterMail;
 import com.teamstatic.popkornback.service.impls.UserServiceImple;
 
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -47,14 +51,16 @@ public class UserController {
     RegisterMail registerMail;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private HttpSession session;
 
     @GetMapping("/userlist")
-    public PageResultDTO<UserDTO, User> userList(int page, String keyword) {
+    public PageResultDTO<UserDTO, User> userList(int page) {
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)
                 .size(20)
-                .keyword(keyword)
                 .build();
 
         PageResultDTO<UserDTO, User> resultDTO = uservice.pageList(requestDTO);
@@ -93,7 +99,7 @@ public class UserController {
     @GetMapping("/delete")
     public PageResultDTO<UserDTO, User> userDelete(@RequestParam String id) {
         uservice.deleteById(id);
-        return userList(1, "");
+        return userList(1);
     }
 
     @GetMapping("/selectone")
@@ -103,7 +109,7 @@ public class UserController {
         if (user.isPresent()) {
             return user.get();
         } else {
-            return null; // 혹은 다른 적절한 처리
+            return null;
         }
     }
 
@@ -300,24 +306,61 @@ public class UserController {
         }
     }
 
-   // 컨트롤러
+    @PostMapping("/mailsend")
+    public ResponseEntity<String> sendEmail(@RequestBody Map<String, String> requestData) {
+        String emailRecipient = requestData.get("emailRecipient");
+        String emailTitle = requestData.get("emailTitle");
+        String emailContent = requestData.get("emailContent");
 
-   @PostMapping("/mailsend")
-   public ResponseEntity<String> sendEmail(@RequestBody Map<String, String> requestData) {
-       String to = requestData.get("emailRecipient");
-       String Title = requestData.get("emailTitle");
-       String content = requestData.get("emailContent");
+        try {
+            registerMail.sendEmail(emailRecipient, emailTitle, emailContent);
+            return ResponseEntity.ok("Email sent successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
+        }
+    }
 
-       System.out.println(to);
-       System.out.println(Title);
-       System.out.println(content);
-       try {
-           registerMail.sendEmail(to, Title, content);
-           return ResponseEntity.ok("Email sent successfully");
-       } catch (Exception e) {
-           e.printStackTrace();
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
-       }
-   }
+    @PostMapping("/sendtoallusers")
+    public ResponseEntity<String> sendtoallusers(@RequestBody Map<String, String> requestData) {
+        String emailTitle = requestData.get("emailTitle");
+        String emailContent = requestData.get("emailContent");
+
+        List<User> users = userRepository.findAll();
+
+        List<User> filteredUsers = new ArrayList<>();
+        for (User user : users) {
+            if (!isNotEmailFormat(user.getId())) {
+                filteredUsers.add(user);
+            }
+        }
+
+        for (User user : filteredUsers) {
+            try {
+                registerMail.sendEmail(user.getId(), emailTitle, emailContent);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
+            }
+        }
+
+        return ResponseEntity.ok("Email sent successfully");
+    }
+
+    private boolean isNotEmailFormat(String input) {
+
+        return !input.contains("@");
+    }
+
+    @GetMapping("/rewordcheck")
+    public ResponseEntity<String> rewordcheck(@RequestParam String storedLoginID) {
+        Optional<User> user = uservice.findById(storedLoginID);
+        if (user.isPresent()) {
+            int reword = user.get().getReword();
+            return ResponseEntity.ok(reword + "");
+        } else {
+            return ResponseEntity.ok("failed");
+        }
+    }
 
 }

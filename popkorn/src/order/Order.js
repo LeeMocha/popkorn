@@ -15,7 +15,11 @@ export default function Order() {
     const loginCheck = sessionStorage.getItem('loginCheck');
     const storedLoginID = sessionStorage.getItem('loginID');
     const Location = useLocation();
-    const items = Location.state.items; // Object Type으로 전달 받음.
+    const [checkstatus, setcheckstatus] = useState(false);
+    const [useReword, setuseReword] = useState(0);
+    const [totalReword, setTotalReword] = useState('');
+    const [maximumReword, setmaximumReword] = useState(0);
+    const items = Location.state.items;
     const navigate = useNavigate();
     const [data, setData] = useState({
         merchant_uid: '',
@@ -36,12 +40,27 @@ export default function Order() {
         event.returnValue = '';
     };
 
+    const rewordchangehandle = (event) => {
+        setuseReword(event.target.value);
+        
+    }
     useEffect(() => {
         window.addEventListener('beforeunload', preventRefresh);
         return () => {
             window.removeEventListener('beforeunload', preventRefresh);
         };
     }, []);
+
+    const rewordminus = async () => {
+            try {
+                const response = await apiCall('/api/user/rewordminus?storedLoginID=' + storedLoginID, "GET", null, null);
+                setTotalReword(response.data);
+            } catch (error) {
+                console.error('오류 발생:', error);
+            }
+        }
+    
+
 
     const onClickPayment = (data) => {
         if (!data.buyer_name || !data.buyer_tel || !data.buyer_email || !data.address1 || !data.city || !data.country || !data.buyer_postcode) {
@@ -111,6 +130,7 @@ export default function Order() {
                 // DB에 정보 입력 요청 보내기
                 if (sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'))) {
                     // DB 입력 성공한 경우에만 navigate 호출
+                    
                     navigate('/ordercomplete', { state: { items: items, response: response } });
                 } else {
                     alert("The order payment has failed due to a system issue. Please try again later.");
@@ -148,6 +168,22 @@ export default function Order() {
         data[e.target.name] = e.target.value;
         setData({ ...data });
     }, [data])
+
+
+        const possionRewords = async () => {
+            try {
+                const response = await apiCall('/api/user/rewordcheck?storedLoginID=' + storedLoginID, "GET", null, null);
+                setTotalReword(response.data);
+            } catch (error) {
+                console.error('오류 발생:', error);
+            }
+        }
+
+
+    const handlerewordCheck = (event) => {
+        setcheckstatus(event.target.checked);
+        possionRewords();
+    };
 
     return (
         <>
@@ -199,8 +235,27 @@ export default function Order() {
 
                             <p>Phone</p>
                             <input type="text" name='buyer_tel' onChange={setDataHandler}></input>
-                            <p>Use Reword</p>
-                            <input type="checkbox" name='rewordcheck'></input>
+                            {storedLoginID ?
+                                <>
+                                    <p>Use Reword</p>
+                                    <input type="checkbox" name='rewordcheck' onChange={handlerewordCheck} checked={checkstatus} />
+                                    {checkstatus ?
+                                        <>
+                                            Use Reword :
+                                            <input
+                                                type='text'
+                                                value={useReword}
+                                                onChange={rewordchangehandle}
+
+                                            />
+                                            <br />
+                                            <div>You have {totalReword} rewords, can use up to {totalReword > maximumReword ? totalReword : maximumReword} rewords in this transaction</div>
+                                        </>
+                                        : null}
+
+                                </>
+                                : ""
+                            }
                         </div >
                         <h3>PaymentMethod</h3>
                         <div className="paymentMethodMain">
@@ -208,7 +263,7 @@ export default function Order() {
                         </div>
                     </div>
                 </div>
-                <Orderproduct items={items} />
+                <Orderproduct items={items} useReword={useReword}/>
             </div>
         </>
     );
