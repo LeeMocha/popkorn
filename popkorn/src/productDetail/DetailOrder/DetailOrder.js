@@ -9,7 +9,7 @@ import { apiCall } from '../../service/apiService';
 
 export default function DetailOrder() {
     const Location = useLocation();
-    const pData = Location.state.item; // Object Type으로 전달 받음.
+    const pData = Location.state.item; 
     const [pcode, setPcode] = useState(0);
     const [cnt, setCnt] = useState(0);
     const [totalcnt, setTotalcnt] = useState(0);
@@ -47,12 +47,6 @@ export default function DetailOrder() {
             setCnt(0);
             setTotalcnt(0);
         }
-    }
-
-    const deleteHandler = (e) => {
-        setTotalcnt(pData.price); // 삭제시 원가격으로 초기화
-        setSelectOption(e.target.value); //값 지정x 무조건 value로 지정(안하면 오류남)
-        setCnt(1); // 삭제하는 동시에 수량 초기화
     }
 
     const addCart = async () => {
@@ -134,7 +128,6 @@ export default function DetailOrder() {
                         <button type="button" className='mainButton1' onClick={cntMinusHandler}>-</button>
                         <h5>{cnt}</h5>
                         <button type="button" className='mainButton1' onClick={cntPlusHandler}>+</button>
-                        <button type="button" className='deletButton' onClick={deleteHandler}>x</button>
                     </div>
                 )}
                 <div className='total'>

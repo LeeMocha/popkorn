@@ -90,7 +90,7 @@ export default function AdminMain() {
         {
             key: 4,
             icon: "xi-truck",
-            main: "Diliver",
+            main: "Delivery",
             subMenu: [{ subkey: "State List", component: <StateList /> }
                 , { subkey: "Completed", component: () => <></> }]
         },

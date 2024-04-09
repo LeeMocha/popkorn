@@ -1,6 +1,7 @@
 package com.teamstatic.popkornback.service.impls;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -9,10 +10,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.teamstatic.popkornback.service.MailServiceInter;
 
@@ -62,7 +65,7 @@ public class RegisterMail implements MailServiceInter {
 
 		String msgg = "";
 		msgg += content;
-		System.out.println("to / content 는 " + content  + to);
+		System.out.println("to / content 는 " + content + to);
 		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
 
 		message.setFrom(new InternetAddress("apr4005@naver.com", "POPKORN"));// 보내는 사람
@@ -117,31 +120,18 @@ public class RegisterMail implements MailServiceInter {
 		return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
 	}
 
-	@Override
-	public String sendEmail(String to) throws Exception {
-
-		MimeMessage message = createMessage(to);
-		try {
-			emailsender.send(message);
-		} catch (MailException es) {
-			es.printStackTrace();
-			throw new IllegalArgumentException();
-		}
-
-		return null;
-	}
 
 	@Override
-public void sendEmail(String to, String subject, String content) throws Exception {
-    MimeMessage message = emailsender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message);
+	public void sendEmail(String to, String subject, String content) throws Exception {
+		MimeMessage message = emailsender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
 
-    helper.setTo(to);
-    helper.setSubject(subject);
+		helper.setTo(to);
+		helper.setSubject(subject);
 		message.setText(content, "utf-8", "html");
-    helper.setFrom("apr4005@naver.com");
+		helper.setFrom("apr4005@naver.com");
 
-    emailsender.send(message);
-}
+		emailsender.send(message);
+	}
 
 }
