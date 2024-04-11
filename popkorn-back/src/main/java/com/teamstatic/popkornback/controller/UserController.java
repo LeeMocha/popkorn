@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -104,10 +104,10 @@ public class UserController {
 
     @GetMapping("/selectone")
     public User selectone(String id) {
-        Optional<User> user = uservice.findById(id);
+        User user = uservice.findByUserId(id);
 
-        if (user.isPresent()) {
-            return user.get();
+        if (user != null) {
+            return user;
         } else {
             return null;
         }
@@ -115,8 +115,8 @@ public class UserController {
 
     @GetMapping("/emailcheck")
     public ResponseEntity<String> emailcheck(@RequestParam String emailinput) {
-        Optional<User> user = uservice.findById(emailinput);
-        if (user.isPresent()) {
+        User user = uservice.findByUserId(emailinput);
+        if (user != null) {
             return ResponseEntity.ok("success");
         } else {
             return ResponseEntity.ok("failed");
@@ -128,13 +128,13 @@ public class UserController {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
-        Optional<User> user = uservice.findById(emailinput);
+        User user = uservice.findByUserId(emailinput);
 
-        if (user.isPresent()) {
-            String password = user.get().getPassword();
+        if (user != null) {
+            String password = user.getPassword();
             if (passwordEncoder.matches(pwinput, password)) {
-                session.setAttribute("loginID", user.get().getId());
-                return ResponseEntity.ok(user.get().getId());
+                session.setAttribute("loginID", user.getId());
+                return ResponseEntity.ok(user.getId());
             } else {
                 return ResponseEntity.ok("Login failed");
             }
@@ -149,18 +149,16 @@ public class UserController {
     }
 
     @PostMapping("/memberjoin")
-    public ResponseEntity<String> memberJoin(@RequestParam("id") String id,
-            @RequestParam("password") String password,
-            @RequestParam("nickname") String nickname) {
+    public ResponseEntity<String> memberJoin(@RequestBody UserDTO dto) {
 
         ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
 
         User user = new User();
 
-        user.setId(id);
-        user.setPassword(password);
-        user.setNickname(nickname);
+        user.setId(dto.getId());
+        user.setPassword(dto.getPassword());
+        user.setNickname(dto.getNickname());
         user.setCreatedate(seoulLocalDateTime);
         user.setStatus("signed");
 
@@ -188,10 +186,10 @@ public class UserController {
     public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
-        Optional<User> optionalUser = uservice.findById(emailinput);
+        User optionalUser = uservice.findByUserId(emailinput);
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+        if (optionalUser != null) {
+            User user = optionalUser;
             String encodedPassword = passwordEncoder.encode(pwinput);
             user.setPassword(encodedPassword);
 
@@ -211,9 +209,9 @@ public class UserController {
         String currentpw = (String) request.get("currentpw");
         String userId = (String) request.get("userId");
         if (userId != null) {
-            Optional<User> userOptional = uservice.findById(userId);
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
+            User userOptional = uservice.findByUserId(userId);
+            if (userOptional != null) {
+                User user = userOptional;
                 boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
                 return ResponseEntity.ok(passwordMatch);
             } else {
@@ -230,8 +228,8 @@ public class UserController {
         String userId = (String) request.get("userId");
         String newpassword = (String) request.get("newpassword");
         if (userId != null) {
-            Optional<User> userOptional = uservice.findById(userId);
-            User user = userOptional.get();
+            User userOptional = uservice.findByUserId(userId);
+            User user = userOptional;
             String encodedPassword = passwordEncoder.encode(newpassword);
             user.setPassword(encodedPassword);
             try {
@@ -248,8 +246,8 @@ public class UserController {
     @PostMapping("/updatenickname")
     public ResponseEntity<String> updatenickname(HttpSession session, @RequestParam String email,
             @RequestParam String nickname) {
-        Optional<User> userOptional = uservice.findById(email);
-        User user = userOptional.get();
+        User userOptional = uservice.findByUserId(email);
+        User user = userOptional;
         user.setNickname(nickname);
         try {
             uservice.save(user);
@@ -261,8 +259,8 @@ public class UserController {
 
     @GetMapping("/{email}/nickname")
     public ResponseEntity<String> getUserNickname(@PathVariable String email) {
-        Optional<User> userOptional = uservice.findById(email);
-        User user = userOptional.get();
+        User userOptional = uservice.findByUserId(email);
+        User user = userOptional;
         return ResponseEntity.ok(user.getNickname());
     }
 
@@ -291,8 +289,8 @@ public class UserController {
         String ordernuminput = (String) request.get("ordernuminput");
         String newpassword = (String) request.get("newpassword");
         if (ordernuminput != null) {
-            Optional<User> userOptional = uservice.findById(ordernuminput);
-            User user = userOptional.get();
+            User userOptional = uservice.findByUserId(ordernuminput);
+            User user = userOptional;
             String encodedPassword = passwordEncoder.encode(newpassword);
             user.setPassword(encodedPassword);
             try {
@@ -354,13 +352,19 @@ public class UserController {
 
     @GetMapping("/rewordcheck")
     public ResponseEntity<String> rewordcheck(@RequestParam String storedLoginID) {
-        Optional<User> user = uservice.findById(storedLoginID);
-        if (user.isPresent()) {
-            int reword = user.get().getReword();
+        User user = uservice.findByUserId(storedLoginID);
+        if (user != null) {
+            int reword = user.getReword();
             return ResponseEntity.ok(reword + "");
         } else {
             return ResponseEntity.ok("failed");
         }
     }
+
+    @PostMapping("/update")
+    public User update(@RequestBody User updatedItem) {
+        return uservice.save(updatedItem);
+    }
+    
 
 }
