@@ -59,18 +59,33 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
          });
    }
 
-   const updateHandler = (item)=> {
-      if(isUpdate){
-         // apiCall()
-         // .then()
-         // .catch()
+   const updateHandler = (item) => {
+      if (isUpdate) {
+         // 데이터 업데이트 로직 수행
 
-         setIsUpdate(false)
+         console.log(inputData)
+
+         const updatedItem = {}; // item 객체의 복사본을 만듭니다.
+         commonColumns.forEach((columnName, index) => {
+            updatedItem[columnName] = inputData[index]; // 각 필드에 inputData의 값을 할당합니다.
+         });
+         
+         console.log(updatedItem)
+
+         apiCall(`/api/${entity}/update`, "POST", updatedItem, null)
+            .then(response => {
+               setUpdateItem(response.data)
+               setIsUpdate(false)
+            })
+            .catch(err =>
+               console.log(err)
+            )
+
       } else {
 
          const inputArray = new Array(commonColumns.length)
-         
-         commonColumns.map((column, index)=> inputArray[index] = item[column])
+
+         commonColumns.map((column, index) => inputArray[index] = item[column])
 
          setInputData(inputArray)
          setUpdateItem(item[pk])
@@ -81,7 +96,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
    const inputHandelr = (e, colIndex) => {
 
       inputData[colIndex] = e.target.value
-      setInputData([...inputData, inputData[colIndex]])
+      setInputData([...inputData])
 
    }
 
@@ -112,33 +127,33 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
 
                         {commonColumns.map((columnName, colIndex) => (
                            <td key={colIndex}>{
-                              updateItem === item[pk]? 
-                              <input key={colIndex} value={inputData[colIndex]} readOnly={columnName === 'id' || columnName === 'pcode' || columnName === 'password' || columnName === 'image1' ? true : false}
-                                 onChange={(e)=>inputHandelr(e,colIndex)}
-                              ></input>
-                              :
-                              columnName === "image1" ?
-                                 <div className='list_form_img_div'>
-                                    <img className='list_form_img' src={imageSrc + item[columnName]} alt={item[columnName]}></img>
-                                    <span>{item[columnName]}</span>
-                                 </div>
+                              updateItem === item[pk] ?
+                                 <input className="list_form_input" key={colIndex} value={inputData[colIndex]} readOnly={columnName === 'id' || columnName === 'pcode' || columnName === 'password' || columnName === 'image1' ? true : false}
+                                    onChange={(e) => inputHandelr(e, colIndex)}
+                                 ></input>
                                  :
-                                 columnName !== "status" && columnName !== "categoryl" ? (
-                                    <span
-                                       title={`${item[columnName]}`}
-                                       onMouseEnter={() => handleCellMouseEnter(item[columnName])}
-                                       onMouseLeave={handleCellMouseLeave}>{item[columnName]}</span>
-                                 ) : (
-                                    <div className={`status ${item[columnName].toLowerCase()}`}><span title={`${item[columnName]}`}
-                                       onMouseEnter={() => handleCellMouseEnter(item[columnName])}
-                                       onMouseLeave={handleCellMouseLeave}
-                                    >{item[columnName]}</span>
+                                 columnName === "image1" ?
+                                    <div className='list_form_img_div'>
+                                       <img className='list_form_img' src={imageSrc + item[columnName]} alt={item[columnName]}></img>
+                                       <span>{item[columnName]}</span>
                                     </div>
-                                 )}
+                                    :
+                                    columnName !== "status" && columnName !== "categoryl" ? (
+                                       <span
+                                          title={`${item[columnName]}`}
+                                          onMouseEnter={() => handleCellMouseEnter(item[columnName])}
+                                          onMouseLeave={handleCellMouseLeave}>{item[columnName]}</span>
+                                    ) : (
+                                       <div className={`status ${item[columnName].toLowerCase()}`}><span title={`${item[columnName]}`}
+                                          onMouseEnter={() => handleCellMouseEnter(item[columnName])}
+                                          onMouseLeave={handleCellMouseLeave}
+                                       >{item[columnName]}</span>
+                                       </div>
+                                    )}
                            </td>
                         ))}
                         <td>
-                        {isUpdate && updateItem === item[pk] ?<i className='xi-check' onClick={()=>updateHandler(item)} ></i>:<i className='xi-pen-o' onClick={()=>updateHandler(item)} ></i>}
+                           {isUpdate && updateItem === item[pk] ? <i className='xi-check' onClick={() => updateHandler(item)} ></i> : <i className='xi-pen-o' onClick={() => updateHandler(item)} ></i>}
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            <i className='xi-trash' onClick={() => deleteDate(item[pk])}></i>
                         </td>

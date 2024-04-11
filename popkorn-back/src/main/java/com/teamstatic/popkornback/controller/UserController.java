@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
@@ -362,4 +363,12 @@ public class UserController {
             return ResponseEntity.ok("failed");
         }
     }
+
+    @PostMapping("/update")
+    public User update(User updatedItem) {
+        System.out.println(updatedItem);
+        return uservice.save(updatedItem);
+    }
+    
+
 }

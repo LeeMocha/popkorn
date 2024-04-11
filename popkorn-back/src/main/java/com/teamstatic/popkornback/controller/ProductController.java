@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.teamstatic.popkornback.common.JSchWrapper;
 import com.teamstatic.popkornback.domain.PageRequestDTO;
@@ -246,6 +245,12 @@ public class ProductController {
             // 항상 연결 종료
             jsch.disconnectSFTP();
         }
-
     }
+
+    @PostMapping("/update")
+    public Product update(Product updatedItem) {
+        return pService.save(updatedItem);
+    }
+    
+
 }
