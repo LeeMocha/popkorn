@@ -128,7 +128,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
                         {commonColumns.map((columnName, colIndex) => (
                            <td key={colIndex}>{
                               updateItem === item[pk] ?
-                                 <input className="list_form_input" key={colIndex} value={inputData[colIndex]} readOnly={columnName === 'id' || columnName === 'pcode' || columnName === 'password' || columnName === 'image1' ? true : false}
+                                 <input className="list_form_input" key={colIndex} value={inputData[colIndex]} readOnly={columnName === 'id' || columnName === 'pcode' || columnName === 'password' || columnName === 'image1' || columnName === 'createdate' ? true : false}
                                     onChange={(e) => inputHandelr(e, colIndex)}
                                  ></input>
                                  :

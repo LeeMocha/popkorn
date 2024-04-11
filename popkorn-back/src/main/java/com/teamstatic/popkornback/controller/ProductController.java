@@ -248,7 +248,7 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public Product update(Product updatedItem) {
+    public Product update(@RequestBody Product updatedItem) {
         return pService.save(updatedItem);
     }
     
