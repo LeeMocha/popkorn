@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -259,12 +260,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{email}/nickname")
-    public ResponseEntity<String> getUserNickname(@PathVariable String email) {
-        Optional<User> userOptional = uservice.findById(email);
-        User user = userOptional.get();
-        return ResponseEntity.ok(user.getNickname());
-    }
+    @GetMapping("/{email}/nickname-reword")
+public ResponseEntity<Map<String, Object>> getUserNicknameAndReword(@PathVariable String email) {
+    Optional<User> userOptional = uservice.findById(email);
+    User user = userOptional.get();
+    
+    Map<String, Object> responseData = new HashMap<>();
+    responseData.put("nickname", user.getNickname());
+    responseData.put("reword", user.getReword());
+    
+    return ResponseEntity.ok(responseData);
+}
+
 
     @DeleteMapping("/withdraw")
     public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> request) {
@@ -363,4 +370,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/reducereword")
+    public ResponseEntity<String> reducereword(@RequestBody Map<String, String> requestData) {
+        Integer useReword = Integer.parseInt(requestData.get("useReword"));
+        String storedLoginID = requestData.get("storedLoginID");
+        
+        Optional<User> optionalUser = uservice.findById(storedLoginID);
+        User user = optionalUser.get();
+
+            int reword = user.getReword();
+
+            user.setReword(reword-useReword);
+
+            uservice.save(user);
+            return ResponseEntity.ok("rewords reduce");
+    }
 }
