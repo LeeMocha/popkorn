@@ -14,8 +14,23 @@ export default function UnsugnedOrder() {
     const [orderpw, setOrderpw] = useState('');
 
     const certificationordernum = (e) => {
-        setOrdernum(e.target.value);
+        const newValue = e.target.value;
+        // 특수 기호가 포함된 경우, 해당 입력 값을 무시하고 이전 값으로 설정
+        if (/[^a-zA-Z0-9_]/.test(newValue)) {
+            alert('Korean or Special characters cannot be included')
+            setOrdernum('');
+            return;
+        }
+        // @ 기호가 포함된 경우, 해당 입력 값을 무시하고 이전 값으로 설정
+        if (newValue.includes('@')) {
+            alert('Korean or Special characters cannot be included')
+            setOrdernum('');
+            return;
+        }
+        // 조건을 만족하는 경우, 입력 값을 설정
+        setOrdernum(newValue);
     }
+    
 
     const certificationorderpw = (e) => {
         setOrderpw(e.target.value);

@@ -110,6 +110,7 @@
     width: 290px;
     height: 40px;
     overflow-y: auto;
+    resize: none;
 }
 
 .content_button {

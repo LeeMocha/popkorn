@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './orderlist.css';
 import { apiCall } from '../../service/apiService';
-import { Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
@@ -32,12 +32,14 @@ const OrderItem = ({ order, onClick }) => {
   );
 };
 
-
 export const OrderList = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderDetails, setOrderDetails] = useState([]);
+  const [visibleOrders, setVisibleOrders] = useState(3);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 3;
 
   useEffect(() => {
     apiCall(`/api/pay/orders?buyerEmail=${sessionStorage.getItem('loginID')}`, "GET", null, null)
@@ -65,14 +67,35 @@ export const OrderList = () => {
     setSelectedOrder(null);
   };
 
+    const handleShowMore = () => {
+        const nextPage = currentPage + 1;
+        setVisibleOrders(nextPage * ordersPerPage);
+        setCurrentPage(nextPage);
+    };
+
+    const renderPageInfo = () => {
+      const totalPages = Math.ceil(orders.length / ordersPerPage);
+      return `${currentPage} / ${totalPages}`;
+  };
+
   return (
     <div className="orderlistwhole">
       <div className="account-header">
         My Order List
       </div>
-      {orders.map((order, index) => (
-        <OrderItem key={index} order={order} onClick={popupClick} />
-      ))}
+
+            {orders.slice(0, visibleOrders).map((order, index) => (
+              <OrderItem key={index} order={order} onClick={popupClick} />
+            ))}
+            
+            {visibleOrders < orders.length && (
+              <div className='moreviewdiv'>
+              <button onClick={handleShowMore} className='moreviewbtn'>
+                    More View ({renderPageInfo()})
+                </button>
+              </div>
+            )}
+         
       {showPopup && selectedOrder && (
         <div className="orderpopup-overlay">
           <div className='orderdetailscontainer'>
