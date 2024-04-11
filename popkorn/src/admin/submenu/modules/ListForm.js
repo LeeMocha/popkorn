@@ -32,6 +32,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
    const [tooltipContent, setTooltipContent] = useState(null);  // ellipse 를 표현하기위한 tooltip state
    const commonColumns = extractCommonColumns(data);
    const imageSrc = process.env.PUBLIC_URL + `/${entity}IMG/`
+   
 
    if (!Array.isArray(data) || data.length === 0) {
       return <div className='listform_nodata'>No data provided.</div>;
