@@ -104,7 +104,8 @@ public class UserController {
     }
 
     @GetMapping("/selectone")
-    public User selectone(String id) {
+    public User selectone(@RequestParam String id) {
+        System.out.println("****"+id);
         User user = uservice.findByUserId(id);
 
         if (user != null) {
@@ -115,17 +116,20 @@ public class UserController {
     }
 
     @GetMapping("/emailcheck")
-    public ResponseEntity<String> emailcheck(@RequestParam String emailinput) {
+    public String emailcheck(@RequestParam String emailinput) {
+        System.out.println("****"+emailinput);
         User user = uservice.findByUserId(emailinput);
+        System.out.println("///////////////////////////"+user);
+
         if (user != null) {
-            return ResponseEntity.ok("success");
+            return "success";
         } else {
-            return ResponseEntity.ok("failed");
+            return "failed";
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+    public String login(HttpSession session, @RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
@@ -135,12 +139,12 @@ public class UserController {
             String password = user.getPassword();
             if (passwordEncoder.matches(pwinput, password)) {
                 session.setAttribute("loginID", user.getId());
-                return ResponseEntity.ok(user.getId());
+                return user.getId();
             } else {
-                return ResponseEntity.ok("Login failed");
+                return "Login failed";
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Login failed: User not found");
+            return "Login failed: User not found";
         }
     }
 
@@ -150,7 +154,7 @@ public class UserController {
     }
 
     @PostMapping("/memberjoin")
-    public ResponseEntity<String> memberJoin(@RequestBody UserDTO dto) {
+    public String memberJoin(@RequestBody UserDTO dto) {
 
         ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
@@ -169,9 +173,9 @@ public class UserController {
 
         try {
             uservice.save(user);
-            return ResponseEntity.ok("회원가입 성공");
+            return "회원가입 성공";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
+            return "회원가입 실패";
         }
     }
 

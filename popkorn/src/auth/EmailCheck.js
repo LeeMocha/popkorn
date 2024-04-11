@@ -22,9 +22,12 @@ export const EmailCheck = () => {
   const initialcheck = async () => {
     try {
       const response = await apiCall(`/api/user/emailcheck?emailinput=${emailinput}`, "GET", null, null);
+      console.log("1"+response.data)
       if (response.data === "success") {
+        console.log("2"+response.data)
         setemailcheck('2');
       } else if (response.data === "failed") {
+        console.log("3"+response.data)
         setemailcheck('3');
       }
     } catch (error) {

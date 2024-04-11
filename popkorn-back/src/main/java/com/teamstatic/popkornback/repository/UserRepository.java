@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     List<User> findByStatus(String status);
 
-    @Query(value = "SELECT * FROM User u WHERE id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM user u WHERE id = :id", nativeQuery = true)
     User findByUserId(String id);
 
     Long countByStatus(String status);
