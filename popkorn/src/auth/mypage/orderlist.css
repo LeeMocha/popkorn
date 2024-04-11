@@ -269,5 +269,13 @@
   width: 90%;
   justify-content: center;
   margin-top: 40px;
-  
+}
+
+.orderlistno {
+  font-family: 'TmoneyRoundWindExtraBold';
+  width: 70%;
+  text-align: center;
+  margin-top: 200px;
+  font-size: 23px;
+  color: #7de4ff;
 }

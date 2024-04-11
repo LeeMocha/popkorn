@@ -29,6 +29,9 @@ export default function Send() {
     try {
       const Response = await apiCall('/api/user/mailsend', "POST", { emailTitle: emailTitle, emailContent: emailContent, emailRecipient: emailRecipient }, null);
       alert("Email Send");
+      setemailRecipient('');
+      setEmailContent('');
+      setemailTitle('');
     } catch (error) {
       console.error('오류 발생:', error);
     }
