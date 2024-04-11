@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -264,6 +265,19 @@ public class UserController {
         return ResponseEntity.ok(user.getNickname());
     }
 
+    @GetMapping("/{email}/nickname-reword")
+    public ResponseEntity<Map<String, Object>> getUserNicknameAndReword(@PathVariable String email) {
+        User userOptional = uservice.findByUserId(email);
+        User user = userOptional;
+        
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("nickname", user.getNickname());
+        responseData.put("reword", user.getReword());
+        
+        return ResponseEntity.ok(responseData);
+    }
+
+
     @DeleteMapping("/withdraw")
     public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> request) {
         String userId = (String) request.get("userId");
@@ -360,11 +374,5 @@ public class UserController {
             return ResponseEntity.ok("failed");
         }
     }
-
-    @PostMapping("/update")
-    public User update(@RequestBody User updatedItem) {
-        return uservice.save(updatedItem);
-    }
-    
 
 }

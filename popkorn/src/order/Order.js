@@ -17,7 +17,7 @@ export default function Order() {
     const Location = useLocation();
     const [checkstatus, setcheckstatus] = useState(false);
     const [useReword, setuseReword] = useState(0);
-    const [totalReword, setTotalReword] = useState('');
+    const [totalReword, setTotalReword] = useState(1000);
     const [maximumReword, setmaximumReword] = useState(0);
     const items = Location.state.items;
     const navigate = useNavigate();
@@ -40,10 +40,39 @@ export default function Order() {
         event.returnValue = '';
     };
 
-    const rewordchangehandle = (event) => {
-        setuseReword(event.target.value);
-        
-    }
+    const totalPrice = items.reduce((accumulator, currentItem) => {
+        return accumulator + (currentItem.price * currentItem.detailcount);
+    }, 0) - useReword;
+
+
+    const handleInputChange = (event) => {
+        const newValue = event.target.value;
+        if (!isNaN(newValue)) {
+            if (parseInt(newValue) > totalReword) {
+                alert('Usage rewords cannot exceed retention rewords');
+                setuseReword('1000');
+                return;
+            }
+            if (maximumReword < totalReword && parseInt(newValue) > maximumReword) {
+                alert('Usage rewords cannot exceed maximum rewords');
+                setuseReword('1000');
+                return;
+            }
+            setuseReword(newValue);
+        } else {
+            alert('Please enter a valid number.');
+            setuseReword('1000');
+        }
+    };
+
+    const handleBlur = (event) => {
+        const currentValue = event.target.value;
+        if (parseInt(currentValue) < 1000) {
+            alert('At least 1000 rewords available for users');
+            setuseReword('1000');
+        }
+    };
+
     useEffect(() => {
         window.addEventListener('beforeunload', preventRefresh);
         return () => {
@@ -51,16 +80,9 @@ export default function Order() {
         };
     }, []);
 
-    const rewordminus = async () => {
-            try {
-                const response = await apiCall('/api/user/rewordminus?storedLoginID=' + storedLoginID, "GET", null, null);
-                setTotalReword(response.data);
-            } catch (error) {
-                console.error('오류 발생:', error);
-            }
-        }
-    
-
+    useEffect(() => {
+        possionRewords();
+    }, []);
 
     const onClickPayment = (data) => {
         if (!data.buyer_name || !data.buyer_tel || !data.buyer_email || !data.address1 || !data.city || !data.country || !data.buyer_postcode) {
@@ -130,7 +152,7 @@ export default function Order() {
                 // DB에 정보 입력 요청 보내기
                 if (sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'))) {
                     // DB 입력 성공한 경우에만 navigate 호출
-                    
+                    reducerewords();
                     navigate('/ordercomplete', { state: { items: items, response: response } });
                 } else {
                     alert("The order payment has failed due to a system issue. Please try again later.");
@@ -170,26 +192,47 @@ export default function Order() {
     }, [data])
 
 
-        const possionRewords = async () => {
-            try {
-                const response = await apiCall('/api/user/rewordcheck?storedLoginID=' + storedLoginID, "GET", null, null);
-                setTotalReword(response.data);
-            } catch (error) {
-                console.error('오류 발생:', error);
-            }
+    const possionRewords = async () => {
+        try {
+            const response = await apiCall('/api/user/rewordcheck?storedLoginID=' + storedLoginID, "GET", null, null);
+            setmaximumReword(totalPrice / 2);
+            setTotalReword(response.data);
+        } catch (error) {
+            console.error('오류 발생:', error);
         }
-
+    }
 
     const handlerewordCheck = (event) => {
-        setcheckstatus(event.target.checked);
+        const currentTotalReword = totalReword;
+    
+        if (event.target.checked === false) {
+            setcheckstatus(false);
+            return;
+        }
+    
+        if (currentTotalReword < 1000) {
+            alert('At least 1000 rewords available for users');
+            return;
+        }
+    
+        setcheckstatus(true);
         possionRewords();
     };
+    
+    const reducerewords = async () => {
+        try {
+            const response = await apiCall('/api/user/reducereword', "POST", { storedLoginID: storedLoginID, useReword: parseInt(useReword) }, null);
+            console.log(response); 
+        } catch (error) {
+            console.error('오류 발생:', error);
+        }
+    }
 
     return (
         <>
             <Header />
             <div className='orderBox'>
-                <h1 style={{ color: ' #7de4ff' }}>Oder</h1>
+                <h1 style={{ color: ' #7de4ff' }}>Order</h1>
                 <div className='orderWindow'>
                     <div>
                         <h3>Shipping Address</h3>
@@ -239,19 +282,23 @@ export default function Order() {
                                 <>
                                     <p>Use Reword</p>
                                     <input type="checkbox" name='rewordcheck' onChange={handlerewordCheck} checked={checkstatus} />
-                                    {checkstatus ?
+                                    {checkstatus ? (
                                         <>
                                             Use Reword :
                                             <input
                                                 type='text'
                                                 value={useReword}
-                                                onChange={rewordchangehandle}
-
+                                                onChange={handleInputChange}
+                                                onBlur={handleBlur}
                                             />
                                             <br />
-                                            <div>You have {totalReword} rewords, can use up to {totalReword > maximumReword ? totalReword : maximumReword} rewords in this transaction</div>
+                                            <div>You have {totalReword} rewords, can use up to {totalReword < maximumReword ? totalReword : maximumReword} rewords in this transaction</div>
                                         </>
-                                        : null}
+                                    ) : (
+                                        <>
+                                            At least 1000 rewords available for users
+                                        </>
+                                    )}
 
                                 </>
                                 : ""
@@ -263,8 +310,9 @@ export default function Order() {
                         </div>
                     </div>
                 </div>
-                <Orderproduct items={items} useReword={useReword}/>
+                <Orderproduct items={items} useReword={useReword} totalPrice={totalPrice} />
             </div>
+
         </>
     );
 }

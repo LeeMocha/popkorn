@@ -5,27 +5,31 @@ import { apiCall } from '../../service/apiService';
 
 const Myaccountinfo = () => {
   const [editMode, setEditMode] = useState(false);
-  const [email, setEmail] = useState(sessionStorage.getItem('loginID'));
+  const [email] = useState(sessionStorage.getItem('loginID'));
   const [nickname, setNickname] = useState('');
+  const [rewords, setrewords] = useState('')
 
   useEffect(() => {
-    const checkNickname = async () => {
+    const fetchNicknameAndReword = async () => {
       try {
-        const response = await apiCall(`/api/user/${email}/nickname`, "GET" , null ,null);
+        const response = await apiCall(`/api/user/${email}/nickname-reword`, "GET", null, null);
         if (response.status === 200) {
-          setNickname(response.data);
+          const { nickname, reword } = response.data;
+          setNickname(nickname);
+          setrewords(reword);
         } else {
-          console.log('닉네임 가져오기 실패');
+          console.log('닉네임 및 리워드 가져오기 실패');
         }
       } catch (error) {
         console.error('오류 발생:', error);
       }
     };
-
+  
     if (email) {
-      checkNickname();
+      fetchNicknameAndReword();
     }
-  }, [email]); // email이 변경될 때마다 실행
+  }, [email]); //
+  
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -87,6 +91,11 @@ const Myaccountinfo = () => {
         ) : (
           <span>{nickname}</span>
         )}
+      </div>
+
+      <div className='accountnickname'>
+        rewords &nbsp;
+          <span>{rewords}</span>
         <br /><br />
       </div>
 

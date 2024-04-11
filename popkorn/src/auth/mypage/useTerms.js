@@ -61,7 +61,7 @@ export const UseTerms = () => {
               <br />
               ③ "Company" may conduct regular inspections if necessary for the provision of "service", and may temporarily suspend the provision of "service" during the regular inspection.
               <br />
-              ④ The 'Company' may suspend the 'Service' for reasons such as management reasons of the 'Company'
+              ④ There is "no obligation" for the "Company" to perform the exchange or refund of payments using the words.
               <br /><br />
               <div className='termsheader'>
               Article 6. Publication of Advertisements<br />
