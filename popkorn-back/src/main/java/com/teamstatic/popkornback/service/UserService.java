@@ -3,7 +3,6 @@ package com.teamstatic.popkornback.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import com.teamstatic.popkornback.entity.User;
 import com.teamstatic.popkornback.domain.PageRequestDTO;
@@ -16,7 +15,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    Optional<User> findById(String id);
+    User findByUserId(String id);
 
     PageResultDTO<UserDTO, User> findAllByKeywordLike(String keyword, PageRequestDTO requestDTO);
 

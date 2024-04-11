@@ -12,18 +12,6 @@ function extractCommonColumns(data) {
    // 첫 번째 데이터 항목의 속성을 기준으로 초기화
    const commonColumns = Object.keys(data[0]);
 
-   // 나머지 데이터 항목과 비교하여 공통된 속성만 남기기
-   for (let i = 1; i < data.length; i++) {
-      Object.keys(data[i]).forEach(key => {
-         if (!commonColumns.includes(key)) {
-            const index = commonColumns.indexOf(key);
-            if (index !== -1) {
-               commonColumns.splice(index, 1);
-            }
-         }
-      });
-   }
-
    return commonColumns;
 }
 
@@ -32,7 +20,9 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
    const [tooltipContent, setTooltipContent] = useState(null);  // ellipse 를 표현하기위한 tooltip state
    const commonColumns = extractCommonColumns(data);
    const imageSrc = process.env.PUBLIC_URL + `/${entity}IMG/`
-   
+   const [isUpdate, setIsUpdate] = useState(false);
+   const [updateItem, setUpdateItem] = useState();
+   const [inputData, setInputData] = useState([]);
 
    if (!Array.isArray(data) || data.length === 0) {
       return <div className='listform_nodata'>No data provided.</div>;
@@ -69,6 +59,47 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
          });
    }
 
+   const updateHandler = (item) => {
+      if (isUpdate) {
+         // 데이터 업데이트 로직 수행
+
+         console.log(inputData)
+
+         const updatedItem = {}; // item 객체의 복사본을 만듭니다.
+         commonColumns.forEach((columnName, index) => {
+            updatedItem[columnName] = inputData[index]; // 각 필드에 inputData의 값을 할당합니다.
+         });
+         
+         console.log(updatedItem)
+
+         apiCall(`/api/${entity}/update`, "POST", updatedItem, null)
+            .then(response => {
+               setUpdateItem(response.data)
+               setIsUpdate(false)
+            })
+            .catch(err =>
+               console.log(err)
+            )
+
+      } else {
+
+         const inputArray = new Array(commonColumns.length)
+
+         commonColumns.map((column, index) => inputArray[index] = item[column])
+
+         setInputData(inputArray)
+         setUpdateItem(item[pk])
+         setIsUpdate(true)
+      }
+   }
+
+   const inputHandelr = (e, colIndex) => {
+
+      inputData[colIndex] = e.target.value
+      setInputData([...inputData])
+
+   }
+
    return (
       <div className='listform_container'>
          <div className="listform_wrap">
@@ -96,28 +127,33 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
 
                         {commonColumns.map((columnName, colIndex) => (
                            <td key={colIndex}>{
-                              columnName === "image1" ?
-                                 <div className='list_form_img_div'>
-                                    <img className='list_form_img' src={imageSrc + item[columnName]} alt={item[columnName]}></img>
-                                    <span>{item[columnName]}</span>
-                                 </div>
+                              updateItem === item[pk] ?
+                                 <input className="list_form_input" key={colIndex} value={inputData[colIndex]} readOnly={columnName === 'id' || columnName === 'pcode' || columnName === 'password' || columnName === 'image1' || columnName === 'createdate' ? true : false}
+                                    onChange={(e) => inputHandelr(e, colIndex)}
+                                 ></input>
                                  :
-                                 columnName !== "status" && columnName !== "categoryl" ? (
-                                    <span
-                                       title={`${item[columnName]}`}
-                                       onMouseEnter={() => handleCellMouseEnter(item[columnName])}
-                                       onMouseLeave={handleCellMouseLeave}>{item[columnName]}</span>
-                                 ) : (
-                                    <div className={`status ${item[columnName].toLowerCase()}`}><span title={`${item[columnName]}`}
-                                       onMouseEnter={() => handleCellMouseEnter(item[columnName])}
-                                       onMouseLeave={handleCellMouseLeave}
-                                    >{item[columnName]}</span>
+                                 columnName === "image1" ?
+                                    <div className='list_form_img_div'>
+                                       <img className='list_form_img' src={imageSrc + item[columnName]} alt={item[columnName]}></img>
+                                       <span>{item[columnName]}</span>
                                     </div>
-                                 )}
+                                    :
+                                    columnName !== "status" && columnName !== "categoryl" ? (
+                                       <span
+                                          title={`${item[columnName]}`}
+                                          onMouseEnter={() => handleCellMouseEnter(item[columnName])}
+                                          onMouseLeave={handleCellMouseLeave}>{item[columnName]}</span>
+                                    ) : (
+                                       <div className={`status ${item[columnName].toLowerCase()}`}><span title={`${item[columnName]}`}
+                                          onMouseEnter={() => handleCellMouseEnter(item[columnName])}
+                                          onMouseLeave={handleCellMouseLeave}
+                                       >{item[columnName]}</span>
+                                       </div>
+                                    )}
                            </td>
                         ))}
                         <td>
-                           <i className='xi-pen-o' ></i>
+                           {isUpdate && updateItem === item[pk] ? <i className='xi-check' onClick={() => updateHandler(item)} ></i> : <i className='xi-pen-o' onClick={() => updateHandler(item)} ></i>}
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            <i className='xi-trash' onClick={() => deleteDate(item[pk])}></i>
                         </td>
