@@ -6,7 +6,7 @@ export default function Attendance() {
 
   return (
     <div>
-      <QRCodeCanvas value={url} />
+      <QRCodeCanvas value={`http://3.35.11.217:8080/api/attendance/insert?id=${sessionStorage.getItem("loginID")}`} />
     </div>
   );
 }
