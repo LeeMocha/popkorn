@@ -18,6 +18,7 @@ import Notices from "./submenu/modules/Notices";
 import Add from "./submenu/stock/Add";
 
 import Send from "./submenu/email/Send";
+import Calendar from "./submenu/modules/Calendar";
 
 export default function AdminMain() {
 
@@ -61,7 +62,7 @@ export default function AdminMain() {
                 , { key: 3, subkey: <i className="xi-dollar dicon" onClick={() => toggleIconColor(3)} style={{ color: iconColors[3] }}></i>, component: <RateChart /> }
                 , { key: 4, subkey: <i className="xi-qr-code dicon" onClick={() => toggleIconColor(4)} style={{ color: iconColors[4] }}></i>, component: () => { } }
                 , { key: 5, subkey: <i className="xi-forum-o dicon" onClick={() => toggleIconColor(5)} style={{ color: iconColors[5] }}></i>, component: <Notices/> }
-                , { key: 6, subkey: <i className="xi-sitemap-o dicon" onClick={() => toggleIconColor(6)} style={{ color: iconColors[6] }}></i>, component: () => { } }
+                , { key: 6, subkey: <i className="xi-calendar-check dicon" onClick={() => toggleIconColor(6)} style={{ color: iconColors[6] }}></i>, component: <Calendar/> }
                 , { key: 7, subkey: <i className="xi-puzzle dicon" onClick={() => toggleIconColor(7)} style={{ color: iconColors[7] }}></i>, component: () => { } }]
         },
         {
