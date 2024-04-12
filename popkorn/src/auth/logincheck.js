@@ -3,7 +3,8 @@ export const emcheck = { value: false };
 export const pwcheck = { value: false };
 
 export const emCheck = (emailinput) => {
-  const emailRegEx = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.(com|kr|jp|net|ru|edu|cz|de)$/i
+  const emailRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|kr|jp|net|ru|edu|cz|de)$/i
+
   if (emailinput.replace(emailRegEx, '').length > 0) {
     return false;
   } else {

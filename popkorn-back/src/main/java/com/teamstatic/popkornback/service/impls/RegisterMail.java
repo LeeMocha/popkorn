@@ -120,7 +120,6 @@ public class RegisterMail implements MailServiceInter {
 		return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
 	}
 
-
 	@Override
 	public void sendEmail(String to, String subject, String content) throws Exception {
 		MimeMessage message = emailsender.createMimeMessage();

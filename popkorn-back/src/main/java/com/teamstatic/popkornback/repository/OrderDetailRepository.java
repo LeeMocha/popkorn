@@ -9,4 +9,5 @@ import com.teamstatic.popkornback.entity.OrderDetail;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer>{
    
   List<OrderDetail> findByMerchantUid(String merchantUid);
+
 }

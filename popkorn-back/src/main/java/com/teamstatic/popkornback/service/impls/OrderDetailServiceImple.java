@@ -26,4 +26,5 @@ public class OrderDetailServiceImple implements OrderDetailService {
         return odRepository.findByMerchantUid(merchantUid);
     }
 
+    
 }
