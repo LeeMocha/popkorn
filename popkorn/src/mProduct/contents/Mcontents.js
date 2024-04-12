@@ -14,6 +14,10 @@ export default function Mcontents({selectCeleb}) {
       }).catch(err => console.log)
    }, [selectCeleb.artist])
 
+   const gotoCelebsProduct = ()=>{
+      
+   }
+
    return (
       <div className="mcontent_grid_container">
          <div className="artistLogo" onClick={gotoCelebsProduct}>
