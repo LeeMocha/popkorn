@@ -21,6 +21,13 @@ export default function Main() {
         }).catch( err => console.log(err))
         
      }, [])
+
+     const [elseKey, setElseKey] = useState(0); // Key 값을 변경하기 위한 상태
+
+     useEffect(() => {
+         // productData가 변경될 때마다 key 값을 업데이트하여 Else 컴포넌트를 새로 마운트
+         setElseKey(prevKey => prevKey + 1);
+     }, [selectCeleb]);
      
     return (
         <>
@@ -31,7 +38,7 @@ export default function Main() {
             <Celeb celebs={celebs} setSelectCeleb={setSelectCeleb}>
 
             </Celeb>
-            <MProduct selectCeleb={selectCeleb}>
+            <MProduct key={elseKey} selectCeleb={selectCeleb}>
 
             </MProduct>
             <Event2>
