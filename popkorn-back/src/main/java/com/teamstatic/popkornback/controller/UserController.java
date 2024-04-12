@@ -379,4 +379,10 @@ public class UserController {
         }
     }
 
+    @GetMapping("/update")
+    public User update(@RequestBody User updatedItem) {
+        return uservice.save(updatedItem);
+    }
+    
+
 }
