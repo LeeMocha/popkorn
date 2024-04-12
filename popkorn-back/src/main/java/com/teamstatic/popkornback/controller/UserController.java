@@ -269,14 +269,13 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> getUserNicknameAndReword(@PathVariable String email) {
         User userOptional = uservice.findByUserId(email);
         User user = userOptional;
-        
+
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("nickname", user.getNickname());
         responseData.put("reword", user.getReword());
-        
+
         return ResponseEntity.ok(responseData);
     }
-
 
     @DeleteMapping("/withdraw")
     public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> request) {
@@ -375,4 +374,7 @@ public class UserController {
         }
     }
 
+
+
+    
 }

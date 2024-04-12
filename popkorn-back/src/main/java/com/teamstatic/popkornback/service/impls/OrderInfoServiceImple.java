@@ -24,4 +24,9 @@ public class OrderInfoServiceImple implements OrderInfoService{
     public List<Orderinfo> findByEmail(String email) {
         return oiRepository.findByBuyerEmail(email);
     }
+
+    @Override
+    public int countPaid(String buyerEmail, String status) {
+        return oiRepository.countByBuyerEmailAndStatus(buyerEmail, status);
+    }
 }

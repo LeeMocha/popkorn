@@ -1,15 +1,19 @@
 .statelistBox::-webkit-scrollbar {
-    width: 2px;  /* 스크롤바의 너비 */
+    width: 2px;
+    /* 스크롤바의 너비 */
 }
 
 .statelistBox::-webkit-scrollbar-thumb {
-    height: 5%; /* 스크롤바의 길이 */
-    background: #FE7CF3; /* 스크롤바의 색상 */
-    border-radius:50px;
+    height: 5%;
+    /* 스크롤바의 길이 */
+    background: #FE7CF3;
+    /* 스크롤바의 색상 */
+    border-radius: 50px;
 }
 
 .statelistBox::-webkit-scrollbar-track {
-    background: rgba(243, 247, 253, 0.37);  /*스크롤바 뒷 배경 색상*/
+    background: rgba(243, 247, 253, 0.37);
+    /*스크롤바 뒷 배경 색상*/
     margin-top: 20px;
 }
 
@@ -81,8 +85,8 @@
     border-radius: 5px;
     margin-top: 20px;
     background: rgba(148, 147, 147, 0.53);
-    margin-left: 10px; 
-    margin-right: 10px; 
+    margin-left: 10px;
+    margin-right: 10px;
     color: white;
 }
 
@@ -222,3 +226,28 @@
         font-size: 13px;
     }
 }
+
+.map-container {
+    width: 60%;
+    margin-left: 50px;
+}
+
+path {
+    fill: lightgray;
+    stroke: white;
+}
+
+.svgworldmap {
+    width: 700px;
+    height: 500px;  
+}
+
+.clickedcountrty {
+    fill: #fe7cf3;
+    transition: 0.5s;
+  }
+
+  .pathkorea {
+    fill: blue;
+
+  }
