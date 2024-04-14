@@ -232,22 +232,28 @@
     margin-left: 50px;
 }
 
-path {
+.worldmapPath,
+.worldping {
     fill: lightgray;
     stroke: white;
 }
 
 .svgworldmap {
     width: 700px;
-    height: 500px;  
+    height: 500px;
 }
 
 .clickedcountrty {
     fill: #fe7cf3;
     transition: 0.5s;
-  }
+}
 
-  .pathkorea {
+.pathkorea {
     fill: blue;
 
-  }
+}
+
+.positionping {
+    fill: black;
+
+}

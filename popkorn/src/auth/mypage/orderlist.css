@@ -279,3 +279,8 @@
   font-size: 23px;
   color: #7de4ff;
 }
+
+.orderinfostatus {
+  font-size: 22px;
+  font-weight: bold;
+}
