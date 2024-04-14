@@ -1,6 +1,6 @@
 .notices_warp {
     width: 300px;
-    height: 600px;
+    height: 556px;
 }
 
 .notices_header {
@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: column-reverse;
 
-    height: 425px;
+    height: 380px;
     overflow-y: auto;
     margin-bottom: 10px;
 }
