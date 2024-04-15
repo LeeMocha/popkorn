@@ -16,4 +16,5 @@ public interface OrderInfoService {
 
     Orderinfo save(Orderinfo entity);
 
+    public List<Orderinfo> getOrderInfo();
 }

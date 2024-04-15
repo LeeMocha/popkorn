@@ -38,4 +38,8 @@ public class OrderInfoServiceImple implements OrderInfoService{
         return oiRepository.save(entity);
     }
 
+    @Override
+    public List<Orderinfo> getOrderInfo() {
+        return oiRepository.findAll();
+    }
 }
