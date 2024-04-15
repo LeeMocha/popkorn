@@ -89,6 +89,10 @@ public class AttendanceController {
         }
 
     }
+
+    // public List<Attendance> findAll() {
+    //     return aService.findAll();
+    // }
     
 
 }
