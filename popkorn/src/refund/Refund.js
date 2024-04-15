@@ -74,7 +74,7 @@ export default function Refund() {
 
             // 선택s된 상품들이 있는지 확인
             if (selectedItems.length > 0) {
-                apiCall("/api/pay/retund","POST", orderinfo[0], null)
+                apiCall("/api/orderinfo/refundrequest","POST", orderinfo[0], null)
                 .then(response => {
                     if(response.data != null){
                         alert("The refund has been processed successfully. Redirecting to the main page.");
