@@ -3,6 +3,7 @@ package com.teamstatic.popkornback.entity;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,8 +22,8 @@ import lombok.NoArgsConstructor;
 public class Event {
     @Id
     private int ecode;
-    private LocalDate startdata;
-    private LocalDate enddata;
+    private LocalDate startdate;
+    private LocalDate enddate;
     private String title;
     private int type;
     private String image1;
