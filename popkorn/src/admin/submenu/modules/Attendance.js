@@ -6,13 +6,13 @@ import "./Attendance.css";
 import { apiCall } from '../../../service/apiService';
 
 export default function Attendance() {
-  const [attendanceData , setAttendanceData] = useState([]);
+  const [attendanceData, setAttendanceData] = useState([]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       apiCall(`/api/attendance/check?id=${sessionStorage.getItem('loginID')}`, "GET", null, null)
-      .then(response => {
-        // console.log(response.data.length > 0)
+        .then(response => {
+          // console.log(response.data.length > 0)
           if (response.data.length > 0) {
             setAttendanceData(response.data);
             clearInterval(intervalId); // API가 찍힌 경우 interval을 멈춤
@@ -36,7 +36,7 @@ export default function Attendance() {
       </div>
       <div className='attendance_qrwrap'>
         <span>Your Attendance</span>
-        <span>{attendanceData.length > 0? `"${attendanceData[0].status}"` : `"Not Checked"`}</span>
+        <span>{attendanceData.length > 0 ? `"${attendanceData[0].status}"` : `"Not Checked"`}</span>
         <QRCodeCanvas value={`http://3.35.11.217:8080/api/attendance/insert?id=${sessionStorage.getItem("loginID")}`} />
       </div>
     </div>

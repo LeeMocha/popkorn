@@ -30,6 +30,14 @@ public class OrderInfoServiceImple implements OrderInfoService{
         return oiRepository.countByBuyerEmailAndStatus(buyerEmail, status);
     }
 
+    public List<Orderinfo> findByImpUid(String impUid){
+        return oiRepository.findByImpUid(impUid);
+    };
+
+    public Orderinfo save(Orderinfo entity){
+        return oiRepository.save(entity);
+    }
+
     @Override
     public List<Orderinfo> getOrderInfo() {
         return oiRepository.findAll();
