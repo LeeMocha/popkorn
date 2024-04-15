@@ -12,6 +12,8 @@ import com.teamstatic.popkornback.entity.Orderinfo;
 import com.teamstatic.popkornback.service.OrderInfoService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RequestMapping("/api/orderinfo")
 @RestController
@@ -47,4 +49,19 @@ public class OrderIndoController {
     public List<Orderinfo> getOrderInfo() {
         return oiService.getOrderInfo();
     }
+
+    @PostMapping("/refundrequest")
+    public boolean postMethodName(@RequestBody Orderinfo entity) {
+        
+        entity.setStatus("refund request");
+        if(oiService.findByImpUid(entity.getImpUid()).size()>0){
+            oiService.save(entity);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    
+
 }

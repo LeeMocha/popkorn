@@ -108,7 +108,7 @@
   flex-direction: column;
   text-align: left;
   margin-top: 5%;
-  margin-bottom: 5%;
+  margin-bottom: 5px;
 }
 
 .inquiryorderimg img {
@@ -214,7 +214,7 @@
 
 .inquiryrefundbtn,
 .inquiryinquirement {
-  width: 22%;
+  width: 120px;
   border: 0px;
   border-radius: 2vw;
   height: 3vw;
