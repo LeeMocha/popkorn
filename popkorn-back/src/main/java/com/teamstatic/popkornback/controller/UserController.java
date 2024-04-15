@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
@@ -22,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
