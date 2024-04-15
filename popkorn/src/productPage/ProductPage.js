@@ -4,6 +4,7 @@ import Category from "./category/Category";
 import Popkornlogo from "./popkornlogo/Popkornlogo";
 import Product from "./product/Product";
 import { apiCall } from "../service/apiService";
+import Footer from "../footer/Footer";
 
 export default function ProductPage() {
     
@@ -54,7 +55,7 @@ export default function ProductPage() {
             <Product currCategorylRef={currCategorylRef} setCurrCategoryl={setCurrCategoryl} currCategorym={currCategorym} productData={productData} setPageState={setPageState}/>
 
             <Popkornlogo/>
-
+            <Footer/>
         </div>
     )
 }

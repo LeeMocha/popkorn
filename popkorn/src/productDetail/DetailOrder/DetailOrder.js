@@ -76,8 +76,9 @@ export default function DetailOrder() {
                 }
             }
         } else {
-            if(window.confirm("Do you want to log in and use it?"));
-            navigate('/authMain');
+            if(window.confirm("Do you want to log in and use it?")){
+                navigate('/authMain');
+            };
         }
     }
 

@@ -5,9 +5,6 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <div className="footer_wrap">
-      <div className="footer-container">
-        <div className="footer-header">
-        </div>
         <div className='footer-flex'>
           <div className="footer-content">
             <div className="footer_menu">
@@ -28,7 +25,6 @@ export default function Footer() {
             <Mainlogo />
           </div>
         </div>
-      </div>
     </div>
   );
 }

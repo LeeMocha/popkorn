@@ -21,17 +21,11 @@ public class AttendanceServiceImple implements AttendanceService {
         aRepository.save(entity);
     };
 
-    public boolean checkAttendanceByDate(String id, LocalDate date){
-
-        System.out.println(aRepository.findByUserIdAndRegdate(id, date));
+    public List<Attendance> checkAttendanceByDate(String id, LocalDate date){
 
         List<Attendance> result = aRepository.findByUserIdAndRegdate(id, date);
 
-        if(result.isEmpty()){
-            return true;
-        }else {
-            return false;
-        }
+        return result;
     }
 
 }
