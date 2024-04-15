@@ -147,8 +147,10 @@
 
 .situationstatusdeliver4 {
   padding-top: 20px;
-  margin: 20px;
-  display: block;
+  width: 180px;
+  height: 120px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .deliveryvalue {

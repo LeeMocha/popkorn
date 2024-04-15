@@ -11,4 +11,6 @@ public interface OrderInfoService {
     public List<Orderinfo> findByEmail(String email);
 
     int countPaid(String buyerEmail, String status);
+
+    public List<Orderinfo> getOrderInfo();
 }

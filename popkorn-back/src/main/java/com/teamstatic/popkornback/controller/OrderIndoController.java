@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,10 +40,15 @@ public class OrderIndoController {
     public List<Integer> countOrdersByStatus(@RequestParam String buyerEmail) {
         List<Integer> count = new ArrayList<>();
         count.add(oiService.countPaid(buyerEmail, "paid"));
+        count.add(oiService.countPaid(buyerEmail, "readyforship"));
         count.add(oiService.countPaid(buyerEmail, "shipping"));
         count.add(oiService.countPaid(buyerEmail, "deliveried"));
         System.out.println(count);
         return count;
     }
 
+    @GetMapping("/orderinfoinquiry")
+    public List<Orderinfo> getOrderInfo() {
+        return oiService.getOrderInfo();
+    }
 }

@@ -378,7 +378,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/update")
+    @PostMapping("/update")
     public User update(@RequestBody User updatedItem) {
         return uservice.save(updatedItem);
     }
