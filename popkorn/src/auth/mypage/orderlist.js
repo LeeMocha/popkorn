@@ -16,7 +16,8 @@ const OrderItem = ({ order, onClick }) => {
         <div className='orderdetailnumber'>Order Number : <span>{order.merchantUid}</span></div><br />
         Buyer name: {order.buyerName} <br />
         Address: {order.buyerAddr} <br />
-        Phone: {order.buyerTel} <br />
+        Phone: {order.buyerTel}
+        <div className='orderinfostatus'>[ {order.status} ] <br/></div>
       </div>
       <div className='orderbtn'>
         <Link to="/refund" state={{id:order.merchantUid}}>
