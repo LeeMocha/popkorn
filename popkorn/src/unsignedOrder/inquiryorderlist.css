@@ -286,20 +286,17 @@
   align-items: center;
 }
 
-.inquirypopup-close-btn {
+.inquirypopup-close-btn{
   position: absolute;
   top: 10px;
   right: 10px;
   background-color: transparent;
   border: none;
-  font-size: 22px;
+  font-size: 40px;
   cursor: pointer;
-  color: white;
-}
-
-.inquirypopup-close-btn:hover {
   color: black;
 }
+
 .order-details-popup {
   position: fixed;
   top: 50%;

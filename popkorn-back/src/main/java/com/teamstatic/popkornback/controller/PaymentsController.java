@@ -31,7 +31,6 @@ import com.teamstatic.popkornback.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 @Slf4j
 @RequestMapping("/api/pay")
@@ -61,7 +60,7 @@ public class PaymentsController {
    @PostMapping("/datatoserver")
    public boolean datatoserver(@RequestBody Map<String, Object> request)
          throws IamportResponseException, IOException {
-            
+
       String imp_uid = (String) request.get("imp_uid");
       String id = (String) request.get("id");
       List<Map<String, Object>> items = (List<Map<String, Object>>) request.get("items");
@@ -105,20 +104,19 @@ public class PaymentsController {
    }
 
    @GetMapping("/orders")
-   public ResponseEntity<List<Orderinfo>> getOrdersById(@RequestParam String buyerEmail) {
-      List<Orderinfo> orders = payService.findById(buyerEmail);
-      return ResponseEntity.ok(orders);
+   public List<Orderinfo> getOrdersById(@RequestParam String buyerEmail) {
+      return payService.findById(buyerEmail);
    }
 
    @PostMapping("/retund")
    public Orderinfo postMethodName(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
 
-      if(oService.findByImpUid(orderinfo.getImpUid()).size() > 0){
+      if (oService.findByImpUid(orderinfo.getImpUid()).size() > 0) {
          iamportClient.cancelPaymentByImpUid(new CancelData(orderinfo.getImpUid(), true));
          orderinfo.setStatus("refund");
-         
+
          return oService.save(orderinfo);
-         
+
       } else {
          return null;
       }
