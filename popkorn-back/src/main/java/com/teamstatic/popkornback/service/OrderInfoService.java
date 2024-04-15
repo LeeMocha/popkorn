@@ -9,4 +9,6 @@ public interface OrderInfoService {
     List<Orderinfo> findByMerchantUid(String merchantUid);
     
     public List<Orderinfo> findByEmail(String email);
+
+    int countPaid(String buyerEmail, String status);
 }

@@ -55,8 +55,8 @@ public class OrderDetailController {
 
     @GetMapping("/emailcheck")
     public ResponseEntity<Boolean> emailcheck(@RequestParam String emailinput) {
-        Optional<User> user = uservice.findById(emailinput);
-        return ResponseEntity.ok(user.isPresent());
+        User user = uservice.findByUserId(emailinput);
+        return ResponseEntity.ok(user != null);
     }
 
     @PostMapping("/makeorderkey")
@@ -84,12 +84,12 @@ public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requ
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
-        Optional<User> user = uservice.findById(emailinput);
+        User user = uservice.findByUserId(emailinput);
 
-        if (user.isPresent()) {
-            String password = user.get().getPassword();
+        if (user != null) {
+            String password = user.getPassword();
             if (passwordEncoder.matches(pwinput, password)) {
-                return ResponseEntity.ok(user.get().getId());
+                return ResponseEntity.ok(user.getId());
             } else {
                 return ResponseEntity.ok("Login failed");
             }
@@ -97,9 +97,5 @@ public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requ
             return ResponseEntity.ok("Login failed");
         }
     }
-
-
-    
-
 
 }

@@ -65,8 +65,8 @@ public class UserServiceImple implements UserService{
         return uRepository.findAll();
     };
 
-	public Optional<User> findById(String id){
-		return uRepository.findById(id);
+	public User findByUserId(String id){
+		return uRepository.findByUserId(id);
 	}
 
     public List<User> findByStatus(String status){

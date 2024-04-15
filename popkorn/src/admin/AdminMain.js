@@ -11,14 +11,15 @@ import StackChart from "./submenu/modules/chart/StackChart";
 import MainEvent from "./submenu/event/MainEvent";
 import SlideEvent from "./submenu/event/SlideEvent";
 import TotalList from "./submenu/stock/TotalList";
-import AdminList from "./submenu/user/AdminList";
 import UserList from "./submenu/user/UserList";
 import StateList from "./submenu/deiliver/StateList";
 import Notices from "./submenu/modules/Notices";
 import Add from "./submenu/stock/Add";
 
 import Send from "./submenu/email/Send";
-import Calendar from "./submenu/modules/Calendar";
+import Attendance from "./submenu/modules/Attendance";
+import Calendar from './submenu/modules/Calendar';
+import DashChart from "./submenu/modules/chart/DashChart";
 
 export default function AdminMain() {
 
@@ -58,9 +59,9 @@ export default function AdminMain() {
             main: "DashBoard",
             subMenu: [{ key: 0, subkey: <i className="xi-chart-pie dicon" onClick={() => toggleIconColor(0)} style={{ color: iconColors[0] }}></i>, component: <PieChart /> }
                 , { key: 1, subkey: <i className="xi-presentation dicon" onClick={() => toggleIconColor(1)} style={{ color: iconColors[1] }}></i>, component: <StackChart /> }
-                , { key: 2, subkey: <i className="xi-chart-line dicon" onClick={() => toggleIconColor(2)} style={{ color: iconColors[2] }}></i>, component: () => { } }
+                , { key: 2, subkey: <i className="xi-chart-line dicon" onClick={() => toggleIconColor(2)} style={{ color: iconColors[2] }}></i>, component: <DashChart/> }
                 , { key: 3, subkey: <i className="xi-dollar dicon" onClick={() => toggleIconColor(3)} style={{ color: iconColors[3] }}></i>, component: <RateChart /> }
-                , { key: 4, subkey: <i className="xi-qr-code dicon" onClick={() => toggleIconColor(4)} style={{ color: iconColors[4] }}></i>, component: () => { } }
+                , { key: 4, subkey: <i className="xi-qr-code dicon" onClick={() => toggleIconColor(4)} style={{ color: iconColors[4] }}></i>, component: <Attendance/>}
                 , { key: 5, subkey: <i className="xi-forum-o dicon" onClick={() => toggleIconColor(5)} style={{ color: iconColors[5] }}></i>, component: <Notices/> }
                 , { key: 6, subkey: <i className="xi-calendar-check dicon" onClick={() => toggleIconColor(6)} style={{ color: iconColors[6] }}></i>, component: <Calendar/> }
                 , { key: 7, subkey: <i className="xi-puzzle dicon" onClick={() => toggleIconColor(7)} style={{ color: iconColors[7] }}></i>, component: () => { } }]

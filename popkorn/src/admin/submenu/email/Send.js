@@ -7,10 +7,33 @@ export default function Send() {
   const [emailTitle, setemailTitle] = useState('');
   const [emailRecipient, setemailRecipient] = useState('');
   const [checkRecipient, setcheckRecipient] = useState(false);
+  const [checkReserve, setcheckReserve] = useState(false);
+  const [reservationData, setReservationData] = useState('');
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await apiCall('/api/user/reserve', "POST", {reservationData : reservationData}, null);
+      console.log('Reservation successful!', response.data);
+    } catch (error) {
+      console.error('Reservation failed!', error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setReservationData({
+      ...reservationData,
+      [name]: value
+    });
+  };
   const handleAllUsersCheck = (event) => {
     setcheckRecipient(event.target.checked);
     setemailRecipient('');
+  };
+
+  const handlereserve = (event) => {
+    setcheckReserve(event.target.checked);
   };
 
   const handleEmailContentChange = (event) => {
@@ -27,8 +50,11 @@ export default function Send() {
 
   const sendEmail = async () => {
     try {
-      const Response = await apiCall('/api/user/mailsend', "POST", { emailTitle: emailTitle, emailContent: emailContent, emailRecipient: emailRecipient }, null);
+      await apiCall('/api/user/mailsend', "POST", { emailTitle: emailTitle, emailContent: emailContent, emailRecipient: emailRecipient }, null);
       alert("Email Send");
+      setemailRecipient('');
+      setEmailContent('');
+      setemailTitle('');
     } catch (error) {
       console.error('오류 발생:', error);
     }
@@ -41,7 +67,7 @@ export default function Send() {
       formData.append('emailContent', emailContent);
       formData.append('emailRecipient', emailRecipient);
 
-      const response = await apiCall('/api/user/sendtoallusers', "POST", formData, null);
+      await apiCall('/api/user/sendtoallusers', "POST", formData, null);
       alert("Email Sent");
       setemailRecipient('');
       setEmailContent('');
@@ -81,10 +107,11 @@ export default function Send() {
           readOnly={checkRecipient}
         />
         <div>
-          All Users (May take some time) &nbsp; <input type="checkbox" className="allusercheck" onChange={handleAllUsersCheck} />
-
+          All Users (May take some time) &nbsp; <input type="checkbox" className="allusercheck" onChange={handleAllUsersCheck} /> <br/>
+          Reverse Sending &nbsp; <input type="checkbox" className="allusercheck" onChange={handlereserve} /> &nbsp;
+          {checkReserve ? <input type="datetime-local" name="reservationTime" value={reservationData.reservationTime} onChange={handleInputChange} className="reservetime" /> : null}
+      
         </div>
-
 
       </div>
       <textarea

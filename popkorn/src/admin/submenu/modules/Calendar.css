@@ -1,11 +1,10 @@
 .calendar {
-    padding: 10px;
-
+    padding: 0px 10px 10px;
     width: 500px;
 }
 
 .calendar_header {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #7de4ff;
 }
 
@@ -14,23 +13,19 @@
     font-size: 1.5rem;
     font-weight: bold;
     color: #FE7CF3;
-    margin-top: 10px;
 }
 
 .monthTitle {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 10px;
-
     color: white;
 }
 
 .month {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     line-height: 1;
     margin: 0 20px;
-
     color: #7de4ff;
     font-weight: bold;
 }
@@ -56,15 +51,14 @@ svg {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
 
     div {
-        padding: 10px;
         text-align: center;
         color: white;
         border: 1px solid white;
         font-weight: bold;
-        height: 40px;
+        height: 20px;
         border-radius: 10px;
         font-size: 1rem;
         display: flex;
@@ -77,11 +71,11 @@ svg {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
-    margin-top: 10px;
+    margin-top: 5px;
 
     >div {
         border: 1px solid white;
-        height: 100px;
+        height: 80px;
         color: white;
 
         .topLine {

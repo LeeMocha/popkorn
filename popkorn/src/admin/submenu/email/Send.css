@@ -1,6 +1,6 @@
 .emailcontent-Textarea {
   width: 90%;
-  height: 70%;
+  height: 63%;
   outline: none;
   resize: none;
   margin-left: 45px;
@@ -12,7 +12,8 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-.emailTitle-Input, .Recipient-Input {
+.emailTitle-Input,
+.Recipient-Input {
   vertical-align: middle;
   width: 70%;
   height: 32px;
@@ -38,20 +39,21 @@
   text-align: center;
 }
 
-.emailTitle-Input::placeholder, .Recipient-Input::placeholder {
+.emailTitle-Input::placeholder,
+.Recipient-Input::placeholder {
   text-align: center;
 }
 
 .stateEmail {
   width: 95%;
-    border: 1px solid #b6b6b6;
-    height: 95%;
-    border-radius: 5px;
-    margin-top: 20px;
-    background: rgba(148, 147, 147, 0.53);
-    margin-left: 20px;
-    margin-right: 20px;
-    color: white;
+  border: 1px solid #b6b6b6;
+  height: 95%;
+  border-radius: 5px;
+  margin-top: 20px;
+  background: rgba(148, 147, 147, 0.53);
+  margin-left: 20px;
+  margin-right: 20px;
+  color: white;
 }
 
 .EmailHeader {
@@ -64,7 +66,8 @@
   padding-left: 25px;
 }
 
-.recipientemail, .emailtitle {
+.recipientemail,
+.emailtitle {
   margin-left: 30px;
 }
 
@@ -73,6 +76,7 @@
   justify-content: space-around;
   align-items: center;
 }
+
 .sendemailbtn {
   width: 120px;
   height: 40px;
@@ -120,11 +124,16 @@
   margin-left: 5px;
   border: 0px;
   color: red;
-  background-color:transparent;
+  background-color: transparent;
   cursor: pointer;
 }
 
 .allusercheck {
   margin-bottom: 30px;
   padding-left: 50px;
+}
+
+.reservetime {
+  display: block;
+  font: 1rem 'Fira Sans', sans-serif;
 }

@@ -40,7 +40,7 @@ export default function FindOrderNum() {
 
     if (!isValidEmail && newEmailValue.length > 0) {
       setEmailinfo('Invalid Email type');
-    } else if (!isEmailValid && newEmailValue.length > 1) {
+    } else if (isEmailValid && newEmailValue.length > 1) {
       setEmailinfo('Email already exists. If you are a member, please use MyPage');
     } else {
       setEmailinfo('');

@@ -241,3 +241,46 @@
   font-weight: bold;
   word-break: keep-all;
 }
+
+.moreviewbtn {
+  font-family: 'TmoneyRoundWindExtraBold';
+  border: 0px;
+  width: 80%;
+  height: 50px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
+  cursor: pointer;
+  vertical-align: center;
+  font-size: 25px;
+  color: white
+}
+
+.moreviewbtn:hover {
+  background: white;
+  color: #7de4ff;
+  border: 2px solid #fbc2eb;
+  box-shadow: 0 0.5em 0.5em -0.4em #fe7cf3;
+  transition: 0.7s;
+
+}
+
+.moreviewdiv {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.orderlistno {
+  font-family: 'TmoneyRoundWindExtraBold';
+  width: 70%;
+  text-align: center;
+  margin-top: 200px;
+  font-size: 23px;
+  color: #7de4ff;
+}
+
+.orderinfostatus {
+  font-size: 22px;
+  font-weight: bold;
+}
