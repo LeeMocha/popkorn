@@ -39,8 +39,7 @@ export const Resetpassword = ({ backprocess, resetprocess, emailinput, pwinput }
         emailinput: emailinput,
         pwinput: newpassword
       }, null);
-      if (response.status === 200) {
-        console.log('비밀번호 변경 성공');
+      if (response.data === "비밀번호 변경 성공") {
       } else {
         console.log('비밀번호 변경 실패');
       }
