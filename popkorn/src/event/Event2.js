@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useState } from "react";
 import Event2Detail from "./Event2Detail";
 import { Link } from 'react-router-dom';
-
+import { apiCall } from "../service/apiService";
 export default function Event2() {
 
    const imageSrc = process.env.PUBLIC_URL + "/event2IMG/";
