@@ -22,6 +22,7 @@ public class Orderinfo {
     
     @Id
     private String merchantUid;
+    private String impUid;
     private String buyerName;
     private String buyerEmail;
     private String buyerAddr;

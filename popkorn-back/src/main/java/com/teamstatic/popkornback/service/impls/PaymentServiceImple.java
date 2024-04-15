@@ -38,6 +38,7 @@ public class PaymentServiceImple implements PaymentService {
             // 결제 요청에 문제가 없어 Payment 테이블에 주문 내역 정보 저장.
             Orderinfo orderinfoEntity = Orderinfo.builder()
                     .merchantUid(payment.getMerchantUid())
+                    .impUid(payment.getImpUid())
                     .buyerName(payment.getBuyerName())
                     .buyerEmail(payment.getBuyerEmail())
                     .buyerAddr(payment.getBuyerAddr())

@@ -16,11 +16,12 @@ export default function Refund() {
     const [items, setProduct] = useState([]);
     const [selectAll, setSelectAll] = useState(false); // 전체상품체크 초기화
     const [selectCheck, setSelectCheck] = useState([]); // 각 각의 상품체크 초기화
-    const [orderinfo, setOderinfo] = useState({});
+    const [orderinfo, setOderinfo] = useState([{}]);
 
     useEffect(() => {
         apiCall(`/api/orderinfo/findByMerchantUid?merchantUid=${id}`, "GET", null, null)
             .then(response => {
+                console.log(response.data)
                 setOderinfo(response.data)
             }).catch(err => console.log(err))
 
@@ -66,18 +67,21 @@ export default function Refund() {
         }
     };
 
-    // 주문 페이지로 이동
     function refundrConfirm() {
         if (window.confirm('Are you sure you to refund?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
             const selectedItems = items.filter((item, index) => selectCheck[index]);
-            console.log(selectedItems);
-            // 선택된 상품들이 있는지 확인
+
+            // 선택s된 상품들이 있는지 확인
             if (selectedItems.length > 0) {
-                // 주문 페이지로 이동하며 선택된 상품들을 함께 전달
-                // navigate('/Order', { state: { items: selectedItems } });
+                apiCall("/api/pay/retund","POST", orderinfo[0], null)
+                .then(response => {
+
+                })
+                .catch( err => console.log(err))
+
             } else {
-                alert('Please select a product.');
+                alert('Please select All products.');
             }
         }
     }
@@ -94,18 +98,16 @@ export default function Refund() {
                 <div className='CartListFromDiv'>
                     <h1 style={{ color: ' #7de4ff' }}>Refund</h1>
                     <br></br>
-                    <h4>Order number : <span> {orderinfo.merchantUid} </span></h4>
-                    <h4>Order date : <span>  {orderinfo.paidAt} </span></h4>
-                    <h4>Order address : <span> {orderinfo.buyerAddr} </span></h4>
+                    <h4>Order number : <span> {orderinfo[0].merchantUid} </span></h4>
+                    <h4>Order date : <span>  {orderinfo[0].paidAt} </span></h4>
+                    <h4>Order address : <span> {orderinfo[0].buyerAddr} </span></h4>
                     <br></br>
                     <div className='container'>
                         {items.length !== 0 && (
-                            <>
                                 <label>
                                     <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
                                     <span style={{ color: '#FE7CF3' }}>Select All</span>
                                 </label>
-                            </>
                         )}
                     </div>
 
