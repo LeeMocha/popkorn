@@ -28,4 +28,8 @@ public class AttendanceServiceImple implements AttendanceService {
         return result;
     }
 
+    public List<Attendance> findAll() {
+        return aRepository.findAll();
+    }
+
 }
