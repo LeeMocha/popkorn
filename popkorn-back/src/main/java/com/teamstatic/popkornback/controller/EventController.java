@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 public class EventController {
     EventService eService;
 
-    @GetMapping("eventlist")
+    @GetMapping("/eventlist")
     public List<Event> eventList() {
         return eService.findAll();
     }
