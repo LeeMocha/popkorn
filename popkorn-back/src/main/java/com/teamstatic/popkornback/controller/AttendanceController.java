@@ -93,9 +93,12 @@ public class AttendanceController {
         }
     }
 
-    // public List<Attendance> findAll() {
-    //     return aService.findAll();
-    // }
+    @GetMapping("/findall")
+    public ResponseEntity<List<Attendance>> findAll() {
+        List<Attendance> attendanceList = aService.findAll();
+
+        return ResponseEntity.status(HttpStatus.OK).body(attendanceList);
+    }
     
 
 }

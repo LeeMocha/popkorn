@@ -11,4 +11,6 @@ public interface AttendanceService {
 
     List<Attendance> checkAttendanceByDate(String id, LocalDate date);
 
+    List<Attendance> findAll();
+
 }
