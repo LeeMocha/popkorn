@@ -83,6 +83,8 @@ public class UserController {
     @GetMapping("/searchlist")
     public PageResultDTO<UserDTO, User> searchlist(String keyword, int page) {
 
+        System.out.println("***********" + keyword);
+
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)
                 .size(20)

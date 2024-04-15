@@ -23,6 +23,7 @@ import com.teamstatic.popkornback.entity.Orderinfo;
 
 import com.teamstatic.popkornback.service.CartService;
 import com.teamstatic.popkornback.service.OrderDetailService;
+import com.teamstatic.popkornback.service.OrderInfoService;
 import com.teamstatic.popkornback.service.PaymentService;
 import com.teamstatic.popkornback.service.ProductService;
 import com.teamstatic.popkornback.service.UserService;
@@ -49,6 +50,8 @@ public class PaymentsController {
    CartService cService;
    @Autowired
    UserService uService;
+   @Autowired
+   OrderInfoService oService;
 
    private PaymentsController() {
       this.iamportClient = new IamportClient("3803508415015286",
@@ -105,6 +108,21 @@ public class PaymentsController {
    public ResponseEntity<List<Orderinfo>> getOrdersById(@RequestParam String buyerEmail) {
       List<Orderinfo> orders = payService.findById(buyerEmail);
       return ResponseEntity.ok(orders);
+   }
+
+   @PostMapping("/retund")
+   public Orderinfo postMethodName(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
+         System.out.println(oService.findByImpUid(orderinfo.getImpUid()));
+      if(oService.findByImpUid(orderinfo.getImpUid()).size() > 0){
+         iamportClient.cancelPaymentByImpUid(new CancelData(orderinfo.getImpUid(), true));
+         System.out.println(orderinfo);
+         System.out.println("*****");
+         orderinfo.setStatus("refund");
+         
+         return oService.save(orderinfo);
+      } else {
+         return null;
+      }
    }
 
 }

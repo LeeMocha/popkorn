@@ -110,14 +110,17 @@ export default function Calendar() {
                                 <div className="topLine">
                                     <span className={`${today ? "today" : "day"}`}>{format(v, "d")}</span>
                                 </div>
-                                <div>
+                                <div className="bottomLine">
                                     {attendanceList.filter(item => format(new Date(item.regdate), "yyyyMMdd") === format(v, "yyyyMMdd")).map((item, index) => {
                                         const emailParts = item.id.split("@");
                                         const emailPrefix = emailParts[0];
                                         return (
-                                            <span key={`attendance${index}`} className={`${item.status}`}>
-                                                {emailPrefix}
-                                            </span>
+                                            <>
+                                                <span key={`attendance${index}`} id={`attendanceid`} className={`${item.status}`}>
+                                                    {emailPrefix}
+                                                </span>
+                                                <br></br>
+                                            </>
                                         )
                                     }
                                     )}

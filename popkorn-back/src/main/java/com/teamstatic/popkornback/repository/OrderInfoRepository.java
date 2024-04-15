@@ -15,5 +15,7 @@ public interface OrderInfoRepository extends JpaRepository<Orderinfo, String>{
 
     int countByBuyerEmailAndStatus(String buyerEmail, String status);
 
+    List<Orderinfo> findByImpUid(String impUid);
+
 }
 

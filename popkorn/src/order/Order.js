@@ -4,11 +4,9 @@ import Header from '../header/Header';
 import './Order.css';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import OrderComplete from '../order/OrderComplete';
 
 import PopkornBtn from '../useModules/PopkornBtn';
 import { apiCall } from '../service/apiService';
-import { Logincontext } from '../App';
 
 export default function Order() {
     window.onbeforeunload = null;
