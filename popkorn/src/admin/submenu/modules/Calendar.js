@@ -1,7 +1,7 @@
 import "./Calendar.css";
 
 // import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     format,
     addMonths,
@@ -16,6 +16,7 @@ import {
     isSaturday,
     isSunday,
 } from "date-fns";
+import { apiCall } from "../../../service/apiService";
 
 export default function Calendar() {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -39,6 +40,16 @@ export default function Calendar() {
         }
         return monthArray;
     }, [startDate, endDate]);
+
+    useEffect(()=>{
+        apiCall("/api/attendance/findAll")
+        .then(response => {
+            
+        })
+        .catch()
+    },[])
+
+
     return (
         <>
         <section className="calendar">
@@ -95,8 +106,10 @@ export default function Calendar() {
                             style={style}
                         >
                             <div className="topLine">
-                                <span className="day">{format(v, "d")}</span>
-                                {today && <span className="today"></span>}
+                                <span className={`${today?"today":"day"}`}>{format(v, "d")}</span>
+                            </div>
+                            <div>
+
                             </div>
                         </div>
                     );
