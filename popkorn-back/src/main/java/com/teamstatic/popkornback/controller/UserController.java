@@ -13,9 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -104,7 +101,7 @@ public class UserController {
 
     @GetMapping("/selectone")
     public User selectone(@RequestParam String id) {
-        System.out.println("****"+id);
+        System.out.println("****" + id);
         User user = uservice.findByUserId(id);
 
         if (user != null) {
@@ -116,9 +113,9 @@ public class UserController {
 
     @GetMapping("/emailcheck")
     public String emailcheck(@RequestParam String emailinput) {
-        System.out.println("****"+emailinput);
+        System.out.println("****" + emailinput);
         User user = uservice.findByUserId(emailinput);
-        System.out.println("///////////////////////////"+user);
+        System.out.println("///////////////////////////" + user);
 
         if (user != null) {
             return "success";
@@ -187,7 +184,7 @@ public class UserController {
     }
 
     @PostMapping("/updatepassword")
-    public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> requestBody) {
+    public String updatePassword(@RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
         User optionalUser = uservice.findByUserId(emailinput);
@@ -199,17 +196,17 @@ public class UserController {
 
             try {
                 uservice.save(user);
-                return ResponseEntity.ok("비밀번호 변경 성공");
+                return "비밀번호 변경 성공";
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
+                return "비밀번호 변경 실패";
             }
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+            return "사용자를 찾을 수 없습니다.";
         }
     }
 
     @PostMapping("/passwordcheck")
-    public ResponseEntity<Boolean> passwordCheck(@RequestBody Map<String, Object> request) {
+    public Boolean passwordCheck(@RequestBody Map<String, Object> request) {
         String currentpw = (String) request.get("currentpw");
         String userId = (String) request.get("userId");
         if (userId != null) {
@@ -217,17 +214,17 @@ public class UserController {
             if (userOptional != null) {
                 User user = userOptional;
                 boolean passwordMatch = passwordEncoder.matches(currentpw, user.getPassword());
-                return ResponseEntity.ok(passwordMatch);
+                return passwordMatch;
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+                return false;
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+            return false;
         }
     }
 
     @PostMapping("/redesignpassword")
-    public ResponseEntity<String> redesignpassword(@RequestBody Map<String, Object> request) {
+    public String redesignpassword(@RequestBody Map<String, Object> request) {
 
         String userId = (String) request.get("userId");
         String newpassword = (String) request.get("newpassword");
@@ -238,38 +235,38 @@ public class UserController {
             user.setPassword(encodedPassword);
             try {
                 uservice.save(user);
-                return ResponseEntity.ok("Change Password Complete");
+                return "Change Password Complete";
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Change Password Failed. Please retry.");
+                return "Change Password Failed. Please retry.";
             }
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+            return "사용자를 찾을 수 없습니다.";
         }
     }
 
     @PostMapping("/updatenickname")
-    public ResponseEntity<String> updatenickname(HttpSession session, @RequestParam String email,
+    public String updatenickname(HttpSession session, @RequestParam String email,
             @RequestParam String nickname) {
         User userOptional = uservice.findByUserId(email);
         User user = userOptional;
         user.setNickname(nickname);
         try {
             uservice.save(user);
-            return ResponseEntity.ok(user.getNickname());
+            return user.getNickname();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임 변경 실패");
+            return "닉네임 변경 실패";
         }
     }
 
     @GetMapping("/{email}/nickname")
-    public ResponseEntity<String> getUserNickname(@PathVariable String email) {
+    public String getUserNickname(@PathVariable String email) {
         User userOptional = uservice.findByUserId(email);
         User user = userOptional;
-        return ResponseEntity.ok(user.getNickname());
+        return user.getNickname();
     }
 
     @GetMapping("/{email}/nickname-reword")
-    public ResponseEntity<Map<String, Object>> getUserNicknameAndReword(@PathVariable String email) {
+    public Map<String, Object> getUserNicknameAndReword(@PathVariable String email) {
         User userOptional = uservice.findByUserId(email);
         User user = userOptional;
 
@@ -277,19 +274,19 @@ public class UserController {
         responseData.put("nickname", user.getNickname());
         responseData.put("reword", user.getReword());
 
-        return ResponseEntity.ok(responseData);
+        return responseData;
     }
 
     @DeleteMapping("/withdraw")
-    public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> request) {
+    public String withdraw(@RequestBody Map<String, Object> request) {
         String userId = (String) request.get("userId");
 
         try {
             uservice.deleteById(userId);
             session.invalidate();
-            return ResponseEntity.ok("회원 탈퇴 성공");
+            return "회원 탈퇴 성공";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴중 오류 발생");
+            return "탈퇴중 오류 발생";
         }
     }
 
@@ -300,7 +297,7 @@ public class UserController {
     }
 
     @PostMapping("/resetpassword")
-    public ResponseEntity<String> resetpassword(@RequestBody Map<String, Object> request) {
+    public String resetpassword(@RequestBody Map<String, Object> request) {
 
         String ordernuminput = (String) request.get("ordernuminput");
         String newpassword = (String) request.get("newpassword");
@@ -311,32 +308,32 @@ public class UserController {
             user.setPassword(encodedPassword);
             try {
                 uservice.save(user);
-                return ResponseEntity.ok("Change Password Complete");
+                return "Change Password Complete";
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Change Password Failed. Please retry.");
+                return "Change Password Failed. Please retry.";
             }
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+            return "사용자를 찾을 수 없습니다.";
         }
     }
 
     @PostMapping("/mailsend")
-    public ResponseEntity<String> sendEmail(@RequestBody Map<String, String> requestData) {
+    public String sendEmail(@RequestBody Map<String, String> requestData) {
         String emailRecipient = requestData.get("emailRecipient");
         String emailTitle = requestData.get("emailTitle");
         String emailContent = requestData.get("emailContent");
 
         try {
             registerMail.sendEmail(emailRecipient, emailTitle, emailContent);
-            return ResponseEntity.ok("Email sent successfully");
+            return "Email sent successfully";
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
+            return "Failed to send email";
         }
     }
 
     @PostMapping("/sendtoallusers")
-    public ResponseEntity<String> sendtoallusers(@RequestBody Map<String, String> requestData) {
+    public String sendtoallusers(@RequestBody Map<String, String> requestData) {
         String emailTitle = requestData.get("emailTitle");
         String emailContent = requestData.get("emailContent");
 
@@ -354,11 +351,11 @@ public class UserController {
                 registerMail.sendEmail(user.getId(), emailTitle, emailContent);
             } catch (Exception e) {
                 e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email");
+                return "Failed to send email";
             }
         }
 
-        return ResponseEntity.ok("Email sent successfully");
+        return "Email sent successfully";
     }
 
     private boolean isNotEmailFormat(String input) {
@@ -367,13 +364,13 @@ public class UserController {
     }
 
     @GetMapping("/rewordcheck")
-    public ResponseEntity<String> rewordcheck(@RequestParam String storedLoginID) {
+    public String rewordcheck(@RequestParam String storedLoginID) {
         User user = uservice.findByUserId(storedLoginID);
         if (user != null) {
             int reword = user.getReword();
-            return ResponseEntity.ok(reword + "");
+            return reword + "";
         } else {
-            return ResponseEntity.ok("failed");
+            return "failed";
         }
     }
 
@@ -381,6 +378,23 @@ public class UserController {
     public User update(@RequestBody User updatedItem) {
         return uservice.save(updatedItem);
     }
-    
+
+    @PostMapping("/reducereword")
+public String reducereword(@RequestBody Map<String, String> requestData) {
+    Integer useReword = Integer.parseInt(requestData.get("useReword"));
+    String storedLoginID = requestData.get("storedLoginID");
+
+    User user = userRepository.findByUserId(storedLoginID);
+
+    if (user != null) {
+        int reword = user.getReword();
+        user.setReword(reword - useReword);
+        userRepository.save(user);
+
+        return "rewords reduce";
+    } else {
+        return "User not found";
+    }
+}
 
 }
