@@ -18,7 +18,6 @@ import React from 'react';
 import  {OrderComplete}  from './order/OrderComplete';
 import { apiCall } from './service/apiService';
 import Refund from './refund/Refund';
-import Attendance from './attendance/Attendance';
 
 
 
@@ -76,7 +75,6 @@ apiCall(`/api/user/selectone?id=${storedLoginID}`, "GET", null, null)
           <Route path='/unsignedorder' Component={UnsignedOrder}></Route>
           {/* <Route path='/searchorder' element={SearchOrder}/> */}
           <Route path='/refund' Component={Refund}/>
-          <Route path='/attendance' Component={Attendance}/>
         </Routes>
       </BrowserRouter>
       <TBBtn/>

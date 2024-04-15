@@ -6,6 +6,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,14 +19,15 @@ import com.teamstatic.popkornback.service.AttendanceService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 
 @CrossOrigin("*")
 @Controller
 @RequestMapping("/api/attendance")
 @AllArgsConstructor
-@RestController
 public class AttendanceController {
 
     AttendanceService aService;
@@ -76,18 +79,18 @@ public class AttendanceController {
     
 
     @GetMapping("/check")
-    public List<Attendance> attendanceCheck(String id) {
+    @ResponseBody
+    public ResponseEntity<List<Attendance>> attendanceCheck(@RequestParam String id) {
         ZonedDateTime seoulTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime seoulLocalDateTime = seoulTime.toLocalDateTime();
 
         List<Attendance> entity = aService.checkAttendanceByDate(id, seoulLocalDateTime.toLocalDate());
 
         if(entity.size() > 0){
-            return entity;
+            return ResponseEntity.status(HttpStatus.OK).body(entity);
         } else {
-            return null;
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         }
-
     }
 
     // public List<Attendance> findAll() {
