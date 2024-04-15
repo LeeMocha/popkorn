@@ -1,5 +1,8 @@
 package com.teamstatic.popkornback.domain;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +16,8 @@ import lombok.ToString;
 @Data
 public class EventDTO {
     private int ecode;
-    private Data startData;
-    private Data endData;
+    private LocalDate startdata;
+    private LocalDate enddata;
     private String title;
     private int type;
     private String image1;
