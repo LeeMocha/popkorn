@@ -62,7 +62,7 @@ export default function Event2() {
                   eventData.map((item, i) => {
                      return (
                         <div key={i} className="event2_slide_container">
-                           <img src={item.image1} alt="event2_IMG" className="event2_IMG" />
+                           <img src={imageSrc+item.image1} alt="event2_IMG" className="event2_IMG" />
                            <span className="event2_span1">
                               {item.title}</span><br></br>
                            <span className="event2_span2">{item.startdate}</span>

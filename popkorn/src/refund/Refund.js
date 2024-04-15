@@ -76,7 +76,12 @@ export default function Refund() {
             if (selectedItems.length > 0) {
                 apiCall("/api/pay/retund","POST", orderinfo[0], null)
                 .then(response => {
-
+                    if(response.data != null){
+                        alert("The refund has been processed successfully. Redirecting to the main page.");
+                        navigate("/");
+                    } else {
+                        alert("The refund failed. Please contact the administrator due to a server issue.")
+                    }
                 })
                 .catch( err => console.log(err))
 
