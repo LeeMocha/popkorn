@@ -1,31 +1,11 @@
 .footer_wrap {
-  height: 400px;
   background: white;
-}
-
-.footer-container {
-  height: 200px;
-  padding-top: 30px;
-  font-size: 18px;
-  width: 100%;
-  padding-bottom: 50px;
+  background: transparent;
   margin-top: 40px;
 }
 
-.footer-header {
-  margin-left: 120px;
-  margin-right: 100px;
-  padding-bottom: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  margin-right: auto;
-}
-
-.footer-content {
-  color: #8e8e8e;
-  margin-top: 40px;
-  flex: 1;
-  margin-left: 100px;
+.footer-content{
+  margin: 40px 0 40px 100px;
 }
 
 .footer-flex {
@@ -34,7 +14,6 @@
   border-top: 2px solid rgba(214, 212, 212, 0.5);
   display: flex;
   align-items: center;
-  padding: 20px;
   margin: 0 auto;
 }
 
