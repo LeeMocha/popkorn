@@ -63,23 +63,65 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
       if (isUpdate) {
          // 데이터 업데이트 로직 수행
 
-         console.log(inputData)
-
          const updatedItem = {}; // item 객체의 복사본을 만듭니다.
          commonColumns.forEach((columnName, index) => {
             updatedItem[columnName] = inputData[index]; // 각 필드에 inputData의 값을 할당합니다.
          });
          
-         console.log(updatedItem)
-
          apiCall(`/api/${entity}/update`, "POST", updatedItem, null)
             .then(response => {
                setUpdateItem(response.data)
                setIsUpdate(false)
+
+               if(entity==="user"){
+                  // 데이터 업데이트 후 해당 데이터 다시 가져오기
+                  apiCall(`/api/${entity}/searchlist?page=1&size=20&keyword=`, "GET", null, null)
+                      .then(response => {
+                       setDataState({
+                          ...response.data,
+                          pageData: {
+                             page: response.data.page,
+                             size: response.data.size,
+                             prev: response.data.prev,
+                             next: response.data.next,
+                             start: response.data.start,
+                             end: response.data.end,
+                             pageList: response.data.pageList,
+                             totalPage: response.data.totalPage
+                          }
+                       });
+                       setPageState(response.data.page);
+                      })
+                      .catch(error => {
+                          console.error('Error fetching updated data:', error);
+                      });
+                     } else if (entity ==='product') {
+                  apiCall(`/api/${entity}/searchlist?categoryl=all&categorym=&page=1&size=20&keyword=`, "GET", null, null)
+                      .then(response => {
+                        setDataState({
+                           servData: response.data.dtoList,
+                           pageData: {
+                              page: response.data.page,
+                              size: response.data.size,
+                              prev: response.data.prev,
+                              next: response.data.next,
+                              start: response.data.start,
+                              end: response.data.end,
+                              pageList: response.data.pageList,
+                              totalPage: response.data.totalPage,
+                              dashboard1 : response.data.dashboard1,
+                              dashboard2 : response.data.dashboard2,
+                              dashboard3 : response.data.dashboard3,
+                              dashboard4 : response.data.dashboard4,
+                           }
+                        })  
+                      })
+                      .catch(error => {
+                          console.error('Error fetching updated data:', error);
+                      });
+               }
             })
-            .catch(err =>
-               console.log(err)
-            )
+            .catch(err => console.log(err));
 
       } else {
 

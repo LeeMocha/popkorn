@@ -11,4 +11,10 @@ public interface OrderInfoService {
     public List<Orderinfo> findByEmail(String email);
 
     int countPaid(String buyerEmail, String status);
+
+    List<Orderinfo> findByImpUid(String impUid);
+
+    Orderinfo save(Orderinfo entity);
+
+    public List<Orderinfo> getOrderInfo();
 }

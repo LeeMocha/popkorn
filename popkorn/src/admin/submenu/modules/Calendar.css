@@ -101,3 +101,24 @@ svg {
     }
 }
 
+#attendanceid{
+    font-size: 10px;
+    margin: 0;
+}
+
+#attendanceid.attendance{
+    color: rgb(13, 231, 13);
+}
+
+#attendanceid.late{
+    color: rgb(247, 180, 34);
+}
+
+#attendanceid.absence{
+    color: crimson;
+}
+
+.bottomLine{
+    white-space: pre-wrap; /* 텍스트가 넘칠 때 개행되도록 설정 */
+    line-height: 0.7;
+}
