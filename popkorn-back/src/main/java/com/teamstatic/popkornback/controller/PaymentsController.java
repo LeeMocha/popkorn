@@ -112,14 +112,13 @@ public class PaymentsController {
 
    @PostMapping("/retund")
    public Orderinfo postMethodName(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
-         System.out.println(oService.findByImpUid(orderinfo.getImpUid()));
+
       if(oService.findByImpUid(orderinfo.getImpUid()).size() > 0){
          iamportClient.cancelPaymentByImpUid(new CancelData(orderinfo.getImpUid(), true));
-         System.out.println(orderinfo);
-         System.out.println("*****");
          orderinfo.setStatus("refund");
          
          return oService.save(orderinfo);
+         
       } else {
          return null;
       }
