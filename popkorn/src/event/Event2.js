@@ -20,20 +20,20 @@ export default function Event2() {
       content: ""
    });
 
-   useEffect(() => {
-      apiCall(`/api/event/eventlist`, "GET", null, null).then(response => {
-         setEventData({
-            startData: response.data.startData,
-            endData: response.data.endData,
-            title: response.data.title,
-            type: response.data.type,
-            image1: response.data.image1,
-            content: response.data.content
-         })
-      }).catch(err => {
-         console.log("Event2 apiCall ERROR => "+err);
-      })
-   }, [])
+   // useEffect(() => {
+   //    apiCall(`/api/event/eventlist`, "GET", null, null).then(response => {
+   //       setEventData({
+   //          startData: response.data.startData,
+   //          endData: response.data.endData,
+   //          title: response.data.title,
+   //          type: response.data.type,
+   //          image1: response.data.image1,
+   //          content: response.data.content
+   //       })
+   //    }).catch(err => {
+   //       console.log("Event2 apiCall ERROR => "+err);
+   //    })
+   // }, [])
 
    const data = [
       {
