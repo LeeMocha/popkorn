@@ -4,15 +4,22 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.UserDTO;
+import com.teamstatic.popkornback.domain.UserRole;
 import com.teamstatic.popkornback.entity.User;
+import com.teamstatic.popkornback.jwtToken.TokenProvider;
 import com.teamstatic.popkornback.repository.UserRepository;
 import com.teamstatic.popkornback.service.impls.RegisterMail;
 import com.teamstatic.popkornback.service.impls.UserServiceImple;
@@ -44,6 +53,7 @@ public class UserController {
     UserServiceImple uservice;
     PasswordEncoder passwordEncoder;
     RegisterMail registerMail;
+    TokenProvider tokenProvider;
 
     @Autowired
     private UserRepository userRepository;
@@ -125,7 +135,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+    public UserDTO login(HttpSession session, @RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
@@ -134,13 +144,19 @@ public class UserController {
         if (user != null) {
             String password = user.getPassword();
             if (passwordEncoder.matches(pwinput, password)) {
-                session.setAttribute("loginID", user.getId());
-                return user.getId();
+                final String token = tokenProvider.createToken(user.claimList());
+                final UserDTO userDTO = UserDTO.builder()
+                        .token(token)
+                        .id(user.getId())
+                        .roleList(user.getRoleList())
+                        .build();
+                return userDTO;
+
             } else {
-                return "Login failed";
+                return null;
             }
         } else {
-            return "Login failed: User not found";
+            return null;
         }
     }
 
@@ -162,6 +178,8 @@ public class UserController {
         user.setNickname(dto.getNickname());
         user.setCreatedate(seoulLocalDateTime);
         user.setStatus("signed");
+
+        user.addRole(UserRole.USER);
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
 
@@ -397,4 +415,23 @@ public String reducereword(@RequestBody Map<String, String> requestData) {
     }
 }
 
+@PostMapping("/authcheck")
+    public Boolean postMethodName() {
+        // SecurityContext에서 Authentication 객체를 가져옵니다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 인증된 사용자의 권한을 가져옵니다.
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        // 권한 정보를 문자열로 변환하여 List<String>으로 가져옵니다.
+        List<String> roleList = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        System.out.println(roleList);
+
+        // "ROLE_MANAGER" 이상의 권한이 있는 경우 true를 반환합니다.
+        return roleList.contains("ROLE_MANAGER");
+
+    }
 }

@@ -1,8 +1,10 @@
 package com.teamstatic.popkornback.domain;
 
 
-import org.hibernate.annotations.CreationTimestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +20,12 @@ import lombok.ToString;
 public class UserDTO {
 
     private String id;
-
+	private String token;
     private String password;
     private String nickname;
     private int reword;
     @CreationTimestamp
     private String createdate;
     private String status;
+    private List<UserRole> roleList = new ArrayList<>();
 }

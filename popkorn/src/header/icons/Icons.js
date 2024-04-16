@@ -1,12 +1,12 @@
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Logincontext } from './../../App';
 import { apiCall } from "../../service/apiService";
 export default function Icons({isScrolled}) {
 
    const [isLoggedIn, setIsloggedIn] = useContext(Logincontext);
-
+   const [isAdmin, setIsAdmin] = useState(false);
 
    const loginID = sessionStorage.getItem('loginID');
    const logOut = async () => {
@@ -18,6 +18,7 @@ export default function Icons({isScrolled}) {
         await apiCall('/api/user/logout', "GET", null, null);
         alert(`로그아웃 되었습니다.`);
         sessionStorage.removeItem('loginID');
+        sessionStorage.removeItem('token');
         setIsloggedIn(false);
         window.location.href='/'
       } catch (error) {
@@ -26,8 +27,21 @@ export default function Icons({isScrolled}) {
       }
     };
 
+    useEffect(()=>{
+      apiCall("/api/user/authcheck", "POST", null, sessionStorage.getItem("token"))
+      .then(response => {
+        setIsAdmin(response.data)
+      })
+      .catch()
+    }, [])
+
    return (
       <div className={`icons_wrap ${isScrolled? 'fade-out' : ''}`}>
+        {
+          !isAdmin ?
+          <></>:
+         <Link to='/adminMain'><i className="xi-home-o"></i></Link>
+        }
          <Link to={isLoggedIn?'/MyPageMain':'/AuthMain'}><i className="xi-user-o"></i></Link>
          <Link to="/cart"><i className="xi-cart-o"></i></Link>
          <i className="xi-log-out" onClick={logOut} ></i>

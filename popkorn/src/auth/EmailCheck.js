@@ -38,14 +38,15 @@ export const EmailCheck = () => {
         emailinput: emailinput,
         pwinput: pwinput
       }, null);
-      const userID = loginResponse.data;
       if (loginResponse.status !== 200 || loginResponse.data === "Login failed") {
         setpwInput('');
         alert('Invalid Password. Please check your Email or Password.');
         return;
       }
-      sessionStorage.setItem('loginID', userID);
-      alert(`Welcome to PopKorn, ${userID}`);
+      console.log(loginResponse.data.token)
+      sessionStorage.setItem('loginID', loginResponse.data.id);
+      sessionStorage.setItem('token', loginResponse.data.token);
+      alert(`Welcome to PopKorn, ${loginResponse.data.id}`);
       window.location.href = '/';
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);
