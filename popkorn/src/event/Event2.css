@@ -41,7 +41,7 @@
 }
 
 .event2_IMG {
-   width: auto;
+   width: 33vw;
 }
 
 .event2_span_wrap {
@@ -65,4 +65,42 @@
    color: #656565;
    font-size: 16px;
    text-align: right;
+}
+
+.modal_container {
+   position: fixed;
+   top: 50%; /* 화면 세로 중앙 */
+   left: 50%; /* 화면 가로 중앙 */
+   transform: translate(-50%, -50%);
+   width: 1000px; /* 모달 너비 */
+   height: 800px; /* 모달 높이 */
+   z-index: 10;
+   /* border: solid 1px; */
+   background-color: rgba(128, 128, 128, 0.5); /* 회색 배경에 50% 오퍼시티 */
+}
+
+.modal_content {
+   /* position: relative; */
+
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100%; /* 부모 요소의 높이에 맞게 */
+   overflow-y: auto;
+
+}
+
+.close_btn {
+   position: absolute;
+
+   width: 50px;
+   height: 30px;
+
+   bottom: 10px;
+   right: 10px;
+
+   border: none;
+   border-radius: 10px;
+   
 }
