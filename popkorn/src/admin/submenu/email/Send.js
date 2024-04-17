@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './Send.css';
 import { apiCall } from "../../../service/apiService";
 
@@ -8,17 +8,7 @@ export default function Send() {
   const [emailRecipient, setemailRecipient] = useState('');
   const [checkRecipient, setcheckRecipient] = useState(false);
   const [checkReserve, setcheckReserve] = useState(false);
-  const [reservationData, setReservationData] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await apiCall('/api/user/reserve', "POST", {reservationData : reservationData}, null);
-      console.log('Reservation successful!', response.data);
-    } catch (error) {
-      console.error('Reservation failed!', error);
-    }
-  };
+  const [reservationData, setReservationData] = useState({ reservationTime: '' });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +17,11 @@ export default function Send() {
       [name]: value
     });
   };
+
+  useEffect(() => {
+    console.log(reservationData);
+  }, [reservationData]);
+
   const handleAllUsersCheck = (event) => {
     setcheckRecipient(event.target.checked);
     setemailRecipient('');
@@ -77,12 +72,32 @@ export default function Send() {
     }
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (checkReserve) {
+        const response = await apiCall('/api/user/reserve', "POST", { reservationData: reservationData }, null);
+        console.log('Reservation successful!', response.data);
+      } else {
+        await sendEmail();
+      }
+    } catch (error) {
+      console.error('Reservation failed!', error);
+    }
+  };
+
   return (
     <div className="stateEmail">
       <div className="EmailHeader">
         <h3>Send Email</h3>
-        <button onClick={checkRecipient ? sendAlluser : sendEmail} className="sendemailbtn"
-          disabled={!emailTitle || !emailContent || (!emailRecipient && !checkRecipient) ? true : false}>Send Email</button>
+        <button
+          onClick={checkReserve ? handleSubmit : (checkRecipient ? sendAlluser : sendEmail)}
+          className="sendemailbtn"
+          disabled={!emailTitle || !emailContent || (!emailRecipient && !checkRecipient) ? true : false}
+        >
+          {checkReserve ? "Reserve Email" : (checkRecipient ? "Send for All user" : "Send Email")}
+        </button>
+
       </div>
       <div className="emailtitle">
         Email Title
@@ -107,10 +122,19 @@ export default function Send() {
           readOnly={checkRecipient}
         />
         <div>
-          All Users (May take some time) &nbsp; <input type="checkbox" className="allusercheck" onChange={handleAllUsersCheck} /> <br/>
-          {/* Reverse Sending &nbsp; <input type="checkbox" className="allusercheck" onChange={handlereserve} /> &nbsp;
-          {checkReserve ? <input type="datetime-local" name="reservationTime" value={reservationData.reservationTime} onChange={handleInputChange} className="reservetime" /> : null} */}
-      
+          All Users (May take some time) &nbsp; <input type="checkbox" className="allusercheck" onChange={handleAllUsersCheck} /> <br />
+          Reverse Sending &nbsp; <input type="checkbox" className="allusercheck" onChange={handlereserve} /> &nbsp;
+          {checkReserve ?
+            <input
+              type="datetime-local"
+              name="reservationTime"
+              value={reservationData.reservationTime}
+              onChange={handleInputChange}
+              className="reservetime"
+            />
+            : null}
+
+
         </div>
 
       </div>

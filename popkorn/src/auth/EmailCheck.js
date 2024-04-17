@@ -39,7 +39,7 @@ export const EmailCheck = () => {
         pwinput: pwinput
       }, null);
       const userID = loginResponse.data;
-      if (loginResponse.status !== 200 || loginResponse.data === "Login failed") {
+      if (loginResponse.status !== 200) {
         setpwInput('');
         alert('Invalid Password. Please check your Email or Password.');
         return;
