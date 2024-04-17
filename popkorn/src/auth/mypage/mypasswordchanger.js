@@ -52,11 +52,9 @@ export default function Mypasswordchanger() {
 
                         const response = await apiCall('/api/user/passwordcheck', "POST", request , null);
                         if (response.status === 200 && response.data === true) {
-                                console.log('비밀번호 일치');
                                 setShowpw(false);
                                 return true;
                         } else {
-                                console.log('비밀번호 불일치');
                                 return false;
                         }
                 } catch (error) {
