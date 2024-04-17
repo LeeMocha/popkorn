@@ -51,7 +51,7 @@ export default function DetailOrder() {
 
     const addCart = async () => {
         try {
-            await apiCall(`/api/cart/addcart`, "POST", {
+            await apiCall(`/api/member/cart/addcart`, "POST", {
                 id: sessionStorage.getItem('loginID'),
                 pcode: pcode,
                 detailcount: cnt,
@@ -59,10 +59,10 @@ export default function DetailOrder() {
                 price: pData.price,
                 image1: pData.image1,
                 productname: pData.productname
-            }, null);
+            }, sessionStorage.getItem("token"));
             navigate('/cart');
         } catch (error) {
-            console.error('Error adding item to cart:', error);
+                console.error('Error adding item to cart:', error);
         }
     }
 
