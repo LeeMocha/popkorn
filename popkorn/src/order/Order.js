@@ -108,6 +108,7 @@ export default function Order() {
                                 const toImpData = {
                                     pg: "html5_inicis.INIpayTest", // PG사 : https://developers.portone.io/docs/ko/tip/pg-2 참고
                                     pay_method: "card", // 결제수단
+                                    name : items.length > 1? items[0].productname + ` 외 ${items.length -1}개` : items[0].productname,
                                     merchant_uid: `pop_${new Date().getTime()}`, // 주문번호
                                     amount: 100, // 결제금액
                                     buyer_name: data.buyer_name, // 구매자 이름
@@ -220,7 +221,6 @@ export default function Order() {
     const reducerewords = async () => {
         try {
             const response = await apiCall('/api/user/reducereword', "POST", { storedLoginID: storedLoginID, useReword: parseInt(useReword) }, null);
-            console.log(response); 
         } catch (error) {
             console.error('오류 발생:', error);
         }

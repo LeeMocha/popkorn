@@ -34,10 +34,11 @@ export default function CartListFrom() {
         checkedItemIds.forEach(({ id, pcode, productname }) => {
             apiCall(`/api/cart/delete?id=${id}&pcode=${pcode}`, "DELETE", null, null)
                 .then(response => {
-                    console.log(`${productname} 삭제 성공`);
+                    alert(`${productname} Delete Success`);
                 })
                 .catch(error => {
-                    console.error(`상품 삭제 오류:`, error);
+                    alert(`Deleted failed, please try again`)
+                    console.error(error);
                 });
         });
     }
@@ -82,7 +83,7 @@ export default function CartListFrom() {
         if (window.confirm('Are you sure you want to go to the purchase page?')) {
             // 체크된 상품들만을 필터링하여 새로운 배열에 추가
             const selectedItems = items.filter((item, index) => selectCheck[index]);
-            console.log(selectedItems);
+            
             // 선택된 상품들이 있는지 확인
             if (selectedItems.length > 0) {
                 // 주문 페이지로 이동하며 선택된 상품들을 함께 전달

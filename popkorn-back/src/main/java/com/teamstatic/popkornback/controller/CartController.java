@@ -28,17 +28,6 @@ public class CartController {
         return cService.findById(id);
     }
 
-    @PostMapping("/addcart")
-    public void saveCart(@RequestBody Cart entity) {
-        Cart existingCart = cService.findByIdAndPcode(entity.getId(), entity.getPcode());
-        if (existingCart != null) {
-            existingCart.setDetailcount(existingCart.getDetailcount() + entity.getDetailcount());
-            cService.save(existingCart);
-        } else {
-            cService.save(entity);
-        }
-    }
-
     public Cart selectOne(String id, int pcode) {
         return cService.findByIdAndPcode(id, pcode);
     }

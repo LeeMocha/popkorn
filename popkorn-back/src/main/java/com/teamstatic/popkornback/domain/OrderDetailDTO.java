@@ -1,6 +1,5 @@
 package com.teamstatic.popkornback.domain;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
 @Data
 public class OrderDetailDTO {
    
