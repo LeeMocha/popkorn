@@ -11,7 +11,7 @@ function OrderDetailsPopup({ order, onClose }) {
         <p>Order Number:<span className="inquiryorderspan"> {order.merchantUid}</span></p>
         <p>Email: {order.buyerEmail}</p>
         <p>Paid At: {new Date(order.paidAt).toLocaleString()}</p>
-        <button onClick={onClose} className="popup-close-btn">X</button>
+        <button onClick={onClose} className="inquirypopup-close-btn">X</button>
       </div>
     </div>
   );
@@ -40,7 +40,7 @@ export default function FindOrderNum() {
 
     if (!isValidEmail && newEmailValue.length > 0) {
       setEmailinfo('Invalid Email type');
-    } else if (isEmailValid && newEmailValue.length > 1) {
+    } else if (!isEmailValid && newEmailValue.length > 1) {
       setEmailinfo('Email already exists. If you are a member, please use MyPage');
     } else {
       setEmailinfo('');

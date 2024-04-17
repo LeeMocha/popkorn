@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { apiCall } from '../service/apiService';
 import './inquiryorderlist.css';
+import { Link } from 'react-router-dom';
+
 
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
 const OrderItem = ({ order, onClick }) => {
+  console.log(order)
+
   return (
     <div className='inquiryordercontainer'>
       <div className='inquiryorder1st'>
@@ -12,14 +16,20 @@ const OrderItem = ({ order, onClick }) => {
         <div className='inquirydetailcheck' onClick={() => onClick(order)}>Order detail</div>
       </div>
       <div className='inquiryorder2nd'>
-        <div className='inquirydetailnumber'>Order Number : <span className="inquiryorderspan">{order.merchantUid}</span></div><br/>
-        
+        <div className='inquirydetailnumber'>Order Number : <span className="inquiryorderspan">{order.merchantUid}</span></div><br />
         Buyer name: {order.buyerName} <br />
         Address: {order.buyerAddr} <br />
         Phone: {order.buyerTel} <br />
+        status: {order.status} <br />
       </div>
-      <div className='inquiryorderbtn'>
-        <button className='inquiryrefundbtn' state={{ id: order.merchant_uid }}>Refund</button>
+      <div className='inquiryorderbtn'>{
+        order.status === "refund request"?
+        <></>
+        :
+        <Link to="/refund" state={{ id: order.merchantUid }}>
+          <button className='inquiryrefundbtn'>Refund</button>
+        </Link>
+        }
         <button className='inquiryinquirement'>Inquirement</button>
         <div className='inquirytotalprice'>
           Total amount : {order.paidAmount} ₩
@@ -39,14 +49,14 @@ export const OrderList = ({ ordernum }) => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await apiCall(`/api/orderinfo/findByMerchantUid?merchantUid=${ordernum}`, "GET" , null, null);
+        const response = await apiCall(`/api/orderinfo/findByMerchantUid?merchantUid=${ordernum}`, "GET", null, null);
         console.log(ordernum)
         if (response && response.data) {
           setOrders(response.data);
           console.log(response)
         } else {
           console.error('API response does not contain order data:', response);
-          
+
         }
       } catch (error) {
         console.error('Error while fetching orders:', error);
@@ -58,7 +68,7 @@ export const OrderList = ({ ordernum }) => {
 
   const popupClick = (order) => {
     if (order) {
-      apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET" , null, null)
+      apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET", null, null)
         .then(response => {
           setOrderDetails(response.data);
           setSelectedOrder(order);

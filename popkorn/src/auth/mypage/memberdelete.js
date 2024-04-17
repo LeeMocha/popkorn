@@ -32,7 +32,6 @@ const withdraw = async () => {
         const request = {"userId" : userId}
         const response = await apiCall('/api/user/withdraw', "DELETE" , request, null);
         if (response.status === 200) {
-            console.log('회원 탈퇴 성공');
             window.location.href = '/';
         }
     } catch (error) {

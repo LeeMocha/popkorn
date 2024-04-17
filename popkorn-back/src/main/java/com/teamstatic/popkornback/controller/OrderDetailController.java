@@ -18,9 +18,6 @@ import com.teamstatic.popkornback.service.OrderDetailService;
 import com.teamstatic.popkornback.service.UserService;
 
 import lombok.AllArgsConstructor;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,19 +45,19 @@ public class OrderDetailController {
     }
 
     @GetMapping("/orderlist")
-    public ResponseEntity<List<OrderDetail>> findByMerchantUid(@RequestParam String merchantUid) {
-        List<OrderDetail> orders = odService.findByMerchantUid(merchantUid);
-        return ResponseEntity.ok(orders);
+    public List<OrderDetail> findByMerchantUid(@RequestParam String merchantUid) {
+        
+        return odService.findByMerchantUid(merchantUid);
     }
 
     @GetMapping("/emailcheck")
-    public ResponseEntity<Boolean> emailcheck(@RequestParam String emailinput) {
+    public Boolean emailcheck(@RequestParam String emailinput) {
         User user = uservice.findByUserId(emailinput);
-        return ResponseEntity.ok(user != null);
+        return (user != null);
     }
 
     @PostMapping("/makeorderkey")
-public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requestBody) {
+public String makeorderkey(@RequestBody Map<String, String> requestBody) {
     String id = requestBody.get("id");
     String password = requestBody.get("password");
 
@@ -73,14 +70,14 @@ public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requ
     user.setStatus("unsigned");
     try {
         uservice.save(user);
-        return ResponseEntity.ok("주문키 생성 성공");
+        return "주문키 생성 성공";
     } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문키 생성 실패");
+        return "주문키 생성 실패";
     }
 }
 
 @PostMapping("/inquiry")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody) {
+    public String login(@RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
@@ -89,12 +86,12 @@ public ResponseEntity<String> makeorderkey(@RequestBody Map<String, String> requ
         if (user != null) {
             String password = user.getPassword();
             if (passwordEncoder.matches(pwinput, password)) {
-                return ResponseEntity.ok(user.getId());
+                return user.getId();
             } else {
-                return ResponseEntity.ok("Login failed");
+                return "Login failed";
             }
         } else {
-            return ResponseEntity.ok("Login failed");
+            return "Login failed";
         }
     }
 

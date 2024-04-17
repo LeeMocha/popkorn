@@ -19,5 +19,6 @@ public class PopkornBackApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(PopkornBackApplication.class, args);
+
 	}
 }

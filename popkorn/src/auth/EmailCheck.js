@@ -22,12 +22,9 @@ export const EmailCheck = () => {
   const initialcheck = async () => {
     try {
       const response = await apiCall(`/api/user/emailcheck?emailinput=${emailinput}`, "GET", null, null);
-      console.log("1"+response.data)
       if (response.data === "success") {
-        console.log("2"+response.data)
         setemailcheck('2');
       } else if (response.data === "failed") {
-        console.log("3"+response.data)
         setemailcheck('3');
       }
     } catch (error) {
@@ -42,13 +39,15 @@ export const EmailCheck = () => {
         pwinput: pwinput
       }, null);
       const userID = loginResponse.data;
-      if (loginResponse.status !== 200 || loginResponse.data === "Login failed") {
+      if (loginResponse.status !== 200) {
         setpwInput('');
         alert('Invalid Password. Please check your Email or Password.');
         return;
       }
-      sessionStorage.setItem('loginID', userID);
-      alert(`Welcome to PopKorn, ${userID}`);
+      console.log(loginResponse.data.token)
+      sessionStorage.setItem('loginID', loginResponse.data.id);
+      sessionStorage.setItem('token', loginResponse.data.token);
+      alert(`Welcome to PopKorn, ${loginResponse.data.id}`);
       window.location.href = '/';
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);

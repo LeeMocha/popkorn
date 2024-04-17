@@ -1,10 +1,12 @@
 package com.teamstatic.popkornback.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,5 +29,11 @@ public interface UserRepository extends JpaRepository<User, String> {
     User findByUserId(String id);
 
     Long countByStatus(String status);
+
+    @EntityGraph(attributePaths = {"roleList"}) 
+	// => "roleList": Member 엔티티의 
+	//     @ElementCollection(fetch = FetchType.LAZY) 로 정의한 속성
+	@Query("select u from User u where u.id = :id")
+	User getWithRoles(String id);
 
 }

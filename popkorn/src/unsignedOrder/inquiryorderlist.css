@@ -108,7 +108,7 @@
   flex-direction: column;
   text-align: left;
   margin-top: 5%;
-  margin-bottom: 5%;
+  margin-bottom: 5px;
 }
 
 .inquiryorderimg img {
@@ -214,7 +214,7 @@
 
 .inquiryrefundbtn,
 .inquiryinquirement {
-  width: 22%;
+  width: 120px;
   border: 0px;
   border-radius: 2vw;
   height: 3vw;
@@ -286,20 +286,17 @@
   align-items: center;
 }
 
-.inquirypopup-close-btn {
+.inquirypopup-close-btn{
   position: absolute;
   top: 10px;
   right: 10px;
   background-color: transparent;
   border: none;
-  font-size: 22px;
+  font-size: 40px;
   cursor: pointer;
-  color: white;
-}
-
-.inquirypopup-close-btn:hover {
   color: black;
 }
+
 .order-details-popup {
   position: fixed;
   top: 50%;
