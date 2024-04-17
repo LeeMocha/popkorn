@@ -398,22 +398,22 @@ public class UserController {
     }
 
     @PostMapping("/reducereword")
-public String reducereword(@RequestBody Map<String, String> requestData) {
-    Integer useReword = Integer.parseInt(requestData.get("useReword"));
-    String storedLoginID = requestData.get("storedLoginID");
+    public String reducereword(@RequestBody Map<String, String> requestData) {
+        Integer useReword = Integer.parseInt(requestData.get("useReword"));
+        String storedLoginID = requestData.get("storedLoginID");
 
-    User user = userRepository.findByUserId(storedLoginID);
+        User user = userRepository.findByUserId(storedLoginID);
 
-    if (user != null) {
-        int reword = user.getReword();
-        user.setReword(reword - useReword);
-        userRepository.save(user);
+        if (user != null) {
+            int reword = user.getReword();
+            user.setReword(reword - useReword);
+            userRepository.save(user);
 
-        return "rewords reduce";
-    } else {
-        return "User not found";
+            return "rewords reduce";
+        } else {
+            return "User not found";
+        }
     }
-}
 
 @PostMapping("/authcheck")
     public Boolean postMethodName() {
