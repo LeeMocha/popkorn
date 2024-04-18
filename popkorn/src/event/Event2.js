@@ -13,7 +13,7 @@ export default function Event2() {
 
    const [eventData, setEventData] = useState([]);
    const [modalOpen, setModalOpen] = useState(false);
-   const [ item, setItem] = useState({});
+   const [item, setItem] = useState({});
    const modalBackground = useRef();
 
    useEffect(() => {
@@ -72,15 +72,17 @@ export default function Event2() {
                ))}
             </Slider>
             {modalOpen && (
-               <div className="modal_container" ref={modalBackground} onClick={e => {
+               <div className="event_modal_wrap" ref={modalBackground} onClick={e => {
                   if (e.target === modalBackground.current) {
                      setModalOpen(false);
                   }
                }}>
-                  <div className="modal_content">
-                     <img src={imageSrc + item.content}></img>
+                  <div className="event_modal_container">
+                     <div className="event_modal_content">
+                        <img src={imageSrc + item.content}></img>
+                     </div>
+                     <button className="event_modal_close_btn" onClick={() => setModalOpen(false)}>닫기</button>
                   </div>
-                  <button className="close_btn" onClick={() => setModalOpen(false)}>닫기</button>
                </div>
             )}
          </div>
