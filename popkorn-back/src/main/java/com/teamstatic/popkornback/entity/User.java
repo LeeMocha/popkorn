@@ -47,7 +47,7 @@ public class User {
 
     private String status;
     
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@Builder.Default
 	private List<UserRole> roleList = new ArrayList<>();
 	// => JPA는 member_role_list 라는 이름의 Child Table 을 찾음
