@@ -73,7 +73,7 @@
    left: 50%; /* 화면 가로 중앙 */
    transform: translate(-50%, -50%);
    width: 1000px; /* 모달 너비 */
-   height: 1000px; /* 모달 높이 */
+   height: 900px; /* 모달 높이 */
    z-index: 10;
    /* border: solid 1px; */
    /* background-color: rgba(128, 128, 128, 0.5); 회색 배경에 50% 오퍼시티 */
