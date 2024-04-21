@@ -4,16 +4,30 @@ import Header from "../header/Header";
 import "./CelebListPage.css"
 import { apiCall } from "../service/apiService";
 import CelebSlot from "./CelebSlot";
+import Footer from './../footer/Footer';
 
 
 export default function CelebListPage() {
 
    const [celebList, setCelebList] = useState([]);
+   const [likeyList, setLikeyList] = useState([{artist : 'AESPA'},{}]);
 
-   useEffect(()=>{
+   useEffect(() => {
       apiCall(`/api/celeb/celeblist`, "GET", null, null)
-      .then(response => setCelebList(response.data))
-      .catch(err => console.log(err))
+         .then(response => setCelebList(response.data))
+         .catch(err => console.log(err))
+
+      // apiCall(``, "GET", null, sessionStorage.getItem('token'))
+      //    .then(response => setLikeyList(response.data))
+      //    .catch(err => {
+
+            // console.log(err)
+            // if (err === 403) {
+               
+            // }
+         // }
+         // )
+
    }, [])
 
    return (
@@ -22,14 +36,20 @@ export default function CelebListPage() {
          <div className="celeblistpage_wrap">
             <span className="meet_new_celeb_span"><i className="xi-star-o"></i> Meet new Celebs here!</span>
             <div className="celebs_list_container">
-            {
-               celebList.map((celeb, index) => 
-               <CelebSlot key={index} celeb={celeb} />
-               )
-            }
+               {
+                  celebList.map((celeb, index) => {
+
+                     // celeb이 likeyList에 있는지 여부 확인
+                     const isLiked = likeyList.some(likey => likey.artist === celeb.artist);
+
+                     return  <CelebSlot key={index} celeb={celeb} isLike={isLiked} />
+                  }
+                  )
+               }
 
             </div>
          </div>
+         <Footer/>
       </>
    );
 }

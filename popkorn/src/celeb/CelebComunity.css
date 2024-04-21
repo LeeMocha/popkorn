@@ -1,0 +1,40 @@
+.celeb_comunity_wrap{
+   width: 100%;
+   height: 100%;
+   margin-top: 280px;
+}
+
+.celeb_feed_wrap{
+   width: 800px;
+   height: 1800px;
+   margin: 0 auto 100px;
+   background: #b8b6b6;
+   border-radius: 100px;
+   position: relative;
+}
+
+.celeb_feed_logo{
+   position: absolute;
+   width: 200px;
+   height: 200px;
+   border-radius: 50%;
+   left: -60px;
+   top: -60px;
+   box-shadow: 2px 2px 5px grey;
+}
+
+.celeb_feed_totallikey{
+   position: absolute;
+   top: -50px;
+   left: 145px;
+   font-size: 30px;
+   color: #FE7CF3;
+}
+
+.celeb_feed_totallikey_cnt{
+   position: absolute;
+   right: 100px;
+   color: #7de3ff;
+   top: -50px;
+   font-size: 30px;
+}
