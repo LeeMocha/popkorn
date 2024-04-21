@@ -11,7 +11,7 @@ export default function Menulist({ isScrolled }) {
    }
    return (
       <div className={`menu_wrap ${isScrolled ? "fade-out" : ""}`}>
-         <span className="menuli" onClick={() => handleLinkClick(".celeb_wrap")}>CELEB</span>
+         <Link to="/celeblistpage"><span className="menuli">CELEB</span></Link>
          <Link to="/productpage"><span className="menuli">PRODUCT</span></Link>
          <span className="menuli" onClick={() => handleLinkClick(".event2_wrap")}>EVENT</span>
       </div>
