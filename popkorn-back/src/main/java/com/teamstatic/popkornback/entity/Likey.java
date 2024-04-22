@@ -9,17 +9,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="celeb")
+@Table(name="likey")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
-public class Celeb {
-   
-   @Id
-   private String artist;
-   private String celebimg;
-   private String mainimg;
-   
+public class Likey {
+
+    @Id
+    private long lcode;
+    private String id;
+    private String artist;
+    
 }

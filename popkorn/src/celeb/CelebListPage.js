@@ -10,23 +10,26 @@ import Footer from './../footer/Footer';
 export default function CelebListPage() {
 
    const [celebList, setCelebList] = useState([]);
-   const [likeyList, setLikeyList] = useState([{artist : 'AESPA'},{}]);
+   const [likeyList, setLikeyList] = useState([]);
 
    useEffect(() => {
       apiCall(`/api/celeb/celeblist`, "GET", null, null)
          .then(response => setCelebList(response.data))
          .catch(err => console.log(err))
 
-      // apiCall(``, "GET", null, sessionStorage.getItem('token'))
-      //    .then(response => setLikeyList(response.data))
-      //    .catch(err => {
-
-            // console.log(err)
-            // if (err === 403) {
-               
-            // }
-         // }
-         // )
+      apiCall(`/api/member/likey/getlist`, "GET", null, sessionStorage.getItem('token'))
+         .then(response => {setLikeyList(response.data)
+            console.log(response.data)}
+         )
+         .catch(err => {
+            if (err === 403) {
+               setLikeyList([]);
+               console.log(err)
+            } else {
+               console.log(err)
+            }
+         }
+         )
 
    }, [])
 
@@ -42,7 +45,7 @@ export default function CelebListPage() {
                      // celeb이 likeyList에 있는지 여부 확인
                      const isLiked = likeyList.some(likey => likey.artist === celeb.artist);
 
-                     return  <CelebSlot key={index} celeb={celeb} isLike={isLiked} />
+                     return  <CelebSlot key={index} celeb={celeb} isLike={isLiked} setLikeyList={setLikeyList} />
                   }
                   )
                }

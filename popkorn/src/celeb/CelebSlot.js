@@ -3,14 +3,14 @@ import "./CelebSlot.css";
 import { apiCall } from "../service/apiService";
 
 
-export default function CelebSlot({ celeb, isLike }) {
+export default function CelebSlot({ celeb, isLike, setLikeyList }) {
 
    const imgSrc = process.env.PUBLIC_URL + "/celebIMG/"
 
    const likeyHandler = () => {
       apiCall(`/api/member/likey/saveordelete`, 'POST', celeb, sessionStorage.getItem('token'))
-      .then()
-      .catch()
+      .then(response => setLikeyList(response.data))
+      .catch(err => console.log(err))
    }
 
    return (
@@ -23,7 +23,7 @@ export default function CelebSlot({ celeb, isLike }) {
          }
          <Link to='/celebcomunity' state={celeb}>
             <div className="celeb_slot_imgwrap">
-               <img src="" alt="" />
+               <img src={imgSrc+"celebmainimg/"+celeb.mainimg} alt="" />
             </div>
             <div className="celeb_span_wrap">
                <img src={imgSrc + celeb.celebimg} alt="" />

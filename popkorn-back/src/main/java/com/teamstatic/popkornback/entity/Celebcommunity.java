@@ -9,17 +9,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="celeb")
+
+@Table(name="celebcommunity")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
-public class Celeb {
-   
-   @Id
-   private String artist;
-   private String celebimg;
-   private String mainimg;
-   
+public class Celebcommunity {
+    
+    @Id
+    private long cccode;
+    private String id;
+    private String artist;
+    private String content;
+
 }
