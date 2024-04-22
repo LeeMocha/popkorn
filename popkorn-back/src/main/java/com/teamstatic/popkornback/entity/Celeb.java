@@ -21,5 +21,6 @@ public class Celeb {
    private String artist;
    private String celebimg;
    private String mainimg;
+   private String notice;
    
 }

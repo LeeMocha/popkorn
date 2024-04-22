@@ -16,4 +16,6 @@ public interface LikeyService {
 
     void deleteByIdAndArtist(String id, String artist);
 
+    int countByArtist(String artist);
+
 }

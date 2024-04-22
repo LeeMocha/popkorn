@@ -8,9 +8,13 @@ export default function CelebSlot({ celeb, isLike, setLikeyList }) {
    const imgSrc = process.env.PUBLIC_URL + "/celebIMG/"
 
    const likeyHandler = () => {
-      apiCall(`/api/member/likey/saveordelete`, 'POST', celeb, sessionStorage.getItem('token'))
-      .then(response => setLikeyList(response.data))
-      .catch(err => console.log(err))
+      if(sessionStorage.getItem('token')!==null){
+         apiCall(`/api/member/likey/saveordelete`, 'POST', celeb, sessionStorage.getItem('token'))
+         .then(response => setLikeyList(response.data))
+         .catch(err => console.log(err))
+      } else {
+         alert('Please use the service after logging in.')
+      }
    }
 
    return (

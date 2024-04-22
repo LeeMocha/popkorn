@@ -14,4 +14,5 @@ public interface LikeyRepository extends JpaRepository<Likey, Long>{
 
     void deleteByIdAndArtist(String id, String artist);
 
+    int countByArtist(String artist);
 }

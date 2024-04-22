@@ -8,17 +8,18 @@
    width: 800px;
    height: 1800px;
    margin: 0 auto 100px;
-   background: #b8b6b6;
    border-radius: 100px;
    position: relative;
+   border: 3px solid #7de3ff;
 }
 
 .celeb_feed_logo{
+   z-index: 2;
    position: absolute;
    width: 200px;
    height: 200px;
    border-radius: 50%;
-   left: -60px;
+   left: -90px;
    top: -60px;
    box-shadow: 2px 2px 5px grey;
 }
@@ -26,15 +27,131 @@
 .celeb_feed_totallikey{
    position: absolute;
    top: -50px;
-   left: 145px;
+   left: 125px;
    font-size: 30px;
    color: #FE7CF3;
 }
 
 .celeb_feed_totallikey_cnt{
    position: absolute;
-   right: 100px;
+   right: 120px;
    color: #7de3ff;
    top: -50px;
    font-size: 30px;
+}
+
+.celeb_feed_container{
+   top: 0;
+   border-radius: 98px;
+   overflow: hidden;
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   background-color: transparent;
+}
+
+.celeb_feed_notice{
+   z-index: 1;
+   position: absolute;
+   width: 100%;
+   height: 130px;
+   background-color: #7de3ff;
+}
+
+.celeb_feed_notice_div{
+   width: 90%;
+}
+
+.celeb_feed_notice span{
+   display: inline-block;
+   margin-top: 20px;
+   margin-left: 150px;
+   color: #FFF;
+   font-size: 28px;
+}
+
+.celeb_feed_content{
+   width: 100%;
+   height: 1400px;
+   margin-top: 130px;
+}
+
+.celeb_feed_input_wrap{
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 240px; 
+   background-color: #ffe4fd;
+   /* border-top-right-radius: 40px;
+   border-top-left-radius: 40px; */
+}
+
+.celeb_feeds_div{
+   max-width: 60%;
+   position: relative;
+   background: #fff;
+   border-radius: 40px;
+   margin-bottom: 30px;
+}
+
+.celeb_feeds_wrap{
+   height: 100%;
+   padding-top: 30px;
+   background-image: linear-gradient(to bottom, #ebfbff, #ffe4fd);
+   overflow: auto;
+}
+
+.celeb_feeds_id{
+   display: inline-block;
+   position: absolute;
+   font-weight: bold;
+   top: -10px;
+   left: 20px;
+}
+
+.celeb_feeds_contents{
+   display: inline-block;
+   margin: 20px 40px;
+   width: 90%;  
+}
+
+.celeb_feeds_time{
+   position: absolute;
+   bottom: -16px;
+   right: 20px;
+   font-size: 14px;
+}
+
+.celeb_feed_input_wrap>div{
+   display: flex;
+   align-items: center;
+   margin: 0 auto;
+   background: #ffe4fd;
+   border-radius: 40px;
+   border: 3px solid #ffffff;
+}
+
+.celeb_feed_textarea{
+   float: left;
+   padding: 10px;
+   border: none;
+   /* border: 1px solid #FE7CF3; */
+   width: 90%;
+   resize: none;
+   border-radius: 40px;
+   font-size: 16px;
+}
+
+.celeb_feed_textarea:focus{
+   outline: none;
+   border: 1px solid #FE7CF3;
+}
+
+.celeb_feed_btn{
+   width: 10%;
+   height: 150px;
+   border: none;
+   background: #ffe4fd;
+   color: #FFF;
+   font-family: 'Noto Sans KR', sans-serif;
 }

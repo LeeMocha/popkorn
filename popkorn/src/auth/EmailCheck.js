@@ -47,6 +47,7 @@ export const EmailCheck = () => {
       console.log(loginResponse.data.token)
       sessionStorage.setItem('loginID', loginResponse.data.id);
       sessionStorage.setItem('token', loginResponse.data.token);
+      sessionStorage.setItem('nickname', loginResponse.data.nickname);
       alert(`Welcome to PopKorn, ${loginResponse.data.id}`);
       window.location.href = '/';
     } catch (error) {

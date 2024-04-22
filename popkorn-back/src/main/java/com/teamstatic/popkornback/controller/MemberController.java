@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.teamstatic.popkornback.entity.Cart;
 import com.teamstatic.popkornback.entity.Celeb;
+import com.teamstatic.popkornback.entity.Celebcommunity;
 import com.teamstatic.popkornback.entity.Likey;
 import com.teamstatic.popkornback.service.CartService;
+import com.teamstatic.popkornback.service.CelebCommunityService;
 import com.teamstatic.popkornback.service.LikeyService;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +32,7 @@ public class MemberController {
 
     CartService cService;
     LikeyService lService;
+    CelebCommunityService ccService;
 
     @PostMapping("/cart/addcart")
     public void saveCart(@RequestBody Cart entity) {
@@ -85,6 +88,17 @@ public class MemberController {
 
         return lService.findById(userId);
     }
+
+    @GetMapping("/likey/countbyartist")
+    public int countbyartist(String artist) {
+        return lService.countByArtist(artist);
+    }
+
+    @GetMapping("/celebcommunity/celebfeeds")
+    public List<Celebcommunity> celebfeeds(String artist) {
+        return ccService.findByArtist(artist);
+    }
+    
     
 
 }

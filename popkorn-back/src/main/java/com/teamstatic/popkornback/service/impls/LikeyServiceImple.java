@@ -36,6 +36,10 @@ public class LikeyServiceImple implements LikeyService{
     @Transactional
     public void deleteByIdAndArtist(String id, String artist){
         lRepository.deleteByIdAndArtist(id, artist);
-    };
+    }
+
+    public int countByArtist(String artist){
+        return lRepository.countByArtist(artist);
+    }
 
 }

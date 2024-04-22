@@ -17,20 +17,18 @@ export default function CelebListPage() {
          .then(response => setCelebList(response.data))
          .catch(err => console.log(err))
 
-      apiCall(`/api/member/likey/getlist`, "GET", null, sessionStorage.getItem('token'))
-         .then(response => {setLikeyList(response.data)
-            console.log(response.data)}
-         )
-         .catch(err => {
-            if (err === 403) {
-               setLikeyList([]);
-               console.log(err)
-            } else {
-               console.log(err)
+      if(sessionStorage.getItem('token') !== null){
+         apiCall(`/api/member/likey/getlist`, "GET", null, sessionStorage.getItem('token'))
+            .then(response => setLikeyList(response.data))
+            .catch(err => {
+               if (err === 403) {
+                  setLikeyList([]);
+               } else {
+                  console.log(err)
+               }
             }
-         }
          )
-
+      }
    }, [])
 
    return (
