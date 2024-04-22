@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.teamstatic.popkornback.domain.EventDTO;
 import com.teamstatic.popkornback.entity.Event;
 import com.teamstatic.popkornback.repository.EventRepository;
 import com.teamstatic.popkornback.service.EventService;
@@ -36,4 +37,9 @@ public class EventServiceImpl implements EventService {
         LocalDate seoulLocalDate = seoulTime.toLocalDate();
         eRepository.deleteAllByEnddate(seoulLocalDate);
     }
+
+    @Transactional
+    public void deleteByecode(int ecode) {
+        eRepository.deleteByecode(ecode);
+    } 
 }
