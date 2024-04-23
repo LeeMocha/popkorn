@@ -22,4 +22,8 @@ public class CelebCommunityServiceImple implements CelebCommunityService {
         
     };
 
+    public void save(Celebcommunity entity){
+        ccRepository.save(entity);
+    }
+
 }

@@ -99,6 +99,11 @@
    padding-top: 30px;
    background-image: linear-gradient(to bottom, #ebfbff, #ffe4fd);
    overflow: auto;
+   display: flex;
+   align-items: flex-end;
+   flex-direction: column-reverse;
+   overflow-x: hidden;
+   padding: 20px;
 }
 
 .celeb_feeds_id{
@@ -112,33 +117,40 @@
 .celeb_feeds_contents{
    display: inline-block;
    margin: 20px 40px;
-   width: 90%;  
+   width: 90%;
 }
 
 .celeb_feeds_time{
    position: absolute;
    bottom: -16px;
    right: 20px;
-   font-size: 14px;
+   font-size: 10px;
+}
+
+.celeb_feed_input_wrap{
+   display: flex;
+   justify-content: center;
 }
 
 .celeb_feed_input_wrap>div{
    display: flex;
+   width: 100%;
+   justify-content: space-around;
    align-items: center;
    margin: 0 auto;
    background: #ffe4fd;
-   border-radius: 40px;
+   border-radius: 100px;
    border: 3px solid #ffffff;
 }
 
 .celeb_feed_textarea{
    float: left;
-   padding: 10px;
+   padding: 20px;
    border: none;
    /* border: 1px solid #FE7CF3; */
-   width: 90%;
+   width: 80%;
    resize: none;
-   border-radius: 40px;
+   border-radius: 77px;
    font-size: 16px;
 }
 
@@ -149,9 +161,15 @@
 
 .celeb_feed_btn{
    width: 10%;
-   height: 150px;
+   height: 70%;
    border: none;
-   background: #ffe4fd;
+   background: #ffa8f9;
    color: #FFF;
    font-family: 'Noto Sans KR', sans-serif;
+   cursor: pointer;
+   border-radius: 40px;
+}
+
+.celeb_feeds_wrap > .celeb_feeds_div:not(.user_feed) {
+   align-self: flex-start;
 }

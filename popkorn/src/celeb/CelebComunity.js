@@ -8,7 +8,7 @@ import Footer from './../footer/Footer';
 export default function CelebComunity() {
 
    const imgSrc = process.env.PUBLIC_URL + "/celebIMG/"
-   const userid = sessionStorage.getItem('userID');
+   const userid = sessionStorage.getItem('loginID');
    const Location = useLocation();
    const celeb = Location.state;
    const [dialoges, setDialoges] = useState([]);
@@ -18,7 +18,6 @@ export default function CelebComunity() {
    useEffect(() => {
       apiCall(`/api/member/celebcommunity/celebfeeds?artist=${celeb.artist}`, "GET", null, sessionStorage.getItem('token'))
          .then(response => {
-            console.log(response.data)
             setDialoges(response.data)
          })
          .catch(err => {
@@ -30,9 +29,39 @@ export default function CelebComunity() {
 
       apiCall(`/api/member/likey/countbyartist?artist=${celeb.artist}`, "GET", null, sessionStorage.getItem("token"))
          .then(response => setTotalCount(response.data))
-         .catch()
+         .catch(err => {
+            if (err === 403) {
+            }
+         })
 
    }, [])
+
+   const handleClick = () => {
+      apiCall(`/api/member/celebcommunity/insert`, "POST", {
+         id: sessionStorage.getItem('loginID'),
+         nickname: sessionStorage.getItem('nickname'),
+         artist: celeb.artist,
+         content: inputText,
+         regdate: new Date(),
+      }, sessionStorage.getItem('token'))
+         .then(response => {
+            setDialoges(response.data)
+            setInputText("") // 전송 후 textare 초기화
+         })
+         .catch(err => {
+            if (err === 403) {
+               alert('Please use the service after logging in.');
+               window.history.back();
+            }
+         })
+   }
+
+
+   const handlerEnter = (e) => {
+      if (e.keyCode === 13) {
+         handleClick();
+      }
+   }
 
    return (
       <>
@@ -52,9 +81,9 @@ export default function CelebComunity() {
                         {
                            dialoges.map((dialoge, index) =>
                               <div key={index} className={`celeb_feeds_div ${userid === dialoge.id ? 'user_feed' : ''}`}>
-                                 <span className={`celeb_feeds_id ${userid === dialoge.id ? 'user_feed' : ''}`}>{dialoge.nickname}</span>
-                                 <span className={`celeb_feeds_contents ${userid === dialoge.id ? 'user_feed' : ''}`}>{dialoge.content}</span>
-                                 <span className={`celeb_feeds_time ${userid === dialoge.id ? 'user_feed' : ''}`}>{dialoge.regdate}</span>
+                                 <span className={`celeb_feeds_id`}>{dialoge.nickname}</span>
+                                 <span className={`celeb_feeds_contents`}>{dialoge.content}</span>
+                                 <span className={`celeb_feeds_time`}>{dialoge.regdate}</span>
                               </div>
                            )
                         }
@@ -62,8 +91,8 @@ export default function CelebComunity() {
                   </div>
                   <div className="celeb_feed_input_wrap">
                      <div>
-                        <textarea cols="30" rows="10" className="celeb_feed_textarea" value={inputText} onChange={(e)=>setInputText(e.target.value)}></textarea>
-                        <button className="celeb_feed_btn" >submit</button>
+                        <textarea cols="30" rows="10" className="celeb_feed_textarea" value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyDown={handlerEnter}></textarea>
+                        <button className="celeb_feed_btn" onClick={handlerEnter}>submit</button>
                      </div>
                   </div>
                </div>

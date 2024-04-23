@@ -8,4 +8,6 @@ public interface CelebCommunityService {
     
     List<Celebcommunity> findByArtist(String artist);
 
+    void save(Celebcommunity entity);
+
 }

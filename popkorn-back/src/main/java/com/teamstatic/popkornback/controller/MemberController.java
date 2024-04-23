@@ -99,6 +99,13 @@ public class MemberController {
         return ccService.findByArtist(artist);
     }
     
+    @PostMapping("/celebcommunity/insert")
+    public List<Celebcommunity> postMethodName(@RequestBody Celebcommunity entity) {
+    
+        ccService.save(entity);
+
+        return ccService.findByArtist(entity.getArtist());
+    }
     
 
 }
