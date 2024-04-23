@@ -12,7 +12,7 @@ export default async function nowRate() {
         return rate;
     } catch (error) {
         console.error(error);
-        return 1; // 에러가 발생할 경우 기본값 반환
+        return 1378.80; // 에러가 발생할 경우 기본값 반환
     }
 }
 

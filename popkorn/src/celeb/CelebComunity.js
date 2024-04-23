@@ -16,6 +16,7 @@ export default function CelebComunity() {
    const [inputText, setInputText] = useState('');
 
    useEffect(() => {
+
       apiCall(`/api/member/celebcommunity/celebfeeds?artist=${celeb.artist}`, "GET", null, sessionStorage.getItem('token'))
          .then(response => {
             setDialoges(response.data)
@@ -92,7 +93,7 @@ export default function CelebComunity() {
                   <div className="celeb_feed_input_wrap">
                      <div>
                         <textarea cols="30" rows="10" className="celeb_feed_textarea" value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyDown={handlerEnter}></textarea>
-                        <button className="celeb_feed_btn" onClick={handlerEnter}>submit</button>
+                        <button className="celeb_feed_btn" onClick={handleClick}>submit</button>
                      </div>
                   </div>
                </div>

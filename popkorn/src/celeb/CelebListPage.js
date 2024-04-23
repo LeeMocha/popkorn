@@ -13,6 +13,7 @@ export default function CelebListPage() {
    const [likeyList, setLikeyList] = useState([]);
 
    useEffect(() => {
+
       apiCall(`/api/celeb/celeblist`, "GET", null, null)
          .then(response => setCelebList(response.data))
          .catch(err => console.log(err))

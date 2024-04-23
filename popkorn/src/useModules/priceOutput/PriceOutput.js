@@ -5,7 +5,7 @@ import "./PriceOutput.css";
 export default function PriceOutput({ priceWon }) {
     const [radioCheck, setRadioCheck] = useState(true);
     const [currType, setCurrType] = useState("$");
-    const [rate, setRate] = useState(1); // 기본값 설정
+    const [rate, setRate] = useState(1378.80); // 기본값 설정
 
     const fetchRate = async () => {
         const rate = await nowRate();

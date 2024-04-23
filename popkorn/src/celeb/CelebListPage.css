@@ -23,6 +23,7 @@
 .meet_new_celeb_span i{
    color: #FE7CF3;
    font-weight: bold;
+   cursor: auto;
 }
 
 .celebs_list_container{

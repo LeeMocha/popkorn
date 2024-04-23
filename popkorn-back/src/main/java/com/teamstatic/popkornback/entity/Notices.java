@@ -21,9 +21,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "notices")
 public class Notices {
+    
     @Id
     private int ncode;
-    @JoinColumn(name = "User_id")
     private String id; // User 테이블 외래키 
     private String content;
     @CreationTimestamp
