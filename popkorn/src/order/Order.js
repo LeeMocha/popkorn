@@ -145,7 +145,7 @@ export default function Order() {
                 items.map((item, i) => {
                     let newItem = { ...item };
                     delete newItem.ccode;
-                    items[i] = { ...newItem, merchantUid: response.merchant_uid, pcode: +items[i].pcode, rewordcheck: checkstatus };
+                    items[i] = { ...newItem, merchantUid: response.merchant_uid, pcode: +items[i].pcode};
                 });
 
                 // DB에 정보 입력 요청 보내기
@@ -168,7 +168,8 @@ export default function Order() {
         const request = {
             "imp_uid": imp_uid,
             "items": items,
-            "id": id
+            "id": id,
+            'rewordcheck' : checkstatus
         }
         if (apiCall(`/api/pay/datatoserver`, "POST", request)
             .then(response => {

@@ -29,5 +29,5 @@ public class OrderinfoDTO {
     private BigDecimal paidAmount;
     private Date paidAt;
     private String status;
-
+    private boolean rewordcheck;
 }
