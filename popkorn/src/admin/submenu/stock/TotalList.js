@@ -93,7 +93,7 @@ export default function TotalList() {
                   )}
                </select>
             </div>
-            <SearchForm setCurrKeyword={setCurrKeyword} entity={"product"} />
+            <SearchForm setCurrKeyword={setCurrKeyword} setCurrentPage={setPageState} entity={"product"} />
          </div>
          <ListForm data={productData.servData} setDataState={setProductData} pk={"pcode"} entity={'product'} pageData={productData.pageData} setPageState={setPageState} />
       </div>

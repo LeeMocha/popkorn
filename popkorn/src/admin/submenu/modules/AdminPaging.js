@@ -16,7 +16,7 @@ export default function AdminPaging({ pageData, setPageState }) {
    const nextHandler = () => {
       if (pageData.next) { // 다음 페이지로 이동 가능한 경우에만
          setPageState(pageData.end + 1);
-      }
+      }  
    }
 
    const startHandler = () => {
