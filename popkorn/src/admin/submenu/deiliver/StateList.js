@@ -21,6 +21,7 @@ export default function StateList() {
                 path.style.fill = countryName.includes(pathCountryName) ? '#00fe19' : 'lightwhite';
             });
 
+
             const restorePreviousColors = () => {
                 paths.forEach(path => {
                     if (previousColors[path.id] !== undefined) {
@@ -145,40 +146,40 @@ export default function StateList() {
                                 <div className='stateProgress'>
 
                                     <div className={`statusarrow 
-                                    ${selectedOrder.status === 'Paid' ? 'paid' : ''}
-                                    ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
-                                    ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'paid' ? 'paid' : ''}
+                                    ${selectedOrder.status === 'readyforship' ? 'readyforship' : ''}
+                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                     <p className={`statusarrow 
-                                    ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
-                                    ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'readyforship' ? 'readyforship' : ''}
+                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `} />
                                     <div className={`statusarrow 
-                                    ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
-                                    ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'readyforship' ? 'readyforship' : ''}
+                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                     <p className={`statusarrow
-                                    ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `} />
                                     <div className={`statusarrow
-                                    ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                     <p className={`statusarrow 
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `} />
                                     <div className={`statusarrow 
-                                    ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
                                     `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
