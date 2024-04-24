@@ -41,5 +41,9 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public void deleteByecode(int ecode) {
         eRepository.deleteByecode(ecode);
-    } 
+    }
+
+   public Event save(Event event) {
+        return eRepository.save(event);
+   }
 }

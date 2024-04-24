@@ -1,7 +1,8 @@
 package com.teamstatic.popkornback.domain;
 
 import java.sql.Date;
-import java.time.LocalDate;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +17,13 @@ import lombok.ToString;
 @Data
 public class EventDTO {
     private int ecode;
-    private LocalDate startdata;
-    private LocalDate enddata;
+    private Date startdate;
+    private Date enddate;
     private String title;
     private int type;
     private String image1;
     private String content;
+
+    private MultipartFile imageFile;
+    private MultipartFile contentFile;
 }

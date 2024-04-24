@@ -37,6 +37,6 @@ public class ProductDTO {
     private String image2;
     private String image3;
 
-    private MultipartFile imageFile;
+    private MultipartFile imageFile; 
 
 }
