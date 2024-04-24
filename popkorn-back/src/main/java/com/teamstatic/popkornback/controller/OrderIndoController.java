@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teamstatic.popkornback.domain.OrderinfoDTO;
+import com.teamstatic.popkornback.domain.PageRequestDTO;
+import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.entity.Orderinfo;
 import com.teamstatic.popkornback.service.OrderInfoService;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RequestMapping("/api/orderinfo")
 @RestController
@@ -39,10 +41,9 @@ public class OrderIndoController {
     public List<Integer> countOrdersByStatus(@RequestParam String buyerEmail) {
         List<Integer> count = new ArrayList<>();
         count.add(oiService.countPaid(buyerEmail, "paid"));
-        count.add(oiService.countPaid(buyerEmail, "readyforship"));
-        count.add(oiService.countPaid(buyerEmail, "shipping"));
-        count.add(oiService.countPaid(buyerEmail, "deliveried"));
-        System.out.println(count);
+        count.add(oiService.countPaid(buyerEmail, "Ready for ship"));
+        count.add(oiService.countPaid(buyerEmail, "Shipping"));
+        count.add(oiService.countPaid(buyerEmail, "Deliveried"));
         return count;
     }
 
@@ -53,9 +54,9 @@ public class OrderIndoController {
 
     @PostMapping("/refundrequest")
     public boolean postMethodName(@RequestBody Orderinfo entity) {
-        
+
         entity.setStatus("refund request");
-        if(oiService.findByImpUid(entity.getImpUid()).size()>0){
+        if (oiService.findByImpUid(entity.getImpUid()).size() > 0) {
             oiService.save(entity);
             return true;
         } else {
@@ -63,6 +64,45 @@ public class OrderIndoController {
         }
 
     }
-    
+
+    @GetMapping("/searchlist")
+    public PageResultDTO<OrderinfoDTO, Orderinfo> searchlist(String searchType, String keyword, int page) {
+        System.out.println("Search Type: " + searchType + ", Keyword: " + keyword + ", Page: " + page);
+        PageRequestDTO requestDTO = PageRequestDTO.builder()
+                .page(page)
+                .size(5)
+                .keyword(keyword)
+                .build();
+
+        switch (searchType) {
+            case "merchantUid":
+                return oiService.findAllByMerchantUid(keyword, requestDTO);
+            case "buyerEmail":
+                return oiService.findAllByBuyerEmail(keyword, requestDTO);
+            case "buyerTel":
+                return oiService.findAllByBuyerTel(keyword, requestDTO);
+            default:
+                return oiService.findAll(requestDTO);
+        }
+    }
+
+    @GetMapping("/inquiry")
+    public List<Orderinfo> getOrdersExcludingSpecificStatuses() {
+        return oiService.findOrdersExcludingRefund();
+    }
+
+    @PostMapping("/updatestatus")
+    public String updateStatus(@RequestParam("merchantuid") String merchantuid, @RequestParam("status") String status) {
+        try {
+            List<Orderinfo> focusorderInfo = oiService.findByMerchantUid(merchantuid);
+
+            Orderinfo orderInfo = focusorderInfo.get(0);
+            orderInfo.setStatus(status);
+            oiService.save(orderInfo);
+            return status;
+        } catch (Exception e) {
+            return "주문 상태 변경 실패: " + e.getMessage();
+        }
+    }
 
 }

@@ -15,6 +15,7 @@ import UserList from "./submenu/user/UserList";
 import StateList from "./submenu/deiliver/StateList";
 import Notices from "./submenu/modules/Notices";
 import Add from "./submenu/stock/Add";
+import OrderList from "./submenu/order/orderList";
 
 import Send from "./submenu/email/Send";
 import Attendance from "./submenu/modules/Attendance";
@@ -78,7 +79,7 @@ export default function AdminMain() {
             key: 2,
             icon: "xi-document",
             main: "Order",
-            subMenu: [{ subkey: "Order List", component: () => <></> }
+            subMenu: [{ subkey: "Order List", component: () => <OrderList /> }
                 , { subkey: "Refund List", component: () => <></> }
                 , { subkey: "Legacy", component: () => <></> }]
         },

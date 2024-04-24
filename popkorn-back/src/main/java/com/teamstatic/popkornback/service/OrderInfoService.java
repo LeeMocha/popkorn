@@ -2,6 +2,12 @@ package com.teamstatic.popkornback.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.teamstatic.popkornback.domain.OrderinfoDTO;
+import com.teamstatic.popkornback.domain.PageRequestDTO;
+import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.entity.Orderinfo;
 
 public interface OrderInfoService {
@@ -17,4 +23,34 @@ public interface OrderInfoService {
     Orderinfo save(Orderinfo entity);
 
     public List<Orderinfo> getOrderInfo();
+
+    default OrderinfoDTO entityToDto(Orderinfo entity) {
+        return OrderinfoDTO.builder()
+                .merchantUid(entity.getMerchantUid())
+                .impUid(entity.getImpUid())
+                .buyerName(entity.getBuyerName())
+                .buyerEmail(entity.getBuyerEmail())
+                .buyerAddr(entity.getBuyerAddr())
+                .buyerPostcode(entity.getBuyerPostcode())
+                .buyerTel(entity.getBuyerTel())
+                .paidAmount(entity.getPaidAmount())
+                .paidAt(entity.getPaidAt())
+                .status(entity.getStatus())
+                .build();
+    }
+
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByMerchantUid(String merchantUid, PageRequestDTO requestDTO);
+
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByBuyerEmail(String email, PageRequestDTO requestDTO);
+
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByBuyerTel(String tel, PageRequestDTO requestDTO);
+
+    public long countAll();
+
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAll(PageRequestDTO requestDTO);
+    
+    public List<Orderinfo> findAll();
+    
+    public List<Orderinfo> findOrdersExcludingRefund();
+
 }

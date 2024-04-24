@@ -9,6 +9,7 @@ export default function FindOrderpw() {
   const [inputemail, setInputemail] = useState('');
   const [ecertificationcheck, setEcertificationcheck] = useState(1);
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [viewEmail, setviewEmail] = useState(false);
   const [isEmailConfirmClicked, setIsEmailConfirmClicked] = useState(false);
   const [checkmerchantuid, Setcheckmerchantuid] = useState([]);
   const [emailinfo, setEmailinfo] = useState('');
@@ -16,21 +17,6 @@ export default function FindOrderpw() {
 
   const certificationhandle = (e) => {
     setEcertificationcode(e.target.value);
-  }
-
-  const handleEmailChange = (e) => {
-    const newEmailValue = e.target.value;
-    setInputemail(newEmailValue);
-    const isValidEmail = emCheck(newEmailValue);
-    setIsEmailValid(isValidEmail);
-
-    if (!isValidEmail && newEmailValue.length > 0) {
-      setEmailinfo('Invalid Email type');
-    } else if (!isEmailValid && newEmailValue.length > 1) {
-      setEmailinfo('Email already exists. If you are a member, please use MyPage');
-    } else {
-      setEmailinfo('');
-    }
   }
 
   const mailConfirm = async () => {
@@ -49,20 +35,21 @@ export default function FindOrderpw() {
     setordernuminput(e.target.value);
   }
 
-  const ordernumcheck = async () => {
+  const verifyOrderNumber = async () => {
     try {
-      const response = await apiCall(`/api/user/emailcheck?emailinput=${ordernuminput}`, "GET", null, null);
-      if (response.data === "success") {
-        return true;
+      const response = await apiCall(`/api/orderinfo/findByMerchantUid?merchantUid=${ordernuminput}`, "GET");
+      if (ordernuminput != response.data[0].merchantUid) {
+        setEmailinfo("Order number not found. Please enter a valid order number.");
+        setviewEmail(false);
       } else {
-        return false;
+        setEmailinfo("");
+        setviewEmail(true);
       }
     } catch (error) {
-      console.error('confirm failed:', error);
+      setEmailinfo("Invalid order number.");
+      setviewEmail(false);
     }
-  } 
-  
-  
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -82,6 +69,18 @@ export default function FindOrderpw() {
     setEcertificationcheck(2);
   }
 
+  const handleEmailChange = (e) => {
+    const newEmailValue = e.target.value;
+    setInputemail(newEmailValue);
+    const isValidEmail = emCheck(newEmailValue);
+
+    if (!isValidEmail && newEmailValue.length > 0) {
+      setEmailinfo('Invalid Email type');
+    } else {
+      setEmailinfo('');
+    }
+  }
+
   useEffect(() => {
     let asynccheck = true;
 
@@ -90,6 +89,11 @@ export default function FindOrderpw() {
         const response = await apiCall(`/api/orderdetail/emailcheck?emailinput=${inputemail}`, "GET", null, null);
         if (asynccheck) {
           setIsEmailValid(!response.data);
+          if (response.data) {
+            setEmailinfo('Email already exists. If you are a member, please use MyPage');
+          } else {
+            setEmailinfo('');
+          }
         }
       } catch (error) {
         console.error('Error occurred while checking email existence:', error);
@@ -99,7 +103,10 @@ export default function FindOrderpw() {
       }
     };
 
-    checkEmailExistence();
+    if (inputemail && emCheck(inputemail)) {
+      checkEmailExistence();
+    }
+
     return () => {
       asynccheck = false;
     };
@@ -114,6 +121,14 @@ export default function FindOrderpw() {
       console.error('Error occurred while fetching orders by email:', error);
     }
   };
+
+  useEffect(() => {
+    if (ordernuminput.length > 0) {
+      verifyOrderNumber();
+    } else {
+      setviewEmail(false);
+    }
+  }, [ordernuminput]);
 
   return (
     <>
@@ -139,15 +154,18 @@ export default function FindOrderpw() {
               onChange={handleordernumcheck}
               value={ordernuminput}
             />
-
-            <input
+            {viewEmail || !emCheck(inputemail) || inputemail.length === 0 || inputemail.length > 20 ? null :
+              <button onClick={mailConfirm} className="mailcodesend"><i className="xi-send" /></button>
+            }
+            
+            {viewEmail ? <input
               className='inputemail'
               type="text"
               placeholder="Insert Email"
               maxLength="20"
               onChange={handleEmailChange}
               value={inputemail}
-            />
+            /> : null}
 
             {!isEmailValid || !emCheck(inputemail) || inputemail.length === 0 || inputemail.length > 20 ? null :
               <button onClick={mailConfirm} className="mailcodesend"><i className="xi-send" /></button>
@@ -168,14 +186,14 @@ export default function FindOrderpw() {
               />
 
               {ecertificationcode !== mailcode || ecertificationcode.length < 1 ? null :
-                <button onClick={() => { emailToMerchantUid(); ordernumcheck();}} className="mailcodesend"><i className="xi-send" /></button>
+                <button onClick={() => { emailToMerchantUid(); viewEmail(); }} className="mailcodesend"><i className="xi-send" /></button>
               }
             </>
           }
         </>
 
-        : ecertificationcheck === 2 && ordernumcheck ?
-          <Orderpwchanges ordernuminput={ordernuminput}/>
+        : ecertificationcheck === 2 && viewEmail ?
+          <Orderpwchanges ordernuminput={ordernuminput} />
 
           : null}
     </>
