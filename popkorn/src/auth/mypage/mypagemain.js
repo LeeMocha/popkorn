@@ -64,13 +64,12 @@ export const MyPageMain = (Props) => {
                                     Membership Withdrawal
                                 </button>
                             </li>
-                            {!Props.isAdmin ?
                                 <li>
                                     <button onClick={() => showmypage('Customer Service')} className={activeButton === 'Customer Service' ? 'mypageactive' : ''}>
                                         Customer Service
                                     </button>
                                 </li>
-                                :
+                            {Props.isAdmin ?
                                 <li>
                                     <Link to='/AdminMain'>
                                         <button className="mypagetoadminpage">
@@ -78,6 +77,7 @@ export const MyPageMain = (Props) => {
                                         </button>
                                     </Link>
                                 </li>
+                                : null
                             }
                         </div>
                     </ul>

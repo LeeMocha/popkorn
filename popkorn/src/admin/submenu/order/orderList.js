@@ -54,8 +54,6 @@ const OrderItem = ({ order, onClick }) => {
                      <option value="Ready for ship">Ready for ship</option>
                      <option value="Shipping">Shipping</option>
                      <option value="Delivered">Delivered</option>
-                     <option value="Refund">Refund</option>
-                     <option value="Ready for Refund">Ready for Refund</option>
                   </select> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => handleUpdate()}>Save</button> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => onClick(order)}>Detail</button>
@@ -166,8 +164,8 @@ export default function OrderList() {
 
    return (
       <div className="adminorderwhole">
-         <div className="productlist_container">
-            <div className="productlist_header">
+         <div className="adminOrderlist_container">
+            <div className="adminOrderlist_header">
                <TypeIt options={{ loop: false }} className="productlist_type">Order List</TypeIt>
             </div>
          </div>
@@ -186,11 +184,16 @@ export default function OrderList() {
 
             </div>
             <SearchForm setCurrKeyword={setCurrKeyword} setCurrentPage={setCurrentPage} showButton={false} />
-
+            <div className="keywordresult">
+               {currKeyword.length !== 0 ?
+                  (<span>result of searching with [&nbsp;<span className="focuskeyword">{currKeyword}</span>&nbsp;]</span>)
+                  : null}
+            </div>
             <>
                {orders.map((order, index) => (
                   <OrderItem key={index} order={order} onClick={popupClick} />
                ))}
+
             </>
 
             {showPopup && selectedOrder && (

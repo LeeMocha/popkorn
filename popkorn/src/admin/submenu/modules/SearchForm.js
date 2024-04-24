@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "./SearchForm.css";
 
-export default function SearchForm({ setCurrKeyword, setCurrentPage,showButton = true }) {
+export default function SearchForm({ setCurrKeyword, setCurrentPage, showButton = true }) {
 
    const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -12,10 +12,9 @@ export default function SearchForm({ setCurrKeyword, setCurrentPage,showButton =
 
    const getSearchData = () => {
       setCurrKeyword(searchKeyword);
-      setCurrentPage(1); 
+      setCurrentPage(1);
       window.scrollTo(0, 0);
-      setSearchKeyword(''); 
-  }
+   }
 
    const handleKeyPress = (event) => {
       if (event.keyCode === 13) {

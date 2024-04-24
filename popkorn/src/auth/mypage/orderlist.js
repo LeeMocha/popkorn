@@ -27,7 +27,7 @@ const OrderItem = ({ order, onClick }) => {
           <button className='refundbtn'>Refund</button>
         </Link>
       }
-        <button className='inquirementbtn'>Inquirement</button>
+        <button className='purchaseconbtn'>Purchase Confirm</button>
         <div className='ordertotalprice'>
           Total amount : {order.paidAmount} ₩
         </div>

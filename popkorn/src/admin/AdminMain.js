@@ -16,6 +16,8 @@ import StateList from "./submenu/deiliver/StateList";
 import Notices from "./submenu/modules/Notices";
 import Add from "./submenu/stock/Add";
 import OrderList from "./submenu/order/orderList";
+import RefundList from "./submenu/order/RefundList";
+import Legacy from "./submenu/order/Legacy";
 
 import Send from "./submenu/email/Send";
 import Attendance from "./submenu/modules/Attendance";
@@ -80,8 +82,8 @@ export default function AdminMain() {
             icon: "xi-document",
             main: "Order",
             subMenu: [{ subkey: "Order List", component: () => <OrderList /> }
-                , { subkey: "Refund List", component: () => <></> }
-                , { subkey: "Legacy", component: () => <></> }]
+                , { subkey: "Refund List", component: () => <RefundList /> }
+                , { subkey: "Legacy", component: () => <Legacy /> }]
         },
         {
             key: 3,

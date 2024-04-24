@@ -86,9 +86,46 @@ public class OrderIndoController {
         }
     }
 
-    @GetMapping("/inquiry")
-    public List<Orderinfo> getOrdersExcludingSpecificStatuses() {
-        return oiService.findOrdersExcludingRefund();
+    @GetMapping("/searchRefundlist")
+    public PageResultDTO<OrderinfoDTO, Orderinfo> searchRefundlist(String searchType, String keyword, int page) {
+        System.out.println("Search Type: " + searchType + ", Keyword: " + keyword + ", Page: " + page);
+        PageRequestDTO requestDTO = PageRequestDTO.builder()
+                .page(page)
+                .size(5)
+                .keyword(keyword)
+                .build();
+
+        switch (searchType) {
+            case "merchantUid":
+                return oiService.findAllByRefundMerchantUid(keyword, requestDTO);
+            case "buyerEmail":
+                return oiService.findAllByRefundBuyerEmail(keyword, requestDTO);
+            case "buyerTel":
+                return oiService.findAllByRefundBuyerTel(keyword, requestDTO);
+            default:
+                return oiService.findAllRefund(requestDTO);
+        }
+    }
+
+    @GetMapping("/searchLegacy")
+    public PageResultDTO<OrderinfoDTO, Orderinfo> searchLegacy(String searchType, String keyword, int page) {
+        System.out.println("Search Type: " + searchType + ", Keyword: " + keyword + ", Page: " + page);
+        PageRequestDTO requestDTO = PageRequestDTO.builder()
+                .page(page)
+                .size(5)
+                .keyword(keyword)
+                .build();
+
+        switch (searchType) {
+            case "merchantUid":
+                return oiService.findAllByDeliveriedMerchantUid(keyword, requestDTO);
+            case "buyerEmail":
+                return oiService.findAllByDeliveriedBuyerEmail(keyword, requestDTO);
+            case "buyerTel":
+                return oiService.findAllByDeliveriedBuyerTel(keyword, requestDTO);
+            default:
+                return oiService.findAllDeliveried(requestDTO);
+        }
     }
 
     @PostMapping("/updatestatus")

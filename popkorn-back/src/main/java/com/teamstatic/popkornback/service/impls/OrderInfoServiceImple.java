@@ -53,11 +53,37 @@ public class OrderInfoServiceImple implements OrderInfoService {
         Page<Orderinfo> result = oiRepository.findAllByMerchantUid(merchantUid, pageable);
         return new PageResultDTO<>(result, this::entityToDto);
     }
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByRefundMerchantUid(String merchantUid, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+        Page<Orderinfo> result = oiRepository.findAllByRefundMerchantUid(merchantUid, pageable);
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByDeliveriedMerchantUid(String merchantUid, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+        Page<Orderinfo> result = oiRepository.findAllByDeliveriedMerchantUid(merchantUid, pageable);
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
 
     @Override
     public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByBuyerEmail(String email, PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
         Page<Orderinfo> result = oiRepository.findAllByBuyerEmail(email, pageable);
+        
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByRefundBuyerEmail(String email, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+        Page<Orderinfo> result = oiRepository.findAllByRefundBuyerEmail(email, pageable);
+        
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByDeliveriedBuyerEmail(String email, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+        Page<Orderinfo> result = oiRepository.findAllByDeliveriedBuyerEmail(email, pageable);
         
         return new PageResultDTO<>(result, this::entityToDto);
     }
@@ -69,10 +95,43 @@ public class OrderInfoServiceImple implements OrderInfoService {
         return new PageResultDTO<>(result, this::entityToDto);
     }
 
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByRefundBuyerTel(String tel, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+        Page<Orderinfo> result = oiRepository.findAllByRefundBuyerTel(tel, pageable);
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByDeliveriedBuyerTel(String tel, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+        Page<Orderinfo> result = oiRepository.findAllByDeliveriedBuyerTel(tel, pageable);
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+
+    @Override
     public PageResultDTO<OrderinfoDTO, Orderinfo> findAll(PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
 
         Page<Orderinfo> result = oiRepository.findAllByKeywordLike(requestDTO.getKeyword(), pageable);
+
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllRefund(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+
+        Page<Orderinfo> result = oiRepository.findAllByRefundKeywordLike(requestDTO.getKeyword(), pageable);
+
+        return new PageResultDTO<>(result, this::entityToDto);
+    }
+
+    @Override
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllDeliveried(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("paid_At").descending());
+
+        Page<Orderinfo> result = oiRepository.findAllByDeliveriedKeywordLike(requestDTO.getKeyword(), pageable);
 
         return new PageResultDTO<>(result, this::entityToDto);
     }
@@ -90,11 +149,6 @@ public class OrderInfoServiceImple implements OrderInfoService {
     @Override
     public List<Orderinfo> findAll() {
         return oiRepository.findAll();
-    }
-
-    @Override
-    public List<Orderinfo> findOrdersExcludingRefund() {
-        return oiRepository.findByStatusNot("Refund");
     }
 
 }

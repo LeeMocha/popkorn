@@ -40,17 +40,25 @@ public interface OrderInfoService {
     }
 
     public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByMerchantUid(String merchantUid, PageRequestDTO requestDTO);
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByRefundMerchantUid(String merchantUid, PageRequestDTO requestDTO);
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByDeliveriedMerchantUid(String merchantUid, PageRequestDTO requestDTO);
 
     public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByBuyerEmail(String email, PageRequestDTO requestDTO);
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByRefundBuyerEmail(String email, PageRequestDTO requestDTO);
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByDeliveriedBuyerEmail(String email, PageRequestDTO requestDTO);
 
     public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByBuyerTel(String tel, PageRequestDTO requestDTO);
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByRefundBuyerTel(String tel, PageRequestDTO requestDTO);
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllByDeliveriedBuyerTel(String tel, PageRequestDTO requestDTO);
 
     public long countAll();
 
     public PageResultDTO<OrderinfoDTO, Orderinfo> findAll(PageRequestDTO requestDTO);
+
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllRefund(PageRequestDTO requestDTO);
+
+    public PageResultDTO<OrderinfoDTO, Orderinfo> findAllDeliveried(PageRequestDTO requestDTO);
     
     public List<Orderinfo> findAll();
-    
-    public List<Orderinfo> findOrdersExcludingRefund();
 
 }
