@@ -109,26 +109,28 @@ public class PaymentsController {
       return payService.findById(buyerEmail);
    }
 
-   @PostMapping("/retund")
-   public Orderinfo postMethodName(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
+   @PostMapping("/refund")
+   public boolean postMethodName(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
 
       if (oService.findByImpUid(orderinfo.getImpUid()).size() > 0) {
          iamportClient.cancelPaymentByImpUid(new CancelData(orderinfo.getImpUid(), true));
-         orderinfo.setStatus("refund");
+         orderinfo.setStatus("Refund");
 
          try {
 
             payService.refundPaymentData(orderinfo);
 
-            return oService.save(orderinfo);
+            oService.save(orderinfo);
+
+            return true;
    
          } catch (Exception e) {
             // 상기 try 부분에서 무결성에 문제가 생길경우 결제 취소.
             log.info("환불 오류 발생!!! 환불을 취소합니다. err =>" + e);
-            return null;
+            return false;
          }
       } else {
-         return null;
+         return false;
       }
    }
 
