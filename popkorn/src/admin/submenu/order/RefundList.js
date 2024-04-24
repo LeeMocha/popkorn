@@ -19,23 +19,25 @@ const OrderItem = ({ order, onClick, setOrders}) => {
    };
 
    const updateStatus = async (order) => {
-      try {
-         const response = await apiCall(`/api/pay/refund`, "POST",order,null);
-         if (response.status=== 200) {
-            return true;
-         } else {
-            console.log('상태 업데이트 실패:', response.statusText);
+      if(infostatus==='Refund'){
+         try {
+            const response = await apiCall(`/api/pay/refund`, "POST", order, null);
+            if (response.status=== 200) {
+               return true;
+            } else {
+               console.log('상태 업데이트 실패:', response.statusText);
+               return false;
+            }
+         } catch (error) {
+            console.error('오류 발생:', error);
             return false;
          }
-      } catch (error) {
-         console.error('오류 발생:', error);
-         return false;
       }
    }
 
-   const handleUpdate = () => {
+   const handleUpdate = (order) => {
       toggleEdit();
-      updateStatus(order.merchantUid, infostatus);
+      updateStatus(order, infostatus);
    };
 
    return order ? (

@@ -72,13 +72,6 @@ export default function Notices() {
     );
 }
 
-/* 
-1. content를 작성 하는 div 와 작성한 content 출력 div 생성
-1-1. ASC 정렬(최근 content가 화면 하단 출력)
-2. btn onClick 시 contnet div 박스에 작성한 내용이 api 요청을 통해 서버로 전달
-3. 화면 출력 시 login 한 id와 chat id 가 동일한 경우 화면 오른쪽에 출력
-3-1. 화면 출력 시 login 한 id 와 chat id 가 동일하지 않은 경우 화면 왼쪼게 출력 
-4. 출력된 content div 위쪽에 작성자 표시, 옆면에 regdate 표시 
+// 1. 500번 오류
+// 2. 엔터 전송 불가
 
-admin chat에 on focus가 되어 있을 때 엔터키 사용 가능
-*/

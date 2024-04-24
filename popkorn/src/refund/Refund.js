@@ -73,7 +73,7 @@ export default function Refund() {
             const selectedItems = items.filter((item, index) => selectCheck[index]);
 
             // 선택s된 상품들이 있는지 확인
-            if (selectedItems.length > 0) {
+            if (selectedItems.length === items.length) {
                 apiCall("/api/orderinfo/refundrequest","POST", orderinfo[0], null)
                 .then(response => {
                     if(response.data != null){

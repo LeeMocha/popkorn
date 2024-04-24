@@ -31,12 +31,12 @@
     flex-direction: column;
     padding-left: 10px;
     overflow: auto;
+    align-items: start;
 }
 
 .statei {
     width: 96%;
     margin-top: 10px;
-    height: 100%;
 }
 
 .seateState {

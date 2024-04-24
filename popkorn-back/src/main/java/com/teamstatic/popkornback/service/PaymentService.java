@@ -8,10 +8,10 @@ import com.teamstatic.popkornback.entity.Orderinfo;
 
 public interface PaymentService {
     
-    void savePaymentData(List<OrderDetail> orderDetail, Payment payment, String id);
+    void savePaymentData(List<OrderDetail> orderDetail, Payment payment, String id, boolean rewordcheck);
 
     List<Orderinfo> findById(String id);
 
-    
+    void refundPaymentData(Orderinfo orderinfo);
 
 }
