@@ -15,6 +15,6 @@ public class CelebDTO {
 
    private String artist;
    private String celebimg;
-   
+   private String mainimg;
    
 }

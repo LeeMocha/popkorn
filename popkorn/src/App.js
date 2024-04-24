@@ -18,6 +18,8 @@ import React from 'react';
 import  {OrderComplete}  from './order/OrderComplete';
 import { apiCall } from './service/apiService';
 import Refund from './refund/Refund';
+import CelebListPage from './celeb/CelebListPage';
+import CelebComunity from './celeb/CelebComunity';
 
 
 
@@ -71,7 +73,8 @@ apiCall(`/api/user/selectone?id=${storedLoginID}`, "GET", null, null)
           <Route path="/ordercomplete" Component={OrderComplete}></Route>
           <Route path='/adminmain' element={isAdmin ? <AdminMain /> : <Main />}></Route>
           <Route path='/unsignedorder' Component={UnsignedOrder}></Route>
-          {/* <Route path='/searchorder' element={SearchOrder}/> */}
+          <Route path='/celeblistpage' Component={CelebListPage}></Route>
+          <Route path='/celebcomunity' Component={CelebComunity}></Route>
           <Route path='/refund' Component={Refund}/>
         </Routes>
       </BrowserRouter>
