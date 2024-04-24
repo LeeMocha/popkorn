@@ -63,6 +63,7 @@ public class PaymentsController {
 
       String imp_uid = (String) request.get("imp_uid");
       String id = (String) request.get("id");
+      boolean rewordcheck = (boolean) request.get("rewordcheck");
       List<Map<String, Object>> items = (List<Map<String, Object>>) request.get("items");
       List<OrderDetail> orderDetail = new ArrayList<>();
       IamportResponse<Payment> paymentIamportResponse = iamportClient.paymentByImpUid(imp_uid);
@@ -90,7 +91,7 @@ public class PaymentsController {
 
       try {
 
-         payService.savePaymentData(orderDetail, payment, id);
+         payService.savePaymentData(orderDetail, payment, id, rewordcheck);
          // 결과 주문내역 return (merchant_uid, email, ETC)
          return true;
 
@@ -115,8 +116,17 @@ public class PaymentsController {
          iamportClient.cancelPaymentByImpUid(new CancelData(orderinfo.getImpUid(), true));
          orderinfo.setStatus("refund");
 
-         return oService.save(orderinfo);
+         try {
 
+            payService.refundPaymentData(orderinfo);
+
+            return oService.save(orderinfo);
+   
+         } catch (Exception e) {
+            // 상기 try 부분에서 무결성에 문제가 생길경우 결제 취소.
+            log.info("환불 오류 발생!!! 환불을 취소합니다. err =>" + e);
+            return null;
+         }
       } else {
          return null;
       }
