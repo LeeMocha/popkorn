@@ -140,7 +140,7 @@ export default function StateList() {
                 <div className='stateps'>
                     <h3><i className='xi-spinner-1 xi-spin'></i>Delivery status</h3>
                     <div className='stateProgressstatusarrow'>
-                        <div className='stateProgress'>
+                        <div className='stateProgresswrap'>
                             {selectedOrder && (
                                 <div className='stateProgress'>
 

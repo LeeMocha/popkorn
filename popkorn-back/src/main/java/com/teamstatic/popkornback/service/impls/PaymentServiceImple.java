@@ -46,7 +46,7 @@ public class PaymentServiceImple implements PaymentService {
                 .buyerTel(payment.getBuyerTel())
                 .paidAmount(payment.getAmount())
                 .paidAt(payment.getPaidAt())
-                .status(payment.getStatus())
+                .status("Paid")
                 .rewordcheck(rewordcheck)
                 .build();
         payRepository.save(orderinfoEntity);

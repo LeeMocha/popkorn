@@ -94,9 +94,11 @@
 .stateProgress {
     display: flex;
     align-items: center;
-    width: 80%;
+    justify-content: center;
+    padding: 0 12%;
+    margin: 0 auto;
+    width: 100%;
     padding-top: 20px;
-    padding-left: 20px;
 }
 
 .stateps {
@@ -126,10 +128,19 @@
     width: 25%;
 }
 
+.stateProgresswrap{
+    display: flex;
+    width: 100%;
+    padding: 0 50px
+}
+
 .stepByStep {
     display: flex;
+    width: 100%;
     align-items: center;
-    padding-left: 15px;
+    margin: 0 auto;
+    justify-content: center;
+    padding: 0 1%;
 }
 
 .stage>p {
@@ -141,7 +152,6 @@
 .stepByStepStage {
     display: flex;
     justify-content: space-between;
-    padding-left: 7%;
     width: 85%;
 }
 
