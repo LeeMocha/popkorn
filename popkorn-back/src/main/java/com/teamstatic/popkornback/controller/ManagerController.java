@@ -33,8 +33,8 @@ public class ManagerController {
         entity.setNickname(entity.getNickname().replace("\"", ""));
         Optional<Snakegame> userhistory = sgService.findById(entity.getNickname());
     
-        if(userhistory.isPresent() && userhistory.get().getRecord()<entity.getRecord()){
-            System.out.println(entity);
+
+        if(!userhistory.isPresent() || userhistory.get().getRecord()<entity.getRecord()){
             sgService.save(entity);
         }
 

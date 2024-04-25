@@ -11,7 +11,7 @@ export default class SnakeGameView extends Component {
     };
     render() {
         const { gameState, table, onKeyPressed, logic, records } = this.props;
-        const lastRecord = records.length > 0 ? records[records.length - 1] : null;
+        const lastRecord = records.length > 0 ? records[0] : null;
 
         return (
             <div className="snakegame_wrap">
@@ -71,7 +71,7 @@ export default class SnakeGameView extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {records.slice(0, 3).map((record, index) => ( // records 배열의 처음 3개 요소만을 가져와서 map
+                            {records.slice(1).map((record, index) => ( // records 배열의 처음 3개 요소만을 가져와서 map
                                 <tr key={index}>
                                     <td><i className={`xi-crown ${index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : ''}`}></i> {record.nickname}</td>
                                     <td>{record.record}</td>

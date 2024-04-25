@@ -27,15 +27,16 @@ public class SnakegameServiceImple implements SnakegameService{
         // 사용자의 기록 가져오기
         Optional<Snakegame> userRecord = sgRepository.findById(nickname);
 
-        // 결과 리스트에 상위 3개의 기록 추가
-        resultList.addAll(top3Records);
-
         // 결과 리스트에 사용자의 기록을 맨 앞에 추가
         if (userRecord.isPresent()) {
             resultList.add(userRecord.get());
         }
 
+        // 결과 리스트에 상위 3개의 기록 추가
+        resultList.addAll(top3Records);
+
         return resultList;
+        
     }
 
     public Optional<Snakegame> findById(String nickname){

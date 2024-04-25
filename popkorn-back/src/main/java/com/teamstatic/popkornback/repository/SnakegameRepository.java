@@ -10,6 +10,6 @@ import com.teamstatic.popkornback.entity.Snakegame;
 
 public interface SnakegameRepository extends JpaRepository<Snakegame, String>{
     
-    @Query(value = "SELECT * FROM SnakeGame ORDER BY record DESC LIMIT 3", nativeQuery = true)
+    @Query(value = "SELECT * FROM snakegame ORDER BY record DESC LIMIT 3", nativeQuery = true)
     List<Snakegame> findTop3Records();
 }
