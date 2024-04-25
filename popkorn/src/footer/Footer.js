@@ -11,9 +11,6 @@ export default function Footer() {
               <Link to="/unsignedorder">
               <span>Unsigned Order</span>
               </Link>
-              <Link to="/qnaboard">
-              <span>QNA Board</span>
-              </Link>
             </div>
               <UseTerms />
             <dl>
