@@ -188,8 +188,8 @@ export default function SlideEvent() {
                         <input type="date" value={startdate} onChange={handleStartDateChange} />
                         <span>EndDate</span>
                         <input type="date" value={enddate} onChange={handleEndDateChange} />
-                        <div className="event2_btnAll_wrap2">
-                            <button type="button" className="event2_insert_btn" onClick={insertEventListHandler}>Insert</button>
+                        <div className="event_btnAll_wrap2">
+                            <button type="button" className="event_insert_btn" onClick={insertEventListHandler}>Insert</button>
                         </div>
                     </div>
                 </div>
