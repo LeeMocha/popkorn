@@ -123,7 +123,7 @@ export default function Send() {
         />
         <div>
           All Users (May take some time) &nbsp; <input type="checkbox" className="allusercheck" onChange={handleAllUsersCheck} /> <br />
-          Reverse Sending &nbsp; <input type="checkbox" className="allusercheck" onChange={handlereserve} /> &nbsp;
+          {/* Reverse Sending &nbsp; <input type="checkbox" className="allusercheck" onChange={handlereserve} /> &nbsp;
           {checkReserve ?
             <input
               type="datetime-local"
@@ -132,7 +132,7 @@ export default function Send() {
               onChange={handleInputChange}
               className="reservetime"
             />
-            : null}
+            : null} */}
 
 
         </div>

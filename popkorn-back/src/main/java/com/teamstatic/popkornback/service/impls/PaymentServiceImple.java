@@ -107,7 +107,7 @@ public class PaymentServiceImple implements PaymentService {
         }
 
         User user = uRepository.findByUserId(orderinfo.getBuyerEmail());
-        if (user.getStatus() == "signed") {
+        if (user != null) {
             // 유저 리워드 (-) 하기
             user.setReword(user.getReword()-(int)(orderinfo.getPaidAmount().intValue()*0.1));
             uRepository.save(user);

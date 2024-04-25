@@ -105,7 +105,6 @@
 // 			user.addRole(UserRole.NONUSER);
 // 		}
 
-// 		System.out.println(user);
 //         // 새로운 인스턴스를 생성하여 roleList를 추가한 후 저장
 //         memberRepository.save(user);
 
