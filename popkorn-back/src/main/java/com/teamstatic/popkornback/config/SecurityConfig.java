@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.CorsFilter;
 
@@ -65,7 +66,7 @@ public class SecurityConfig {
 		// 이 순서가 필수는 아니지만 적절하기때문에 이렇게 설정함.
 		http.addFilterAfter(
 				jwtAuthenticationFilter,
-				CorsFilter.class);
+				UsernamePasswordAuthenticationFilter.class);
 
 		// ** http 시큐리티 빌더
 		// => disable(): 사용 안함 설정
@@ -109,7 +110,7 @@ public class SecurityConfig {
 				.csrf().disable() // csrf는 API 서버 현재 사용하지 않으므로 disable
 				.cors().configurationSource(request -> {
 					CorsConfiguration config = new CorsConfiguration();
-					config.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
+					config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
 					config.setAllowedMethods(Arrays.asList("*"));
 					config.setAllowCredentials(true);
 					config.setAllowedHeaders(Arrays.asList("*"));
@@ -117,7 +118,7 @@ public class SecurityConfig {
 					return config;
 				}).and()
 				// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				// => session 기반이 아님을 선언
 
 				.authorizeRequests()

@@ -74,7 +74,7 @@ export default function AdminMain() {
             icon: "xi-users-o",
             main: "User",
             subMenu: [{ subkey: "User List", component: <UserList /> }
-                // , { subkey: "Admin List", component: <AdminList /> }
+                , { subkey: "Celeb List", component: ()=>{<></>} }
             ]
         },
         {
