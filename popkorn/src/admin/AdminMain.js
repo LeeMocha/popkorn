@@ -23,6 +23,7 @@ import Send from "./submenu/email/Send";
 import Attendance from "./submenu/modules/Attendance";
 import Calendar from './submenu/modules/Calendar';
 import DashChart from "./submenu/modules/chart/DashChart";
+import SnakeGame from "./submenu/modules/SnakeGame";
 
 export default function AdminMain() {
 
@@ -67,7 +68,7 @@ export default function AdminMain() {
                 , { key: 4, subkey: <i className="xi-qr-code dicon" onClick={() => toggleIconColor(4)} style={{ color: iconColors[4] }}></i>, component: <Attendance/>}
                 , { key: 5, subkey: <i className="xi-forum-o dicon" onClick={() => toggleIconColor(5)} style={{ color: iconColors[5] }}></i>, component: <Notices/> }
                 , { key: 6, subkey: <i className="xi-calendar-check dicon" onClick={() => toggleIconColor(6)} style={{ color: iconColors[6] }}></i>, component: <Calendar/> }
-                , { key: 7, subkey: <i className="xi-puzzle dicon" onClick={() => toggleIconColor(7)} style={{ color: iconColors[7] }}></i>, component: () => { } }]
+                , { key: 7, subkey: <i className="xi-puzzle dicon" onClick={() => toggleIconColor(7)} style={{ color: iconColors[7] }}></i>, component: <SnakeGame /> }]
         },
         {
             key: 1,
