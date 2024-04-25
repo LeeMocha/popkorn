@@ -31,5 +31,6 @@ public class Orderinfo {
     private BigDecimal paidAmount;
     private Date paidAt;
     private String status;
+    private boolean rewordcheck;
 
 }

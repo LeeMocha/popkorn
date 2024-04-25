@@ -148,6 +148,7 @@ public class UserController {
                 final UserDTO userDTO = UserDTO.builder()
                         .token(token)
                         .id(user.getId())
+                        .nickname(user.getNickname())
                         .roleList(user.getRoleList())
                         .build();
                 return userDTO;

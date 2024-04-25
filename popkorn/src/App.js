@@ -18,7 +18,9 @@ import React from 'react';
 import  {OrderComplete}  from './order/OrderComplete';
 import { apiCall } from './service/apiService';
 import Refund from './refund/Refund';
-
+import CelebListPage from './celeb/CelebListPage';
+import CelebComunity from './celeb/CelebComunity';
+import QnaBoard from './qnaboard/qnaboard';
 
 
 // 로그인 상태는 Session 전역으로 관리함. 
@@ -71,7 +73,9 @@ apiCall(`/api/user/selectone?id=${storedLoginID}`, "GET", null, null)
           <Route path="/ordercomplete" Component={OrderComplete}></Route>
           <Route path='/adminmain' element={isAdmin ? <AdminMain /> : <Main />}></Route>
           <Route path='/unsignedorder' Component={UnsignedOrder}></Route>
-          {/* <Route path='/searchorder' element={SearchOrder}/> */}
+          <Route path='/qnaboard' Component={QnaBoard}></Route>
+          <Route path='/celeblistpage' Component={CelebListPage}></Route>
+          <Route path='/celebcomunity' Component={CelebComunity}></Route>
           <Route path='/refund' Component={Refund}/>
         </Routes>
       </BrowserRouter>

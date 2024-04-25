@@ -18,7 +18,6 @@ export const Mypagebasic = () => {
           setResponseData(response.data);
           return responseData;
         } else {
-          console.log(response);
           throw new Error('Failed to fetch delivery status');
         }
       } catch (error) {
@@ -46,9 +45,9 @@ export const Mypagebasic = () => {
           <div className="situationstatusdeliver3">Shipping
             <div className="deliveryvalue">{responseData[2]}
             </div>
-              </div>
-            <div className="situationstatusdeliver4">Delivered
-              <div className="deliveryvalue">{responseData[3]}
+          </div>
+          <div className="situationstatusdeliver4">Delivered
+            <div className="deliveryvalue">{responseData[3]}
             </div>
           </div>
         </div>
