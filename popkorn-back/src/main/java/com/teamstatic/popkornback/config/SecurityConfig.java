@@ -110,7 +110,7 @@ public class SecurityConfig {
 				.csrf().disable() // csrf는 API 서버 현재 사용하지 않으므로 disable
 				.cors().configurationSource(request -> {
 					CorsConfiguration config = new CorsConfiguration();
-					config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+					config.setAllowedOrigins(Arrays.asList("http://www.popkorn.co.kr"));
 					config.setAllowedMethods(Arrays.asList("*"));
 					config.setAllowCredentials(true);
 					config.setAllowedHeaders(Arrays.asList("*"));
