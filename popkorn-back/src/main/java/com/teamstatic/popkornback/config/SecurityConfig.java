@@ -117,7 +117,7 @@ public class SecurityConfig {
 					return config;
 				}).and()
 				// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				// => session 기반이 아님을 선언
 
 				.authorizeRequests()
