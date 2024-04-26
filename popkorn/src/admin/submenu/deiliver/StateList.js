@@ -12,15 +12,15 @@ export default function StateList() {
         if (selectedOrder) {
             const paths = document.querySelectorAll('.worldmapPath');
             const countryName = selectedOrder.buyerAddr;
-    
+
             const previousColors = {};
-    
+
             paths.forEach(path => {
                 const pathCountryName = path.dataset.name;
                 previousColors[path.id] = path.style.fill;
                 path.style.fill = countryName.includes(pathCountryName) ? '#00fe19' : 'lightwhite';
             });
-    
+
             const restorePreviousColors = () => {
                 paths.forEach(path => {
                     if (previousColors[path.id] !== undefined) {
@@ -28,11 +28,11 @@ export default function StateList() {
                     }
                 });
             };
-    
+
             return restorePreviousColors;
         }
     }, [selectedOrder]);
-    
+
 
 
 
@@ -140,46 +140,46 @@ export default function StateList() {
                 <div className='stateps'>
                     <h3><i className='xi-spinner-1 xi-spin'></i>Delivery status</h3>
                     <div className='stateProgressstatusarrow'>
-                        <div className='stateProgress'>
+                        <div className='stateProgresswrap'>
                             {selectedOrder && (
                                 <div className='stateProgress'>
 
                                     <div className={`statusarrow 
-                                    ${selectedOrder.status === 'paid' ? 'paid' : ''}
-                                    ${selectedOrder.status === 'readyforship' ? 'readyforship' : ''}
-                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `}>
+ ${selectedOrder.status === 'Paid' ? 'paid' : ''}
+ ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
+ ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                     <p className={`statusarrow 
-                                    ${selectedOrder.status === 'readyforship' ? 'readyforship' : ''}
-                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `} />
+ ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
+ ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `} />
                                     <div className={`statusarrow 
-                                    ${selectedOrder.status === 'readyforship' ? 'readyforship' : ''}
-                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `}>
+ ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
+ ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                     <p className={`statusarrow
-                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `} />
+ ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `} />
                                     <div className={`statusarrow
-                                    ${selectedOrder.status === 'shipping' ? 'shipping' : ''}
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `}>
+ ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                     <p className={`statusarrow 
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `} />
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `} />
                                     <div className={`statusarrow 
-                                    ${selectedOrder.status === 'deliveried' ? 'deliveried' : ''}
-                                    `}>
+ ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+ `}>
                                         <span><i className='xi-check delivery'></i></span>
                                     </div>
                                 </div>

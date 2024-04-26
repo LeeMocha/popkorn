@@ -40,12 +40,41 @@ export default function FindOrderNum() {
 
     if (!isValidEmail && newEmailValue.length > 0) {
       setEmailinfo('Invalid Email type');
-    } else if (!isEmailValid && newEmailValue.length > 1) {
-      setEmailinfo('Email already exists. If you are a member, please use MyPage');
     } else {
       setEmailinfo('');
     }
-}
+  }
+
+  useEffect(() => {
+    let asynccheck = true;
+
+    const checkEmailExistence = async () => {
+      try {
+        const response = await apiCall(`/api/orderdetail/emailcheck?emailinput=${inputemail}`, "GET", null, null);
+        if (asynccheck) {
+          setIsEmailValid(!response.data);
+          if (response.data) {
+            setEmailinfo('Email already exists. If you are a member, please use MyPage');
+          } else {
+            setEmailinfo('');
+          }
+        }
+      } catch (error) {
+        console.error('Error occurred while checking email existence:', error);
+        if (asynccheck) {
+          setIsEmailValid(true);
+        }
+      }
+    };
+
+    if (inputemail && emCheck(inputemail)) {
+      checkEmailExistence();
+    }
+
+    return () => {
+      asynccheck = false;
+    };
+  }, [inputemail]);
 
 
   const mailConfirm = async () => {
@@ -85,29 +114,6 @@ export default function FindOrderNum() {
     setEcertificationcheck(2);
   }
 
-  useEffect(() => {
-    let asynccheck = true;
-
-    const checkEmailExistence = async () => {
-      try {
-        const response = await apiCall(`/api/orderdetail/emailcheck?emailinput=${inputemail}`, "GET", null, null);
-        if (asynccheck) {
-          setIsEmailValid(!response.data);
-        }
-      } catch (error) {
-        console.error('Error occurred while checking email existence:', error);
-        if (asynccheck) {
-          setIsEmailValid(true);
-        }
-      }
-    };
-
-    checkEmailExistence();
-    return () => {
-      asynccheck = false;
-    };
-  }, [inputemail]);
-
   const emailToMerchantUid = async () => {
     try {
       const response = await apiCall(`/api/orderinfo/findByEmail?email=${inputemail}`, "GET", null, null);
@@ -146,12 +152,12 @@ export default function FindOrderNum() {
               onChange={handleEmailChange}
               value={inputemail}
             />
-            
+
             {!isEmailValid || !emCheck(inputemail) || inputemail.length === 0 || inputemail.length > 20 ? null :
               <button onClick={mailConfirm} className="mailcodesend"><i className="xi-send" /></button>
             }
             <div className="existedemail">
-            {emailinfo}
+              {emailinfo}
             </div>
           </div>
 

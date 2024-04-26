@@ -16,11 +16,12 @@
 .celeb_slot_imgwrap img{
    height: 200px;
    width: 100%;
+   transition: 0.2s All ease-in-out;
 }
 
 .celeb_slot_wrap i{
    position: absolute;
-   color: #7de3ff;
+   color: #FE7CF3;
    font-size: 24px;
    right: 15px;
    top: 15px;
@@ -36,6 +37,7 @@
 .celeb_span_wrap img{
    margin: 0 auto;
    width: 60px;
+   height: 60px;
    border-radius: 50%;
    border: 5px solid white;
 }
@@ -43,6 +45,8 @@
 .celeb_span2_wrap{
    padding: 40px 0;
    font-family: 'Noto Sans KR', sans-serif;
+   color: black;
+   font-weight: bold;
 }
 
 .celeb_slot_wrap>.xi-star, .celeb_slot_wrap>.xi-star-o{
@@ -51,6 +55,10 @@
 
 .celeb_slot_wrap>.xi-star{
    color: #FE7CF3;
+}
+
+.celeb_slot_imgwrap>img:hover{
+   scale: 1.1;
 }
 
 

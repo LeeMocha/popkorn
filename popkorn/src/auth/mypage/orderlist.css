@@ -79,7 +79,7 @@
 }
 
 .orderdetailnumber {
-  font-size: 1.5vw;
+  font-size: 20px;
   color: #000;
 }
 
@@ -230,7 +230,7 @@
   align-items: baseline;
 }
 
-.refundbtn, .inquirementbtn {
+.refundbtn, .purchaseconbtn {
   width: 200px;
   border: 0px;
   border-radius: 2vw;

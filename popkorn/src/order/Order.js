@@ -145,13 +145,12 @@ export default function Order() {
                 items.map((item, i) => {
                     let newItem = { ...item };
                     delete newItem.ccode;
-                    items[i] = { ...newItem, merchantUid: response.merchant_uid, pcode: +items[i].pcode };
+                    items[i] = { ...newItem, merchantUid: response.merchant_uid, pcode: +items[i].pcode};
                 });
 
                 // DB에 정보 입력 요청 보내기
                 if (sendImpUidToServer(response.imp_uid, items, sessionStorage.getItem('loginID'))) {
                     // DB 입력 성공한 경우에만 navigate 호출
-                    reducerewords();
                     navigate('/ordercomplete', { state: { items: items, response: response } });
                 } else {
                     alert("The order payment has failed due to a system issue. Please try again later.");
@@ -169,7 +168,8 @@ export default function Order() {
         const request = {
             "imp_uid": imp_uid,
             "items": items,
-            "id": id
+            "id": id,
+            'rewordcheck' : checkstatus
         }
         if (apiCall(`/api/pay/datatoserver`, "POST", request)
             .then(response => {
@@ -217,14 +217,7 @@ export default function Order() {
         setcheckstatus(true);
         possionRewords();
     };
-    
-    const reducerewords = async () => {
-        try {
-            const response = await apiCall('/api/user/reducereword', "POST", { storedLoginID: storedLoginID, useReword: parseInt(useReword) }, null);
-        } catch (error) {
-            console.error('오류 발생:', error);
-        }
-    }
+
 
     return (
         <>

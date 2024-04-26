@@ -7,6 +7,7 @@ import { useRef, useEffect, useState } from "react";
 
 
 import { apiCall } from "../service/apiService";
+import { format } from 'date-fns';
 
 export default function Event2() {
    const imageSrc = process.env.PUBLIC_URL + "/event2IMG/";
@@ -67,7 +68,7 @@ export default function Event2() {
                   }}>
                      <img src={imageSrc + item.image1} alt="event2_IMG" className="event2_IMG" />
                      <span className="event2_span1">{item.title}</span><br></br>
-                     <span className="event2_span2">{item.startdate}~{item.enddate}</span>
+                     <span className="event2_span2">{format(item.startdate,"yyyy-MM-dd")}~{format(item.enddate,"yyyy-MM-dd")}</span>
                   </div>
                ))}
             </Slider>
