@@ -1,90 +1,119 @@
-import React, { useState } from 'react';
-import ListForm from '../admin/submenu/modules/ListForm';
+import React, { useState, useEffect } from 'react';
+import { apiCall } from '../service/apiService';
+import SearchForm from '../admin/submenu/modules/SearchForm';
+import Header from '../header/Header';
+import './qnaboard.css';
+import AdminPaging from '../admin/submenu/modules/AdminPaging';
 
-function AnswerList({ answers }) {
+function QnaBoard() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentKeyword, setCurrentKeyword] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [currCategoryl, setCurrCategoryl] = useState('all');
+  const qnaPerPage = 10;
+  const [currKeyword, setCurrKeyword] = useState('');
+  const categoryl = ['all', 'Title', 'ID', 'Content']
+  const [qnaData, setqnaData] = useState({
+    servData: [],
+    pageData: {
+      page: 1,
+      size: 20,
+      prev: false,
+      next: false,
+      start: 0,
+      end: 0,
+      pageList: [1],
+      totalPage: 0
+    }
+  });
+
+  useEffect(() => {
+    apiCall(`/api/qna/searchlist?searchType=${currCategoryl}&keyword=${currKeyword}&page=${currentPage}`, "GET", null, null)
+      .then(response => {
+        const sortedPostsDescending = response.data.dtoList.sort((a, b) => new Date(b.createdat) - new Date(a.createdat));
+        console.log(response)
+        setPosts(response.data.dtoList);
+        setqnaData({
+          servData: response.data.dtoList,
+          pageData: {
+            page: response.data.page,
+            size: response.data.size,
+            prev: response.data.prev,
+            next: response.data.next,
+            start: response.data.start,
+            end: response.data.end,
+            pageList: response.data.pageList,
+            totalPage: response.data.totalPage
+          }
+        });
+      })
+      .catch(err => {
+        console.error('Error loading data:', err);
+      });
+  }, [currCategoryl, currKeyword, currentPage, qnaPerPage]);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const setPageState = (newPage) => {
+    if (newPage < 1 || newPage > qnaData.pageData.totalPage) return;
+    setCurrentPage(newPage);
+  };
+
+  const handleSearch = (keyword) => {
+    setCurrentKeyword(keyword);
+    setCurrentPage(1);
+  };
+
   return (
-    <div>
-      <h3>Answers:</h3>
-      {answers.map(answer => (
-        <div key={answer.id}>
-          <p>{answer.content}</p>
+    <div className='qnawhole'>
+      <Header />
+      <div>
+        <h1>QnA Board</h1>
+        <div>
+          <select onChange={(e) => {
+            setCurrCategoryl(e.target.value);
+            setPageState(1);
+          }}>
+            {categoryl.map((category, index) =>
+              <option value={category} key={index}>{category}</option>
+            )}
+          </select>
         </div>
-      ))}
+        <SearchForm setCurrKeyword={setCurrKeyword} setCurrentPage={setCurrentPage} showButton={false} />
+        {posts.length > 0 ? 
+        <table className='qnalist'>
+          <thead>
+            <tr className='qnaheader'>
+              <th>Category</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((post, index) => (
+              <tr key={index} className='qnabody'>
+                <td>{post.category}</td>
+                <td>{post.title}</td>
+                <td>{post.id}</td>
+                <td>{new Date(post.createdat).toLocaleString('ko-KR', {
+                  year: 'numeric', month: '2-digit', day: '2-digit',
+                  hour: '2-digit', minute: '2-digit', hour12: false
+                })}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table> : (
+          <p>No posts found</p>
+        )}
+        <div className='qnapaging'>
+          <AdminPaging pageData={qnaData.pageData} setPageState={setPageState} />
+        </div>
+      </div>
     </div>
   );
 }
 
-function QuestionList({ questions, onQuestionClick }) {
-  return (
-  <div>
-  <h2>Questions</h2>
-  {questions.map(question => (
-  <div key={question.id} onClick={() => onQuestionClick(question.id)}>
-  <h3>{question.title}</h3>
-  <p>{question.content}</p>
-  </div>
-  ))}
-  </div>
-  );
-  }
-
-function QuestionForm({ onSubmit }) {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSubmit({ title, content });
-    setTitle('');
-    setContent('');
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Content:</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-
-export default function QnaBoard() {
-  const [questions, setQuestions] = useState([]);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-
-  const handleQuestionSubmit = (question) => {
-    const newQuestion = {
-      ...question,
-      id: Math.random(), // 임시 ID 생성
-      answers: []
-    };
-    setQuestions([...questions, newQuestion]);
-  };
-
-  const handleQuestionClick = (questionId) => {
-    const question = questions.find(q => q.id === questionId);
-    setSelectedQuestion(question);
-  };
-
-  return (
-    <div className="App">
-      <QuestionForm onSubmit={handleQuestionSubmit} />
-      <QuestionList questions={questions} onQuestionClick={handleQuestionClick} />
-      {selectedQuestion && <AnswerList answers={selectedQuestion.answers} />}
-      <ListForm/>
-    </div>
-  );
-}
+export default QnaBoard;

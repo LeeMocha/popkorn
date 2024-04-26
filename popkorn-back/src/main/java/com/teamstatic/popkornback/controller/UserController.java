@@ -10,16 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,8 +54,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private HttpSession session;
 
     @GetMapping("/userlist")
     public PageResultDTO<UserDTO, User> userList(int page) {
@@ -135,7 +129,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserDTO login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+    public UserDTO login(@RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
@@ -162,8 +156,8 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpSession session) {
-        session.invalidate();
+    public void logout() {
+
     }
 
     @PostMapping("/memberjoin")
@@ -264,7 +258,7 @@ public class UserController {
     }
 
     @PostMapping("/updatenickname")
-    public String updatenickname(HttpSession session, @RequestParam String email,
+    public String updatenickname( @RequestParam String email,
             @RequestParam String nickname) {
         User userOptional = uservice.findByUserId(email);
         User user = userOptional;
@@ -302,7 +296,7 @@ public class UserController {
 
         try {
             uservice.deleteById(userId);
-            session.invalidate();
+
             return "회원 탈퇴 성공";
         } catch (Exception e) {
             return "탈퇴중 오류 발생";

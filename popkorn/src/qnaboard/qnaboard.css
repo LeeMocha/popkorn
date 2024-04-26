@@ -1,0 +1,15 @@
+.qnawhole {
+  margin-right: 50px;
+  margin-left: 50px;
+  padding-top: 160px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.qnaheader{
+  border: 1px solid;
+  margin: 3px;
+}
+
+.qnapaging {
+  cursor: pointer;
+}
