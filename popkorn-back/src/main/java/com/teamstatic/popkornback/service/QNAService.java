@@ -33,4 +33,14 @@ public interface QNAService {
   PageResultDTO<QNADTO, QNA> findAllByContent(String etc, PageRequestDTO requestDTO);
 
   PageResultDTO<QNADTO, QNA> findAll(PageRequestDTO requestDTO);
+
+  PageResultDTO<QNADTO, QNA> findAllPosts(PageRequestDTO requestDTO);
+
+  PageResultDTO<QNADTO, QNA> findPostsByCategory(String category, PageRequestDTO requestDTO);
+
+  PageResultDTO<QNADTO, QNA> findByCategoryAndKeyword(String category, String keyword, Pageable pageable);
+  
+  QNA updatePost(int sno, QNA updatedPost);
+
+  void deletePost(int sno);
 }

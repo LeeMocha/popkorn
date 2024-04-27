@@ -1,6 +1,9 @@
 package com.teamstatic.popkornback.service.impls;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,8 +52,46 @@ public class QNAServiceImpl implements QNAService {
   public PageResultDTO<QNADTO, QNA> findAll(PageRequestDTO requestDTO) {
     Sort sort = Sort.by("createdat").descending();
     Pageable pageable = requestDTO.getPageable(sort);
+    Page<QNA> result = qRepository.findAllByKeywordLike(requestDTO.getKeyword(), pageable);
+    return new PageResultDTO<>(result, this::entityToDto);
+  }
+
+  @Override
+  public PageResultDTO<QNADTO, QNA> findAllPosts(PageRequestDTO requestDTO) {
+    Pageable pageable = requestDTO.getPageable(Sort.by("createdat").descending());
     Page<QNA> result = qRepository.findAll(pageable);
     return new PageResultDTO<>(result, this::entityToDto);
   }
+
+  @Override
+  public PageResultDTO<QNADTO, QNA> findPostsByCategory(String category, PageRequestDTO requestDTO) {
+    Pageable pageable = requestDTO.getPageable(Sort.by("createdat").descending());
+    Page<QNA> result = qRepository.findByCategory(category, pageable);
+    return new PageResultDTO<>(result, this::entityToDto);
+  }
+
+  @Override
+  public PageResultDTO<QNADTO, QNA> findByCategoryAndKeyword(String category, String keyword, Pageable pageable) {
+    Page<QNA> result = qRepository.findByCategoryAndKeyword(category, keyword, pageable);
+    return new PageResultDTO<>(result,this::entityToDto);
+  }
+
+  @Override
+  public QNA updatePost(int sno, QNA updatedPost) {
+    QNA post = qRepository.findBySno(sno);
+    post.setTitle(updatedPost.getTitle());
+    post.setContent(updatedPost.getContent());
+    return qRepository.save(post);
+}
+
+@Override
+public void deletePost(int sno) {
+    Optional<QNA> post = qRepository.findById(sno);
+    if (post.isPresent()) {
+        qRepository.delete(post.get());
+    } else {
+        throw new EntityNotFoundException("No QNA found with SNO: " + sno);
+    }
+}
 
 }
