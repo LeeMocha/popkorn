@@ -9,7 +9,6 @@
 
 .celeb_infolist_wrap {
     position: relative;
-
     border: 1px solid #b6b6b6;
     border-radius: 5px;
     margin: 0px 10px;
@@ -223,4 +222,8 @@
 .celeb_btn_wrap2 button {
     height: 20px;
     margin: 0 10px;
+}
+
+.celeb_infolist_container img{
+    width: 50px;
 }

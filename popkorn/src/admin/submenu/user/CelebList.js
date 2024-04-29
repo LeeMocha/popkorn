@@ -5,8 +5,8 @@ import TypeIt from 'typeit-react';
 
 export default function CelebList() {
     // info & Delete
-    const imageSrc = process.env.PUBLIC_URL + "/celebIMG"
-    const mainSrc = process.env.PUBLIC_URL + "/celebIMG/celebmainimg"
+    const imageSrc = process.env.PUBLIC_URL + "/celebIMG/"
+    const mainSrc = process.env.PUBLIC_URL + "/celebIMG/celebmainimg/"
 
     // Insert
     const [celebData, setCelebData] = useState([]);
