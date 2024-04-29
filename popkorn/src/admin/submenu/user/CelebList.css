@@ -70,6 +70,12 @@
     text-overflow: ellipsis;
 }
 
+.celeb_checkbox_container{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
 .celeb_infolist_table thead {
     border-radius: 20px 0px;
 }
