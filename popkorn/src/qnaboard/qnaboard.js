@@ -172,8 +172,6 @@ function QnaBoard() {
           <div className='writeqnacontainer'>
             <button className='writeqna' onClick={openModal}>Post QNA</button>
             {showInsertModal && <Qnainsert onClose={closeModal}>
-              <h2>Modal Title</h2>
-              <p>This is a modal content.</p>
             </Qnainsert>}
           </div>
         </div>

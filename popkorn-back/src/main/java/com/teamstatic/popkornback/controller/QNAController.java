@@ -1,5 +1,8 @@
 package com.teamstatic.popkornback.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +14,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.QNADTO;
 import com.teamstatic.popkornback.entity.QNA;
+import com.teamstatic.popkornback.repository.QNARepository;
 import com.teamstatic.popkornback.service.QNAService;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +37,9 @@ public class QNAController {
 
     @Autowired
     private QNAService qnaService;
+
+    @Autowired
+    private QNARepository qRepository;
 
     @GetMapping("/searchlist")
     public PageResultDTO<QNADTO, QNA> searchlist(String searchType, String keyword, int page) {
@@ -73,11 +82,9 @@ public class QNAController {
     public QNA updateQnaPost(@PathVariable("sno") int sno, @RequestBody QNA post) {
         try {
             QNA updatedPost = qnaService.updatePost(sno, post);
-            System.out.println("POST는"+ post);
             if (updatedPost == null) {
                 throw new Exception("Update failed");
             }
-            System.out.println("updatepost는"+updatedPost);
             return updatedPost;
         } catch (Exception e) {
             System.out.println("Error updating post: " + e.getMessage());
@@ -94,4 +101,29 @@ public class QNAController {
         }
     }
 
+    @PostMapping("/insert")
+    public QNA createQna(@RequestBody QNA qna) {
+        Date now = new Date();
+        qna.setCreatedat(now); 
+        return qRepository.save(qna);
+    }
+
+    @GetMapping("/replies/{postId}")
+    public List<QNA> getRepliesByPostId(@PathVariable int postId) {
+        List<QNA> replies = qRepository.findByRoot(postId);
+        return replies;
+    }
+    
+     @PostMapping("/reply")
+     public QNA addReply(@RequestBody QNA reply) {
+        if (reply.getRoot() == null || reply.getContent() == null || reply.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing required fields for reply");
+        }
+          
+        Date now = new Date();
+        reply.setUpdatedat(now); 
+
+        return qRepository.save(reply);
+    }
+    
 }

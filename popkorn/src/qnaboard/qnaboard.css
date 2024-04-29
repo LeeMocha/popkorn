@@ -92,8 +92,10 @@
   padding-left: 60px;
 }
 
-.qnalist th, .qnalist td{
-  border-top: 1px solid rgba(148, 147, 147, 0.4);;
+.qnalist th,
+.qnalist td {
+  border-top: 1px solid rgba(148, 147, 147, 0.4);
+  ;
   height: 60px;
 }
 
@@ -119,7 +121,8 @@
   background: linear-gradient(20deg, #fe7cf3, #7de4ff);
 }
 
-.qnainsert-backdrop, .qnaposting-backdrop {
+.qnainsert-backdrop,
+.qnaposting-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -132,7 +135,8 @@
   z-index: 10000;
 }
 
-.qnainsert-content, .qnaposting-content {
+.qnainsert-content,
+.qnaposting-content {
   position: relative;
   width: 70%;
   height: 80%;
@@ -143,24 +147,50 @@
   overflow: auto;
 }
 
-.close-button {
+.qnaclosebtn {
   position: absolute;
   top: 10px;
   right: 10px;
   background: none;
   border: none;
-  color: white; 
-  font-size: 70px; 
+  color: white;
+  font-size: 70px;
   cursor: pointer;
 }
 
-.postingTitle, .posting-Comment {
+.postingTitle,
+.posting-Comment {
   margin: 30px 30px 20px 30px;
   font-size: 24px;
   font-weight: bold;
 }
 
-.postingDate, .postingauthor {
+.insertTitle {
+  margin: 30px 30px 20px 30px;
+  font-size: 24px;
+  font-weight: bold;
+  border: 0px;
+  border-bottom: 1px solid;
+  outline: none;
+  padding: 5px;
+  line-height: 1.5;
+}
+
+.insertinfo {
+  font-size: 24px;
+}
+
+.insertcategory {
+  margin: 30px 30px 20px 30px;
+  font-size: 24px;
+  font-weight: bold;
+  border: 0px;
+  border-bottom: 1px solid;
+  outline: none;
+}
+
+.postingDate,
+.postingauthor {
   margin-left: 30px;
   padding: 10px 0px 20px 0px;
 }
@@ -170,12 +200,15 @@
 }
 
 .posting-content {
-  width: 80%;
+  width: 90%;
   margin: 3% 5% 5% 3%;
   height: 50%;
   resize: none;
   outline: none;
-  border: 0px;
+  border: 1px solid rgba(148, 147, 147, 0.4);
+  border-radius: 15px;
+  padding: 20px;
+  font-size: 18px;
 }
 
 .posting-Footer {
@@ -186,7 +219,8 @@
   text-align: right;
 }
 
-.qnaModifyBtn, .qnaDeleteBtn {
+.qnaModifyBtn,
+.qnaDeleteBtn {
   width: 80px;
   height: 30px;
   background: linear-gradient(20deg, #fe7cf3, #7de4ff);
@@ -194,5 +228,57 @@
   color: white;
   border-radius: 15px;
   margin: 20px 0 20px 20px;
+}
 
+.qnaInsertBtn {
+  width: 80px;
+  height: 30px;
+  background: linear-gradient(20deg, #fe7cf3, #7de4ff);
+  border: 0px;
+  color: white;
+  border-radius: 15px;
+}
+
+.commentarea {
+  width: 90%;
+  height: 120px;
+  margin: auto;
+  resize: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.commentBtn {
+  margin-top: 30px;
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(20deg, #fe7cf3, #7de4ff);
+  border: 0px;
+  color: white;
+  border-radius: 15px;
+  font-size: 16px;
+}
+
+.commentflex {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.commentinfo {
+  border-bottom: 1px solid rgba(148, 147, 147, 0.4);
+  width: 70%;
+  margin: 30px 0 30px 30px;
+}
+
+.commentviewBtn {
+  margin-left: 30px;
+  width: 150px;
+  height: 40px;
+  background: linear-gradient(20deg, #fe7cf3, #7de4ff);
+  border: 0px;
+  color: white;
+  border-radius: 15px;
+  font-size: 16px;
 }

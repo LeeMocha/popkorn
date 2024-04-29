@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import { apiCall } from '../service/apiService';
 import { useState } from 'react';
+import Qnacomment from './qnacomment';
 
 
 function Qnaposting({ onClose, post }) {
@@ -25,6 +26,7 @@ function Qnaposting({ onClose, post }) {
           setContentValue(contentValue);
           alert('Post Modify Complete')
           setShowModify(false);
+          window.location.reload();
         }
       } catch (error) {
         console.error('오류 발생:', error);
@@ -34,23 +36,23 @@ function Qnaposting({ onClose, post }) {
 
   const deleteqna = async () => {
     if (!post || !post.sno) {
-        console.error('Invalid post data. Unable to delete.');
-        return;
+      console.error('Invalid post data. Unable to delete.');
+      return;
     }
     try {
       const userConfirmed = window.confirm("Are you sure you want to delete this post?");
       if (userConfirmed) {
-            const response = await apiCall(`/api/qna/${post.sno}`, "DELETE");
-              alert('Post deleted successfully');
-              onClose();
-              window.location.reload();
-          } else {
-              alert('Post deletion canceled by the user.');   
-        }
+        const response = await apiCall(`/api/qna/${post.sno}`, "DELETE");
+        alert('Post deleted successfully');
+        onClose();
+        window.location.reload();
+      } else {
+        alert('Post deletion canceled by the user.');
+      }
     } catch (error) {
-        console.error('오류 발생:', error);
+      console.error('오류 발생:', error);
     }
-}
+  }
 
   const handleTitleChange = (e) => {
     setTitlevalue(e.target.value);
@@ -64,34 +66,34 @@ function Qnaposting({ onClose, post }) {
     (
       <>
         <div className="qnaposting-backdrop">
-          <button className="close-button" onClick={onClose}>X</button>
+          <button className="qnaclosebtn" onClick={onClose}>X</button>
           <div className="qnaposting-content">
-            {showModify ? 
-            <>
-            <input className='postingTitle' value={titlevalue} onChange={handleTitleChange} />
-            <div className='postingHeader'>
-              <div className='postingauthor'>{post.id}</div>
-              <div className='postingDate'>Writed at {new Date(post.createdat).toLocaleString('ko-KR', {
-                year: 'numeric', month: '2-digit', day: '2-digit',
-                hour: '2-digit', minute: '2-digit', hour12: false
-              })}</div>
-            </div>
-            <textarea className='posting-content' value={contentValue} onChange={handleContentChange} />
-            </>
-             : <>
-             <div className='postingTitle'>{titlevalue}</div>
-             <div className='postingHeader'>
-              <div className='postingauthor'>{post.id}</div>
-              <div className='postingDate'>Writed at {new Date(post.createdat).toLocaleString('ko-KR', {
-                year: 'numeric', month: '2-digit', day: '2-digit',
-                hour: '2-digit', minute: '2-digit', hour12: false
-              })}</div>
-            </div>
-            <div className='posting-content'>
-              {contentValue}
-            </div>
+            {showModify ?
+              <>
+                <input className='postingTitle' value={titlevalue} onChange={handleTitleChange} />
+                <div className='postingHeader'>
+                  <div className='postingauthor'>{post.id}</div>
+                  <div className='postingDate'>{new Date(post.createdat).toLocaleString('ko-KR', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', hour12: false
+                  })}</div>
+                </div>
+                <textarea className='posting-content' value={contentValue} onChange={handleContentChange} />
               </>
-             }
+              : <>
+                <div className='postingTitle'>{titlevalue}</div>
+                <div className='postingHeader'>
+                  <div className='postingauthor'>{post.id}</div>
+                  <div className='postingDate'>{new Date(post.createdat).toLocaleString('ko-KR', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', hour12: false
+                  })}</div>
+                </div>
+                <div className='posting-content'>
+                  {contentValue}
+                </div>
+              </>
+            }
 
             <div className='postingConvibtn'>
               {post.id === sessionStorage.getItem('loginID') ?
@@ -108,7 +110,7 @@ function Qnaposting({ onClose, post }) {
                 Comment
               </div>
               <div className='CommentMain'>
-
+                <Qnacomment sno={post.sno}/>
               </div>
             </div>
           </div>

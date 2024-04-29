@@ -43,4 +43,7 @@ public interface QNAService {
   QNA updatePost(int sno, QNA updatedPost);
 
   void deletePost(int sno);
+
+  QNA createQna(QNA qna);
+  
 }

@@ -94,4 +94,9 @@ public void deletePost(int sno) {
     }
 }
 
+@Override
+public QNA createQna(QNA qna) {
+  return qRepository.save(qna);
+}
+
 }
