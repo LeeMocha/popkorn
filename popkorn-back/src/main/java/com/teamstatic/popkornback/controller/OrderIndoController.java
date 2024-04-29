@@ -67,7 +67,6 @@ public class OrderIndoController {
 
     @GetMapping("/searchlist")
     public PageResultDTO<OrderinfoDTO, Orderinfo> searchlist(String searchType, String keyword, int page) {
-        System.out.println("Search Type: " + searchType + ", Keyword: " + keyword + ", Page: " + page);
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)
                 .size(5)

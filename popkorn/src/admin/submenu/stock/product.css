@@ -94,7 +94,7 @@
    color: #fff;
 }
 
-.admincategory_wrap div:first-child{
+.admincategory_wrap>div:first-child{
    width: 90%;
    margin: 0 auto;
 }
