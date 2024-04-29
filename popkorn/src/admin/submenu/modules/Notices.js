@@ -6,21 +6,28 @@ export default function Notices() {
 
     const [isContent, setIsContent] = useState([]);
     const [inputContent, setInputContent] = useState(""); // textarea 입력값 저장
+    const [isAdmin, setIsAdmin] = useState(true);
 
 
     useEffect(() => {
-        apiCall(`/api/notices/getnotices`, "GET", null, null)
+        apiCall(`/api/manager/notices/getnotices`, "GET", null, sessionStorage.getItem('token'))
             .then(response => {
                 setIsContent(response.data)
-            }).catch(err => console.log)
+            }).catch(() =>
+                setIsAdmin(false)
+            )
     }, [])
 
     const handleClick = () => {
-        apiCall(`/api/notices/insert`, "POST", { id: sessionStorage.getItem("loginID"), content: inputContent }, null)
+        apiCall(`/api/manager/notices/insert`, "POST", { id: sessionStorage.getItem("loginID"), content: inputContent }, sessionStorage.getItem('token'))
             .then(response => {
                 setIsContent(response.data)
                 setInputContent("") // 전송 후 textare 초기화
-            }).catch(err => console.log(err));
+            }).catch(() => {
+                setIsAdmin(false)
+                setInputContent('')
+                alert("Permission denied.");
+            })
     }
 
     const textChange = (e) => {
@@ -41,26 +48,27 @@ export default function Notices() {
             </div>
             <div className="notices_body">
                 {
-                    isContent.map((item) =>
-                        sessionStorage.getItem("loginID") === item.id ?
-                            <>
-                                <div className="message_flex">
+                    isAdmin ?
+                        isContent.map((item, index) =>
+                            sessionStorage.getItem("loginID") === item.id ?
+                                <div key={index} className="message_flex">
                                     <div className="my_message">{item.content}</div>
                                     <div className="message_date">{new Date(item.regdate).toLocaleTimeString()}</div>
                                 </div>
-                            </>
-                            :
-                            
-                            <div className="message_flex_others">
-                                <div className="mesaage_id">{item.id}</div>
-                                <div className="others_message_wrap">
+                                :
+                                <div key={index} className="message_flex_others">
+                                    <div className="mesaage_id">{item.id}</div>
+                                    <div className="others_message_wrap">
 
-                                    <div className="others_message">{item.content}</div>
-                                    <div className="message_date">{new Date(item.regdate).toLocaleTimeString()}</div>
+                                        <div className="others_message">{item.content}</div>
+                                        <div className="message_date">{new Date(item.regdate).toLocaleTimeString()}</div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                    )
+                        )
+                        :
+                        <div className="notice_notadmin_div">
+                            <span>Permission denied</span>
+                        </div>
                 }
             </div>
             <div className="notices_footer">
