@@ -54,5 +54,7 @@ public interface ProductRepsitory extends JpaRepository<Product, Integer> {
 
     long countByCategoryl(String categoryl);
 
+    void deleteByPcode(int pcode);
+
 }
 

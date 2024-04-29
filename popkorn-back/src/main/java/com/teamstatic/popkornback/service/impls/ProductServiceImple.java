@@ -3,6 +3,8 @@ package com.teamstatic.popkornback.service.impls;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -116,6 +118,11 @@ public class ProductServiceImple implements ProductService {
 
     public long countByCategoryl(String categoryl){
         return pRepsitory.countByCategoryl(categoryl);
+    }
+
+    @Transactional
+    public void deleteByPcode(int pcode){
+        pRepsitory.deleteByPcode(pcode);
     }
 
 }

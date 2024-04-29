@@ -98,7 +98,7 @@ export default function Add() {
          formData.append(`image1`, item.image1.substring(item.image1.lastIndexOf('/') + 1));
          formData.append(`imageFile`, item.imageFile);
 
-         apiCall('/api/product/productSave', 'POST', formData, null)
+         apiCall('/api/manager/product/productSave', 'POST', formData, sessionStorage.getItem('token'))
             .then(response => {
                if (response.data) {
                   alert(`Upload Success!! FileName => ${item.image1}`)
@@ -108,7 +108,7 @@ export default function Add() {
 
             })
             .catch(err => {
-               alert("Permission denied.");
+               alert('Editing and deleting are possible from "MANAGER" authority and above.')
             })
 
       });

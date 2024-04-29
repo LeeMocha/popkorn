@@ -47,6 +47,7 @@ public class ProductController {
     public PageResultDTO<ProductDTO, Product> findByCategorylAndCategorym(String categoryl, String categorym,
             int page, String keyword) {
 
+
         if (categoryl.equals("new")) {
             PageRequestDTO requestDTO = PageRequestDTO.builder()
                     .page(1)
