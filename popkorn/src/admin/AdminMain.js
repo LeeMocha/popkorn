@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Mainlogo from "../header/logo/Mainlogo/Mainlogo";
 
 import "./AdminMain.css";
@@ -24,6 +24,8 @@ import Attendance from "./submenu/modules/Attendance";
 import Calendar from './submenu/modules/Calendar';
 import DashChart from "./submenu/modules/chart/DashChart";
 import SnakeGame from "./submenu/modules/SnakeGame";
+import { apiCall } from "../service/apiService";
+import { Logincontext } from './../App';
 
 export default function AdminMain() {
 
@@ -31,6 +33,7 @@ export default function AdminMain() {
     const dashboards = useRef([]);                                                                                      // DashBoard 컴포넌트의 prop스로 전달할 ref
     const [selectMenu, setSelectMenu] = useState(<DashBoard dashboards={dashboards.current.map((e) => e.component)} />);   // canvers에 보여질 컴포넌트를 담는 state
     const [iconColors, setIconColors] = useState(Array(8).fill('#7de4ff'));                                             // 아이콘의 개수에 맞게 초기 상태 배열 생성
+    const [isLoggedIn, setIsloggedIn] = useContext(Logincontext);
 
 
 
@@ -54,6 +57,21 @@ export default function AdminMain() {
             return newColors;
         });
     };
+
+    const logOut = async () => {
+        try {
+          await apiCall('/api/user/logout', "GET", null, null);
+          alert(`로그아웃 되었습니다.`);
+          sessionStorage.removeItem('loginID');
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('nickname');
+          setIsloggedIn(false);
+          window.location.href='/'
+        } catch (error) {
+          console.error('로그아웃 중 오류 발생:', error);
+          return false;
+        }
+      };
 
 
     const menuList = [
@@ -143,10 +161,14 @@ export default function AdminMain() {
     }
 
     const toggleSubMenu = (key) => {
-        setSubMenuVisible(prevState => ({
-            ...prevState,
-            [key]: !prevState[key]
-        }));
+        if(key!==9){
+            setSubMenuVisible(prevState => ({
+                ...prevState,
+                [key]: !prevState[key]
+            }));
+        } else {
+            logOut();
+        }
     };
 
     const allHide = () => {
