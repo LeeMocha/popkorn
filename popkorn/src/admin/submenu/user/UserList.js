@@ -54,7 +54,6 @@ export default function UserList() {
     return (
         <div className="userlist_wrap">
             <div className="userlist_container">
-
                 <div className="userlist_header">
                     <TypeIt options={{ loop: false }} className="userlist_type">User List</TypeIt>
                 </div>

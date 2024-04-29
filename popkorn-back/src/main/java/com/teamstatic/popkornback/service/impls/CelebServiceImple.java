@@ -21,4 +21,12 @@ public class CelebServiceImple implements CelebService{
       return celebRepository.findAll();
    }
 
+   public Celeb save(Celeb celeb) {
+      return celebRepository.save(celeb);
+   }
+
+   public void deleteByartist(String artist) {
+      celebRepository.deleteByartist(artist);
+   }
+
 }

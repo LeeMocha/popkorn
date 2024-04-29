@@ -23,6 +23,7 @@ import Send from "./submenu/email/Send";
 import Attendance from "./submenu/modules/Attendance";
 import Calendar from './submenu/modules/Calendar';
 import DashChart from "./submenu/modules/chart/DashChart";
+import CelebList from "./submenu/user/CelebList";
 
 export default function AdminMain() {
 
@@ -74,7 +75,7 @@ export default function AdminMain() {
             icon: "xi-users-o",
             main: "User",
             subMenu: [{ subkey: "User List", component: <UserList /> }
-                , { subkey: "Celeb List", component: ()=>{<></>} }
+                , { subkey: "Celeb List", component: <CelebList /> }
             ]
         },
         {
