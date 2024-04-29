@@ -26,6 +26,7 @@
    background: #8f8f8f8a;
    border: 0px;
    color: #fff;
+   outline: none;
 }
 
 .searchform_input::placeholder{
