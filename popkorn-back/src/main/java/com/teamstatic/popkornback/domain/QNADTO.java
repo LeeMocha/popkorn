@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class QNADTO {
+public class QnaDTO {
   
   @Id
   private int sno;
@@ -24,4 +24,5 @@ public class QNADTO {
   private String id;
   private Date postcreated;
   private Date commentcreated;
+  
 }

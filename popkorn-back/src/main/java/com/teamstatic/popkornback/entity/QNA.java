@@ -1,6 +1,5 @@
 package com.teamstatic.popkornback.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,8 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table(name = "QNA")
-public class QNA {
+@Table(name = "qna")
+public class Qna {
+
     @Id
     private int sno;
     private Integer root;

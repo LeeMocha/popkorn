@@ -22,10 +22,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
-import com.teamstatic.popkornback.domain.QNADTO;
-import com.teamstatic.popkornback.entity.QNA;
-import com.teamstatic.popkornback.repository.QNARepository;
-import com.teamstatic.popkornback.service.QNAService;
+import com.teamstatic.popkornback.domain.QnaDTO;
+import com.teamstatic.popkornback.entity.Qna;
+import com.teamstatic.popkornback.repository.QnaRepository;
+import com.teamstatic.popkornback.service.QnaService;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,16 +33,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/qna")
-public class QNAController {
+public class QnaController {
 
     @Autowired
-    private QNAService qnaService;
+    private QnaService qnaService;
 
     @Autowired
-    private QNARepository qRepository;
+    private QnaRepository qRepository;
 
     @GetMapping("/searchlist")
-    public PageResultDTO<QNADTO, QNA> searchlist(String searchType, String keyword, int page) {
+    public PageResultDTO<QnaDTO, Qna> searchlist(String searchType, String keyword, int page) {
         PageRequestDTO requestDTO = PageRequestDTO.builder()
                 .page(page)
                 .size(10)
@@ -62,7 +62,7 @@ public class QNAController {
     }
 
     @GetMapping("/posts")
-    public PageResultDTO<QNADTO, QNA> getPostsByCategory(
+    public PageResultDTO<QnaDTO, Qna> getPostsByCategory(
             @RequestParam(required = false) String category,
             @PageableDefault(size = 10) Pageable pageable) {
 
@@ -79,9 +79,9 @@ public class QNAController {
     }
 
     @PatchMapping("/{sno}")
-    public QNA updateQnaPost(@PathVariable("sno") int sno, @RequestBody QNA post) {
+    public Qna updateQnaPost(@PathVariable("sno") int sno, @RequestBody Qna post) {
         try {
-            QNA updatedPost = qnaService.updatePost(sno, post);
+            Qna updatedPost = qnaService.updatePost(sno, post);
             if (updatedPost == null) {
                 throw new Exception("Update failed");
             }
@@ -102,9 +102,9 @@ public class QNAController {
     }
 
     @PatchMapping("/reply/{sno}")
-    public QNA updateQnaReply(@PathVariable("sno") int sno, @RequestBody QNA comment) {
+    public Qna updateQnaReply(@PathVariable("sno") int sno, @RequestBody Qna comment) {
         try {
-            QNA updatedComment = qnaService.updateReply(sno, comment);
+            Qna updatedComment = qnaService.updateReply(sno, comment);
             if (updatedComment == null) {
                 throw new Exception("Update failed");
             }
@@ -117,20 +117,20 @@ public class QNAController {
     }
 
     @PostMapping("/insert")
-    public QNA createQna(@RequestBody QNA qna) {
+    public Qna createQna(@RequestBody Qna qna) {
         Date now = new Date();
         qna.setPostcreated(now);
         return qRepository.save(qna);
     }
 
     @GetMapping("/replies/{postId}")
-    public List<QNA> getRepliesByPostId(@PathVariable int postId) {
-        List<QNA> replies = qRepository.findByRoot(postId);
+    public List<Qna> getRepliesByPostId(@PathVariable int postId) {
+        List<Qna> replies = qRepository.findByRoot(postId);
         return replies;
     }
     
      @PostMapping("/reply")
-     public QNA addReply(@RequestBody QNA reply) {
+     public Qna addReply(@RequestBody Qna reply) {
         if (reply.getRoot() == null || reply.getContent() == null || reply.getId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing required fields for reply");
         }
