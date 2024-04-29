@@ -97,22 +97,19 @@ export default function AdminMain() {
             key: 4,
             icon: "xi-truck",
             main: "Delivery",
-            subMenu: [{ subkey: "State List", component: <StateList /> }
-                , { subkey: "Completed", component: () => <></> }]
+            subMenu: [{ subkey: "State List", component: <StateList /> }]
         },
         {
             key: 5,
             icon: "xi-calendar",
             main: "Event",
-            subMenu: [{ key: 0, subkey: "Main Event", component: <MainEvent /> }
-                , { key: 1, subkey: "Slide Event", component: <SlideEvent /> }]
+            subMenu: [{ key: 1, subkey: "Slide Event", component: <SlideEvent /> }]
         },
         {
             key: 6,
             icon: "xi-mail-o",
             main: "Mail",
-            subMenu: [{ subkey: "Send", component: () => <Send /> }
-                , { subkey: "Batch", component: () => <></> }]
+            subMenu: [{ subkey: "Send", component: () => <Send /> }]
         },
         {
             key: 7,

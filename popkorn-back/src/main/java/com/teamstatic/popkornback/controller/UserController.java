@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -29,9 +30,11 @@ import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.UserDTO;
 import com.teamstatic.popkornback.domain.UserRole;
+import com.teamstatic.popkornback.entity.Snakegame;
 import com.teamstatic.popkornback.entity.User;
 import com.teamstatic.popkornback.jwtToken.TokenProvider;
 import com.teamstatic.popkornback.repository.UserRepository;
+import com.teamstatic.popkornback.service.SnakegameService;
 import com.teamstatic.popkornback.service.impls.RegisterMail;
 import com.teamstatic.popkornback.service.impls.UserServiceImple;
 
@@ -54,6 +57,7 @@ public class UserController {
     PasswordEncoder passwordEncoder;
     RegisterMail registerMail;
     TokenProvider tokenProvider;
+    SnakegameService sgService;
 
     @Autowired
     private UserRepository userRepository;
@@ -435,4 +439,25 @@ public class UserController {
         return roleList.contains("ROLE_MANAGER");
 
     }
+
+        @PostMapping("/snakegame/getrecord")
+    public List<Snakegame> getRecord(@RequestBody String nickname) {
+        String result = nickname.replace("\"", "");
+        return sgService.findTop3RecordsAndMe(result);
+    }
+    
+    @PostMapping("/snakegame/insertrecord")
+    public List<Snakegame> postMethodName(@RequestBody Snakegame entity) {
+        
+        entity.setNickname(entity.getNickname().replace("\"", ""));
+        Optional<Snakegame> userhistory = sgService.findById(entity.getNickname());
+    
+
+        if(!userhistory.isPresent() || userhistory.get().getRecord()<entity.getRecord()){
+            sgService.save(entity);
+        }
+
+        return sgService.findTop3RecordsAndMe(entity.getNickname());
+    }
+    
 }

@@ -2,7 +2,11 @@ import React, { Component } from "react";
 
 export default class SnakeGameView extends Component {
     handleClickStart = () => {
-        this.props.start();
+        if (this.props.isLogined) {
+            this.props.start();
+        } else {
+            alert('Permission denied.')
+        }
     };
     handleClickRestart = () => {
         this.props.init();
@@ -71,12 +75,21 @@ export default class SnakeGameView extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {records.slice(1).map((record, index) => ( // records 배열의 처음 3개 요소만을 가져와서 map
-                                <tr key={index}>
-                                    <td><i className={`xi-crown ${index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : ''}`}></i> {record.nickname}</td>
-                                    <td>{record.record}</td>
-                                </tr>
-                            ))}
+                            {
+                                this.props.isLogined ?
+                                    records.slice(1).map((record, index) => ( // records 배열의 처음 3개 요소만을 가져와서 map
+                                        <tr key={index}>
+                                            <td><i className={`xi-crown ${index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : ''}`}></i> {record.nickname}</td>
+                                            <td>{record.record}</td>
+                                        </tr>
+                                    ))
+                                    :
+                                    <tr>
+                                        <td colSpan="2">
+                                            <span>{this.props.errMessage}</span>
+                                        </td>
+                                    </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

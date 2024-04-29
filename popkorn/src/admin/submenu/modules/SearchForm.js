@@ -28,9 +28,6 @@ export default function SearchForm({ setCurrKeyword, setCurrentPage, showButton 
             <input type="text" className="searchform_input" placeholder="Search" onChange={onChangeSearch} onKeyDown={handleKeyPress} />
             <button type="button" className="searchform_btn" onClick={getSearchData}><i className="xi-search"></i></button>
          </div>
-         <div>
-            {showButton ? <button type="button" className="searchform_add_btn">delete</button> : null}
-         </div>
       </div>
    );
 }

@@ -21,14 +21,18 @@ export default class SnakeGame extends Component {
         this.timeoutID = null;
         this.intervalID = null;
         this.logic = new SnakeGameLogic();
+        this.isLogined = false;
+        this.errMessage = 'Permission denied.';
     }
     componentDidMount() {
+        if(sessionStorage.getItem('loginID')){
+           this.isLogined=true;
+        }
 
-        apiCall(`/api/manager/snakegame/getrecord`,"POST", sessionStorage.getItem('nickname'), sessionStorage.getItem('token'))
+        apiCall(`/api/user/snakegame/getrecord`,"POST", sessionStorage.getItem('nickname'), sessionStorage.getItem('token'))
         .then(response => this.setState({ records: response.data }))
         .catch(error => {
-            // 오류 처리
-            console.error('Error fetching records:', error);
+            this.errMessage = 'Permission denied.';
         })
 
         this.updateTable();
@@ -105,9 +109,11 @@ export default class SnakeGame extends Component {
         clearTimeout(this.timeoutID);
         const proceed = this.logic.nextState();
         if (!proceed) {
-            apiCall('/api/manager/snakegame/insertrecord', "POST", {nickname : sessionStorage.getItem('nickname'), record : this.logic.joints.length}, sessionStorage.getItem('token'))
+            apiCall('/api/user/snakegame/insertrecord', "POST", {nickname : sessionStorage.getItem('nickname'), record : this.logic.joints.length}, sessionStorage.getItem('token'))
             .then( response => this.setState({ records: response.data }))
-            .catch( err => console.log(err))
+            .catch( ()=>{
+
+            })
             this.setState({
                 gameState: "end"
             });
@@ -135,6 +141,8 @@ export default class SnakeGame extends Component {
                 start={this.start}
                 updateTable={this.updateTable}
                 onKeyPressed={this.handleKeydown}
+                isLogined={this.isLogined}
+                errMessage={this.errMessage}
             />
         );
     }

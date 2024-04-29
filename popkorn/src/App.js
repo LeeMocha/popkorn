@@ -71,7 +71,7 @@ apiCall(`/api/user/selectone?id=${storedLoginID}`, "GET", null, null)
           <Route path="/order" Component={Order}></Route>
           <Route path='/authmain' element={<AuthMain />}></Route>
           <Route path="/ordercomplete" Component={OrderComplete}></Route>
-          <Route path='/adminmain' Component={<AdminMain />}></Route>
+          <Route path='/adminmain' element={<AdminMain />}></Route>
           <Route path='/unsignedorder' Component={UnsignedOrder}></Route>
           <Route path='/qnaboard' Component={QnaBoard}></Route>
           <Route path='/celeblistpage' Component={CelebListPage}></Route>
