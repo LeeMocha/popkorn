@@ -8,14 +8,12 @@
 }
 
 .celeb_infolist_wrap {
-   
-
     border: 1px solid #b6b6b6;
     border-radius: 5px;
     margin: 0px 10px;
     padding: 1px 0px 0px;
     background: rgba(148, 147, 147, 0.53);
-    
+
     color: white;
     border-top: 0;
     border-top-left-radius: 0;
@@ -26,8 +24,8 @@
     width: 90%;
     max-height: 750px;
     margin: 10px auto;
-    /* overflow: auto; */
-    border-radius: 20px 20px;
+    overflow: auto;
+    border-radius: 20px;
 }
 
 .celeb_insertBtn_plus {
@@ -37,10 +35,10 @@
     margin-right: 5%;
 }
 
-.celeb_insertBtn_plus p{
+.celeb_insertBtn_plus p {
     border: 0px;
     border-radius: 6px;
-    
+
     background: #4faeb4e3;
     width: 90px;
     height: 31px;
@@ -53,7 +51,10 @@
     border-collapse: collapse;
     color: #fff;
     width: 100%;
+    border-radius: 20px;
 }
+
+
 
 .celeb_infolist_table th:first-child {
     text-align: center;
@@ -66,23 +67,18 @@
     border-width: 90%;
     max-width: 200px;
     white-space: nowrap;
-    
+
     text-overflow: ellipsis;
 }
 
-.celeb_checkbox_container{
-   display: flex;
-   justify-content: center;
-   align-items: center;
+.celeb_checkbox_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.celeb_infolist_table thead {
-    border-radius: 20px 0px;
-}
 
 .celeb_infolist_table th {
-    position: sticky;
-    top: 0;
     background: cadetblue;
     z-index: 9;
     align-items: baseline;
@@ -117,20 +113,20 @@
 
 .celebList_container {
     visibility: hidden;
-    
+
     background: rgba(148, 147, 147, 0.53);
     border: 1px solid #b6b6b6;
 }
 
 .celebList_container.active {
     visibility: visible;
-    
+
     border: 1px solid #b6b6b6;
     border-radius: 5px;
     margin: 0px 10px;
     padding: 1px 0px 0px;
     background: rgba(148, 147, 147, 0.53);
-    
+
     color: white;
     border-top: 0;
     border-top-left-radius: 0;
