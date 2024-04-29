@@ -17,6 +17,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @AllArgsConstructor
 @RestController
@@ -30,10 +31,10 @@ public class CelebController {
         return celebService.findAll();
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/delete")
     public List<Celeb> deleteByartist(@RequestParam String artist) {
         celebService.deleteByartist(artist);
-        return getMethodName();
+        return celebService.findAll();
     }
 
     @PostMapping("/celebSave")

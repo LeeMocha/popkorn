@@ -105,14 +105,14 @@ export default function SlideEvent() {
             formdata.append(`imageFile`, item.imageFile);
             formdata.append(`contentFile`, item.contentFile);
 
-            apiCall('/api/event/eventSave', 'POST', formdata, null).then(response => {
+            apiCall('/api/manager/event/eventSave', 'POST', formdata, sessionStorage.getItem('token')).then(response => {
                 if (response.data) {
                     alert(`Upload Success Event FileName => ${item.image1}&${item.content}`);
                 } else {
                     alert(`Upload Failde Event FileName => ${item.image1}&${item.content}`)
                 }
             }).catch(err => {
-                console.log("SlideEvent apiCall eventSave ERROR => " + err);
+                alert('Editing and deleting are possible from "MANAGER" authority and above.');
             })
 
         })
@@ -128,10 +128,10 @@ export default function SlideEvent() {
     }, []);
 
     const eventDelete = (ecode) => {
-        apiCall(`/api/event/deleteByecode?ecode=${ecode}`, "GET", null, null).then(response => {
+        apiCall(`/api/manager/event/deleteByecode?ecode=${ecode}`, "GET", null, sessionStorage.getItem('token')).then(response => {
             setEventData(response.data);
         }).catch(err => {
-            console.log("eventDelete apiCall ERROR => " + err)
+            alert('Editing and deleting are possible from "MANAGER" authority and above.');
         })
     }
 

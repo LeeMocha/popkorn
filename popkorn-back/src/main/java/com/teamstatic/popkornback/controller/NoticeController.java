@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class NoticeController {
     NoticeService nService;
    
-    @PostMapping("/notices/insert")
+    @PostMapping("/insert")
     public List<Notices> insertNotices(@RequestBody NoticeDTO noticeDTO) {
         // NoticeDTO noticeDTO = NoticeDTO.builder()
         //         .id(id)
@@ -35,7 +35,7 @@ public class NoticeController {
         return getNotices();
     }
 
-    @GetMapping("/notices/getnotices")
+    @GetMapping("/getnotices")
     public List<Notices> getNotices() {
         return nService.findAll();
     }

@@ -82,17 +82,18 @@ export default function CelebList() {
             formdata.append(`celebLogoFile`, item.celebLogoFile);
             formdata.append(`celebMainFile`, item.celebMainFile);
 
-            apiCall('/api/celeb/celebSave', 'POST', formdata, null).then(response => {
+            apiCall('/api/manager/celeb/celebSave', 'POST', formdata, sessionStorage.getItem('token')).then(response => {
                 if (response.data) {
                     alert(`Upload Success Event FileName => ${item.celebimg}&${item.mainimg}`);
                 } else {
                     alert(`Upload Failde Event FileName => ${item.celebimg}&${item.mainimg}`);
                 }
             }).catch(err => {
-                console.log("Celeb apiCall celebSave ERROR => " + err);
+                alert('Editing and deleting are possible from "MANAGER" authority and above.');
             })
         })
     }
+
     // 전체 삭제
     const celebDeleteAll = () => {
         setCelebAddList([]);
@@ -112,6 +113,15 @@ export default function CelebList() {
             console.log("Celeb apiCall ERROR => " + err);
         });
     }, []);
+
+    const eventDelete = (item) => {
+        apiCall(`/api/manager/celeb/delete?artist=${item.artist}`, "DELETE", null, sessionStorage.getItem('token')).then(response => {
+            setCelebData(response.data);
+        }).catch(err => {
+            alert('Editing and deleting are possible from "MANAGER" authority and above.');
+        })
+    }
+
 
     return (
         <div className="celebList_wrap">
@@ -151,7 +161,7 @@ export default function CelebList() {
                                         </td>
                                         <td>{item.artist}</td>
                                         <td>{item.notice}</td>
-                                        <td><i className="xi-trash" ></i></td>
+                                        <td><i className="xi-trash" onClick={()=>eventDelete(item)}></i></td>
 
                                     </tr>
                                 ))

@@ -108,7 +108,7 @@ export default function Add() {
 
             })
             .catch(err => {
-               console.log(err)
+               alert("Permission denied.");
             })
 
       });
