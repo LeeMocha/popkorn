@@ -24,7 +24,7 @@ export default function CelebList() {
     const [isClick, setIsclick] = useState(false);
 
     const clickChageHandler = () => {
-        setIsclick(true);
+        setIsclick(!isClick); // 클릭할 때마다 이전 상태의 반대값으로 설정
     }
 
     const handleCelebLogoUpload = (e) => {
@@ -160,7 +160,7 @@ export default function CelebList() {
                     </table>
                 </div>
             </div>
-            <form>
+            
                 <div className={`celebList_container ${isClick ? "active" : ""}`}>
                     <div className="celeblist_image_input">
                         <div className="celeblist_imagelist">
@@ -204,7 +204,7 @@ export default function CelebList() {
                         </div>
                     </div>
                 </div>
-            </form>
+            
         </div>
     )
 }
