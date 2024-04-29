@@ -22,7 +22,7 @@ public interface QNAService {
         .title(qna.getTitle())
         .content(qna.getContent())
         .id(qna.getId())
-        .createdat(qna.getCreatedat())
+        .postcreated(qna.getPostcreated())
         .build();
   }
 
@@ -45,5 +45,9 @@ public interface QNAService {
   void deletePost(int sno);
 
   QNA createQna(QNA qna);
+
+  QNA updateReply(int sno, QNA updatedComment);
+
+  long getCommentCountForPost(int sno);
   
 }

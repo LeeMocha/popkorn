@@ -5,6 +5,8 @@ function Qnacomment({ sno }) {
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState('');
     const [visibleComments, setVisibleComments] = useState(5);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editingContent, setEditingContent] = useState("");
 
     useEffect(() => {
         if (!sno) {
@@ -23,6 +25,10 @@ function Qnacomment({ sno }) {
     }, [sno]);
 
     const handleAddComment = async () => {
+        if (sessionStorage.getItem('loginCheck') === false)
+            alert("You must be logged in to Comment.");
+
+
         if (!commentText.trim()) return;
         const postData = {
             root: sno,
@@ -44,6 +50,35 @@ function Qnacomment({ sno }) {
         setVisibleComments(prev => prev + 5);
     };
 
+    const handleDeleteComment = async (commentSno) => {
+        if (window.confirm("Are you sure you want to delete this comment?")) {
+            const response = await apiCall(`/api/qna/${commentSno}`, "DELETE");
+            if (response.status === 200) {
+                alert('Comment deleted successfully');
+                setComments(comments.filter(comment => comment.sno !== commentSno));
+            } else {
+                alert('Failed to delete comment');
+            }
+        }
+    };
+
+    const handleEditComment = (comment) => {
+        setEditingCommentId(comment.sno);
+        setEditingContent(comment.content);
+    };
+
+    const handleSaveComment = async (sno) => {
+        const response = await apiCall(`/api/qna/reply/${sno}`, "PATCH", { content: editingContent });
+        if (response.status === 200) {
+            setComments(comments.map(comment => comment.sno === sno ? { ...comment, content: editingContent } : comment));
+            setEditingCommentId(null);
+            alert('Comment updated successfully');
+        } else {
+            alert('Failed to update comment');
+        }
+    };
+
+
     return (
         <div>
             <div className='commentflex'>
@@ -58,11 +93,39 @@ function Qnacomment({ sno }) {
             <div>
                 {comments.slice(0, visibleComments).map(comment => (
                     <div key={comment.sno} className='commentinfo'>
-                        {comment.id}
-                        <p>{new Date(comment.updatedat).toLocaleString()}</p>
-                        <p>{comment.content}</p>
+                        <div className='commentoptionbtn'>
+                            <span>{comment.id}</span>{comment.id === sessionStorage.getItem('loginID') && (
+                                <>
+                                    {editingCommentId === comment.sno ? (
+                                        <div>
+                                            <button onClick={() => handleSaveComment(comment.sno)} className='commentMBtn'>Save</button>
+                                            <span>&nbsp;|&nbsp;</span>
+                                            <button onClick={() => handleDeleteComment(comment.sno)} className='commentDBtn'>Delete</button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <button onClick={() => handleEditComment(comment)} className='commentMBtn'>Modify</button>
+                                            <span>&nbsp;|&nbsp;</span>
+                                            <button onClick={() => handleDeleteComment(comment.sno)} className='commentDBtn'>Delete</button>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                        <p>{new Date(comment.commentcreated).toLocaleString()}</p>
+                        {editingCommentId === comment.sno ? (
+                            <textarea
+                                value={editingContent}
+                                onChange={e => setEditingContent(e.target.value)}
+                                className='modifycomment'
+                            />
+                        ) : (
+                            <p>{comment.content}</p>
+                        )}
+
                     </div>
                 ))}
+
                 {visibleComments < comments.length && (
                     <button onClick={handleShowMoreComments} className='commentviewBtn'>Show More Comments</button>
                 )}

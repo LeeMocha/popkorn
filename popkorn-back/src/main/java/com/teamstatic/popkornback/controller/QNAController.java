@@ -101,10 +101,25 @@ public class QNAController {
         }
     }
 
+    @PatchMapping("/reply/{sno}")
+    public QNA updateQnaReply(@PathVariable("sno") int sno, @RequestBody QNA comment) {
+        try {
+            QNA updatedComment = qnaService.updateReply(sno, comment);
+            if (updatedComment == null) {
+                throw new Exception("Update failed");
+            }
+            System.out.println("수정된 댓글"+updatedComment);
+            return updatedComment;
+        } catch (Exception e) {
+            System.out.println("Error updating comment: " + e.getMessage());
+            return null;
+        }
+    }
+
     @PostMapping("/insert")
     public QNA createQna(@RequestBody QNA qna) {
         Date now = new Date();
-        qna.setCreatedat(now); 
+        qna.setPostcreated(now);
         return qRepository.save(qna);
     }
 
@@ -121,9 +136,13 @@ public class QNAController {
         }
           
         Date now = new Date();
-        reply.setUpdatedat(now); 
-
+        reply.setCommentcreated(now);
         return qRepository.save(reply);
     }
     
+    @GetMapping("/reply/count/{sno}")
+    public long getCommentCount(@PathVariable int sno) {
+        return qnaService.getCommentCountForPost(sno);
+    }
+
 }

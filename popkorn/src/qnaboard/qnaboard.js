@@ -18,8 +18,8 @@ function QnaBoard() {
   const [currKeyword, setCurrKeyword] = useState('');
   const [showkeyword, setShowkeyword] = useState(false);
   const [showInsertModal, setshowInsertModal] = useState(false);
-  const [showContentModal, setshowContentModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [commentCounts, setCommentCounts] = useState({});
   const [qnaData, setqnaData] = useState({
     servData: [],
     pageData: {
@@ -70,7 +70,33 @@ function QnaBoard() {
       .catch(err => {
         console.error('Error loading data:', err);
       });
-  }, [currCategoryl, currKeyword, currentPage]);
+  }, [currCategoryl, currKeyword, currentPage, selectedSearchType]);
+
+  useEffect(() => {
+    const fetchCommentCounts = async () => {
+      const counts = {};
+      const promises = posts.map(post =>
+        apiCall(`/api/qna/reply/count/${post.sno}`, 'GET')
+          .then(response => {
+            if (response.status === 200) {
+              counts[post.sno] = response.data;
+            }
+          })
+          .catch(error => {
+            console.error(`Error fetching comment count for post ${post.sno}:`, error);
+            counts[post.sno] = 0;
+          })
+      );
+
+      await Promise.all(promises);
+      setCommentCounts(counts);
+    };
+
+    if (posts.length > 0) {
+      fetchCommentCounts();
+    }
+  }, [posts]);
+
 
   const setPageState = (newPage) => {
     if (newPage < 1 || newPage > qnaData.pageData.totalPage) return;
@@ -85,15 +111,19 @@ function QnaBoard() {
     setCurrentPage(1);
   };
 
-  const openModal = () => setshowInsertModal(true);
+  const openModal = () => {
+    if (sessionStorage.getItem('loginCheck'))
+      setshowInsertModal(true);
+    else {
+      alert("You must be logged in to post.");
+    }
+  }
   const closeModal = () => setshowInsertModal(false);
 
-  // 게시물 클릭 이벤트 핸들러
   const showContent = (post) => {
     setSelectedPost(post);
   };
 
-  // 모달 닫기 이벤트 핸들러
   const closeContent = () => {
     setSelectedPost(null);
   };
@@ -104,7 +134,7 @@ function QnaBoard() {
       <div className='qnawhole'>
         <h1 className='qnaheader'>QNA Board</h1>
         <div className='searchguide'>
-          {showkeyword && currKeyword.length != 0 ?
+          {showkeyword && currKeyword.length !== 0 ?
             <div>{`${currKeyword}로 검색한 결과입니다.`}</div>
             : null}
         </div>
@@ -130,7 +160,7 @@ function QnaBoard() {
           ))}
         </div>
         <div>
-          {posts.length > 0 ?
+          {posts.length > 0 ? (
             <table className='qnalist'>
               <thead className='qnasubheader'>
                 <tr>
@@ -141,31 +171,35 @@ function QnaBoard() {
                 </tr>
               </thead>
               <tbody>
-        {posts.map((post, index) => (
-          <tr key={index} className='qnatr'>
-            <td>{post.category}</td>
-            <td className='qnatitlepost' onClick={() => showContent(post)}>{post.title}</td>
-            <td>{post.id}</td>
-            <td>{new Date(post.createdat).toLocaleString('ko-KR', {
-              year: 'numeric', month: '2-digit', day: '2-digit',
-              hour: '2-digit', minute: '2-digit', hour12: false
-            })}</td>
-          </tr>
-        ))}
-      </tbody>
-      {selectedPost && <Qnaposting onClose={closeContent} post={selectedPost} />}
-            </table> : (
-              <table className='qnalist'>
-                <thead className='qnasubheader'>
-                  <tr>
-                    <th className='qnacategory'>Category</th>
-                    <th className='qnatitle'>Title</th>
-                    <th className='qnaauthor'>Author</th>
-                    <th className='qnadate'>Date</th>
+                {posts.map((post, index) => (
+                  <tr key={index} className='qnatr'>
+                    <td>{post.category}</td>
+                    <td className='qnatitlepost' onClick={() => showContent(post)}>
+                      {post.title}
+                      <span className='commentCnt'> {commentCounts[post.sno] > 0 ? ` (${commentCounts[post.sno]})` : ''}</span>
+                    </td>
+                    <td>{post.id}</td>
+                    <td>{new Date(post.postcreated).toLocaleString('ko-KR', {
+                      year: 'numeric', month: '2-digit', day: '2-digit',
+                      hour: '2-digit', minute: '2-digit', hour12: false
+                    })}</td>
                   </tr>
-                </thead>
-              </table>
-            )}
+                ))}
+              </tbody>
+              {selectedPost && <Qnaposting onClose={closeContent} post={selectedPost} />}
+            </table>
+          ) : (
+            <table className='qnalist'>
+              <thead className='qnasubheader'>
+                <tr>
+                  <th className='qnacategory'>Category</th>
+                  <th className='qnatitle'>Title</th>
+                  <th className='qnaauthor'>Author</th>
+                  <th className='qnadate'>Date</th>
+                </tr>
+              </thead>
+            </table>
+          )}
           <div className='qnapaging'>
             <AdminPaging pageData={qnaData.pageData} setPageState={setPageState} />
           </div>

@@ -41,4 +41,6 @@ public interface QNARepository extends JpaRepository<QNA, Integer> {
 
   List<QNA> findByRoot(Integer root);
 
+  @Query(value = "SELECT COUNT(*) FROM QNA WHERE root = :sno", nativeQuery = true)
+  long countByRoot(int sno);
 }

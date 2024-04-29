@@ -10,6 +10,7 @@ function Qnaposting({ onClose, post }) {
   const [showModify, setShowModify] = useState(false);
   const [titlevalue, setTitlevalue] = useState(post.title);
   const [contentValue, setContentValue] = useState(post.content);
+  const [adminconfirm] = useState(false);
 
   const toggleModify = async () => {
     if (!showModify) {
@@ -42,7 +43,7 @@ function Qnaposting({ onClose, post }) {
     try {
       const userConfirmed = window.confirm("Are you sure you want to delete this post?");
       if (userConfirmed) {
-        const response = await apiCall(`/api/qna/${post.sno}`, "DELETE");
+        await apiCall(`/api/qna/${post.sno}`, "DELETE");
         alert('Post deleted successfully');
         onClose();
         window.location.reload();
@@ -73,7 +74,7 @@ function Qnaposting({ onClose, post }) {
                 <input className='postingTitle' value={titlevalue} onChange={handleTitleChange} />
                 <div className='postingHeader'>
                   <div className='postingauthor'>{post.id}</div>
-                  <div className='postingDate'>{new Date(post.createdat).toLocaleString('ko-KR', {
+                  <div className='postingDate'>{new Date(post.postcreated).toLocaleString('ko-KR', {
                     year: 'numeric', month: '2-digit', day: '2-digit',
                     hour: '2-digit', minute: '2-digit', hour12: false
                   })}</div>
@@ -84,7 +85,7 @@ function Qnaposting({ onClose, post }) {
                 <div className='postingTitle'>{titlevalue}</div>
                 <div className='postingHeader'>
                   <div className='postingauthor'>{post.id}</div>
-                  <div className='postingDate'>{new Date(post.createdat).toLocaleString('ko-KR', {
+                  <div className='postingDate'>{new Date(post.postcreated).toLocaleString('ko-KR', {
                     year: 'numeric', month: '2-digit', day: '2-digit',
                     hour: '2-digit', minute: '2-digit', hour12: false
                   })}</div>
@@ -94,9 +95,8 @@ function Qnaposting({ onClose, post }) {
                 </div>
               </>
             }
-
             <div className='postingConvibtn'>
-              {post.id === sessionStorage.getItem('loginID') ?
+              {post.id === sessionStorage.getItem('loginID') || adminconfirm ?
                 <>
                   <button className='qnaModifyBtn' onClick={toggleModify}>
                     {showModify ? 'Save' : 'Modify'}
@@ -110,7 +110,7 @@ function Qnaposting({ onClose, post }) {
                 Comment
               </div>
               <div className='CommentMain'>
-                <Qnacomment sno={post.sno}/>
+                <Qnacomment sno={post.sno} />
               </div>
             </div>
           </div>

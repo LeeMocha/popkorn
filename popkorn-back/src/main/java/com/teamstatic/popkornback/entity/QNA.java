@@ -25,6 +25,6 @@ public class QNA {
     private String title;
     private String content;
     private String id;
-    private Date createdat;
-    private Date updatedat;
+    private Date postcreated;
+    private Date commentcreated;
 }

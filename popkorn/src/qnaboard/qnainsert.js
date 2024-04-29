@@ -20,11 +20,7 @@ function Qnainsert({ onClose }) {
 
   const insertqna = async () => {
     try {
-      const loginID = sessionStorage.getItem("loginID");
-      if (!loginID) {
-        alert("You must be logged in to post.");
-        return;
-      } else if (title.length < 3) {
+      if (title.length < 3) {
         alert("title must be at least 3 characters long")
         return;
       } else if (content.length < 1) {
