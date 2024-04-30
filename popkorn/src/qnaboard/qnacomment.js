@@ -25,9 +25,10 @@ function Qnacomment({ sno }) {
     }, [sno]);
 
     const handleAddComment = async () => {
-        if (sessionStorage.getItem('loginCheck') === false)
+        if (sessionStorage.getItem('loginCheck') === false) {
             alert("You must be logged in to Comment.");
-
+            return;
+        }
 
         if (!commentText.trim()) return;
         const postData = {
@@ -78,18 +79,34 @@ function Qnacomment({ sno }) {
         }
     };
 
+    const preventcomment = () => {
+        alert('You must be logged in to Comment.');
+    }
 
     return (
         <div>
             <div className='commentflex'>
-                <textarea
-                    value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
-                    className='commentarea'
-                    placeholder="Write your Comment"
-                />
-                <button onClick={handleAddComment} className='commentBtn'>Add Comment</button>
+                {sessionStorage.getItem('loginID') ? (
+                    <>
+                        <textarea
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            className='commentarea'
+                            placeholder="Write your Comment"
+                        />
+                        <button onClick={handleAddComment} className='commentBtn'>Add Comment</button>
+                    </>) : 
+                    <>
+                     <textarea
+                            className='commentarea'
+                            placeholder="You must be logged in to Comment."
+                            readOnly
+                        />
+                        <button onClick={preventcomment} className='commentBtn'>Add Comment</button>
+                    </>
+                    }
             </div>
+
             <div>
                 {comments.slice(0, visibleComments).map(comment => (
                     <div key={comment.sno} className='commentinfo'>

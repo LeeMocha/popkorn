@@ -9,6 +9,7 @@ const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 const OrderItem = ({ order, onClick, setPageState }) => {
    const [editMode, setEditMode] = useState(false);
    const [infostatus, setInfostatus] = useState(order.status);
+   
 
    const handleStatusChange = (event) => {
       setInfostatus(event.target.value);
@@ -18,9 +19,9 @@ const OrderItem = ({ order, onClick, setPageState }) => {
       setEditMode(!editMode);
    };
 
-   const updateStatus = async (merchantUid, newStatus) => {
+   const updateStatus = async (order, newStatus) => {
       try {
-         const response = await apiCall(`/api/manager/orderinfo/updatestatus?merchantuid=${merchantUid}&status=${newStatus}`, "POST", null, sessionStorage.getItem('token'));
+         const response = await apiCall(`/api/manager/orderinfo/updatestatus?merchantuid=${order.merchantUid}&status=${newStatus}`, "POST", null, sessionStorage.getItem('token'));
          if (response.status === 200) {
             return true;
          } else {
@@ -29,13 +30,14 @@ const OrderItem = ({ order, onClick, setPageState }) => {
          }
       } catch (error) {
          alert('Changing order status requires "MANAGER" permission or higher.');
+         setInfostatus(order.status)
          return false;
       }
    }
 
    const handleUpdate = () => {
       toggleEdit();
-      updateStatus(order.merchantUid, infostatus);
+      updateStatus(order, infostatus);
    };
 
    return order ? (

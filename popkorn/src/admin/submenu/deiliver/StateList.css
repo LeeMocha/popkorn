@@ -114,21 +114,20 @@
     border-top: 1px solid #fff;
 }
 
-.statusarrow {
-    border: 1px solid#00fe199a;
-    background: #00fe199a;
-    width: 30px;
-    line-height: 30px;
-    border-radius: 100%;
-    margin: 5px 5px 5px 5px;
-    text-align: center;
-}
-
 .stateProgress>p {
     width: 25%;
 }
 
-.stateProgresswrap{
+.stateProgress>p.refund {
+    width: 84%;
+    border-color: red;
+}
+
+.stateProgress>p.refundrequest {
+    width: 84%;
+}
+
+.stateProgresswrap {
     display: flex;
     width: 100%;
     padding: 0 50px
@@ -152,7 +151,8 @@
 .stepByStepStage {
     display: flex;
     justify-content: space-between;
-    width: 85%;
+    width: 86%;
+    padding: 0 12%;
 }
 
 .informationDiv {
@@ -288,6 +288,37 @@
     border-color: #00fe19;
 }
 
+.statusRefundarrow {
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+    border: 1px solid gray;
+    background: gray;
+    color: black;
+}
+
+.statusRefundprocess {
+    width: 90px;
+    line-height: 30px;
+    border-radius: 100%;
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+    border: 1px solid gray;
+    background: gray;
+    color: black;
+}
+
+.statusRefundarrow.refund {
+    background: red;
+    border-color: red;
+}
+
+.statusRefundarrow.refundrequest {
+    background: red;
+    border-color: red;
+}
 
 .xi-check.delivery {
     color: white;

@@ -29,6 +29,7 @@ const OrderItem = ({ order, onClick }) => {
          }
       } catch (error) {
          alert('Changing order status requires "MANAGER" permission or higher.');
+         setInfostatus(order.status);
          return false;
       }
    }
@@ -56,7 +57,6 @@ const OrderItem = ({ order, onClick }) => {
                      <option value="Delivered">Delivered</option>
                      <option value="Refund">Refund</option>
                      <option value="refund request">refund request</option>
-                     <option value="Confirmed">Confirmed</option>
                   </select> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => handleUpdate()}>Save</button> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => onClick(order)}>Detail</button>
