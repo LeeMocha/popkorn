@@ -40,19 +40,6 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
    const deleteDate = (id) => {
       apiCall(`/api/manager/${entity}/delete?${pk}=${id}`, "DELETE", null, sessionStorage.getItem('token'))
          .then(response => {
-            setDataState({
-               ...response.data,
-               pageData: {
-                  page: response.data.page,
-                  size: response.data.size,
-                  prev: response.data.prev,
-                  next: response.data.next,
-                  start: response.data.start,
-                  end: response.data.end,
-                  pageList: response.data.pageList,
-                  totalPage: response.data.totalPage
-               }
-            });
             setPageState(response.data.page);
          })
          .catch(error => {
