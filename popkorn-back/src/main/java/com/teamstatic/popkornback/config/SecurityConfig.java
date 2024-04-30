@@ -4,14 +4,12 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.filter.CorsFilter;
 
 import com.teamstatic.popkornback.jwtToken.JwtAuthenticationFilter;
 
@@ -110,7 +108,7 @@ public class SecurityConfig {
 				.csrf().disable() // csrf는 API 서버 현재 사용하지 않으므로 disable
 				.cors().configurationSource(request -> {
 					CorsConfiguration config = new CorsConfiguration();
-					config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+					config.setAllowedOrigins(Arrays.asList("http://www.popkorn.co.kr"));
 					config.setAllowedMethods(Arrays.asList("*"));
 					config.setAllowCredentials(true);
 					config.setAllowedHeaders(Arrays.asList("*"));

@@ -8,6 +8,8 @@ export async function apiCall(url, method, requestData, token) {
     headers = { 'Content-Type': 'multipart/form-data' };
   } else if (url.indexOf('eventSave') >= 0 && token == null) {
     headers = { 'Content-Type': 'multipart/form-data' };
+  } else if(url.indexOf('celebSave') >= 0 && token == null) {
+    headers = { 'Content-Type': 'multipart/form-data' };
   } else if (token !== null) {
     headers = {
       'Content-Type': 'application/json',

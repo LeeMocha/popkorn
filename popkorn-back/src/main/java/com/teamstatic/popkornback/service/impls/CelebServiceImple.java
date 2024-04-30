@@ -2,6 +2,8 @@ package com.teamstatic.popkornback.service.impls;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.teamstatic.popkornback.entity.Celeb;
@@ -19,6 +21,15 @@ public class CelebServiceImple implements CelebService{
 
    public List<Celeb> findAll(){
       return celebRepository.findAll();
+   }
+
+   public Celeb save(Celeb celeb) {
+      return celebRepository.save(celeb);
+   }
+
+   @Transactional
+   public void deleteByartist(String artist) {
+      celebRepository.deleteByartist(artist);
    }
 
 }

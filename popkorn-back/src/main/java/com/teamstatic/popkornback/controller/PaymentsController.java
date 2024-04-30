@@ -110,7 +110,7 @@ public class PaymentsController {
    }
 
    @PostMapping("/refund")
-   public boolean postMethodName(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
+   public boolean refund(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
 
       System.out.println(orderinfo);
       

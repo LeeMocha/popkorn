@@ -45,13 +45,13 @@ export default function Send() {
 
   const sendEmail = async () => {
     try {
-      await apiCall('/api/user/mailsend', "POST", { emailTitle: emailTitle, emailContent: emailContent, emailRecipient: emailRecipient }, null);
+      await apiCall('/api/manager/user/mailsend', "POST", { emailTitle: emailTitle, emailContent: emailContent, emailRecipient: emailRecipient }, sessionStorage.getItem('token'));
       alert("Email Send");
       setemailRecipient('');
       setEmailContent('');
       setemailTitle('');
     } catch (error) {
-      console.error('오류 발생:', error);
+      alert('Mail Sending is possible from "MANAGER" authority and above.');
     }
   };
 
@@ -62,13 +62,13 @@ export default function Send() {
       formData.append('emailContent', emailContent);
       formData.append('emailRecipient', emailRecipient);
 
-      await apiCall('/api/user/sendtoallusers', "POST", formData, null);
+      await apiCall('/api/manager/user/sendtoallusers', "POST", formData, sessionStorage.getItem('token'));
       alert("Email Sent");
       setemailRecipient('');
       setEmailContent('');
       setemailTitle('');
     } catch (error) {
-      console.error('Error occurred:', error);
+      alert('Mail Sending is possible from "MANAGER" authority and above.');
     }
   }
 

@@ -132,7 +132,7 @@ function QnaBoard() {
     <>
       <Header />
       <div className='qnawhole'>
-        <h1 className='qnaheader'>QNA Board</h1>
+        <h1 className='qnaheader'>Q & A Board</h1>
         <div className='searchguide'>
           {showkeyword && currKeyword.length !== 0 ?
             <div>{`${currKeyword}로 검색한 결과입니다.`}</div>

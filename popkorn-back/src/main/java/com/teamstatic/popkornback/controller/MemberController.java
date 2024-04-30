@@ -9,17 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.teamstatic.popkornback.entity.Cart;
 import com.teamstatic.popkornback.entity.Celeb;
 import com.teamstatic.popkornback.entity.Celebcommunity;
 import com.teamstatic.popkornback.entity.Likey;
-import com.teamstatic.popkornback.entity.Snakegame;
+
 import com.teamstatic.popkornback.service.CartService;
 import com.teamstatic.popkornback.service.CelebCommunityService;
 import com.teamstatic.popkornback.service.LikeyService;
-import com.teamstatic.popkornback.service.SnakegameService;
+
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

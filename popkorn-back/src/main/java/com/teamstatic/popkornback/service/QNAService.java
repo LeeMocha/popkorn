@@ -7,15 +7,15 @@ import org.springframework.data.domain.Pageable;
 
 import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
-import com.teamstatic.popkornback.domain.QNADTO;
-import com.teamstatic.popkornback.entity.QNA;
+import com.teamstatic.popkornback.domain.QnaDTO;
+import com.teamstatic.popkornback.entity.Qna;
 
-public interface QNAService {
+public interface QnaService {
 
-  default QNADTO entityToDto(QNA qna) {
+  default QnaDTO entityToDto(Qna qna) {
     if (qna == null)
       return null;
-    return QNADTO.builder()
+    return QnaDTO.builder()
         .sno(qna.getSno())
         .root(qna.getRoot())
         .category(qna.getCategory())
@@ -26,27 +26,27 @@ public interface QNAService {
         .build();
   }
 
-  PageResultDTO<QNADTO, QNA> findAllByTitle(String Refund, PageRequestDTO requestDTO);
+  PageResultDTO<QnaDTO, Qna> findAllByTitle(String Refund, PageRequestDTO requestDTO);
 
-  PageResultDTO<QNADTO, QNA> findAllByID(String transaction, PageRequestDTO requestDTO);
+  PageResultDTO<QnaDTO, Qna> findAllByID(String transaction, PageRequestDTO requestDTO);
 
-  PageResultDTO<QNADTO, QNA> findAllByContent(String etc, PageRequestDTO requestDTO);
+  PageResultDTO<QnaDTO, Qna> findAllByContent(String etc, PageRequestDTO requestDTO);
 
-  PageResultDTO<QNADTO, QNA> findAll(PageRequestDTO requestDTO);
+  PageResultDTO<QnaDTO, Qna> findAll(PageRequestDTO requestDTO);
 
-  PageResultDTO<QNADTO, QNA> findAllPosts(PageRequestDTO requestDTO);
+  PageResultDTO<QnaDTO, Qna> findAllPosts(PageRequestDTO requestDTO);
 
-  PageResultDTO<QNADTO, QNA> findPostsByCategory(String category, PageRequestDTO requestDTO);
+  PageResultDTO<QnaDTO, Qna> findPostsByCategory(String category, PageRequestDTO requestDTO);
 
-  PageResultDTO<QNADTO, QNA> findByCategoryAndKeyword(String category, String keyword, Pageable pageable);
+  PageResultDTO<QnaDTO, Qna> findByCategoryAndKeyword(String category, String keyword, Pageable pageable);
   
-  QNA updatePost(int sno, QNA updatedPost);
+  Qna updatePost(int sno, Qna updatedPost);
 
   void deletePost(int sno);
 
-  QNA createQna(QNA qna);
+  Qna createQna(Qna qna);
 
-  QNA updateReply(int sno, QNA updatedComment);
+  Qna updateReply(int sno, Qna updatedComment);
 
   long getCommentCountForPost(int sno);
   
