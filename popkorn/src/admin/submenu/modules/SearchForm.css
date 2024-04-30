@@ -8,6 +8,8 @@
 
 .searchform_wrap div{
    display: flex;
+   width: 100%;
+   margin: 0;
    align-items: center;
 }
 
@@ -24,6 +26,7 @@
    background: #8f8f8f8a;
    border: 0px;
    color: #fff;
+   outline: none;
 }
 
 .searchform_input::placeholder{

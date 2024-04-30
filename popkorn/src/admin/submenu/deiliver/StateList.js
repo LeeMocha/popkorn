@@ -21,6 +21,7 @@ export default function StateList() {
                 path.style.fill = countryName.includes(pathCountryName) ? '#00fe19' : 'lightwhite';
             });
 
+
             const restorePreviousColors = () => {
                 paths.forEach(path => {
                     if (previousColors[path.id] !== undefined) {
@@ -32,9 +33,6 @@ export default function StateList() {
             return restorePreviousColors;
         }
     }, [selectedOrder]);
-
-
-
 
     useEffect(() => {
         if (orderInfo.length > 0) {
@@ -54,32 +52,6 @@ export default function StateList() {
 
         fetchOrderInfo();
 
-        const handleClick = (event) => {
-            const clickedPath = event.target;
-            const countryName = clickedPath.dataset.name;
-
-            if (selectedCountry !== clickedPath) {
-                if (selectedCountry) {
-                    selectedCountry.classList.remove('clickedcountrty');
-                }
-                clickedPath.classList.add('clickedcountrty');
-                setSelectedCountry(clickedPath);
-            } else {
-                clickedPath.classList.remove('clickedcountrty');
-                setSelectedCountry(null);
-            }
-        };
-
-        const countryPaths = document.querySelectorAll('path[data-name]');
-        countryPaths.forEach(path => {
-            path.addEventListener('click', handleClick);
-        });
-
-        return () => {
-            countryPaths.forEach(path => {
-                path.removeEventListener('click', handleClick);
-            });
-        };
     }, [selectedCountry]);
 
     const handleOrderClick = (order) => {
@@ -143,69 +115,105 @@ export default function StateList() {
                         <div className='stateProgresswrap'>
                             {selectedOrder && (
                                 <div className='stateProgress'>
-
-                                    <div className={`statusarrow 
- ${selectedOrder.status === 'Paid' ? 'paid' : ''}
- ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
- ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `}>
-                                        <span><i className='xi-check delivery'></i></span>
-                                    </div>
-                                    <p className={`statusarrow 
- ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
- ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `} />
-                                    <div className={`statusarrow 
- ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
- ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `}>
-                                        <span><i className='xi-check delivery'></i></span>
-                                    </div>
-                                    <p className={`statusarrow
- ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `} />
-                                    <div className={`statusarrow
- ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `}>
-                                        <span><i className='xi-check delivery'></i></span>
-                                    </div>
-                                    <p className={`statusarrow 
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `} />
-                                    <div className={`statusarrow 
- ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
- `}>
-                                        <span><i className='xi-check delivery'></i></span>
-                                    </div>
+                                    {['Paid', 'Ready for ship', 'Shipping', 'Deliveried'].includes(selectedOrder.status) ? (
+                                        <>
+                                            <div className={`statusarrow 
+                                 ${selectedOrder.status === 'Paid' ? 'paid' : ''}
+                                 ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
+                                 ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `}>
+                                                <span><i className='xi-check delivery'></i></span>
+                                            </div>
+                                            <p className={`statusarrow 
+                                 ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
+                                 ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `} />
+                                            <div className={`statusarrow 
+                                 ${selectedOrder.status === 'Ready for ship' ? 'readyforship' : ''}
+                                 ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `}>
+                                                <span><i className='xi-check delivery'></i></span>
+                                            </div>
+                                            <p className={`statusarrow
+                                 ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `} />
+                                            <div className={`statusarrow
+                                 ${selectedOrder.status === 'Shipping' ? 'shipping' : ''}
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `}>
+                                                <span><i className='xi-check delivery'></i></span>
+                                            </div>
+                                            <p className={`statusarrow 
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `} />
+                                            <div className={`statusarrow 
+                                 ${selectedOrder.status === 'Deliveried' ? 'deliveried' : ''}
+                                 `}>
+                                                <span><i className='xi-check delivery'></i></span>
+                                            </div>
+                                        </>
+                                    ) : <>
+                                        <div className={`statusRefundarrow
+                                ${selectedOrder.status === 'refund request' ? 'refundrequest' : ''}
+                                ${selectedOrder.status === 'Refund' ? 'refund' : ''}
+                                `}>
+                                            <span><i className='xi-check delivery'></i></span>
+                                        </div>
+                                        <p className={`statusRefundprocess 
+                                     ${selectedOrder.status === 'refund request' ? 'refundrequest' : ''}
+                                 ${selectedOrder.status === 'Refund' ? 'refund' : ''}
+                                 `} />
+                                        <div className={`statusRefundarrow 
+                                 
+                                 ${selectedOrder.status === 'Refund' ? 'refund' : ''}
+                                 `}>
+                                            <span><i className='xi-check delivery'></i></span>
+                                        </div>
+                                    </>}
                                 </div>
                             )}
                         </div>
                     </div>
                     <div className='stepByStep'>
-                        <div className='stepByStepStage'>
-                            <div className='stage'>
-                                <span>Order Process</span>
-                                <p>Date of order</p>
-                            </div>
-                            <div className='stage'>
-                                <span>Packaging progress</span>
-                                <p>Packaging Date</p>
-                            </div>
-                            <div className='stage'>
-                                <span>Shipment Start</span>
-                                <p>Delivery start date</p>
-                            </div>
-                            <div className='stage'>
-                                <span>Delivery completed</span>
-                                <p>Delivery completion date</p>
-                            </div>
-                        </div>
+                        {selectedOrder ? (
+                            selectedOrder.status === 'Refund' || selectedOrder.status === 'refund request' ? (
+                                <>
+                                    <div className='stepByStepStage'>
+                                        <div className='stage'>
+                                            <span>Refund Request</span>
+                                        </div>
+                                        <div className='stage'>
+                                            <span>Refund Complete</span>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className='stepByStepStage'>
+                                        <div className='stage'>
+                                            <span>Order Process</span>
+                                        </div>
+                                        <div className='stage'>
+                                            <span>Packaging progress</span>
+                                        </div>
+                                        <div className='stage'>
+                                            <span>Shipment Start</span>
+                                        </div>
+                                        <div className='stage'>
+                                            <span>Delivery completed</span>
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        ) : (
+                            <p>Loading order details...</p>
+                        )}
                     </div>
+
                 </div>
                 <h3><i className='xi-spinner-1 xi-spin'></i>Map</h3>
                 <div className="map-container">

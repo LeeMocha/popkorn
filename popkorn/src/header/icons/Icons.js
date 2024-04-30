@@ -16,13 +16,14 @@ export default function Icons({isScrolled}) {
     
       try {
         await apiCall('/api/user/logout', "GET", null, null);
-        alert(`로그아웃 되었습니다.`);
+        alert("Logged out.");
         sessionStorage.removeItem('loginID');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('nickname');
         setIsloggedIn(false);
         window.location.href='/'
       } catch (error) {
-        console.error('로그아웃 중 오류 발생:', error);
+        console.error("Error occurred during logout : ", error);
         return false;
       }
     };
@@ -37,11 +38,7 @@ export default function Icons({isScrolled}) {
 
    return (
       <div className={`icons_wrap ${isScrolled? 'fade-out' : ''}`}>
-        {
-          !isAdmin ?
-          <></>:
          <Link to='/adminMain'><i className="xi-home-o"></i></Link>
-        }
          <Link to={isLoggedIn?'/MyPageMain':'/AuthMain'}><i className="xi-user-o"></i></Link>
          <Link to="/cart"><i className="xi-cart-o"></i></Link>
          <i className="xi-log-out" onClick={logOut} ></i>

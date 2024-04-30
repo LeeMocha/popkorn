@@ -123,3 +123,13 @@
     height: 20px;
     border-radius: 10px;
 }
+
+.notice_notadmin_div{
+    color: #fff;
+    font-weight: 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

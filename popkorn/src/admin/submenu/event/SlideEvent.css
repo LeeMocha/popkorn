@@ -25,23 +25,23 @@
 .event2_deleteList_wrap {
     border: 1px solid #b6b6b6;
     border-radius: 10px;
-    height: 1000px;
+    height: auto;
     max-height: 1300px;
-    margin-top: 10px 10px 0 10px;
-    padding: 10px 0px 0px;
+    /* margin: 10px; */
+    padding: 10px;
     background: rgba(148, 147, 147, 0.53);
     color: white;
     border-top: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .event2_deliteList_content {
     width: 90%;
-    max-height: 750px;
+    max-height: 1000px;
     margin: 10px auto;
-    /* overflow-y: auto; */
+    overflow: auto;
     border-radius: 20px;
 }
 
@@ -50,6 +50,7 @@
     border-collapse: collapse;
     color: #fff;
     width: 100%;
+    border-radius: 20px;
 }
 
 .event2_delete_table th,
@@ -84,6 +85,11 @@
     height: 50px;
 }
 
+.event_insert_btn{
+    display: inline-block;
+    width: 150px;
+}
+
 .event2_insert_wrap {
     background: rgba(148, 147, 147, 0.53);
     border: 1px solid #b6b6b6;
@@ -99,7 +105,7 @@
 .event2_image_input {
     display: flex;
     justify-content: space-evenly;
-    margin-top: 70px;
+    margin-top: 20px;
 }
 
 .event2_image_input img{
@@ -123,7 +129,8 @@
     margin-bottom: 20px;
 }
 
-.event2_insert_btn{
+.event2_insert_btn,
+.event2_reset_btn{
     display: inline-block;
     width: 150px;
 }
@@ -136,7 +143,11 @@
     text-align: center;
     color: white;
     height: 410px;
+}
 
+.event2_list_contents{
+    height: 320px;
+    overflow-y: auto;
 
 }
 

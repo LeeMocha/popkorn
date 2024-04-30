@@ -73,7 +73,7 @@ public class UserServiceImple implements UserService{
         return uRepository.findByStatus(status);
     }
 
-	// => delete 
+	// => delete
 	@Override
 	public void deleteById(String id) {
 		uRepository.deleteById(id);

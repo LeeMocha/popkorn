@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './customerservice.css';
+import { Link } from 'react-router-dom';
 
 export const Customerservice = () => {
     const [selectedCategory, setSelectedCategory] = useState('Delivery');
@@ -97,6 +98,9 @@ export const Customerservice = () => {
                     </div>
                 </div>
             ))}
+            <Link to="/qnaboard">
+              <div className='linktoQNA'>If you want to any other help, come QNA and solves problems</div>
+              </Link>
         </div>
     );
 };

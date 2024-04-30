@@ -6,9 +6,10 @@ import './orderList.css';
 import AdminPaging from "../modules/AdminPaging";
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
-const OrderItem = ({ order, onClick }) => {
+const OrderItem = ({ order, onClick, setPageState }) => {
    const [editMode, setEditMode] = useState(false);
    const [infostatus, setInfostatus] = useState(order.status);
+   
 
    const handleStatusChange = (event) => {
       setInfostatus(event.target.value);
@@ -18,9 +19,9 @@ const OrderItem = ({ order, onClick }) => {
       setEditMode(!editMode);
    };
 
-   const updateStatus = async (merchantUid, newStatus) => {
+   const updateStatus = async (order, newStatus) => {
       try {
-         const response = await apiCall(`/api/orderinfo/updatestatus?merchantuid=${merchantUid}&status=${newStatus}`, "POST");
+         const response = await apiCall(`/api/manager/orderinfo/updatestatus?merchantuid=${order.merchantUid}&status=${newStatus}`, "POST", null, sessionStorage.getItem('token'));
          if (response.status === 200) {
             return true;
          } else {
@@ -28,14 +29,15 @@ const OrderItem = ({ order, onClick }) => {
             return false;
          }
       } catch (error) {
-         console.error('오류 발생:', error);
+         alert('Changing order status requires "MANAGER" permission or higher.');
+         setInfostatus(order.status)
          return false;
       }
    }
 
    const handleUpdate = () => {
       toggleEdit();
-      updateStatus(order.merchantUid, infostatus);
+      updateStatus(order, infostatus);
    };
 
    return order ? (
@@ -191,7 +193,7 @@ export default function OrderList() {
             </div>
             <>
                {orders.map((order, index) => (
-                  <OrderItem key={index} order={order} onClick={popupClick} />
+                  <OrderItem key={index} order={order} onClick={popupClick} setPageState={setPageState} />
                ))}
 
             </>

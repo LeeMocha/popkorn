@@ -67,7 +67,7 @@ const Myaccountinfo = () => {
                 toggleEditMode();
                 updatenickname();
             } else {
-                alert('닉네임은 6자 이상, 12자 이하여야 합니다.');
+                alert("Nickname must be between 6 and 12 characters long.");
             }
         
     }} 

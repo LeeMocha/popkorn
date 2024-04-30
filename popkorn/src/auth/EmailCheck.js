@@ -38,13 +38,11 @@ export const EmailCheck = () => {
         emailinput: emailinput,
         pwinput: pwinput
       }, null);
-      const userID = loginResponse.data;
       if (loginResponse.status !== 200) {
         setpwInput('');
         alert('Invalid Password. Please check your Email or Password.');
         return;
       }
-      console.log(loginResponse.data.token)
       sessionStorage.setItem('loginID', loginResponse.data.id);
       sessionStorage.setItem('token', loginResponse.data.token);
       sessionStorage.setItem('nickname', loginResponse.data.nickname);

@@ -1,28 +1,30 @@
 package com.teamstatic.popkornback.controller;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.teamstatic.popkornback.entity.Cart;
 import com.teamstatic.popkornback.entity.Celeb;
 import com.teamstatic.popkornback.entity.Celebcommunity;
 import com.teamstatic.popkornback.entity.Likey;
+
 import com.teamstatic.popkornback.service.CartService;
 import com.teamstatic.popkornback.service.CelebCommunityService;
 import com.teamstatic.popkornback.service.LikeyService;
 
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -106,6 +108,5 @@ public class MemberController {
 
         return ccService.findByArtist(entity.getArtist());
     }
-    
 
 }

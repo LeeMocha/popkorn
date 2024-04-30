@@ -82,6 +82,13 @@ export default function SlideEvent() {
         setEventAddList([]);
     }
 
+    // xi-close
+    const handleEventInsertDelete = (index) => {
+        const updatedEventList = [...eventAddList];
+        updatedEventList.splice(index, 1); // 해당 인덱스의 항목을 배열에서 제거
+        setEventAddList(updatedEventList); // 상태 업데이트
+    }
+
     // Event data DB 저장
     const datatoServer = () => {
 
@@ -98,14 +105,14 @@ export default function SlideEvent() {
             formdata.append(`imageFile`, item.imageFile);
             formdata.append(`contentFile`, item.contentFile);
 
-            apiCall('/api/event/eventSave', 'POST', formdata, null).then(response => {
+            apiCall('/api/manager/event/eventSave', 'POST', formdata, sessionStorage.getItem('token')).then(response => {
                 if (response.data) {
                     alert(`Upload Success Event FileName => ${item.image1}&${item.content}`);
                 } else {
                     alert(`Upload Failde Event FileName => ${item.image1}&${item.content}`)
                 }
             }).catch(err => {
-                console.log("SlideEvent apiCall eventSave ERROR => " + err);
+                alert('Editing and deleting are possible from "MANAGER" authority and above.');
             })
 
         })
@@ -121,10 +128,10 @@ export default function SlideEvent() {
     }, []);
 
     const eventDelete = (ecode) => {
-        apiCall(`/api/event/deleteByecode?ecode=${ecode}`, "GET", null, null).then(response => {
+        apiCall(`/api/manager/event/deleteByecode?ecode=${ecode}`, "GET", null, sessionStorage.getItem('token')).then(response => {
             setEventData(response.data);
         }).catch(err => {
-            console.log("eventDelete apiCall ERROR => " + err)
+            alert('Editing and deleting are possible from "MANAGER" authority and above.');
         })
     }
 
@@ -181,8 +188,8 @@ export default function SlideEvent() {
                         <input type="date" value={startdate} onChange={handleStartDateChange} />
                         <span>EndDate</span>
                         <input type="date" value={enddate} onChange={handleEndDateChange} />
-                        <div className="event2_btnAll_wrap2">
-                            <button type="button" className="event2_insert_btn" onClick={insertEventListHandler}>Insert</button>
+                        <div className="event_btnAll_wrap2">
+                            <button type="button" className="event_insert_btn" onClick={insertEventListHandler}>Insert</button>
                         </div>
                     </div>
                 </div>
@@ -200,7 +207,7 @@ export default function SlideEvent() {
                                         <p>{item.title}</p>
                                         <p>{item.startdate}</p>
                                         <p>{item.enddate}</p>
-                                        <p><i className="xi-close"></i></p>
+                                        <p><i className="xi-close" onClick={() => handleEventInsertDelete(index)}></i></p>
                                     </li>
                                 ))
                             }

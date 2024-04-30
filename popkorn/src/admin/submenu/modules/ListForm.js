@@ -23,6 +23,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
    const [isUpdate, setIsUpdate] = useState(false);
    const [updateItem, setUpdateItem] = useState();
    const [inputData, setInputData] = useState([]);
+   const [isAdmin, setIsAdmin] = useState(false);
 
    if (!Array.isArray(data) || data.length === 0) {
       return <div className='listform_nodata'>No data provided.</div>;
@@ -37,7 +38,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
    };
 
    const deleteDate = (id) => {
-      apiCall(`/api/${entity}/delete?${pk}=${id}`, "GET", null, null)
+      apiCall(`/api/manager/${entity}/delete?${pk}=${id}`, "DELETE", null, sessionStorage.getItem('token'))
          .then(response => {
             setDataState({
                ...response.data,
@@ -55,7 +56,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
             setPageState(response.data.page);
          })
          .catch(error => {
-            console.error('Error fetching data:', error);
+            alert('Editing and deleting are possible from "MANAGER" authority and above.');
          });
    }
 
@@ -68,7 +69,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
             updatedItem[columnName] = inputData[index]; // 각 필드에 inputData의 값을 할당합니다.
          });
          
-         apiCall(`/api/${entity}/update`, "POST", updatedItem, null)
+         apiCall(`/api/manager/${entity}/update`, "POST", updatedItem, sessionStorage.getItem('token'))
             .then(response => {
                setUpdateItem(response.data)
                setIsUpdate(false)
@@ -77,8 +78,9 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
                   // 데이터 업데이트 후 해당 데이터 다시 가져오기
                   apiCall(`/api/${entity}/searchlist?page=1&size=20&keyword=`, "GET", null, null)
                       .then(response => {
+                        console.log(response.data.dtoList)
                        setDataState({
-                          ...response.data,
+                          ...response.data.dtoList,
                           pageData: {
                              page: response.data.page,
                              size: response.data.size,
@@ -121,8 +123,11 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
                       });
                }
             })
-            .catch(err => console.log(err));
-
+            .catch(err => {
+               setIsUpdate(false);
+               alert('Editing and deleting are possible from "MANAGER" authority and above.')
+            });
+            
       } else {
 
          const inputArray = new Array(commonColumns.length)
@@ -169,7 +174,7 @@ export default function ListForm({ data, setDataState, pk, entity, pageData, set
 
                         {commonColumns.map((columnName, colIndex) => (
                            <td key={colIndex}>{
-                              updateItem === item[pk] ?
+                              updateItem === item[pk] && isUpdate ?
                                  <input className="list_form_input" key={colIndex} value={inputData[colIndex]} readOnly={columnName === 'id' || columnName === 'pcode' || columnName === 'password' || columnName === 'image1' || columnName === 'createdate' ? true : false}
                                     onChange={(e) => inputHandelr(e, colIndex)}
                                  ></input>

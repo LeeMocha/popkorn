@@ -8,18 +8,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +26,11 @@ import com.teamstatic.popkornback.domain.PageRequestDTO;
 import com.teamstatic.popkornback.domain.PageResultDTO;
 import com.teamstatic.popkornback.domain.UserDTO;
 import com.teamstatic.popkornback.domain.UserRole;
+import com.teamstatic.popkornback.entity.Snakegame;
 import com.teamstatic.popkornback.entity.User;
 import com.teamstatic.popkornback.jwtToken.TokenProvider;
 import com.teamstatic.popkornback.repository.UserRepository;
+import com.teamstatic.popkornback.service.SnakegameService;
 import com.teamstatic.popkornback.service.impls.RegisterMail;
 import com.teamstatic.popkornback.service.impls.UserServiceImple;
 
@@ -54,12 +53,11 @@ public class UserController {
     PasswordEncoder passwordEncoder;
     RegisterMail registerMail;
     TokenProvider tokenProvider;
+    SnakegameService sgService;
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private HttpSession session;
 
     @GetMapping("/userlist")
     public PageResultDTO<UserDTO, User> userList(int page) {
@@ -135,7 +133,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserDTO login(HttpSession session, @RequestBody Map<String, String> requestBody) {
+    public UserDTO login(@RequestBody Map<String, String> requestBody) {
         String emailinput = requestBody.get("emailinput");
         String pwinput = requestBody.get("pwinput");
 
@@ -162,8 +160,8 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpSession session) {
-        session.invalidate();
+    public void logout() {
+
     }
 
     @PostMapping("/memberjoin")
@@ -264,7 +262,7 @@ public class UserController {
     }
 
     @PostMapping("/updatenickname")
-    public String updatenickname(HttpSession session, @RequestParam String email,
+    public String updatenickname( @RequestParam String email,
             @RequestParam String nickname) {
         User userOptional = uservice.findByUserId(email);
         User user = userOptional;
@@ -302,7 +300,7 @@ public class UserController {
 
         try {
             uservice.deleteById(userId);
-            session.invalidate();
+
             return "회원 탈퇴 성공";
         } catch (Exception e) {
             return "탈퇴중 오류 발생";
@@ -435,4 +433,25 @@ public class UserController {
         return roleList.contains("ROLE_MANAGER");
 
     }
+
+        @PostMapping("/snakegame/getrecord")
+    public List<Snakegame> getRecord(@RequestBody String nickname) {
+        String result = nickname.replace("\"", "");
+        return sgService.findTop3RecordsAndMe(result);
+    }
+    
+    @PostMapping("/snakegame/insertrecord")
+    public List<Snakegame> postMethodName(@RequestBody Snakegame entity) {
+        
+        entity.setNickname(entity.getNickname().replace("\"", ""));
+        Optional<Snakegame> userhistory = sgService.findById(entity.getNickname());
+    
+
+        if(!userhistory.isPresent() || userhistory.get().getRecord()<entity.getRecord()){
+            sgService.save(entity);
+        }
+
+        return sgService.findTop3RecordsAndMe(entity.getNickname());
+    }
+    
 }
