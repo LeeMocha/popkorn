@@ -112,7 +112,7 @@ function QnaBoard() {
   };
 
   const openModal = () => {
-    if (sessionStorage.getItem('loginCheck'))
+    if (sessionStorage.getItem('loginID'))
       setshowInsertModal(true);
     else {
       alert("You must be logged in to post.");
