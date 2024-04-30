@@ -21,7 +21,7 @@ const OrderItem = ({ order, onClick, setOrders}) => {
    const updateStatus = async (order) => {
       if(infostatus==='Refund'){
          try {
-            const response = await apiCall(`/api/pay/refund`, "POST", order, null);
+            const response = await apiCall(`/api/manager/pay/refund`, "POST", order, sessionStorage.getItem('token'));
             if (response.status=== 200) {
                return true;
             } else {
@@ -29,7 +29,7 @@ const OrderItem = ({ order, onClick, setOrders}) => {
                return false;
             }
          } catch (error) {
-            console.error('오류 발생:', error);
+            alert('Changing order status requires "MANAGER" permission or higher.');
             return false;
          }
       }

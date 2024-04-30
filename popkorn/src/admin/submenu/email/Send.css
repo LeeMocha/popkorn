@@ -85,6 +85,7 @@
   color: white;
   background: #9dc8c8;
   margin-left: 300px;
+  cursor: pointer;
 }
 
 .custom-file-input {

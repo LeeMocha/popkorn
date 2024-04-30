@@ -77,4 +77,7 @@ public interface ProductService {
                 .image3(entity.getImage3())
                 .build();
     }
+
+    void deleteByPcode(int pcode);
+    
 }
