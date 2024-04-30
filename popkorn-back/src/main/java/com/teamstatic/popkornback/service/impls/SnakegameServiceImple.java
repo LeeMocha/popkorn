@@ -30,6 +30,8 @@ public class SnakegameServiceImple implements SnakegameService{
         // 결과 리스트에 사용자의 기록을 맨 앞에 추가
         if (userRecord.isPresent()) {
             resultList.add(userRecord.get());
+        } else {
+            resultList.add(new Snakegame(nickname, 0));
         }
 
         // 결과 리스트에 상위 3개의 기록 추가
