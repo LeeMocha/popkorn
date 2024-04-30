@@ -110,7 +110,7 @@ export default function CartListFrom() {
                             <input type="checkbox" onChange={checkSelectAll} checked={selectAll} />
                             <span style={{ color: '#FE7CF3' }}>Select All</span>
                         </label>
-                        <button onClick={deleteHandler}>ALL Delete</button>
+                        <button onClick={deleteHandler}>Delete</button>
                     </>
                 )}
             </div>

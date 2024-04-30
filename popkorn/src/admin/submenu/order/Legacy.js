@@ -29,6 +29,7 @@ const OrderItem = ({ order, onClick }) => {
          }
       } catch (error) {
          alert('Changing order status requires "MANAGER" permission or higher.');
+         setInfostatus(order.status);
          return false;
       }
    }

@@ -109,7 +109,7 @@ public class PaymentsController {
       return payService.findById(buyerEmail);
    }
 
-   @PostMapping("/refund")
+   
    public boolean refund(@RequestBody Orderinfo orderinfo) throws IamportResponseException, IOException {
 
       System.out.println(orderinfo);

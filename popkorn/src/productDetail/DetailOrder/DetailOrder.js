@@ -23,7 +23,7 @@ export default function DetailOrder() {
             setCnt(cnt + 1);
             setTotalcnt(pData.price * (cnt + 1));
         } else {
-            alert("최대 10개까지만 구매 가능합니다.");
+            alert("You can purchase up to 10 items maximum.");
         }
     }
 

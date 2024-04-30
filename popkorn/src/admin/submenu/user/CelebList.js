@@ -24,6 +24,11 @@ export default function CelebList() {
     const [isClick, setIsclick] = useState(false);
 
     const clickChageHandler = () => {
+        const celebListContainer = document.querySelector('.celebList_container');
+        if (!isClick) {
+            celebListContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
         setIsclick(!isClick); // 클릭할 때마다 이전 상태의 반대값으로 설정
     }
 
@@ -129,8 +134,8 @@ export default function CelebList() {
                 <TypeIt options={{ loop: false }} className="celebList_type">Celeb List</TypeIt>
             </div>
             <div className="celeb_infolist_wrap">
-                <div className="celeb_insertBtn_plus" onClick={clickChageHandler}>
-                    <p>Insert</p>
+                <div className="celeb_insertBtn_plus">
+                    <p onClick={clickChageHandler}>Insert</p>
                 </div>
                 <div className="celeb_infolist_table_wrap">
                     <table className="celeb_infolist_table">
@@ -139,8 +144,8 @@ export default function CelebList() {
                                 <th>
                                     <input type="checkbox" />
                                 </th>
-                                <th>Celeb Logo</th>
-                                <th>Celeb Main Photo</th>
+                                <th>Logo</th>
+                                <th>Main Photo</th>
                                 <th>Artist</th>
                                 <th>Notice</th>
                                 <th>Action</th>
@@ -160,7 +165,7 @@ export default function CelebList() {
                                             <img src={mainSrc + item.mainimg} alt="celeb_IMG" className="celeb_infolist_image2" />
                                         </td>
                                         <td>{item.artist}</td>
-                                        <td>{item.notice}</td>
+                                        <td><span className="celeb_notice_wrap" title={item.notice}>{item.notice}</span></td>
                                         <td><i className="xi-trash" onClick={()=>eventDelete(item)}></i></td>
 
                                     </tr>

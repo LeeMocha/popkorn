@@ -1,10 +1,9 @@
 .celebList_wrap {
     width: 100%;
     height: 100%;
-
+    overflow: auto;
     color: white;
     position: relative;
-    overflow-y: auto;
 }
 
 .celeb_infolist_wrap {
@@ -28,11 +27,36 @@
     border-radius: 20px;
 }
 
+.celeb_infolist_table_wrap::-webkit-scrollbar,.celebList_wrap::-webkit-scrollbar {
+    width: 6px;
+    /* 스크롤바의 너비 */
+    height: 10px;
+ }
+ 
+ .celeb_infolist_table_wrap::-webkit-scrollbar-thumb,.celebList_wrap::-webkit-scrollbar-thumb {
+    height: 10%;
+    /* 스크롤바의 길이 */
+    background: gainsboro;
+    /* 스크롤바의 색상 */
+    border-radius: 80px;
+ }
+ 
+ .celeb_infolist_table_wrap::-webkit-scrollbar-track,.celebList_wrap::-webkit-scrollbar-track {
+    background: rgba(243, 247, 253, 0.37);
+    /*스크롤바 뒷 배경 색상*/
+    /* height: 90%; */
+    margin-top: 45px;
+ }
+ 
+
 .celeb_insertBtn_plus {
-    cursor: pointer;
     display: flex;
     justify-content: flex-end;
     margin-right: 5%;
+}
+
+.celeb_insertBtn_plus>p{
+    cursor: pointer;
 }
 
 .celeb_insertBtn_plus p {
@@ -66,15 +90,12 @@
     border-bottom: 1px solid #a19898;
     border-width: 90%;
     max-width: 200px;
-    white-space: nowrap;
 
     text-overflow: ellipsis;
 }
 
 .celeb_checkbox_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
 }
 
 
