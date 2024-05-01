@@ -6,24 +6,20 @@ import './orderList.css';
 import AdminPaging from "../modules/AdminPaging";
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
-const OrderItem = ({ order, onClick, setPageState }) => {
-   const [editMode, setEditMode] = useState(false);
+const OrderItem = ({ order, onClick, editMode, setEditMode, toggleEdit }) => {
    const [infostatus, setInfostatus] = useState(order.status);
-   
 
-   const handleStatusChange = (event) => {
-      setInfostatus(event.target.value);
-   };
-
-   const toggleEdit = () => {
-      setEditMode(!editMode);
+   const handleStatusChange = (e) => {
+      setInfostatus(e.target.value);
    };
 
    const updateStatus = async (order) => {
       try {
          const response = await apiCall(`/api/manager/orderinfo/updatestatus?merchantuid=${order.merchantUid}&status=${infostatus}`, "POST", null, sessionStorage.getItem('token'));
          if (response.status === 200) {
-            return true;
+            toggleEdit(); 
+            const newstatus = response.data;
+            return newstatus;
          } else {
             console.log('상태 업데이트 실패:', response.statusText);
             return false;
@@ -35,9 +31,11 @@ const OrderItem = ({ order, onClick, setPageState }) => {
       }
    }
 
-   const handleUpdate = () => {
-      toggleEdit();
-      updateStatus(order);
+   const handleUpdate = async () => {
+      const success = await updateStatus(order);
+      if (success) {
+         order.status = infostatus;
+      }
    };
 
    return order ? (
@@ -48,7 +46,7 @@ const OrderItem = ({ order, onClick, setPageState }) => {
                Order date : {new Date(order.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
             </div>
 
-            {editMode ? (
+            {editMode == true ? (
 
                <div className="adminorderbtn">
                   <select value={infostatus} onChange={handleStatusChange} className="adminorderliststatus">
@@ -64,7 +62,7 @@ const OrderItem = ({ order, onClick, setPageState }) => {
             ) : (
 
                <div className="adminorderbtn">
-                  <span className="adminorderliststatus">[ {infostatus} ]</span> &nbsp;
+                  <span className="adminorderliststatus">[ {order.status} ]</span> &nbsp;
                   <button className='adminorderdetailcheck' onClick={toggleEdit}>Edit</button> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => onClick(order)}>Detail</button>
                </div>
@@ -88,6 +86,8 @@ const OrderItem = ({ order, onClick, setPageState }) => {
 }
 
 export default function OrderList() {
+   const [editModes, setEditModes] = useState({});
+   const [editMode, setEditMode] = useState(false);
    const [showPopup, setShowPopup] = useState(false);
    const [selectedOrder, setSelectedOrder] = useState(null);
    const [orderDetails, setOrderDetails] = useState([]);
@@ -109,6 +109,17 @@ export default function OrderList() {
          totalPage: 0
       }
    });
+
+   const toggleEdit = (merchantUid) => {
+      setEditModes(prev => ({
+         ...prev,
+         [merchantUid]: !prev[merchantUid]
+      }));
+   };
+
+   useEffect(() => {
+      setEditMode(false);
+   }, [currentPage]);
 
    const popupClick = (order) => {
       if (order) {
@@ -143,11 +154,18 @@ export default function OrderList() {
                   totalPage: response.data.totalPage
                }
             });
+            const newEditModes = {};
+            response.data.dtoList.forEach(order => {
+               newEditModes[order.merchantUid] = false; 
+            });
+            setEditModes(newEditModes);
          })
          .catch(err => {
             console.error('Error loading data:', err);
          });
    }, [currCategoryl, currKeyword, currentPage, ordersPerPage]);
+
+
 
    return (
       <div className="adminorderwhole">
@@ -177,8 +195,14 @@ export default function OrderList() {
                   : null}
             </div>
             <>
-               {orderData.servData.map((order, index) => (
-                  <OrderItem key={index} order={order} onClick={popupClick} setPageState={setCurrentPage} />
+               {orderData.servData.map(order => (
+                  <OrderItem
+                     key={order.merchantUid}
+                     order={order}
+                     onClick={popupClick}
+                     editMode={editModes[order.merchantUid]}
+                     toggleEdit={() => toggleEdit(order.merchantUid)}
+                  />
                ))}
 
             </>
