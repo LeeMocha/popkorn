@@ -55,7 +55,7 @@ const OrderItem = ({ order, onClick, setPageState }) => {
                      <option value="Paid">Paid</option>
                      <option value="Ready for ship">Ready for ship</option>
                      <option value="Shipping">Shipping</option>
-                     <option value="Delivered">Delivered</option>
+                     <option value="Deliveried">Deliveried</option>
                   </select> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => handleUpdate()}>Save</button> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => onClick(order)}>Detail</button>
