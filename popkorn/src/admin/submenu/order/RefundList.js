@@ -6,16 +6,11 @@ import './orderList.css';
 import AdminPaging from "../modules/AdminPaging";
 const imageSrc = process.env.PUBLIC_URL + "/productIMG/";
 
-const OrderItem = ({ order, onClick, setOrders}) => {
-   const [editMode, setEditMode] = useState(false);
+const OrderItem = ({ order, onClick, editMode, setEditMode, toggleEdit }) => {
    const [infostatus, setInfostatus] = useState(order.status);
 
    const handleStatusChange = (event) => {
       setInfostatus(event.target.value);
-   };
-
-   const toggleEdit = () => {
-      setEditMode(!editMode);
    };
 
    const updateStatus = async (order) => {
@@ -23,7 +18,9 @@ const OrderItem = ({ order, onClick, setOrders}) => {
          try {
             const response = await apiCall(`/api/manager/pay/refund`, "POST", order, sessionStorage.getItem('token'));
             if (response.status=== 200) {
-               return true;
+               toggleEdit(); 
+            const newstatus = response.data;
+            return newstatus;
             } else {
                console.log('상태 업데이트 실패:', response.statusText);
                return false;
@@ -36,9 +33,11 @@ const OrderItem = ({ order, onClick, setOrders}) => {
       }
    }
 
-   const handleUpdate = (order) => {
-      toggleEdit();
-      updateStatus(order, infostatus);
+   const handleUpdate = async () => {
+      const success = await updateStatus(order);
+      if (success) {
+         order.status = infostatus;
+      }
    };
 
    return order ? (
@@ -49,7 +48,7 @@ const OrderItem = ({ order, onClick, setOrders}) => {
                Order date : {new Date(order.paidAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
             </div>
 
-            {editMode ? (
+            {editMode == true ? (
 
                <div className="adminorderbtn">
                   <select value={infostatus} onChange={handleStatusChange} className="adminorderliststatus">
@@ -63,7 +62,7 @@ const OrderItem = ({ order, onClick, setOrders}) => {
             ) : (
 
                <div className="adminorderbtn">
-                  <span className="adminorderliststatus">[ {infostatus} ]</span> &nbsp;
+                  <span className="adminorderliststatus">[ {order.status}  ]</span> &nbsp;
                   <button className='adminorderdetailcheck' onClick={toggleEdit}>Edit</button> &nbsp;
                   <button className='adminorderdetailcheck' onClick={() => onClick(order)}>Detail</button>
                </div>
@@ -87,6 +86,8 @@ const OrderItem = ({ order, onClick, setOrders}) => {
 }
 
 export default function RefundList() {
+   const [editModes, setEditModes] = useState({});
+   const [editMode, setEditMode] = useState(false);
    const [showPopup, setShowPopup] = useState(false);
    const [orders, setOrders] = useState([]);
    const [selectedOrder, setSelectedOrder] = useState(null);
@@ -110,6 +111,17 @@ export default function RefundList() {
       }
    });
 
+   const toggleEdit = (merchantUid) => {
+      setEditModes(prev => ({
+         ...prev,
+         [merchantUid]: !prev[merchantUid]
+      }));
+   };
+
+   useEffect(() => {
+      setEditMode(false);
+   }, [currentPage]);
+
    const popupClick = (order) => {
       if (order) {
          apiCall(`/api/orderdetail/orderlist?merchantUid=${order.merchantUid}`, "GET", null, null)
@@ -125,11 +137,6 @@ export default function RefundList() {
       setShowPopup(false);
       setOrderDetails([]);
       setSelectedOrder(null);
-   };
-
-   const setPageState = (newPage) => {
-      if (newPage < 1 || newPage > orderData.pageData.totalPage) return;
-      setCurrentPage(newPage);
    };
 
    useEffect(() => {
@@ -148,6 +155,11 @@ export default function RefundList() {
                   totalPage: response.data.totalPage
                }
             });
+            const newEditModes = {};
+            response.data.dtoList.forEach(order => {
+               newEditModes[order.merchantUid] = false; 
+            });
+            setEditModes(newEditModes);
          })
          .catch(err => {
             console.error('Error loading data:', err);
@@ -174,7 +186,7 @@ export default function RefundList() {
             <div>
                <select onChange={(e) => {
                   setCurrCategoryl(e.target.value);
-                  setPageState(1);
+                  setCurrentPage(1);
                }}>
                   {
                      categoryl.map((category, index) =>
@@ -191,8 +203,14 @@ export default function RefundList() {
                   : null}
             </div>
             <>
-               {orders.map((order, index) => (
-                  <OrderItem key={index} order={order} onClick={popupClick} setOrders={setOrders} />
+            {orderData.servData.map(order => (
+                  <OrderItem
+                     key={order.merchantUid}
+                     order={order}
+                     onClick={popupClick}
+                     editMode={editModes[order.merchantUid]}
+                     toggleEdit={() => toggleEdit(order.merchantUid)}
+                  />
                ))}
             </>
 
@@ -227,7 +245,7 @@ export default function RefundList() {
                </div>
             )}
             <div className='ordernum_paging'>
-               <AdminPaging pageData={orderData.pageData} setPageState={setPageState} />
+            <AdminPaging pageData={orderData.pageData} setPageState={setCurrentPage} />
 
             </div>
          </div>
