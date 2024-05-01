@@ -4,12 +4,8 @@ import axios from "axios";
 export async function apiCall(url, method, requestData, token) {
 
   let headers = '';
-  if (url.indexOf('productSave') >= 0 && token == null) {
-    headers = { 'Content-Type': 'multipart/form-data' };
-  } else if (url.indexOf('eventSave') >= 0 && token == null) {
-    headers = { 'Content-Type': 'multipart/form-data' };
-  } else if(url.indexOf('celebSave') >= 0 && token == null) {
-    headers = { 'Content-Type': 'multipart/form-data' };
+  if (url.indexOf('productSave') >= 0 || url.indexOf('eventSave') >= 0 || url.indexOf('celebSave') >= 0) {
+    headers = { 'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer ' + token  };
   } else if (token !== null) {
     headers = {
       'Content-Type': 'application/json',

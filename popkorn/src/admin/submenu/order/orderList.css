@@ -12,7 +12,7 @@
     height: 170px;
     padding-left: 1%;
     background-color: rgba(148, 147, 147, 0.53);
-    margin: 1% auto;
+    margin: 0 auto 4px;
     color: white;
     padding-bottom: 10px;
 }
@@ -166,7 +166,7 @@
   border-bottom-left-radius: 6px;
   background: #8f8f8f8a;
   border: 0px;
-  height: 40px;
+  height: 30px;
   margin-right: 2%;
 }
 
