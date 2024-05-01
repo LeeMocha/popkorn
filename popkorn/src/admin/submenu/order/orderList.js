@@ -19,9 +19,9 @@ const OrderItem = ({ order, onClick, setPageState }) => {
       setEditMode(!editMode);
    };
 
-   const updateStatus = async (order, newStatus) => {
+   const updateStatus = async (order) => {
       try {
-         const response = await apiCall(`/api/manager/orderinfo/updatestatus?merchantuid=${order.merchantUid}&status=${newStatus}`, "POST", null, sessionStorage.getItem('token'));
+         const response = await apiCall(`/api/manager/orderinfo/updatestatus?merchantuid=${order.merchantUid}&status=${infostatus}`, "POST", null, sessionStorage.getItem('token'));
          if (response.status === 200) {
             return true;
          } else {
@@ -37,7 +37,7 @@ const OrderItem = ({ order, onClick, setPageState }) => {
 
    const handleUpdate = () => {
       toggleEdit();
-      updateStatus(order, infostatus);
+      updateStatus(order);
    };
 
    return order ? (
@@ -89,7 +89,6 @@ const OrderItem = ({ order, onClick, setPageState }) => {
 
 export default function OrderList() {
    const [showPopup, setShowPopup] = useState(false);
-   const [orders, setOrders] = useState([]);
    const [selectedOrder, setSelectedOrder] = useState(null);
    const [orderDetails, setOrderDetails] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
@@ -128,11 +127,6 @@ export default function OrderList() {
       setSelectedOrder(null);
    };
 
-   const setPageState = (newPage) => {
-      if (newPage < 1 || newPage > orderData.pageData.totalPage) return;
-      setCurrentPage(newPage);
-   };
-
    useEffect(() => {
       apiCall(`/api/orderinfo/searchlist?searchType=${currCategoryl}&keyword=${currKeyword}&page=${currentPage}`, "GET", null, null)
          .then(response => {
@@ -155,15 +149,6 @@ export default function OrderList() {
          });
    }, [currCategoryl, currKeyword, currentPage, ordersPerPage]);
 
-
-   useEffect(() => {
-      if (orderData.servData.length > 0) {
-         setOrders(orderData.servData);
-      } else {
-         setOrders([]);
-      }
-   }, [orderData.servData]);
-
    return (
       <div className="adminorderwhole">
          <div className="adminOrderlist_container">
@@ -175,7 +160,7 @@ export default function OrderList() {
             <div>
                <select onChange={(e) => {
                   setCurrCategoryl(e.target.value);
-                  setPageState(1);
+                  setCurrentPage(1);
                }}>
                   {
                      categoryl.map((category, index) =>
@@ -192,8 +177,8 @@ export default function OrderList() {
                   : null}
             </div>
             <>
-               {orders.map((order, index) => (
-                  <OrderItem key={index} order={order} onClick={popupClick} setPageState={setPageState} />
+               {orderData.servData.map((order, index) => (
+                  <OrderItem key={index} order={order} onClick={popupClick} setPageState={setCurrentPage} />
                ))}
 
             </>
@@ -229,7 +214,7 @@ export default function OrderList() {
                </div>
             )}
             <div className='ordernum_paging'>
-               <AdminPaging pageData={orderData.pageData} setPageState={setPageState} />
+               <AdminPaging pageData={orderData.pageData} setPageState={setCurrentPage} />
 
             </div>
          </div>
