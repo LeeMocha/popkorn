@@ -54,7 +54,7 @@ const OrderItem = ({ order, onClick }) => {
                      <option value="Paid">Paid</option>
                      <option value="Ready for ship">Ready for ship</option>
                      <option value="Shipping">Shipping</option>
-                     <option value="Delivered">Delivered</option>
+                     <option value="Deliveried">Deliveried</option>
                      <option value="Refund">Refund</option>
                      <option value="refund request">refund request</option>
                   </select> &nbsp;
