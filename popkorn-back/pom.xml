@@ -78,11 +78,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+		<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
 		<dependency>
     		<groupId>com.jcraft</groupId>
     		<artifactId>jsch</artifactId>
-   		<version>0.1.55</version>
+   			<version>0.1.55</version>
 		</dependency>
 
 			<!-- *** JDBC : spring-boot-starter-jdbc 를 사용_MVC 와 다름 -->
