@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.teamstatic.popkornback.entity.Qna;
 
+
+
 public interface QnaRepository extends JpaRepository<Qna, Integer> {
 
   @Query(value = "SELECT * FROM qna WHERE title LIKE CONCAT('%', :keyword, '%') AND root IS NULL", nativeQuery = true)
