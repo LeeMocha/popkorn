@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.7e8272f7.css",
-    "main.js": "/static/js/main.04c09836.js",
+    "main.js": "/static/js/main.2b8d3b1c.js",
     "static/js/453.39970b43.chunk.js": "/static/js/453.39970b43.chunk.js",
     "static/media/JAPAN 2nd Single [UNFORGIVEN] Solo Jacket.png": "/static/media/JAPAN 2nd Single [UNFORGIVEN] Solo Jacket.2488ea0c5dedad800326.png",
     "static/media/lesserafim.svg": "/static/media/lesserafim.3a90b55e9356d2f155ba34d2fa0a3ab8.svg",
@@ -19,11 +19,11 @@
     "static/media/logo_p2.svg": "/static/media/logo_p2.d56f9f2d241343aa9afe99252f96d5a2.svg",
     "static/media/logo_n.svg": "/static/media/logo_n.b3d9d03e367a081f33fed9c1ecbc64f9.svg",
     "main.7e8272f7.css.map": "/static/css/main.7e8272f7.css.map",
-    "main.04c09836.js.map": "/static/js/main.04c09836.js.map",
+    "main.2b8d3b1c.js.map": "/static/js/main.2b8d3b1c.js.map",
     "453.39970b43.chunk.js.map": "/static/js/453.39970b43.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7e8272f7.css",
-    "static/js/main.04c09836.js"
+    "static/js/main.2b8d3b1c.js"
   ]
 }

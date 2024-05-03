@@ -34,7 +34,7 @@ const hostname = window && window.location && window.location.hostname;
 if (hostname === "localhost") {
   backendHost = "http://localhost:8080";
 } else {
-  backendHost = "http://3.34.98.89:8080";
+  backendHost = "http://54.180.119.0:8080";
 }
 
 export const API_BASE_URL = `${backendHost}`;
