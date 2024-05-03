@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,6 +27,8 @@ public class RegisterMail implements MailServiceInter {
 	JavaMailSender emailsender;
 
 	private String ePw;
+	@Value("${spring.mail.username}")
+	private String id;
 
 	@Override
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
@@ -50,7 +53,7 @@ public class RegisterMail implements MailServiceInter {
 		msgg += "</div>";
 		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
-		message.setFrom(new InternetAddress("apr4005@naver.com", "POPKORN"));// 보내는 사람
+		message.setFrom(new InternetAddress(id, "POPKORN"));// 보내는 사람
 
 		return message;
 	}
@@ -67,7 +70,7 @@ public class RegisterMail implements MailServiceInter {
 		msgg += content;
 		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
 
-		message.setFrom(new InternetAddress("apr4005@naver.com", "POPKORN"));// 보내는 사람
+		message.setFrom(new InternetAddress(id, "POPKORN"));// 보내는 사람
 
 		return message;
 	}
@@ -127,7 +130,7 @@ public class RegisterMail implements MailServiceInter {
 		helper.setTo(to);
 		helper.setSubject(subject);
 		message.setText(content, "utf-8", "html");
-		helper.setFrom("apr4005@naver.com");
+		helper.setFrom(id);
 
 		emailsender.send(message);
 	}

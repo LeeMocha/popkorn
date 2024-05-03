@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 메일정보 ###
+application-mail.properties

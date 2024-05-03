@@ -2,15 +2,25 @@ package com.teamstatic.popkornback.config;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@PropertySource(value = "classpath:application-mail.properties")
 public class PopkornConfig {
+
+    @Value("${spring.mail.username}")
+	private String id;
+    @Value("${spring.mail.password}")
+	private String password;
+    @Value("${spring.mail.port}")
+	private int port;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -22,8 +32,8 @@ public class PopkornConfig {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
         javaMailSender.setHost("smtp.naver.com"); 
-        javaMailSender.setUsername("apr4005");
-        javaMailSender.setPassword("dhrtn121500!!");
+        javaMailSender.setUsername(id);
+        javaMailSender.setPassword(password);
 
         javaMailSender.setPort(465); // 메일 인증서버 포트
         
@@ -42,7 +52,5 @@ public class PopkornConfig {
         properties.setProperty("mail.smtp.ssl.enable","true"); // ssl 사용
         return properties;
     }
-
-
 
 }
