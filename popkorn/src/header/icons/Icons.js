@@ -38,7 +38,7 @@ export default function Icons({isScrolled}) {
 
    return (
       <div className={`icons_wrap ${isScrolled? 'fade-out' : ''}`}>
-         <Link to='/adminMain'><i className="xi-home-o"></i></Link>
+         <a href="https://youtu.be/d1fasxOml-s?si=7gou9s9oLiyV-7yY" target="_blank" rel="noopener noreferrer"><i className="xi-youtube-play"></i></a>
          <Link to={isLoggedIn?'/MyPageMain':'/AuthMain'}><i className="xi-user-o"></i></Link>
          <Link to="/cart"><i className="xi-cart-o"></i></Link>
          <i className="xi-log-out" onClick={logOut} ></i>
