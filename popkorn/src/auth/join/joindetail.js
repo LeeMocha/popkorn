@@ -98,14 +98,14 @@ export default function Joindetail(props) {
                             : newpassword === pwconfirm && pwconfirm.length > 7 ? "#7de4ff" : "#fe7cf3"
                     }}>
                         {pwfinalcheck() && pwconfirm.length < 1 ? ""
-                            : newpassword === pwconfirm && pwconfirm.length > 7 ? "Password matching"
+                            : pwfinalcheck() && newpassword === pwconfirm && pwconfirm.length > 7 ? "Password matching"
                                 : pwfinalcheck() && newpassword !== pwconfirm ? "Password mismatch" : null}
                     </div>
                 </form>
             </div><br />
             <div className='agreeinfo'>By creating an account, you agree to <br />popKorn's Conditions of Use and Privacy Notice.</div>
 
-            {!(newpassword === pwconfirm && pwconfirm.length > 7) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> 
+            {!(pwfinalcheck() && newpassword === pwconfirm && pwconfirm.length > 7) ? <DisableprevNextButtons onPrevClick={props.backjoinbutton} /> 
             : <PrevNextButtons onPrevClick={props.backjoinbutton} onNextClick={() => {props.joinbutton(); updatepw();}} />}
         </>
     )
