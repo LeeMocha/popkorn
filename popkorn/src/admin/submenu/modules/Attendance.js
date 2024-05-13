@@ -37,7 +37,7 @@ export default function Attendance() {
       <div className='attendance_qrwrap'>
         <span>Your Attendance</span>
         <span>{attendanceData.length > 0 ? `"${attendanceData[0].status}"` : `"Not Checked"`}</span>
-        <QRCodeCanvas value={`http://3.34.98.89:8080/api/attendance/insert?id=${sessionStorage.getItem("loginID") || "null"}&token=${sessionStorage.getItem("token") || "null"}`} />
+        <QRCodeCanvas value={`http://3.34.1.22:8080/api/attendance/insert?id=${sessionStorage.getItem("loginID") || "null"}&token=${sessionStorage.getItem("token") || "null"}`} />
       </div>
     </div>
   );
